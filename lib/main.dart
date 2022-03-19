@@ -29,8 +29,9 @@ class HealthBoxApp extends StatelessWidget {
             const ResponsiveBreakpoint.autoScale(700, name: TABLET),
             const ResponsiveBreakpoint.resize(800, name: DESKTOP),
           ]),
+      defaultTransition: Transition.fade,
       getPages: AppPages.routes,
-      initialRoute: '/',
+      initialRoute: Routes.INITIAL,
     );
   }
 }
