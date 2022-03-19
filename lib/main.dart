@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'core/theme/app_theme.dart';
+
 void main() {
   runApp(const HealthBoxApp());
 }
@@ -11,10 +13,18 @@ class HealthBoxApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'HealthBox',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      theme: appThemeData,
+      home: Scaffold(
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ElevatedButton(onPressed: () {}, child: Text('aaaaaaa')),
+              Text('aaaaaaa')
+            ],
+          ),
+        ),
       ),
-      home: Container(),
     );
   }
 }
