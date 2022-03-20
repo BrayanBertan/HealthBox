@@ -34,21 +34,6 @@ class Medico extends Usuario {
             ativo: ativo,
             genero: genero);
 
-  factory Medico.fromJson(Map<String, dynamic> json) => Medico(
-      crm: json['crm'],
-      descricao: json['descricao'],
-      especializacao: json['especializacao'],
-      id: json['id'],
-      tipo: json['tipo'],
-      nome: json['nome'],
-      email: json['email'],
-      senha: json['senha'],
-      dataNascimento: json['data_nascimento'],
-      telefone: json['telefone'],
-      fotoPath: json['fotoPath'],
-      genero: json['genero'],
-      ativo: json['ativo']);
-
   Map<String, dynamic> toJson() => {
         ...{
           'crm': this.crm,
