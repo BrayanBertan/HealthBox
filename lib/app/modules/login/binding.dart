@@ -6,7 +6,9 @@ import 'package:healthbox/app/modules/login/controller.dart';
 class LoginBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<LoginController>(() => LoginController(
-        repository: UsuarioRepository(usuarioProvider: UsuarioProvider())));
+    Get.lazyPut<LoginController>(
+        () => LoginController(
+            repository: UsuarioRepository(usuarioProvider: UsuarioProvider())),
+        fenix: true);
   }
 }

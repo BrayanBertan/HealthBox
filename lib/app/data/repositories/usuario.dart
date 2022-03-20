@@ -8,4 +8,8 @@ class UsuarioRepository {
 
   verificaLogin(String email, String senha) =>
       usuarioProvider.verificaLogin(email, senha);
+
+  criaSessao(String token) => usuarioProvider.criaSessao(token);
+
+  verificaSessao(String token) => usuarioProvider.verificaSessao(token);
 }

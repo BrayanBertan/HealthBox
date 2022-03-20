@@ -30,4 +30,8 @@ class LoginController extends GetxController {
         } else
           loginErroMensagem = 'Dados incorretos!';
       });
+
+  criaSessao(String token) => repository.criaSessao(token);
+
+  verificaSessao(String token) => isLogged = repository.verificaSessao(token);
 }
