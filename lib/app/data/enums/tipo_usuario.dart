@@ -1,0 +1,1 @@
+enum TipoUsuario { PACIENTE, MEDICO }
