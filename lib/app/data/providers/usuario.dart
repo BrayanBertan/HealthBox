@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/services/storage.dart';
+import 'package:healthbox/core/values/keys.dart';
 
 class UsuarioProvider extends GetConnect {
   final _storage = Get.find<StorageService>();
@@ -11,12 +12,35 @@ class UsuarioProvider extends GetConnect {
     super.onInit();
   }
 
-  Future<bool> verificaLogin(String email, String senha) async {
-    return true;
+  Future<Usuario?> verificaLogin(String email, String senha) async {
+    return Usuario.fromJson({
+      'cpf': '9999999',
+      'altura': 1.67,
+      'peso': 67.0,
+      'id': 1,
+      'tipo': 'PACIENTE',
+      'nome': 'Brayan Bertan',
+      'email': 'brayanbertan@gmail.com',
+      'senha': '123456',
+      'data_nascimento': DateTime.parse('1998-06-23'),
+      'telefone': '99999999',
+      'fotoPath': 'aaaaa',
+      'genero': 'MASCULINO',
+      'ativo': 1
+    });
   }
 
-  criaSessao(String token) => _storage.write(token, DateTime.now().toUtc());
+  criaSessao(String token) => _storage.write(token,
+      '${DateTime.now().toUtc().add(const Duration(hours: tempoSessao))}');
 
-  bool verificaSessao(String token) =>
-      DateTime.now().toUtc().difference(_storage.read(token)).inMinutes > 0;
+  bool verificaSessao(String token) {
+    var retorno = _storage.read(token);
+    if (retorno == null) {
+      return false;
+    }
+    return DateTime.parse(retorno)
+            .difference(DateTime.now().toUtc())
+            .inMinutes >
+        0;
+  }
 }

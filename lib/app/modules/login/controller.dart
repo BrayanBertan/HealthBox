@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 
 class LoginController extends GetxController {
@@ -22,13 +23,18 @@ class LoginController extends GetxController {
   get loginErroMensagem => this._loginErroMensagem.value;
   set loginErroMensagem(value) => this._loginErroMensagem.value = value;
 
-  verificaLogin() => repository.verificaLogin(email, senha).then((result) {
-        isLogged = result;
-        if (isLogged) {
+  verificaLogin() =>
+      repository.verificaLogin(email, senha).then<Usuario?>((Usuario? result) {
+        print(result);
+        if (result != null) {
+          isLogged = true;
           loginErroMensagem = '';
+          criaSessao(result.email);
           Get.toNamed('/');
-        } else
+        } else {
+          isLogged = false;
           loginErroMensagem = 'Dados incorretos!';
+        }
       });
 
   criaSessao(String token) => repository.criaSessao(token);

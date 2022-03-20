@@ -1,8 +1,8 @@
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 
-extension TipoUsuarioExtensionString on String {
-  TipoUsuario get nome {
+extension StringExtension on String? {
+  TipoUsuario tipoUsuario() {
     switch (this) {
       case 'PACIENTE':
         return TipoUsuario.PACIENTE;
@@ -12,10 +12,8 @@ extension TipoUsuarioExtensionString on String {
         return TipoUsuario.PACIENTE;
     }
   }
-}
 
-extension GeneroExtensionString on String {
-  Genero get nome {
+  Genero genero() {
     switch (this) {
       case 'MASCULINO':
         return Genero.MASCULINO;

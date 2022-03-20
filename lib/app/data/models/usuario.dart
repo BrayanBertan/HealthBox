@@ -2,6 +2,7 @@ import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
+import 'package:healthbox/core/extensions/enums.dart';
 
 abstract class Usuario {
   int? id;
@@ -34,14 +35,14 @@ abstract class Usuario {
               altura: json['altura'],
               peso: json['peso'],
               id: json['id'],
-              tipo: json['tipo'],
+              tipo: json['tipo'].toString().tipoUsuario(),
               nome: json['nome'],
               email: json['email'],
               senha: json['senha'],
               dataNascimento: json['data_nascimento'],
               telefone: json['telefone'],
               fotoPath: json['fotoPath'],
-              genero: json['genero'],
+              genero: json['genero'].toString().genero(),
               ativo: json['ativo'])
           : Medico(
               crm: json['crm'],
