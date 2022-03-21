@@ -7,7 +7,8 @@ import 'package:healthbox/core/theme/app_colors.dart';
 import '../../../core/theme/app_text_theme.dart';
 
 class LoginPage extends GetView<LoginController> {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+  //final controller = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,8 @@ class LoginPage extends GetView<LoginController> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 25),
               child: Column(
                 children: <Widget>[
-                  TextField(
+                  TextFormField(
+                    onChanged: controller.emailFunction,
                     decoration: InputDecoration(
                         icon: const Icon(
                           Icons.email,
@@ -51,23 +53,24 @@ class LoginPage extends GetView<LoginController> {
                         enabledBorder: InputBorder.none,
                         labelStyle: const TextStyle(color: Colors.grey)),
                   ),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        icon: const Icon(
-                          Icons.vpn_key,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade100)),
-                        labelText: "Senha",
-                        enabledBorder: InputBorder.none,
-                        labelStyle: const TextStyle(color: Colors.grey)),
-                  ),
-                  Obx(() => Text(
-                        controller.loginErroMensagem,
-                        style: const TextStyle(color: Colors.redAccent),
-                      ))
+                  Obx(() {
+                    return TextFormField(
+                      onChanged: controller.senhaFunction,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          icon: const Icon(
+                            Icons.vpn_key,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade100)),
+                          labelText: "Senha",
+                          enabledBorder: InputBorder.none,
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          errorText: controller.loginErroMensagem),
+                    );
+                  }),
                 ],
               ),
             ),

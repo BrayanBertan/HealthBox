@@ -4,7 +4,7 @@ import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/core/extensions/enums.dart';
 
-abstract class Usuario {
+class Usuario {
   int? id;
   TipoUsuario tipo;
   String nome;

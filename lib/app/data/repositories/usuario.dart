@@ -9,7 +9,11 @@ class UsuarioRepository {
   verificaLogin(String email, String senha) =>
       usuarioProvider.verificaLogin(email, senha);
 
-  criaSessao(String token) => usuarioProvider.criaSessao(token);
+  criaSessao(String token, int duracaoSessao) =>
+      usuarioProvider.criaSessao(token, duracaoSessao);
 
-  verificaSessao(String token) => usuarioProvider.verificaSessao(token);
+  verificaSessao() => usuarioProvider.verificaSessao();
+
+  getUsuario() => usuarioProvider.getUsuario();
+  getSessaoToken() => usuarioProvider.getSessaoToken();
 }

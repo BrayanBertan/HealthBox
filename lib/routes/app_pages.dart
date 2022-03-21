@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/modules/home/binding.dart';
 import 'package:healthbox/app/modules/home/view.dart';
 import 'package:healthbox/app/modules/login/view.dart';
 import 'package:healthbox/routes/middlewares/autentica_usuario.dart';
@@ -10,7 +11,11 @@ class AppPages {
     GetPage(
         name: Routes.INITIAL,
         page: () => HomePage(),
+        binding: HomeBinding(),
         middlewares: [AutenticaUsuario()]),
-    GetPage(name: Routes.LOGIN, page: () => const LoginPage()),
+    GetPage(
+      name: Routes.LOGIN,
+      page: () => LoginPage(), /* middlewares: [SetTokenUsuario()]*/
+    ),
   ];
 }

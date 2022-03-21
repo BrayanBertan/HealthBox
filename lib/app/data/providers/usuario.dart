@@ -1,46 +1,58 @@
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
 class UsuarioProvider extends GetConnect {
   final _storage = Get.find<StorageService>();
+  static String token = '';
   @override
   void onInit() {
-    httpClient.defaultDecoder = Usuario.listFromJson;
+    //httpClient.defaultDecoder = Usuario.listFromJson;
     httpClient.baseUrl = baseUrl;
     super.onInit();
   }
 
-  Future<Usuario?> verificaLogin(String email, String senha) async {
-    return Usuario.fromJson({
-      'cpf': '9999999',
-      'altura': 1.67,
-      'peso': 67.0,
-      'id': 1,
-      'tipo': 'PACIENTE',
-      'nome': 'Brayan Bertan',
-      'email': 'brayanbertan@gmail.com',
-      'senha': '123456',
-      'data_nascimento': DateTime.parse('1998-06-23'),
-      'telefone': '99999999',
-      'fotoPath': 'aaaaa',
-      'genero': 'MASCULINO',
-      'ativo': 1
-    });
+  Future<Response<dynamic>> verificaLogin(String email, String senha) async =>
+      await post(
+        'auth/login?password=$senha&email=$email',
+        {},
+      );
+
+  criaSessao(String token, int duracaoSessao) {
+    var data = {
+      'token': token,
+      'data_expiracao':
+          '${DateTime.now().toUtc().add(Duration(seconds: duracaoSessao))}'
+    };
+    _storage.write(keySessao, data);
   }
 
-  criaSessao(String token) => _storage.write(token,
-      '${DateTime.now().toUtc().add(const Duration(hours: tempoSessao))}');
-
-  bool verificaSessao(String token) {
-    var retorno = _storage.read(token);
+  bool verificaSessao() {
+    var retorno = _storage.read(keySessao);
     if (retorno == null) {
       return false;
     }
-    return DateTime.parse(retorno)
+
+    bool isNotExpired = DateTime.parse(retorno['data_expiracao'])
             .difference(DateTime.now().toUtc())
             .inMinutes >
         0;
+    if (!isNotExpired) _storage.remove(keySessao);
+    return isNotExpired;
+  }
+
+  Future<Response<dynamic>> getUsuario() async {
+    print('getUsuario - $token');
+    return await post(
+      'auth/me',
+      {},
+      headers: {
+        'Authorization': 'Bearer  $token'
+      }, /*decoder: (obj) => Usuario.fromJson(obj)*/
+    );
+  }
+
+  String getSessaoToken() {
+    return _storage.read(keySessao)?['token'] ?? '';
   }
 }

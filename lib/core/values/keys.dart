@@ -1,3 +1,3 @@
 const nomeApp = 'HealthBox';
-const baseUrl = '';
-const tempoSessao = 12;
+const baseUrl = 'https://healthbox-api-v1.herokuapp.com/api/';
+const keySessao = 'usuariologin';
