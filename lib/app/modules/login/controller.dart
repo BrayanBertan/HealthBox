@@ -18,6 +18,7 @@ class LoginController extends GetxController {
   final _loginErroMensagem = Rx<String?>(null);
   final _usuario = Rx<Usuario?>(null);
   final _token = ''.obs;
+  final _isLoading = false.obs;
 
   get email => this._email.value;
   set email(value) => this._email.value = value;
@@ -39,10 +40,15 @@ class LoginController extends GetxController {
   get token => this._token.value;
   set token(value) => this._token.value = value;
 
+  get isLoading => this._isLoading.value;
+  set isLoading(value) => this._isLoading.value = value;
+
   verificaLogin() {
+    isLoading = true;
     EasyLoading.showInfo('Verificando...');
     repository.verificaLogin(email, senha).then((Response<dynamic> retorno) {
       EasyLoading.dismiss();
+      isLoading = false;
       if (retorno.statusCode == 200) {
         loginErroMensagem = null;
         token = retorno.body['access_token'];

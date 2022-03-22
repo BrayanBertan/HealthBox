@@ -42,7 +42,6 @@ class UsuarioProvider extends GetConnect {
   }
 
   Future<Response<dynamic>> getUsuario() async {
-    print('getUsuario - $token');
     return await post(
       'auth/me',
       {},
@@ -53,7 +52,6 @@ class UsuarioProvider extends GetConnect {
   }
 
   String getSessaoToken() {
-    print('5 getSessaoToken');
     return _storage.read(keySessao)?['token'] ?? '';
   }
 }

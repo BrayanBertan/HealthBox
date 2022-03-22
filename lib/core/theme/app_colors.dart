@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final corBase = "008000";
+final corBase = "447b76";
 final corPrincipal = retornaHex(0xFF);
 final corPrincipal900 = retornaHex(0xE6);
 final corPrincipal800 = retornaHex(0xCC);

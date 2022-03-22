@@ -15,7 +15,6 @@ import 'core/theme/app_theme.dart';
 void main() async {
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
-  print('1 service');
   runApp(const HealthBoxApp());
   EasyLoadingConfig();
 }
@@ -43,7 +42,7 @@ class HealthBoxApp extends StatelessWidget {
       defaultTransition: Transition.fade,
       getPages: AppPages.routes,
       initialBinding: LoginBinding(),
-      initialRoute: Routes.INITIAL,
+      initialRoute: Routes.DADOS_USUARIO,
     );
   }
 }

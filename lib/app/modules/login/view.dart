@@ -91,7 +91,7 @@ class LoginPage extends GetView<LoginController> {
                         obscureText: true,
                         decoration: InputDecoration(
                             icon: const Icon(
-                              Icons.vpn_key,
+                              Icons.password,
                             ),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide:
@@ -119,11 +119,14 @@ class LoginPage extends GetView<LoginController> {
                       ))),
               Align(
                   alignment: Alignment.center,
-                  child: ElevatedButton(
-                      onPressed: controller.verificaLogin,
+                  child: Obx(() => ElevatedButton(
+                      onPressed: controller.isLoading
+                          ? null
+                          : controller.verificaLogin,
                       style: ElevatedButton.styleFrom(
+                          onSurface: corPrincipal300,
                           fixedSize: const Size(150, 50)),
-                      child: const Text('Entrar'))),
+                      child: const Text('Entrar')))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
