@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get_storage/get_storage.dart';
@@ -25,16 +26,17 @@ class HealthBoxApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'HealthBox',
       theme: appThemeData,
-      builder: (context, widget) => ResponsiveWrapper.builder(
-          ClampingScrollWrapper.builder(context, widget!),
-          minWidth: 480,
-          defaultName: MOBILE,
-          defaultScale: true,
-          breakpoints: [
-            const ResponsiveBreakpoint.autoScale(450, name: MOBILE),
-            const ResponsiveBreakpoint.autoScale(700, name: TABLET),
-            const ResponsiveBreakpoint.resize(800, name: DESKTOP),
-          ]),
+      builder: EasyLoading.init(
+          builder: (context, widget) => ResponsiveWrapper.builder(
+                  ClampingScrollWrapper.builder(context, widget!),
+                  minWidth: 480,
+                  defaultName: MOBILE,
+                  defaultScale: true,
+                  breakpoints: [
+                    const ResponsiveBreakpoint.autoScale(450, name: MOBILE),
+                    const ResponsiveBreakpoint.autoScale(700, name: TABLET),
+                    const ResponsiveBreakpoint.resize(800, name: DESKTOP),
+                  ])),
       defaultTransition: Transition.fade,
       getPages: AppPages.routes,
       initialBinding: LoginBinding(),

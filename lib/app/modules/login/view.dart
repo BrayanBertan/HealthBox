@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -120,7 +121,10 @@ class LoginPage extends GetView<LoginController> {
               Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                      onPressed: controller.verificaLogin,
+                      onPressed: () {
+                        controller.verificaLogin();
+                        EasyLoading.showInfo('Verificando...');
+                      },
                       style: ElevatedButton.styleFrom(
                           fixedSize: const Size(150, 50)),
                       child: const Text('Entrar'))),
