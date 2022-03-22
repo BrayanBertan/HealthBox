@@ -53,6 +53,7 @@ class UsuarioProvider extends GetConnect {
   }
 
   String getSessaoToken() {
+    print('5 getSessaoToken');
     return _storage.read(keySessao)?['token'] ?? '';
   }
 }

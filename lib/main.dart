@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:healthbox/app/modules/login/binding.dart';
+import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
@@ -14,7 +15,9 @@ import 'core/theme/app_theme.dart';
 void main() async {
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
+  print('1 service');
   runApp(const HealthBoxApp());
+  EasyLoadingConfig();
 }
 
 class HealthBoxApp extends StatelessWidget {
@@ -40,7 +43,7 @@ class HealthBoxApp extends StatelessWidget {
       defaultTransition: Transition.fade,
       getPages: AppPages.routes,
       initialBinding: LoginBinding(),
-      initialRoute: Routes.LOGIN,
+      initialRoute: Routes.INITIAL,
     );
   }
 }

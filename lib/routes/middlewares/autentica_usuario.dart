@@ -6,6 +6,7 @@ import 'package:healthbox/app/modules/login/controller.dart';
 class AutenticaUsuario extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
+    print('3 AutenticaUsuario');
     final controller = Get.find<LoginController>();
     if (controller.verificaSessao()) {
       controller.getSessaoToken();
@@ -17,6 +18,7 @@ class AutenticaUsuario extends GetMiddleware {
 
   @override
   GetPageBuilder onPageBuildStart(GetPageBuilder? page) {
+    print('4 AutenticaUsuario');
     UsuarioProvider.token = Get.find<LoginController>().token;
     return page!;
   }
