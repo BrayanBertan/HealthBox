@@ -39,13 +39,21 @@ class Step2Page extends StatelessWidget {
               enabledBorder: InputBorder.none,
               labelStyle: const TextStyle(color: Colors.grey)),
         ),
-        DropdownButton<Genero>(
-            value: Genero.MASCULINO,
-            items: Genero.values
-                .map((Genero tipo) => DropdownMenuItem<Genero>(
-                    value: tipo, child: Text(tipo.name)))
-                .toList(),
-            onChanged: (Genero? tipo) {}),
+        Row(
+          children: [
+            const Text('Gênero', style: TextStyle(fontSize: 18)),
+            const SizedBox(
+              width: 15,
+            ),
+            DropdownButton<Genero>(
+                value: Genero.MASCULINO,
+                items: Genero.values
+                    .map((Genero tipo) => DropdownMenuItem<Genero>(
+                        value: tipo, child: Text(tipo.name)))
+                    .toList(),
+                onChanged: (Genero? tipo) {})
+          ],
+        ),
         const Text(
           'Você é?',
           style: TextStyle(fontSize: 18),
@@ -102,7 +110,7 @@ class Step2Page extends StatelessWidget {
                         ),
                       ),
                       const Text(
-                        'Paciente',
+                        'Médico',
                         style: TextStyle(fontSize: 15),
                       ),
                     ],

@@ -33,21 +33,25 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                     Step(
                         title: Text(''),
                         content: Step1Page(),
-                        isActive: controller.activeStepIndex == 0),
+                        isActive: controller.activeStepIndex == 0,
+                        state: controller.getStepState(0)),
                     Step(
                         title: Text(''),
                         content: Step2Page(),
-                        isActive: controller.activeStepIndex == 1),
+                        isActive: controller.activeStepIndex == 1,
+                        state: controller.getStepState(1)),
                     Step(
                         title: Text(''),
                         content: controller.tipo == TipoUsuario.PACIENTE
                             ? Step3PacientePage()
                             : Step3MedicoPage(),
-                        isActive: controller.activeStepIndex == 2),
+                        isActive: controller.activeStepIndex == 2,
+                        state: controller.getStepState(2)),
                     Step(
                         title: Text(''),
                         content: Step4Page(),
-                        isActive: controller.activeStepIndex == 3),
+                        isActive: controller.activeStepIndex == 3,
+                        state: controller.getStepState(3)),
                   ],
                   onStepCancel: controller.activeStepIndexDecrease,
                   onStepContinue: controller.activeStepIndexIncrease,
@@ -69,7 +73,8 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                               child: const Text('Anterior'))),
                           Obx(() => ElevatedButton(
                               onPressed: controller.activeStepIndex > 4 ||
-                                      !controller.isValidStep()
+                                      !controller.isValidStep(
+                                          controller.activeStepIndex)
                                   ? null
                                   : details.onStepContinue,
                               style: ElevatedButton.styleFrom(

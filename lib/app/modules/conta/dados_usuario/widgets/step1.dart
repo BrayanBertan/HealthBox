@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 import 'package:healthbox/core/values/keys.dart';
 
 class Step1Page extends StatelessWidget {
-  const Step1Page({Key? key}) : super(key: key);
+  Step1Page({Key? key}) : super(key: key);
+  final controller = Get.find<DadosUsuarioController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,30 +42,30 @@ class Step1Page extends StatelessWidget {
               enabledBorder: InputBorder.none,
               labelStyle: const TextStyle(color: Colors.grey)),
         ),
-        GestureDetector(
-          onTap: () async {
-            final DateTime selected = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2010),
-                  lastDate: DateTime(2025),
-                ) ??
-                DateTime.now();
-          },
-          child: Row(
-            children: [
-              Image.asset(
-                '${baseImagemUrl}calendario.png',
-                width: 30,
-                height: 30,
+        Obx(() => GestureDetector(
+              onTap: () async {
+                controller.dataNascimento = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2010),
+                      lastDate: DateTime(2025),
+                    ) ??
+                    DateTime.now();
+              },
+              child: Row(
+                children: [
+                  Image.asset(
+                    '${baseImagemUrl}calendario.png',
+                    width: 30,
+                    height: 30,
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Text('${controller.formataDataNascimento()}')
+                ],
               ),
-              const SizedBox(
-                width: 15,
-              ),
-              Text('${DateTime.now()}')
-            ],
-          ),
-        ),
+            )),
       ],
     );
   }

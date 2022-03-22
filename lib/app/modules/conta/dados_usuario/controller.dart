@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
+import 'package:intl/intl.dart';
 
 class DadosUsuarioController extends GetxController {
   DadosUsuarioController();
@@ -14,38 +16,51 @@ class DadosUsuarioController extends GetxController {
   get activeStepIndex => this._activeStepIndex.value;
   set activeStepIndex(value) => this._activeStepIndex.value = value;
   activeStepIndexFunction(int value) =>
-      activeStepIndex = !isValidStep() ? value : activeStepIndex;
+      activeStepIndex = isValidStep(activeStepIndex) ? value : activeStepIndex;
   activeStepIndexIncrease() => activeStepIndex++;
   activeStepIndexDecrease() => activeStepIndex--;
   get validStep => this._validStep.value;
   set validStep(value) => this._validStep.value = value;
   //=====Validações=====
-  isValidStep() {
+  bool step1Valido() =>
+      nomeValido() &&
+      telefoneValido() &&
+      dataNascimentoValida() &&
+      fotoValida();
+  bool step2Valido() =>
+      emailValido() && senhaValida() && tipoValido() && generoValido();
+  bool step3PacienteValido() => cpfValido() && alturaValida() && pesoValido();
+  bool step3MedicoValido() =>
+      crmValido() && descricaoValido() && especializacaoValida();
+  bool isValidStep(int step) {
     bool retorno = false;
-    int index = (activeStepIndex == 2 && tipo == TipoUsuario.MEDICO)
-        ? 4
-        : activeStepIndex;
+    int index = (step == 2 && tipo == TipoUsuario.MEDICO) ? 4 : step;
     switch (index) {
       case 0:
-        retorno = nomeValido() &&
-            telefoneValido() &&
-            dataNascimentoValida() &&
-            fotoValida();
+        retorno = step1Valido();
         break;
       case 1:
-        retorno =
-            emailValido() && senhaValida() && tipoValido() && generoValido();
+        retorno = step2Valido();
         break;
       case 2:
-        retorno = cpfValido() && alturaValida() && pesoValido();
+        retorno = step3PacienteValido();
         break;
       case 3:
-        retorno = crmValido() && descricaoValido() && especializacaoValida();
+        retorno = false;
         break;
       default:
-        retorno = crmValido() && descricaoValido() && especializacaoValida();
+        retorno = step3MedicoValido();
     }
     return retorno;
+  }
+
+  StepState getStepState(int step) {
+    print('$step $activeStepIndex ${isValidStep(step)}');
+    if (step == activeStepIndex) return StepState.editing;
+    if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
+    if (step != activeStepIndex && !isValidStep(step))
+      return StepState.disabled;
+    return StepState.disabled;
   }
 
 //==========STEP 1=======================
@@ -59,6 +74,9 @@ class DadosUsuarioController extends GetxController {
   set foto(value) => this._foto.value = value;
   get dataNascimento => this._dataNascimento.value;
   set dataNascimento(value) => this._dataNascimento.value = value;
+  String formataDataNascimento() => dataNascimento == null
+      ? ''
+      : DateFormat('dd/MM/yyyy').format(dataNascimento);
   get nome => this._nome.text;
   set nome(value) => this._nome.text = value;
   get telefone => this._telefone.text;

@@ -21,14 +21,22 @@ class Step3MedicoPage extends StatelessWidget {
               enabledBorder: InputBorder.none,
               labelStyle: const TextStyle(color: Colors.grey)),
         ),
-        DropdownButton<String>(
-            value: especializacoes[0],
-            menuMaxHeight: 250,
-            items: especializacoes
-                .map((String especializacao) => DropdownMenuItem<String>(
-                    value: especializacao, child: Text(especializacao)))
-                .toList(),
-            onChanged: (String? tipo) {}),
+        Row(
+          children: [
+            const Text('Gênero', style: TextStyle(fontSize: 18)),
+            const SizedBox(
+              width: 15,
+            ),
+            DropdownButton<String>(
+                value: especializacoes[0],
+                menuMaxHeight: 250,
+                items: especializacoes
+                    .map((String especializacao) => DropdownMenuItem<String>(
+                        value: especializacao, child: Text(especializacao)))
+                    .toList(),
+                onChanged: (String? tipo) {})
+          ],
+        ),
         TextFormField(
           onChanged: (value) {},
           decoration: InputDecoration(
