@@ -55,11 +55,11 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                   ],
                   onStepCancel: controller.activeStepIndexDecrease,
                   onStepContinue: controller.activeStepIndexIncrease,
-                  onStepTapped: controller.activeStepIndexFunction,
+                  onStepTapped: controller.setActiveStepIndex,
                   controlsBuilder:
                       (BuildContext context, ControlsDetails details) {
                     return Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[

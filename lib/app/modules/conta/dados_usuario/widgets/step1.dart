@@ -19,7 +19,8 @@ class Step1Page extends StatelessWidget {
               maxRadius: 100),
         ),
         TextFormField(
-          onChanged: (value) {},
+          initialValue: controller.nome,
+          onChanged: controller.setNome,
           decoration: InputDecoration(
               icon: const Icon(
                 Icons.person,
@@ -28,10 +29,12 @@ class Step1Page extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.grey.shade100)),
               labelText: "Nome",
               enabledBorder: InputBorder.none,
-              labelStyle: const TextStyle(color: Colors.grey)),
+              labelStyle: const TextStyle(color: Colors.grey),
+              errorText: controller.nomeErroMensagem()),
         ),
         TextFormField(
-          onChanged: (value) {},
+          initialValue: controller.telefone,
+          onChanged: controller.setTelefone,
           decoration: InputDecoration(
               icon: const Icon(
                 Icons.phone,
@@ -40,17 +43,20 @@ class Step1Page extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.grey.shade100)),
               labelText: "Telefone",
               enabledBorder: InputBorder.none,
-              labelStyle: const TextStyle(color: Colors.grey)),
+              labelStyle: const TextStyle(color: Colors.grey),
+              errorText: controller.telefoneErroMensagem()),
         ),
         Obx(() => GestureDetector(
               onTap: () async {
+                FocusScope.of(context).unfocus();
                 controller.dataNascimento = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2010),
-                      lastDate: DateTime(2025),
-                    ) ??
-                    DateTime.now();
+                  context: context,
+                  locale: const Locale("pt"),
+                  initialDate: DateTime.now(),
+                  firstDate:
+                      DateTime.now().subtract(const Duration(days: 36500)),
+                  lastDate: DateTime.now(),
+                );
               },
               child: Row(
                 children: [

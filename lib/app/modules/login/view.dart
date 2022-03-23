@@ -80,7 +80,7 @@ class LoginPage extends GetView<LoginController> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.grey.shade100)),
-                          labelText: "Email",
+                          labelText: "E-mail",
                           enabledBorder: InputBorder.none,
                           labelStyle: const TextStyle(color: Colors.grey)),
                     ),

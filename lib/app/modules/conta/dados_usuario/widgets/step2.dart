@@ -41,7 +41,7 @@ class Step2Page extends StatelessWidget {
         ),
         Row(
           children: [
-            const Text('Gênero', style: TextStyle(fontSize: 18)),
+            const Text('Gênero', style: TextStyle(fontSize: 15)),
             const SizedBox(
               width: 15,
             ),
@@ -65,7 +65,7 @@ class Step2Page extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Obx(() => GestureDetector(
-                  onTap: () => controller.tipoFunction(TipoUsuario.PACIENTE),
+                  onTap: () => controller.setTipo(TipoUsuario.PACIENTE),
                   child: Column(
                     children: [
                       Container(
@@ -91,7 +91,7 @@ class Step2Page extends StatelessWidget {
                   ),
                 )),
             Obx(() => GestureDetector(
-                  onTap: () => controller.tipoFunction(TipoUsuario.MEDICO),
+                  onTap: () => controller.setTipo(TipoUsuario.MEDICO),
                   child: Column(
                     children: [
                       Container(

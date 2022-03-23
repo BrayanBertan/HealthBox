@@ -6,19 +6,21 @@ import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
 import 'package:intl/intl.dart';
 
+import '../../../data/models/usuario.dart';
+
 class DadosUsuarioController extends GetxController {
-  DadosUsuarioController();
+  DadosUsuarioController() {}
 //===============Todos===================
   //=====Variaveis=====
+  final usuario = Rx<Usuario?>(null);
   final _activeStepIndex = 0.obs;
   final _validStep = false.obs;
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
-  set activeStepIndex(value) => this._activeStepIndex.value = value;
-  activeStepIndexFunction(int value) =>
-      activeStepIndex = isValidStep(activeStepIndex) ? value : activeStepIndex;
-  activeStepIndexIncrease() => activeStepIndex++;
-  activeStepIndexDecrease() => activeStepIndex--;
+  setActiveStepIndex(value) => this._activeStepIndex.value =
+      !isValidStep(activeStepIndex) ? value : activeStepIndex;
+  activeStepIndexIncrease() => this._activeStepIndex.value++;
+  activeStepIndexDecrease() => this._activeStepIndex.value--;
   get validStep => this._validStep.value;
   set validStep(value) => this._validStep.value = value;
   //=====Validações=====
@@ -55,20 +57,19 @@ class DadosUsuarioController extends GetxController {
   }
 
   StepState getStepState(int step) {
-    print('$step $activeStepIndex ${isValidStep(step)}');
+    return StepState.indexed;
     if (step == activeStepIndex) return StepState.editing;
     if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
-    if (step != activeStepIndex && !isValidStep(step))
-      return StepState.disabled;
-    return StepState.disabled;
+    if (step != activeStepIndex && !isValidStep(step)) return StepState.indexed;
+    return StepState.indexed;
   }
 
 //==========STEP 1=======================
   //=====Variaveis=====
-  final _foto = Rx<String?>(null);
+  final _foto = '  sss'.obs;
   final _dataNascimento = Rx<DateTime?>(null);
-  final _nome = TextEditingController();
-  final _telefone = TextEditingController();
+  final _nome = Rx<String?>(null);
+  final _telefone = Rx<String?>(null);
   //=====Getters e Setters=====
   get foto => this._foto.value;
   set foto(value) => this._foto.value = value;
@@ -77,20 +78,20 @@ class DadosUsuarioController extends GetxController {
   String formataDataNascimento() => dataNascimento == null
       ? ''
       : DateFormat('dd/MM/yyyy').format(dataNascimento);
-  get nome => this._nome.text;
-  set nome(value) => this._nome.text = value;
-  get telefone => this._telefone.text;
-  set telefone(value) => this._telefone.text = value;
+  get nome => this._nome.value;
+  setNome(value) => this._nome.value = value;
+  get telefone => this._telefone.value;
+  setTelefone(value) => this._telefone.value = value;
   //=====Validações=====
   bool nomeValido() => nome != null && nome.trim().isNotEmpty;
   String? nomeErroMensagem() {
-    if (nome.value == null || nomeValido()) return null;
+    if (nome == null || nomeValido()) return null;
     return 'Campo obrigatorio';
   }
 
   bool telefoneValido() => telefone != null && telefone.trim().isNotEmpty;
   String? telefoneErroMensagem() {
-    if (telefone.value == null || telefoneValido()) return null;
+    if (telefone == null || telefoneValido()) return null;
     return 'Campo obrigatorio';
   }
 
@@ -118,8 +119,7 @@ class DadosUsuarioController extends GetxController {
   get senha => this._senha.text;
   set senha(value) => this._senha.text = value;
   get tipo => this._tipo.value;
-  set tipo(value) => this._tipo.value = value;
-  tipoFunction(TipoUsuario value) => tipo = value;
+  setTipo(value) => this._tipo.value = value;
   get genero => this._genero.value;
   set genero(value) => this._genero.value = value;
 
