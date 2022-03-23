@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,7 +68,7 @@ class DadosUsuarioController extends GetxController {
 
 //==========STEP 1=======================
   //=====Variaveis=====
-  final _foto = '  sss'.obs;
+  final _foto = Rx<dynamic?>(null);
   final _dataNascimento = Rx<DateTime?>(null);
   final _nome = Rx<String?>(null);
   final _telefone = Rx<String?>(null);
@@ -105,6 +107,12 @@ class DadosUsuarioController extends GetxController {
   String? dataNascimentoErroMensagem() {
     if (fotoValida()) return null;
     return 'Campo obrigatorio';
+  }
+
+  void onImageSelected(File image) async {
+    Get.back();
+    File tmpFile = File(image.path);
+    foto = tmpFile.path;
   }
 
 //==========STEP 2=======================

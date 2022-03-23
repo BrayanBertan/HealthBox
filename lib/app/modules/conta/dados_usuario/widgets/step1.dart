@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
+import 'package:healthbox/app/modules/conta/dados_usuario/widgets/image_options.dart';
 import 'package:healthbox/core/values/keys.dart';
 
 class Step1Page extends StatelessWidget {
@@ -12,11 +15,16 @@ class Step1Page extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () => {},
-          child: CircleAvatar(
-              child: Image.asset('${baseImagemUrl}user_pic.png'),
+          onTap: () => showModalBottomSheet(
+              context: context,
+              builder: (context) =>
+                  ImageOptionsSheet(controller.onImageSelected)),
+          child: Obx(() => CircleAvatar(
+              child: controller.foto == null
+                  ? Image.asset('${baseImagemUrl}user_pic.png')
+                  : Image.file(File(controller.foto)),
               minRadius: 75,
-              maxRadius: 100),
+              maxRadius: 100)),
         ),
         TextFormField(
           initialValue: controller.nome,
