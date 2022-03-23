@@ -92,7 +92,7 @@ class Step1Page extends StatelessWidget {
                       const SizedBox(
                         width: 15,
                       ),
-                      Text(controller.formataDataNascimento())
+                      Text(controller.formataDataNascimento)
                     ],
                   ),
                 ),

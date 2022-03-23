@@ -20,7 +20,7 @@ class DadosUsuarioController extends GetxController {
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
-      !isValidStep(activeStepIndex) ? value : activeStepIndex;
+      isValidStep(activeStepIndex) ? value : activeStepIndex;
   activeStepIndexIncrease() => this._activeStepIndex.value++;
   activeStepIndexDecrease() => this._activeStepIndex.value--;
   get validStep => this._validStep.value;
@@ -57,7 +57,6 @@ class DadosUsuarioController extends GetxController {
   }
 
   StepState getStepState(int step) {
-    //return StepState.indexed;
     if (step == activeStepIndex) return StepState.editing;
     if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
     if (step != activeStepIndex && !isValidStep(step)) return StepState.indexed;
@@ -75,7 +74,7 @@ class DadosUsuarioController extends GetxController {
   set foto(value) => this._foto.value = value;
   get dataNascimento => this._dataNascimento.value;
   set dataNascimento(value) => this._dataNascimento.value = value;
-  String formataDataNascimento() => dataNascimento == null
+  String get formataDataNascimento => dataNascimento == null
       ? ''
       : DateFormat('dd/MM/yyyy').format(dataNascimento);
   get nome => this._nome.value;
@@ -83,9 +82,11 @@ class DadosUsuarioController extends GetxController {
   get telefone => this._telefone.value;
   setTelefone(value) => this._telefone.value = value;
   //=====Validações=====
-  bool nomeValido() => nome != null && nome.trim().isNotEmpty;
+  bool nomeValido() =>
+      nome != null && nome.trim().isNotEmpty && nome.trim().length >= 3;
   String? get nomeErroMensagem {
     if (nome == null || nomeValido()) return null;
+    if (nome.trim().length < 3) return 'Minimo de 3 caracteres';
     return 'Campo obrigatorio';
   }
 
@@ -134,10 +135,12 @@ class DadosUsuarioController extends GetxController {
     return 'Campo obrigatorio';
   }
 
-  bool senhaValida() => senha != null && senha.trim().isNotEmpty;
+  bool senhaValida() =>
+      senha != null && senha.trim().isNotEmpty && senha.trim().length >= 6;
 
   String? get senhaErroMensagem {
     if (senha == null || senhaValida()) return null;
+    if (senha.trim().length < 6) return 'Minimo de 6 caracteres';
     return 'Campo obrigatorio';
   }
 
@@ -186,6 +189,7 @@ class DadosUsuarioController extends GetxController {
   get descricao => this._descricao.value;
   setDescricao(value) => this._descricao.value = value;
   get especializacao => this._especializacao.value;
+  get especializacaoName => this._especializacao.value.titulo;
   setEspecializacao(value) => this._especializacao.value = value;
   //=====Validações=====
   bool crmValido() => crm != null && crm.trim().isNotEmpty;

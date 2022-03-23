@@ -36,45 +36,54 @@ class Step4Page extends StatelessWidget {
             ),
             Expanded(
                 child: Wrap(
-              alignment: WrapAlignment.start,
+              alignment: WrapAlignment.center,
               children: [
-                Obx(() => Text('Nome: ${controller.nome} ')),
-                Obx(() => Text('Telefone: ${controller.telefone} ')),
-                Obx(() => Text(
-                    'Data de nascimento: ${controller.formataDataNascimento()}  ')),
+                Obx(() => CustomTextRich(
+                    titulo: 'Nome: ', descricao: controller.nome)),
+                Obx(() => CustomTextRich(
+                    titulo: 'Telefone: ', descricao: controller.telefone)),
+                Obx(() => CustomTextRich(
+                    titulo: 'Data de nascimento: ',
+                    descricao: controller.formataDataNascimento)),
               ],
             )),
           ],
         ),
         StepLines(texto: '2'),
         Wrap(
-          alignment: WrapAlignment.spaceEvenly,
+          alignment: WrapAlignment.center,
           children: [
+            Obx(() =>
+                CustomTextRich(titulo: 'Email: ', descricao: controller.email)),
             Obx(() => CustomTextRich(
-                titulo: 'Email: ', descricao: controller.nome ?? '')),
+                titulo: 'Genero: ', descricao: controller.generoName)),
             Obx(() => CustomTextRich(
-                titulo: 'Genero: ', descricao: controller.generoName ?? '')),
-            Obx(() => CustomTextRich(
-                titulo: 'Você é: ', descricao: controller.tipoName ?? '')),
+                titulo: 'Você é: ', descricao: controller.tipoName)),
           ],
         ),
         StepLines(texto: '3'),
         controller.tipo == TipoUsuario.PACIENTE
             ? Wrap(
-                alignment: WrapAlignment.spaceEvenly,
+                alignment: WrapAlignment.center,
                 children: [
-                  Obx(() => Text('CPF: ${controller.cpf}  ')),
-                  Obx(() => Text('Altura: ${controller.altura} ')),
-                  Obx(() => Text('Peso: ${controller.peso}  ')),
+                  Obx(() => CustomTextRich(
+                      titulo: 'CPF: ', descricao: controller.cpf)),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Altura: ', descricao: controller.altura)),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Peso: ', descricao: controller.peso)),
                 ],
               )
             : Wrap(
-                alignment: WrapAlignment.spaceEvenly,
+                alignment: WrapAlignment.center,
                 children: [
-                  Obx(() => Text('CRM: ${controller.crm}  ')),
-                  Obx(() =>
-                      Text('Especialização: ${controller.especializacao} ')),
-                  Obx(() => Text('Descrição: ${controller.descricao}  ')),
+                  Obx(() => CustomTextRich(
+                      titulo: 'CRM: ', descricao: controller.crm)),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Especialização: ',
+                      descricao: controller.especializacaoName)),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Descrição: ', descricao: controller.descricao)),
                 ],
               ),
       ],
