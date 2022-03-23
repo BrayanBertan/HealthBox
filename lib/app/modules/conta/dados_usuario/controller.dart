@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
+import 'package:healthbox/core/values/keys.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/models/usuario.dart';
@@ -31,11 +31,9 @@ class DadosUsuarioController extends GetxController {
       telefoneValido() &&
       dataNascimentoValida() &&
       fotoValida();
-  bool step2Valido() =>
-      emailValido() && senhaValida() && tipoValido() && generoValido();
+  bool step2Valido() => emailValido() && senhaValida();
   bool step3PacienteValido() => cpfValido() && alturaValida() && pesoValido();
-  bool step3MedicoValido() =>
-      crmValido() && descricaoValido() && especializacaoValida();
+  bool step3MedicoValido() => crmValido() && descricaoValido();
   bool isValidStep(int step) {
     bool retorno = false;
     int index = (step == 2 && tipo == TipoUsuario.MEDICO) ? 4 : step;
@@ -59,7 +57,7 @@ class DadosUsuarioController extends GetxController {
   }
 
   StepState getStepState(int step) {
-    return StepState.indexed;
+    //return StepState.indexed;
     if (step == activeStepIndex) return StepState.editing;
     if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
     if (step != activeStepIndex && !isValidStep(step)) return StepState.indexed;
@@ -86,28 +84,20 @@ class DadosUsuarioController extends GetxController {
   setTelefone(value) => this._telefone.value = value;
   //=====Validações=====
   bool nomeValido() => nome != null && nome.trim().isNotEmpty;
-  String? nomeErroMensagem() {
+  String? get nomeErroMensagem {
     if (nome == null || nomeValido()) return null;
     return 'Campo obrigatorio';
   }
 
   bool telefoneValido() => telefone != null && telefone.trim().isNotEmpty;
-  String? telefoneErroMensagem() {
+  String? get telefoneErroMensagem {
     if (telefone == null || telefoneValido()) return null;
     return 'Campo obrigatorio';
   }
 
   bool fotoValida() => foto != null;
-  String? fotoErroMensagem() {
-    if (fotoValida()) return null;
-    return 'Campo obrigatorio';
-  }
 
   bool dataNascimentoValida() => dataNascimento != null;
-  String? dataNascimentoErroMensagem() {
-    if (fotoValida()) return null;
-    return 'Campo obrigatorio';
-  }
 
   void onImageSelected(File image) async {
     Get.back();
@@ -117,19 +107,21 @@ class DadosUsuarioController extends GetxController {
 
 //==========STEP 2=======================
   //=====Variaveis=====
-  final _email = TextEditingController();
-  final _senha = TextEditingController();
+  final _email = Rx<String?>(null);
+  final _senha = Rx<String?>(null);
   final _tipo = TipoUsuario.PACIENTE.obs;
   final _genero = Genero.MASCULINO.obs;
   //=====Getters e Setters=====
-  get email => this._email.text;
-  set email(value) => this._email.text = value;
-  get senha => this._senha.text;
-  set senha(value) => this._senha.text = value;
+  get email => this._email.value;
+  setEmail(value) => this._email.value = value;
+  get senha => this._senha.value;
+  setSenha(value) => this._senha.value = value;
   get tipo => this._tipo.value;
   setTipo(value) => this._tipo.value = value;
+  get tipoName => _tipo.value.name;
   get genero => this._genero.value;
-  set genero(value) => this._genero.value = value;
+  setGenero(value) => this._genero.value = value;
+  get generoName => _genero.value.name;
 
   //=====Validações=====
   bool emailValido() =>
@@ -137,98 +129,76 @@ class DadosUsuarioController extends GetxController {
       email.trim().isNotEmpty &&
       email.toString().isEmailValid();
 
-  String? emailErroMensagem() {
-    if (email.value == null || emailValido()) return null;
+  String? get emailErroMensagem {
+    if (email == null || emailValido()) return null;
     return 'Campo obrigatorio';
   }
 
   bool senhaValida() => senha != null && senha.trim().isNotEmpty;
 
-  String? senhaErroMensagem() {
-    if (senha.value == null || senhaValida()) return null;
-    return 'Campo obrigatorio';
-  }
-
-  bool generoValido() => genero != null && genero.trim().isNotEmpty;
-
-  String? generoErroMensagem() {
-    if (genero.value == null || generoValido()) return null;
-    return 'Campo obrigatorio';
-  }
-
-  bool tipoValido() => tipo != null && tipo.trim().isNotEmpty;
-
-  String? tipoErroMensagem() {
-    if (tipo.value == null || tipoValido()) return null;
+  String? get senhaErroMensagem {
+    if (senha == null || senhaValida()) return null;
     return 'Campo obrigatorio';
   }
 
 //==========STEP 3 Paciente=======================
 //=====Variaveis=====
-  final _cpf = ''.obs;
-  final _altura = 0.0.obs;
-  final _peso = 0.0.obs;
+  final _cpf = Rx<String?>(null);
+  final _altura = Rx<String?>(null);
+  final _peso = Rx<String?>(null);
   //=====Getters e Setters=====
   get cpf => this._cpf.value;
-  set cpf(value) => this._cpf.value = value;
+  setCpf(value) => this._cpf.value = value;
   get altura => this._altura.value;
-  set altura(value) => this._altura.value = value;
+  setAltura(value) => this._altura.value = value.replaceAll(',', '.');
   get peso => this._peso.value;
-  set peso(value) => this._peso.value = value;
+  setPeso(value) => this._peso.value = value.replaceAll(',', '.');
   //=====Validações=====
   bool cpfValido() => cpf != null && cpf.trim().isNotEmpty;
 
-  String? cpfErroMensagem() {
-    if (cpf.value == null || cpfValido()) return null;
+  String? get cpfErroMensagem {
+    if (cpf == null || cpfValido()) return null;
     return 'Campo obrigatorio';
   }
 
   bool alturaValida() => altura != null && altura.trim().isNotEmpty;
 
-  String? alturaErroMensagem() {
-    if (altura.value == null || alturaValida()) return null;
+  String? get alturaErroMensagem {
+    if (altura == null || alturaValida()) return null;
     return 'Campo obrigatorio';
   }
 
   bool pesoValido() => peso != null && peso.trim().isNotEmpty;
 
-  String? pesoErroMensagem() {
-    if (peso.value == null || pesoValido()) return null;
+  String? get pesoErroMensagem {
+    if (peso == null || pesoValido()) return null;
     return 'Campo obrigatorio';
   }
 
 //==========STEP 3 Médico=======================
 //=====Variaveis=====
-  final _crm = ''.obs;
-  final _descricao = 0.0.obs;
-  final _especializacao = 0.0.obs;
+  final _crm = Rx<String?>(null);
+  final _descricao = Rx<String?>(null);
+  final _especializacao = especializacoes[0].obs;
   //=====Getters e Setters=====
   get crm => this._crm.value;
-  set crm(value) => this._crm.value = value;
+  setCrm(value) => this._crm.value = value;
   get descricao => this._descricao.value;
-  set descricao(value) => this._descricao.value = value;
+  setDescricao(value) => this._descricao.value = value;
   get especializacao => this._especializacao.value;
-  set especializacao(value) => this._especializacao.value = value;
+  setEspecializacao(value) => this._especializacao.value = value;
   //=====Validações=====
   bool crmValido() => crm != null && crm.trim().isNotEmpty;
 
-  String? crmErroMensagem() {
-    if (crm.value == null || crmValido()) return null;
+  String? get crmErroMensagem {
+    if (crm == null || crmValido()) return null;
     return 'Campo obrigatorio';
   }
 
   bool descricaoValido() => descricao != null && descricao.trim().isNotEmpty;
 
-  String? descricaoErroMensagem() {
-    if (descricao.value == null || descricaoValido()) return null;
-    return 'Campo obrigatorio';
-  }
-
-  bool especializacaoValida() =>
-      especializacao != null && especializacao.trim().isNotEmpty;
-
-  String? especializacaoErroMensagem() {
-    if (especializacao.value == null || especializacaoValida()) return null;
+  String? get descricaoErroMensagem {
+    if (descricao == null || descricaoValido()) return null;
     return 'Campo obrigatorio';
   }
 //==========STEP 4=======================

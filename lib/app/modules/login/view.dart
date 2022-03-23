@@ -135,7 +135,7 @@ class LoginPage extends GetView<LoginController> {
                     style: textoInfo,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () => Get.offNamed('/conta/usuario'),
                       child: Text(
                         'Cadastrar',
                         style: TextStyle(

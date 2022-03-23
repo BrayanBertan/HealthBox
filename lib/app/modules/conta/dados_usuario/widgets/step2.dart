@@ -14,44 +14,48 @@ class Step2Page extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextFormField(
-          onChanged: (value) {},
-          decoration: InputDecoration(
-              icon: const Icon(
-                Icons.email,
-              ),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade100)),
-              labelText: "Email",
-              enabledBorder: InputBorder.none,
-              labelStyle: const TextStyle(color: Colors.grey)),
-        ),
-        TextFormField(
-          onChanged: (value) {},
-          obscureText: true,
-          decoration: InputDecoration(
-              icon: const Icon(
-                Icons.password,
-              ),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade100)),
-              labelText: "Senha",
-              enabledBorder: InputBorder.none,
-              labelStyle: const TextStyle(color: Colors.grey)),
-        ),
+        Obx(() => TextFormField(
+              initialValue: controller.email,
+              onChanged: controller.setEmail,
+              decoration: InputDecoration(
+                  icon: const Icon(
+                    Icons.email,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade100)),
+                  labelText: "Email",
+                  enabledBorder: InputBorder.none,
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  errorText: controller.emailErroMensagem),
+            )),
+        Obx(() => TextFormField(
+              initialValue: controller.senha,
+              onChanged: controller.setSenha,
+              obscureText: true,
+              decoration: InputDecoration(
+                  icon: const Icon(
+                    Icons.password,
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade100)),
+                  labelText: "Senha",
+                  enabledBorder: InputBorder.none,
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  errorText: controller.senhaErroMensagem),
+            )),
         Row(
           children: [
             const Text('Gênero', style: TextStyle(fontSize: 15)),
             const SizedBox(
               width: 15,
             ),
-            DropdownButton<Genero>(
-                value: Genero.MASCULINO,
+            Obx(() => DropdownButton<Genero>(
+                value: controller.genero,
                 items: Genero.values
                     .map((Genero tipo) => DropdownMenuItem<Genero>(
                         value: tipo, child: Text(tipo.name)))
                     .toList(),
-                onChanged: (Genero? tipo) {})
+                onChanged: controller.setGenero))
           ],
         ),
         const Text(
