@@ -37,7 +37,7 @@ class Step1Page extends StatelessWidget {
               )),
         ),
         Obx(() => TextFormField(
-              initialValue: controller.nome,
+              controller: controller.nomeController,
               onChanged: controller.setNome,
               decoration: InputDecoration(
                   icon: const Icon(
@@ -51,7 +51,7 @@ class Step1Page extends StatelessWidget {
                   errorText: controller.nomeErroMensagem),
             )),
         Obx(() => TextFormField(
-              initialValue: controller.telefone,
+              controller: controller.telefoneController,
               onChanged: controller.setTelefone,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,

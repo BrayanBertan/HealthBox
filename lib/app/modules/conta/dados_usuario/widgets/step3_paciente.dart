@@ -14,24 +14,6 @@ class Step3PacientePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Obx(() => TextFormField(
-              initialValue: controller.cpf,
-              onChanged: controller.setCpf,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                CpfInputFormatter(),
-              ],
-              decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.document_scanner,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade100)),
-                  labelText: "CPF",
-                  enabledBorder: InputBorder.none,
-                  labelStyle: const TextStyle(color: Colors.grey),
-                  errorText: controller.cpfErroMensagem),
-            )),
-        Obx(() => TextFormField(
               initialValue: controller.altura,
               onChanged: controller.setAltura,
               inputFormatters: [

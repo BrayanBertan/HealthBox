@@ -72,7 +72,7 @@ class LoginPage extends GetView<LoginController> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
-                      onChanged: controller.emailFunction,
+                      onChanged: controller.setEmail,
                       decoration: InputDecoration(
                           icon: const Icon(
                             Icons.email,
@@ -86,7 +86,7 @@ class LoginPage extends GetView<LoginController> {
                     ),
                     Obx(() {
                       return TextFormField(
-                        onChanged: controller.senhaFunction,
+                        onChanged: controller.setSenha,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
                         decoration: InputDecoration(

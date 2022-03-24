@@ -14,22 +14,16 @@ class LoginController extends GetxController {
 
   final _email = ''.obs;
   final _senha = ''.obs;
-  final _isLogged = false.obs;
   final _loginErroMensagem = Rx<String?>(null);
   final _usuario = Rx<Usuario?>(null);
   final _token = ''.obs;
   final _isLoading = false.obs;
 
   get email => this._email.value;
-  set email(value) => this._email.value = value;
-  emailFunction(String value) => email = value;
+  setEmail(value) => this._email.value = value;
 
   get senha => this._senha.value;
-  set senha(value) => this._senha.value = value;
-  senhaFunction(String value) => senha = value;
-
-  get isLogged => this._isLogged.value;
-  set isLogged(value) => this._isLogged.value = value;
+  setSenha(value) => this._senha.value = value;
 
   get loginErroMensagem => this._loginErroMensagem.value;
   set loginErroMensagem(value) => this._loginErroMensagem.value = value;
@@ -49,14 +43,14 @@ class LoginController extends GetxController {
     repository.verificaLogin(email, senha).then((Response<dynamic> retorno) {
       EasyLoading.dismiss();
       isLoading = false;
-      if (retorno.statusCode == 200) {
+      if (retorno is bool) {
+        loginErroMensagem = 'Dados incorretos!';
+      } else {
         loginErroMensagem = null;
         token = retorno.body['access_token'];
         //getUsuario();
         criaSessao(retorno.body['expires_in']);
         Get.offNamed('/');
-      } else {
-        loginErroMensagem = 'Dados incorretos!';
       }
     });
   }
@@ -67,7 +61,7 @@ class LoginController extends GetxController {
 //validar
   getUsuario() => repository
       .getUsuario()
-      .then((Response<dynamic> retorno) => print(retorno.statusCode));
+      .then((Response<dynamic> retorno) => print(retorno));
 
   getSessaoToken() => token = repository.getSessaoToken();
 }

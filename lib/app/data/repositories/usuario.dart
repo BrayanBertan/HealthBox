@@ -1,19 +1,21 @@
+import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 
 class UsuarioRepository {
-  final UsuarioProvider usuarioProvider;
+  final UsuarioProvider provider;
 
-  UsuarioRepository({required this.usuarioProvider})
-      : assert(usuarioProvider != null);
+  UsuarioRepository({required this.provider}) : assert(provider != null);
 
   verificaLogin(String email, String senha) =>
-      usuarioProvider.verificaLogin(email, senha);
+      provider.verificaLogin(email, senha);
 
   criaSessao(String token, int duracaoSessao) =>
-      usuarioProvider.criaSessao(token, duracaoSessao);
+      provider.criaSessao(token, duracaoSessao);
 
-  verificaSessao() => usuarioProvider.verificaSessao();
+  verificaSessao() => provider.verificaSessao();
 
-  getUsuario() => usuarioProvider.getUsuario();
-  getSessaoToken() => usuarioProvider.getSessaoToken();
+  getUsuario() => provider.getUsuario();
+  getSessaoToken() => provider.getSessaoToken();
+  salvarUsuario(Usuario usuario) => provider.salvarUsuario(usuario);
+  validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/login_redirect.dart';
+import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step0.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step1.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step2.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step3_medico.dart';
@@ -34,30 +35,38 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                       steps: <Step>[
                         Step(
                             title: Text(''),
-                            content: Step1Page(),
+                            content: Step0Page(),
                             isActive: controller.activeStepIndex == 0,
                             state: controller.getStepState(0)),
                         Step(
                             title: Text(''),
-                            content: Step2Page(),
+                            content: Step1Page(),
                             isActive: controller.activeStepIndex == 1,
                             state: controller.getStepState(1)),
+                        Step(
+                            title: Text(''),
+                            content: Step2Page(),
+                            isActive: controller.activeStepIndex == 2,
+                            state: controller.getStepState(2)),
                         Step(
                             title: Text(''),
                             content: controller.tipo == TipoUsuario.PACIENTE
                                 ? Step3PacientePage()
                                 : Step3MedicoPage(),
-                            isActive: controller.activeStepIndex == 2,
-                            state: controller.getStepState(2)),
+                            isActive: controller.activeStepIndex == 3,
+                            state: controller.getStepState(3)),
                         Step(
                             title: Text(''),
                             content: Step4Page(),
-                            isActive: controller.activeStepIndex == 3,
-                            state: controller.getStepState(3)),
+                            isActive: controller.activeStepIndex == 4,
+                            state: controller.getStepState(4)),
                       ],
                       onStepCancel: controller.activeStepIndexDecrease,
                       onStepContinue: controller.activeStepIndexIncrease,
-                      onStepTapped: controller.setActiveStepIndex,
+                      onStepTapped: (int step) {
+                        FocusScope.of(context).unfocus();
+                        controller.setActiveStepIndex(step);
+                      },
                       controlsBuilder:
                           (BuildContext context, ControlsDetails details) {
                         return Padding(
@@ -74,15 +83,22 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                                       fixedSize: const Size(150, 50)),
                                   child: const Text('Anterior'))),
                               Obx(() => ElevatedButton(
-                                  onPressed: controller.activeStepIndex > 3 ||
+                                  onPressed: controller.activeStepIndex > 4 ||
                                           !controller.isValidStep(
                                               controller.activeStepIndex)
                                       ? null
-                                      : details.onStepContinue,
+                                      : () {
+                                          FocusScope.of(context).unfocus();
+                                          if (controller.activeStepIndex == 4) {
+                                            controller.salvarUsuario();
+                                            return;
+                                          }
+                                          details.onStepContinue!();
+                                        },
                                   style: ElevatedButton.styleFrom(
                                       onSurface: corPrincipal300,
                                       fixedSize: const Size(150, 50)),
-                                  child: Text(controller.activeStepIndex == 3
+                                  child: Text(controller.activeStepIndex == 4
                                       ? 'Confirmar?'
                                       : 'Proximo'))),
                             ],

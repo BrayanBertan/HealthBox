@@ -9,8 +9,8 @@ class LoginBinding implements Bindings {
     Get.lazyPut<UsuarioProvider>(() => UsuarioProvider());
     Get.put<LoginController>(
         LoginController(
-            repository: UsuarioRepository(
-                usuarioProvider: Get.find<UsuarioProvider>())),
+            repository:
+                UsuarioRepository(provider: Get.find<UsuarioProvider>())),
         permanent: true);
   }
 }

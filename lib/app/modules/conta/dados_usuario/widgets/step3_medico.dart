@@ -13,20 +13,6 @@ class Step3MedicoPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Obx(() => TextFormField(
-              initialValue: controller.crm,
-              onChanged: controller.setCrm,
-              decoration: InputDecoration(
-                  icon: const Icon(
-                    Icons.document_scanner,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade100)),
-                  labelText: "CRM",
-                  enabledBorder: InputBorder.none,
-                  labelStyle: const TextStyle(color: Colors.grey),
-                  errorText: controller.crmErroMensagem),
-            )),
         Row(
           children: [
             const Text('Especialização', style: TextStyle(fontSize: 15)),
@@ -47,7 +33,7 @@ class Step3MedicoPage extends StatelessWidget {
           ],
         ),
         Obx(() => TextFormField(
-              initialValue: controller.descricao,
+              controller: controller.descricaoController,
               onChanged: controller.setDescricao,
               decoration: InputDecoration(
                   icon: const Icon(
