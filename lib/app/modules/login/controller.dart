@@ -40,7 +40,7 @@ class LoginController extends GetxController {
   verificaLogin() {
     isLoading = true;
     EasyLoading.showInfo('Verificando...');
-    repository.verificaLogin(email, senha).then((Response<dynamic> retorno) {
+    repository.verificaLogin(email, senha).then((retorno) {
       EasyLoading.dismiss();
       isLoading = false;
       if (retorno is bool) {
@@ -59,9 +59,7 @@ class LoginController extends GetxController {
 
   verificaSessao() => repository.verificaSessao();
 //validar
-  getUsuario() => repository
-      .getUsuario()
-      .then((Response<dynamic> retorno) => print(retorno));
+  getUsuario() => repository.getUsuario().then((retorno) => print(retorno));
 
   getSessaoToken() => token = repository.getSessaoToken();
 }
