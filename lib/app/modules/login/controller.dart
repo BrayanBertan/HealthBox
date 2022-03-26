@@ -41,8 +41,6 @@ class LoginController extends GetxController {
     isLoading = true;
     EasyLoading.showInfo('Verificando...');
     repository.verificaLogin(email, senha).then((retorno) {
-      EasyLoading.dismiss();
-      isLoading = false;
       if (retorno is bool) {
         loginErroMensagem = 'Dados incorretos!';
       } else {
@@ -52,6 +50,8 @@ class LoginController extends GetxController {
         criaSessao(retorno.body['expires_in']);
         Get.offNamed('/');
       }
+      EasyLoading.dismiss();
+      isLoading = false;
     });
   }
 

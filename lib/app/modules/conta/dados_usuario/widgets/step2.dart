@@ -20,7 +20,7 @@ class Step2Page extends StatelessWidget {
                   ),
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade100)),
-                  labelText: "Email",
+                  labelText: "E-mail",
                   enabledBorder: InputBorder.none,
                   labelStyle: const TextStyle(color: Colors.grey),
                   errorText: controller.emailErroMensagem),

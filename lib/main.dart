@@ -49,7 +49,7 @@ class HealthBoxApp extends StatelessWidget {
       defaultTransition: Transition.fade,
       getPages: AppPages.routes,
       initialBinding: LoginBinding(),
-      initialRoute: Routes.DADOS_USUARIO,
+      initialRoute: Routes.INITIAL,
     );
   }
 }

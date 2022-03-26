@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
+
+import '../../../core/values/keys.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -14,10 +17,32 @@ class SideMenu extends StatelessWidget {
             decoration: BoxDecoration(
               color: corPrincipal,
             ),
-            child: Text(
-              'Nome usuarior',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                    child: Image.asset('${baseImagemUrl}user_pic.png'),
+                    minRadius: 50,
+                    maxRadius: 50),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Olá, Brayan Bertan',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Get.toNamed('/conta');
+                        },
+                        child: Text(
+                          'Minha conta.',
+                          style: TextStyle(color: Colors.white),
+                        ))
+                  ],
+                ),
+              ],
             ),
           ),
           ListTile(

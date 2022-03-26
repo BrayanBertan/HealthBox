@@ -33,8 +33,11 @@ class Step4Page extends StatelessWidget {
             minRadius: 85,
             maxRadius: 85)),
         StepLines(texto: '1'),
-        Obx(() =>
-            CustomTextRich(titulo: 'Você é: ', descricao: controller.tipoName)),
+        Obx(() => CustomTextRich(
+            titulo: 'Você é: ',
+            descricao: controller.tipo == TipoUsuario.PACIENTE
+                ? 'Paciente'
+                : 'Médico')),
         controller.tipo == TipoUsuario.PACIENTE
             ? Obx(() =>
                 CustomTextRich(titulo: 'CPF: ', descricao: controller.cpf))
@@ -52,7 +55,7 @@ class Step4Page extends StatelessWidget {
         Obx(() =>
             CustomTextRich(titulo: 'E-mail: ', descricao: controller.email)),
         Obx(() => CustomTextRich(
-            titulo: 'Genero: ', descricao: controller.generoName)),
+            titulo: 'Gênero: ', descricao: controller.generoName)),
         StepLines(texto: '4'),
         controller.tipo == TipoUsuario.PACIENTE
             ? Column(

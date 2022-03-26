@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/binding.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/view.dart';
+import 'package:healthbox/app/modules/conta/view.dart';
 import 'package:healthbox/app/modules/home/binding.dart';
 import 'package:healthbox/app/modules/home/view.dart';
 import 'package:healthbox/app/modules/login/view.dart';
@@ -19,6 +20,7 @@ class AppPages {
       name: Routes.LOGIN,
       page: () => LoginPage(), /* middlewares: [SetTokenUsuario()]*/
     ),
+    GetPage(name: Routes.CONTA, page: () => ContaPage()),
     GetPage(
         name: Routes.DADOS_USUARIO,
         page: () => DadosUsuarioPage(),
