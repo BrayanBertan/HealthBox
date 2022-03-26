@@ -1,4 +1,3 @@
-import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 
 class UsuarioRepository {
@@ -16,6 +15,7 @@ class UsuarioRepository {
 
   getUsuario() => provider.getUsuario();
   getSessaoToken() => provider.getSessaoToken();
-  salvarUsuario(Usuario usuario) => provider.salvarUsuario(usuario);
+  salvarUsuario(Map<String, dynamic> usuario) =>
+      provider.salvarUsuario(usuario);
   validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
 }

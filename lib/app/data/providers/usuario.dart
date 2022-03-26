@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -63,18 +62,22 @@ class UsuarioProvider extends GetConnect {
     return _storage.read(keySessao)?['token'] ?? '';
   }
 
-  salvarUsuario(Usuario usuario) async {
-    print(usuario);
-    await Future.delayed(Duration(seconds: 1));
+  salvarUsuario(Map<String, dynamic> usuario) async {
     return true;
+    httpClient.baseUrl = 'http://10.0.2.2:3031/';
+    var retornoApi = await post('usuarios', usuario);
+    print(retornoApi.body);
+    print(retornoApi.statusCode);
+    httpClient.baseUrl = baseUrl;
+    if (retornoApi.statusCode == 200) return retornoApi;
+    return false;
   }
 
   validaCRM(String crm, String uf) async {
-    var baseUrlTemp = httpClient.baseUrl;
     httpClient.baseUrl = '';
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');
-    httpClient.baseUrl = baseUrlTemp;
+    httpClient.baseUrl = baseUrl;
     var retorno = jsonDecode(retornoApi.body)['dados']?[0];
     if (retorno != null && retornoApi.statusCode == 200) {
       retorno['TELEFONE'] = retorno['TELEFONE']?.split(',')?[0] ?? '';

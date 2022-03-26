@@ -5,7 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
-import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -301,17 +300,17 @@ class DadosUsuarioController extends GetxController {
   salvarUsuario() {
     EasyLoading.showInfo('Salvando...');
     Map<String, dynamic> dados = {
-      'id': _id.value,
       'tipo': tipoName,
       'nome': nome,
       'email': email,
       'senha': senha,
-      'data_nascimento': dataNascimento,
+      'data_nascimento': '$dataNascimento}',
       'telefone': telefone,
       'fotoPath': foto,
       'ativo': 1,
       'genero': generoName
     };
+    if (_id.value != null) dados['id'] = _id.value;
     if (tipo == TipoUsuario.PACIENTE) {
       dados = {
         ...{'cpf': cpf, 'altura': altura, 'peso': peso},
@@ -329,13 +328,13 @@ class DadosUsuarioController extends GetxController {
         ...dados
       };
     }
-    repository.salvarUsuario(Usuario.fromJson(dados)).then((retorno) {
-      if (retorno) {
-        EasyLoading.dismiss();
-        Get.offNamed('/');
-      } else {
+    repository.salvarUsuario(dados).then((retorno) {
+      if (!retorno) {
         EasyLoading.instance.backgroundColor = Colors.red;
         EasyLoading.showError('Erro ao cadastrar');
+      } else {
+        EasyLoading.dismiss();
+        Get.offNamed('/');
       }
     });
 
