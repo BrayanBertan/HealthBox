@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/modules/home/controller.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
+import 'package:healthbox/app/widgets/filtros/barra_filtro.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
-class HomePage extends GetView<HomeController> {
-  HomePage({Key? key}) : super(key: key);
+class OpinioesPage extends GetView<OpinioesController> {
+  OpinioesPage({Key? key}) : super(key: key);
   final controller_login = Get.find<LoginController>();
 
   @override
@@ -14,8 +15,13 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(),
       drawer: const SideMenu(),
-      body: Container(
-        child: Obx(() => Text('${controller_login.token}')),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            BarraFiltro(),
+          ],
+        ),
       ),
     );
   }
