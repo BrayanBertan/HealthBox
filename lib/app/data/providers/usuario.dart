@@ -63,6 +63,7 @@ class UsuarioProvider extends GetConnect {
   }
 
   salvarUsuario(Map<String, dynamic> usuario) async {
+    await Future.delayed(Duration(milliseconds: 200));
     return true;
     httpClient.baseUrl = 'http://10.0.2.2:3031/';
     var retornoApi = await post('usuarios', usuario);
@@ -71,6 +72,11 @@ class UsuarioProvider extends GetConnect {
     httpClient.baseUrl = baseUrl;
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
+  }
+
+  verificaEmail(String email) async {
+    await Future.delayed(Duration(milliseconds: 200));
+    return true;
   }
 
   validaCRM(String crm, String uf) async {

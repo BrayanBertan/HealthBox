@@ -24,6 +24,8 @@ class DadosUsuarioController extends GetxController {
         time: const Duration(milliseconds: 1000));
     interval(_crmUf, (val) => validaCRM(),
         time: const Duration(milliseconds: 500));
+    interval(_email, (val) => verificaEmail(),
+        time: const Duration(milliseconds: 1000));
   }
 
 //===============Todos===================
@@ -129,7 +131,7 @@ class DadosUsuarioController extends GetxController {
   String? get crmErroMensagem {
     if (crm == null || crmValido()) return null;
     if (!isCrmValid) return 'CRM invalido ou inativo';
-    return 'Campo obrigatorio';
+    return 'Campo obrigatório ';
   }
 
   bool cpfValido() =>
@@ -137,7 +139,7 @@ class DadosUsuarioController extends GetxController {
 
   String? get cpfErroMensagem {
     if (cpf == null || cpfValido()) return null;
-    return 'Campo obrigatorio';
+    return 'Campo obrigatório ';
   }
 
 //==========STEP 1=======================
@@ -171,8 +173,8 @@ class DadosUsuarioController extends GetxController {
       nome.trim().length <= 100;
   String? get nomeErroMensagem {
     if (nome == null || nomeValido()) return null;
-    if (nome.trim().length < 3) return 'Minimo de 3 caracteres';
-    return 'Campo obrigatorio';
+    if (nome.trim().length < 3) return 'mínimo de 3 caracteres';
+    return 'Campo obrigatório ';
   }
 
   bool telefoneValido() =>
@@ -181,7 +183,7 @@ class DadosUsuarioController extends GetxController {
       telefone.trim().length <= 50;
   String? get telefoneErroMensagem {
     if (telefone == null || telefoneValido()) return null;
-    return 'Campo obrigatorio';
+    return 'Campo obrigatório ';
   }
 
   bool fotoValida() => foto != null;
@@ -198,12 +200,15 @@ class DadosUsuarioController extends GetxController {
   //=====Variaveis=====
   final _email = Rx<String?>(null);
   final _senha = Rx<String?>(null);
+  final _emailVerifica = false.obs;
   final _senhaRepeticao = Rx<String?>(null);
 
   final _genero = Genero.MASCULINO.obs;
   //=====Getters e Setters=====
   get email => this._email.value;
   setEmail(value) => this._email.value = value;
+  get emailVerifica => this._emailVerifica.value;
+  set emailVerifica(value) => this._emailVerifica.value = value;
   get senha => this._senha.value;
   setSenha(value) => this._senha.value = value;
   get senhaRepeticao => this._senhaRepeticao.value;
@@ -218,13 +223,15 @@ class DadosUsuarioController extends GetxController {
       email != null &&
       email.trim().isNotEmpty &&
       email.toString().isEmailValid() &&
-      email.trim().length <= 50;
+      email.trim().length <= 50 &&
+      emailVerifica;
 
   String? get emailErroMensagem {
     if (email == null || emailValido()) return null;
     if (email != null && !email.toString().isEmailValid())
-      return 'Email invalido';
-    return 'Campo obrigatorio';
+      return 'E-mail invalido';
+    if (!emailVerifica) return 'E-mail em uso!';
+    return 'Campo obrigatório ';
   }
 
   bool senhaValida() =>
@@ -236,8 +243,8 @@ class DadosUsuarioController extends GetxController {
 
   String? get senhaErroMensagem {
     if (senha == null || senhaValida()) return null;
-    if (senha.trim().length < 8) return 'Minimo de 8 caracteres';
-    return 'Campo obrigatorio';
+    if (senha.trim().length < 8) return 'mínimo de 8 caracteres';
+    return 'Campo obrigatório ';
   }
 
   String? get senhaRepeticaoErroMensagem {
@@ -263,14 +270,14 @@ class DadosUsuarioController extends GetxController {
 
   String? get alturaErroMensagem {
     if (altura == null || alturaValida()) return null;
-    return 'Campo obrigatorio';
+    return 'Campo obrigatório ';
   }
 
   bool pesoValido() => peso != null && peso.trim().isNotEmpty;
 
   String? get pesoErroMensagem {
     if (peso == null || pesoValido()) return null;
-    return 'Campo obrigatorio';
+    return 'Campo obrigatório ';
   }
 
 //==========STEP 3 Médico=======================
@@ -293,7 +300,7 @@ class DadosUsuarioController extends GetxController {
 
   String? get descricaoErroMensagem {
     if (descricao == null || descricaoValido()) return null;
-    return 'Campo obrigatorio';
+    return 'Campo obrigatório ';
   }
 //==========STEP 4=======================
 
@@ -366,5 +373,11 @@ class DadosUsuarioController extends GetxController {
         descricaoController.text = descricao;
       }
     });
+  }
+
+  verificaEmail() {
+    repository
+        .verificaEmail('brayanbertan@gmail.com')
+        .then((retorno) => emailVerifica = retorno);
   }
 }

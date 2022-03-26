@@ -18,4 +18,5 @@ class UsuarioRepository {
   salvarUsuario(Map<String, dynamic> usuario) =>
       provider.salvarUsuario(usuario);
   validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
+  verificaEmail(String email) => provider.verificaEmail(email);
 }

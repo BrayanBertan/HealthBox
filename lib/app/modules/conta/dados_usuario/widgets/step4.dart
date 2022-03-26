@@ -16,69 +16,55 @@ class Step4Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Confirmar dados',
           style: titulo,
         ),
+        const SizedBox(
+          height: 15,
+        ),
+        Obx(() => CircleAvatar(
+            child: controller.foto == null
+                ? Image.asset('${baseImagemUrl}user_pic.png')
+                : Image.file(File(controller.foto)),
+            minRadius: 85,
+            maxRadius: 85)),
         StepLines(texto: '1'),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Obx(() => CircleAvatar(
-                child: controller.foto == null
-                    ? Image.asset('${baseImagemUrl}user_pic.png')
-                    : Image.file(File(controller.foto)),
-                minRadius: 25,
-                maxRadius: 25)),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-                child: Wrap(
-              alignment: WrapAlignment.center,
-              children: [
-                Obx(() => CustomTextRich(
-                    titulo: 'Nome: ', descricao: controller.nome)),
-                Obx(() => CustomTextRich(
-                    titulo: 'Telefone: ', descricao: controller.telefone)),
-                Obx(() => CustomTextRich(
-                    titulo: 'Data de nascimento: ',
-                    descricao: controller.formataDataNascimento)),
-              ],
-            )),
-          ],
-        ),
-        StepLines(texto: '2'),
-        Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            Obx(() =>
-                CustomTextRich(titulo: 'Email: ', descricao: controller.email)),
-            Obx(() => CustomTextRich(
-                titulo: 'Genero: ', descricao: controller.generoName)),
-            Obx(() => CustomTextRich(
-                titulo: 'Você é: ', descricao: controller.tipoName)),
-          ],
-        ),
-        StepLines(texto: '3'),
+        Obx(() =>
+            CustomTextRich(titulo: 'Você é: ', descricao: controller.tipoName)),
         controller.tipo == TipoUsuario.PACIENTE
-            ? Wrap(
-                alignment: WrapAlignment.center,
+            ? Obx(() =>
+                CustomTextRich(titulo: 'CPF: ', descricao: controller.cpf))
+            : Obx(() => CustomTextRich(
+                titulo: 'CRM: ',
+                descricao: '${controller.crm} ${controller.crmUf}')),
+        StepLines(texto: '2'),
+        Obx(() => CustomTextRich(titulo: 'Nome: ', descricao: controller.nome)),
+        Obx(() => CustomTextRich(
+            titulo: 'Telefone: ', descricao: controller.telefone)),
+        Obx(() => CustomTextRich(
+            titulo: 'Data de nascimento: ',
+            descricao: controller.formataDataNascimento)),
+        StepLines(texto: '3'),
+        Obx(() =>
+            CustomTextRich(titulo: 'E-mail: ', descricao: controller.email)),
+        Obx(() => CustomTextRich(
+            titulo: 'Genero: ', descricao: controller.generoName)),
+        StepLines(texto: '4'),
+        controller.tipo == TipoUsuario.PACIENTE
+            ? Column(
                 children: [
-                  Obx(() => CustomTextRich(
-                      titulo: 'CPF: ', descricao: controller.cpf)),
                   Obx(() => CustomTextRich(
                       titulo: 'Altura: ', descricao: controller.altura)),
                   Obx(() => CustomTextRich(
                       titulo: 'Peso: ', descricao: controller.peso)),
                 ],
               )
-            : Wrap(
-                alignment: WrapAlignment.center,
+            : Column(
                 children: [
-                  Obx(() => CustomTextRich(
-                      titulo: 'CRM: ', descricao: controller.crm)),
                   Obx(() => CustomTextRich(
                       titulo: 'Especialização: ',
                       descricao: controller.especializacaoName)),
@@ -86,6 +72,9 @@ class Step4Page extends StatelessWidget {
                       titulo: 'Descrição: ', descricao: controller.descricao)),
                 ],
               ),
+        SizedBox(
+          height: 25,
+        )
       ],
     );
   }

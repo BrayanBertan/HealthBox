@@ -23,8 +23,6 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
         padding: EdgeInsets.all(5),
         child: Column(
           children: [
-            ElevatedButton(
-                onPressed: controller.salvarUsuario, child: Text('pegaaaa')),
             LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return Container(

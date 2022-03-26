@@ -7,27 +7,30 @@ class StepLines extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            child: Divider(
-          color: corPrincipal,
-        )),
-        Container(
-          alignment: Alignment.center,
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
+    return Padding(
+      padding: EdgeInsets.all(5),
+      child: Row(
+        children: [
+          Expanded(
+              child: Divider(
             color: corPrincipal,
+          )),
+          Container(
+            alignment: Alignment.center,
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: corPrincipal,
+            ),
+            child: Text(texto),
           ),
-          child: Text(texto),
-        ),
-        Expanded(
-            child: Divider(
-          color: corPrincipal,
-        ))
-      ],
+          Expanded(
+              child: Divider(
+            color: corPrincipal,
+          ))
+        ],
+      ),
     );
   }
 }

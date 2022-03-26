@@ -9,11 +9,17 @@ class CustomTextRich extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text.rich(
-      TextSpan(children: [
-        TextSpan(
-            text: titulo, style: const TextStyle(fontWeight: FontWeight.bold)),
-        TextSpan(text: '${descricao}    '),
-      ]),
+      TextSpan(
+          style: const TextStyle(
+            fontSize: 17,
+          ),
+          children: <TextSpan>[
+            TextSpan(
+                text: titulo,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: '${descricao}'),
+          ]),
+      textAlign: TextAlign.start,
     );
   }
 }
