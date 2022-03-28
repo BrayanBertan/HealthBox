@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 import '../../../core/values/keys.dart';
+import '../../modules/login/controller.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -20,10 +21,20 @@ class SideMenu extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CircleAvatar(
-                    child: Image.asset('${baseImagemUrl}user_pic.png'),
-                    minRadius: 50,
-                    maxRadius: 50),
+                Column(
+                  children: [
+                    CircleAvatar(
+                        child: Image.asset('${baseImagemUrl}user_pic.png'),
+                        minRadius: 40,
+                        maxRadius: 40),
+                    TextButton(
+                        onPressed: Get.find<LoginController>().logout,
+                        child: Text(
+                          'sair',
+                          style: TextStyle(color: Colors.white),
+                        ))
+                  ],
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

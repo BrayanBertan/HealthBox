@@ -77,6 +77,11 @@ class UsuarioProvider extends GetConnect {
     return _storage.read(keySessao)?['token'] ?? '';
   }
 
+  logout() {
+    _storage.remove(keySessao);
+    token = '';
+  }
+
   salvarUsuario(Map<String, dynamic> usuario) async {
     httpClient.defaultDecoder = null;
     var retornoApi = await post(
@@ -94,6 +99,7 @@ class UsuarioProvider extends GetConnect {
 
   validaCRM(String crm, String uf) async {
     httpClient.baseUrl = '';
+    httpClient.defaultDecoder = null;
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');
     httpClient.baseUrl = baseUrl;

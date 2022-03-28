@@ -8,12 +8,12 @@ import '../enums/tipo_usuario.dart';
 class Medico extends Usuario {
   String crm;
   String descricao;
-  List<Especializacao> especializacao;
+  List<Especializacao> especializacoes;
 
   Medico(
       {required this.crm,
       required this.descricao,
-      required this.especializacao,
+      required this.especializacoes,
       int? id,
       required TipoUsuario tipo,
       required String nome,
@@ -39,7 +39,7 @@ class Medico extends Usuario {
   factory Medico.fromJson(Map<String, dynamic> json) => Medico(
       crm: json['crm'],
       descricao: json['descricao'],
-      especializacao: Especializacao.listFromJson(json['especializacao']),
+      especializacoes: json['especializacao'],
       id: json['id'],
       tipo: json['tipo'].toString().tipoUsuario(),
       nome: json['nome'],
@@ -55,7 +55,7 @@ class Medico extends Usuario {
     Map<String, dynamic> map = {
       'crm': crm,
       'descricao': descricao,
-      'especializacao': especializacao,
+      'especializacao': especializacoes,
       'tipo': this.tipo,
       'nome': this.nome,
       'email': this.email,

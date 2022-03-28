@@ -20,4 +20,5 @@ class UsuarioRepository {
   validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
   verificaEmail(String email) => provider.verificaEmail(email);
   getEspecializacoes() => provider.getEspecializacoes();
+  logout() => provider.logout();
 }

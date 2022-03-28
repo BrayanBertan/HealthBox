@@ -309,7 +309,7 @@ class DadosUsuarioController extends GetxController {
     Map<String, dynamic> dados = {
       'tipo': tipoName[0],
       'name': nome,
-      'email': 'teste1@gmail.com',
+      'email': 'teste3@gmail.com',
       'password': senha,
       'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
       'telefone': '88046155',

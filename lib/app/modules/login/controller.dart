@@ -60,7 +60,6 @@ class LoginController extends GetxController {
   verificaSessao() => repository.verificaSessao();
 //validar
   getUsuario() => repository.getUsuario().then((retorno) {
-        print(retorno);
         if (retorno is bool) {
           usuario = null;
         } else {
@@ -69,4 +68,11 @@ class LoginController extends GetxController {
       });
 
   getSessaoToken() => token = repository.getSessaoToken();
+
+  logout() {
+    usuario = null;
+    token = '';
+    repository.logout();
+    Get.offNamed('/login');
+  }
 }

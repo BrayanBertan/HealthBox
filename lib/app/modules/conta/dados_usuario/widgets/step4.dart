@@ -68,15 +68,20 @@ class Step4Page extends StatelessWidget {
               )
             : Column(
                 children: [
-                  Obx(() => CustomTextRich(
-                      titulo: 'Especialização: ',
-                      descricao:
-                          controller.especializacoesSelecionadas.toString())),
+                  Obx(() => Wrap(
+                        children: controller.especializacoesSelecionadas
+                            .map(
+                              (especializacao) => CustomTextRich(
+                                  titulo: 'Especialização: ',
+                                  descricao: especializacao.nome),
+                            )
+                            .toList(),
+                      )),
                   Obx(() => CustomTextRich(
                       titulo: 'Descrição: ', descricao: controller.descricao)),
                 ],
               ),
-        SizedBox(
+        const SizedBox(
           height: 25,
         )
       ],
