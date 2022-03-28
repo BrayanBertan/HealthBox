@@ -59,7 +59,14 @@ class LoginController extends GetxController {
 
   verificaSessao() => repository.verificaSessao();
 //validar
-  getUsuario() => repository.getUsuario().then((retorno) => print(retorno));
+  getUsuario() => repository.getUsuario().then((retorno) {
+        print(retorno);
+        if (retorno is bool) {
+          usuario = null;
+        } else {
+          usuario = retorno;
+        }
+      });
 
   getSessaoToken() => token = repository.getSessaoToken();
 }

@@ -36,17 +36,17 @@ class Paciente extends Usuario {
             genero: genero);
 
   factory Paciente.fromJson(Map<String, dynamic> json) => Paciente(
-      cpf: json['cpf'],
-      altura: json['altura'],
-      peso: json['peso'],
+      cpf: json['cpf'] ?? '',
+      altura: json['altura'] ?? 0.0,
+      peso: json['peso'] ?? 0.0,
       id: json['id'],
       tipo: json['tipo'].toString().tipoUsuario(),
-      nome: json['nome'],
+      nome: json['nome'] ?? '',
       email: json['email'],
-      senha: json['senha'],
-      dataNascimento: json['data_nascimento'],
+      senha: json['senha'] ?? '',
+      dataNascimento: DateTime.parse(json['data_nascimento']),
       telefone: json['telefone'],
-      fotoPath: json['fotoPath'],
+      fotoPath: json['fotoPath'] ?? '',
       genero: json['genero'].toString().genero(),
       ativo: json['ativo']);
 

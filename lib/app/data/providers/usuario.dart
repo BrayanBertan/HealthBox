@@ -5,6 +5,8 @@ import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
 import '../models/especializacao.dart';
+import '../models/medico.dart';
+import '../models/paciente.dart';
 
 class UsuarioProvider extends GetConnect {
   final _storage = Get.find<StorageService>();
@@ -51,14 +53,11 @@ class UsuarioProvider extends GetConnect {
   }
 
   getUsuario() async {
-    var retornoApi = await post(
-      'auth/me',
-      {},
-      headers: {
-        'Authorization': 'Bearer  $token'
-      }, /*decoder: (obj) => Usuario.fromJson(obj)*/
-    );
-    if (retornoApi.statusCode == 200) return retornoApi;
+    var retornoApi = await post('auth/me', {},
+        headers: {'Authorization': 'Bearer  $token'},
+        decoder: (obj) =>
+            obj['tipo'] == 'P' ? Paciente.fromJson(obj) : Medico.fromJson(obj));
+    if (retornoApi.statusCode == 200) return retornoApi.body;
     return false;
   }
 
@@ -79,14 +78,12 @@ class UsuarioProvider extends GetConnect {
   }
 
   salvarUsuario(Map<String, dynamic> usuario) async {
-    await Future.delayed(Duration(milliseconds: 200));
-    return true;
-    httpClient.baseUrl = 'http://10.0.2.2:3031/';
-    var retornoApi = await post('usuarios', usuario);
-    print(retornoApi.body);
-    print(retornoApi.statusCode);
-    httpClient.baseUrl = baseUrl;
-    if (retornoApi.statusCode == 200) return retornoApi;
+    httpClient.defaultDecoder = null;
+    var retornoApi = await post(
+      'auth/register',
+      usuario,
+    );
+    if (retornoApi.statusCode == 200) return true;
     return false;
   }
 

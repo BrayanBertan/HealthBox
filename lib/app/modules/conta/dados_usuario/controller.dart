@@ -7,6 +7,7 @@ import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/especializacao.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
+import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
 import 'package:intl/intl.dart';
 
@@ -306,20 +307,26 @@ class DadosUsuarioController extends GetxController {
   salvarUsuario() {
     EasyLoading.showInfo('Salvando...');
     Map<String, dynamic> dados = {
-      'tipo': tipoName,
-      'nome': nome,
-      'email': email,
-      'senha': senha,
-      'data_nascimento': '$dataNascimento}',
-      'telefone': telefone,
+      'tipo': tipoName[0],
+      'name': nome,
+      'email': 'teste1@gmail.com',
+      'password': senha,
+      'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
+      'telefone': '88046155',
       'fotoPath': foto,
       'ativo': 1,
-      'genero': generoName
+      'sexo': generoName[0]
     };
     if (_id.value != null) dados['id'] = _id.value;
     if (tipo == TipoUsuario.PACIENTE) {
       dados = {
-        ...{'cpf': cpf, 'altura': altura, 'peso': peso},
+        ...{
+          'caracteristicas': {
+            'cpf': '97899999999',
+            'altura': altura,
+            'peso': peso
+          }
+        },
         ...dados
       };
     }
@@ -327,9 +334,11 @@ class DadosUsuarioController extends GetxController {
     if (tipo == TipoUsuario.MEDICO) {
       dados = {
         ...{
-          'crm': crm,
-          'especializacao': especializacoesSelecionadas,
-          'descricao': descricao
+          'caracteristicas': {
+            'crm': crm,
+            'especializacao': especializacoesSelecionadas,
+            'descricao': descricao
+          }
         },
         ...dados
       };
@@ -339,8 +348,9 @@ class DadosUsuarioController extends GetxController {
         EasyLoading.instance.backgroundColor = Colors.red;
         EasyLoading.showError('Erro ao cadastrar');
       } else {
-        EasyLoading.dismiss();
-        Get.offNamed('/');
+        Get.find<LoginController>().setEmail(email);
+        Get.find<LoginController>().setSenha(senha);
+        Get.find<LoginController>().verificaLogin();
       }
     });
 

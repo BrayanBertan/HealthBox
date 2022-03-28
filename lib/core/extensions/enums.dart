@@ -6,7 +6,11 @@ extension StringExtension on String? {
     switch (this) {
       case 'PACIENTE':
         return TipoUsuario.PACIENTE;
+      case 'P':
+        return TipoUsuario.PACIENTE;
       case 'MEDICO':
+        return TipoUsuario.MEDICO;
+      case 'M':
         return TipoUsuario.MEDICO;
       default:
         return TipoUsuario.PACIENTE;
@@ -17,7 +21,11 @@ extension StringExtension on String? {
     switch (this) {
       case 'MASCULINO':
         return Genero.MASCULINO;
+      case 'M':
+        return Genero.MASCULINO;
       case 'FEMININO':
+        return Genero.FEMININO;
+      case 'F':
         return Genero.FEMININO;
       default:
         return Genero.OUTROS;
