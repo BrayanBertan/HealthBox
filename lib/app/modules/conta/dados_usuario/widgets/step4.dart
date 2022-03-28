@@ -70,7 +70,8 @@ class Step4Page extends StatelessWidget {
                 children: [
                   Obx(() => CustomTextRich(
                       titulo: 'Especialização: ',
-                      descricao: controller.especializacaoName)),
+                      descricao:
+                          controller.especializacoesSelecionadas.toString())),
                   Obx(() => CustomTextRich(
                       titulo: 'Descrição: ', descricao: controller.descricao)),
                 ],

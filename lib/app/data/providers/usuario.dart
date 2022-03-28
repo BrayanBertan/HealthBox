@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
+import '../models/especializacao.dart';
+
 class UsuarioProvider extends GetConnect {
   final _storage = Get.find<StorageService>();
   static String token = '';
@@ -19,6 +21,8 @@ class UsuarioProvider extends GetConnect {
       'auth/login?password=$senha&email=$email',
       {},
     );
+    print(retornoApi.body);
+    print(retornoApi.statusCode);
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
   }
@@ -56,6 +60,18 @@ class UsuarioProvider extends GetConnect {
     );
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
+  }
+
+  Future<List<Especializacao>> getEspecializacoes() async {
+    httpClient.defaultDecoder = Especializacao.listFromJson;
+    var retornoApi = await get(
+      'especializacoes?page=1&nome',
+    );
+    if (retornoApi.statusCode == 200) {
+      return retornoApi.body;
+    } else {
+      return List<Especializacao>.empty();
+    }
   }
 
   String getSessaoToken() {

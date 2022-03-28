@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/especializacao.dart';
-import 'package:healthbox/core/values/keys.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../controller.dart';
 
@@ -13,25 +13,26 @@ class Step3MedicoPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            const Text('Especialização', style: TextStyle(fontSize: 15)),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-                child: Obx(() => DropdownButton<Especializacao>(
-                    value: controller.especializacao,
-                    menuMaxHeight: 250,
-                    items: especializacoes
-                        .map((Especializacao especializacao) =>
-                            DropdownMenuItem<Especializacao>(
-                                value: especializacao,
-                                child: Text(especializacao.titulo)))
-                        .toList(),
-                    onChanged: controller.setEspecializacao)))
-          ],
-        ),
+        Obx(() => controller.especializacoes.length > 0
+            ? MultiSelectChipField<Especializacao?>(
+                initialValue: controller.especializacoesSelecionadas,
+                title: const Text('Especializações'),
+                searchable: true,
+                height: 50,
+                searchHint: 'pesquisar',
+                onTap: (itens) {
+                  if (itens.length > 2) {
+                    itens.removeLast();
+                  }
+                  controller.especializacoesSelecionadas
+                      .assignAll(itens as List<Especializacao>);
+                },
+                items: controller.especializacoes
+                    .map((especializacao) => MultiSelectItem<Especializacao>(
+                        especializacao, especializacao.nome))
+                    .toList(),
+              )
+            : const Text('Carregando...')),
         Obx(() => TextFormField(
               controller: controller.descricaoController,
               onChanged: controller.setDescricao,

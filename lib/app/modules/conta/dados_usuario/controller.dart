@@ -5,9 +5,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
+import 'package:healthbox/app/data/models/especializacao.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
-import 'package:healthbox/core/values/keys.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/easy_loading_config.dart';
@@ -20,6 +20,7 @@ class DadosUsuarioController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getEspecializacoes();
     interval(_crm, (val) => validaCRM(),
         time: const Duration(milliseconds: 1000));
     interval(_crmUf, (val) => validaCRM(),
@@ -36,7 +37,7 @@ class DadosUsuarioController extends GetxController {
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
-      isValidStep(activeStepIndex) || value < activeStepIndex
+      !isValidStep(activeStepIndex) || value < activeStepIndex
           ? value
           : activeStepIndex;
   activeStepIndexIncrease() => this._activeStepIndex.value++;
@@ -283,14 +284,12 @@ class DadosUsuarioController extends GetxController {
 //==========STEP 3 Médico=======================
 //=====Variaveis=====
   final _descricao = Rx<String?>(null);
-  final _especializacao = especializacoes[0].obs;
+  final especializacoes = <Especializacao>[].obs;
+  final especializacoesSelecionadas = <Especializacao>[].obs;
   //=====Getters e Setters=====
   get descricao => this._descricao.value;
   setDescricao(value) => this._descricao.value = value;
   final descricaoController = TextEditingController();
-  get especializacao => this._especializacao.value;
-  get especializacaoName => this._especializacao.value.titulo;
-  setEspecializacao(value) => this._especializacao.value = value;
   //=====Validações=====
 
   bool descricaoValido() =>
@@ -329,7 +328,7 @@ class DadosUsuarioController extends GetxController {
       dados = {
         ...{
           'crm': crm,
-          'especializacao': especializacao,
+          'especializacao': especializacoesSelecionadas,
           'descricao': descricao
         },
         ...dados
@@ -379,5 +378,12 @@ class DadosUsuarioController extends GetxController {
     repository
         .verificaEmail('brayanbertan@gmail.com')
         .then((retorno) => emailVerifica = retorno);
+  }
+
+  getEspecializacoes() {
+    repository.getEspecializacoes().then((List<Especializacao> retorno) {
+      this.especializacoes.clear();
+      this.especializacoes.assignAll(retorno);
+    });
   }
 }

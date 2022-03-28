@@ -19,4 +19,5 @@ class UsuarioRepository {
       provider.salvarUsuario(usuario);
   validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
   verificaEmail(String email) => provider.verificaEmail(email);
+  getEspecializacoes() => provider.getEspecializacoes();
 }
