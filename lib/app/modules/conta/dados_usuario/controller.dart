@@ -20,9 +20,7 @@ class DadosUsuarioController extends GetxController {
   dynamic usuario;
   DadosUsuarioController({required this.repository})
       : assert(repository != null) {
-    usuario = loginController.paciente != null
-        ? loginController.paciente
-        : loginController.medico;
+    usuario = loginController.getLogin();
     if (usuario != null) {
       isEditing = true;
       _id.value = usuario.id;
@@ -319,9 +317,9 @@ class DadosUsuarioController extends GetxController {
   final _peso = Rx<String?>(null);
   //=====Getters e Setters=====
   get altura => this._altura.value;
-  setAltura(value) => this._altura.value = value.replaceAll(',', '.');
+  setAltura(value) => this._altura.value = '$value'.replaceAll(',', '.');
   get peso => this._peso.value;
-  setPeso(value) => this._peso.value = value.replaceAll(',', '.');
+  setPeso(value) => this._peso.value = '$value'.replaceAll(',', '.');
   //=====Validações=====
 
   bool alturaValida() => altura != null && altura.trim().isNotEmpty;
@@ -395,7 +393,7 @@ class DadosUsuarioController extends GetxController {
     if (tipo == TipoUsuario.PACIENTE) {
       dados = {
         ...{
-          'caracteristicas': {'cpf': cpf, 'altura': altura, 'peso': peso}
+          'caracteristicas': {'cpf': cpf.trim(), 'altura': altura, 'peso': peso}
         },
         ...dados
       };
@@ -404,11 +402,7 @@ class DadosUsuarioController extends GetxController {
     if (tipo == TipoUsuario.MEDICO) {
       dados = {
         ...{
-          'caracteristicas': {
-            'crm': crm,
-            'especializacao': especializacoesSelecionadas,
-            'descricao': descricao
-          },
+          'caracteristicas': {'descricao': descricao},
           'crms': [
             {'crm': crm, 'estado_sigla': crmUf, 'especializacoes': []},
           ]

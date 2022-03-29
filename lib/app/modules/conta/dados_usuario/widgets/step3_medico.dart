@@ -14,8 +14,8 @@ class Step3MedicoPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AbsorbPointer(
-          absorbing: false,
-          child: Obx(() => controller.especializacoes.length > 0
+          absorbing: controller.isEditing,
+          child: Obx(() => !controller.isEditing
               ? MultiSelectChipField<Especializacao?>(
                   initialValue: controller.especializacoesSelecionadas,
                   title: const Text('Especializações'),
@@ -33,7 +33,12 @@ class Step3MedicoPage extends StatelessWidget {
                           especializacao, especializacao.nome))
                       .toList(),
                 )
-              : const Text('Carregando...')),
+              : const Center(
+                  child: Text(
+                    'Use a aba de gerenciamento de Crm para modificar suas especializações',
+                    textAlign: TextAlign.center,
+                  ),
+                )),
         ),
         Obx(() => TextFormField(
               controller: controller.descricaoController,

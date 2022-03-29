@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/services/storage.dart';
+import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/values/keys.dart';
 
 import '../models/especializacao.dart';
@@ -52,6 +53,7 @@ class UsuarioProvider extends GetConnect {
   }
 
   getUsuario() async {
+    isSessionValid();
     var retornoApi = await post('auth/me', {},
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) =>
@@ -80,7 +82,12 @@ class UsuarioProvider extends GetConnect {
     token = '';
   }
 
+  isSessionValid() {
+    if (!verificaSessao()) Get.find<LoginController>().logout();
+  }
+
   salvarUsuario(Map<String, dynamic> usuario) async {
+    isSessionValid();
     dynamic retornoApi;
     if (usuario.containsKey('id')) {
       retornoApi = await put(
@@ -88,6 +95,8 @@ class UsuarioProvider extends GetConnect {
         usuario,
         headers: {'Authorization': 'Bearer  $token'},
       );
+      print(retornoApi.statusCode);
+      print(retornoApi.body);
     } else {
       retornoApi = await post(
         'auth/register',
@@ -95,8 +104,6 @@ class UsuarioProvider extends GetConnect {
       );
     }
 
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }

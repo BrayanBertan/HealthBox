@@ -86,4 +86,6 @@ class LoginController extends GetxController {
     repository.logout();
     Get.offNamed('/login');
   }
+
+  dynamic getLogin() => paciente != null ? paciente : medico;
 }

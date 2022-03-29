@@ -6,10 +6,13 @@ import '../../../core/values/keys.dart';
 import '../../modules/login/controller.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({Key? key}) : super(key: key);
+  SideMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final loginController = Get.find<LoginController>();
+    dynamic usuario;
+    usuario = loginController.getLogin();
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -29,7 +32,7 @@ class SideMenu extends StatelessWidget {
                         maxRadius: 40),
                     TextButton(
                         onPressed: Get.find<LoginController>().logout,
-                        child: Text(
+                        child: const Text(
                           'sair',
                           style: TextStyle(color: Colors.white),
                         ))
@@ -39,15 +42,15 @@ class SideMenu extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Olá, Brayan Bertan',
-                      style: TextStyle(
+                      'Olá, ${usuario.nome}',
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     TextButton(
                         onPressed: () {
                           Get.toNamed('/conta');
                         },
-                        child: Text(
+                        child: const Text(
                           'Minha conta.',
                           style: TextStyle(color: Colors.white),
                         ))
@@ -62,7 +65,7 @@ class SideMenu extends StatelessWidget {
             },
             leading:
                 Image.asset('${baseImagemUrl}acompanhamentos.png', width: 40),
-            title: Text('Acompanhamentos'),
+            title: const Text('Acompanhamentos'),
           ),
           const Divider(),
           ListTile(
@@ -70,7 +73,7 @@ class SideMenu extends StatelessWidget {
               Get.toNamed('/');
             },
             leading: Image.asset('${baseImagemUrl}feedback.png', width: 40),
-            title: Text('Opiniões'),
+            title: const Text('Opiniões'),
           ),
         ],
       ),

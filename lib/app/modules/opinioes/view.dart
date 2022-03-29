@@ -14,7 +14,7 @@ class OpinioesPage extends GetView<OpinioesController> {
     controller_login.getUsuario();
     return Scaffold(
       appBar: AppBar(),
-      drawer: const SideMenu(),
+      drawer: SideMenu(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10),
         child: Column(

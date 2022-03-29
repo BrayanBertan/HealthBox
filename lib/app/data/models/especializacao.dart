@@ -47,4 +47,8 @@ class Especializacao {
   String toString() {
     return "especialização $especializacaoId $nome";
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [nome];
 }
