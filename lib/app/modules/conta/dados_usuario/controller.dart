@@ -34,7 +34,8 @@ class DadosUsuarioController extends GetxController {
       nomeController.text = nome;
       telefoneController.text = telefone;
       if (usuario is Paciente) {
-        setCpf(usuario.cpf);
+        setCpf(usuario.cpf.trim());
+        cpfTemp = usuario.cpf.trim();
         setAltura(usuario.altura);
         setPeso(usuario.peso);
       } else {
@@ -72,6 +73,7 @@ class DadosUsuarioController extends GetxController {
   final _activeStepIndex = 0.obs;
   final _validStep = false.obs;
   final _isEditing = false.obs;
+  String cpfTemp = '';
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
@@ -179,10 +181,11 @@ class DadosUsuarioController extends GetxController {
   }
 
   bool cpfValido() =>
+      (cpf == cpfTemp && isEditing) ||
       cpf != null &&
-      cpf.trim().isNotEmpty &&
-      cpf.trim().length == 14 &&
-      cpfVerifica;
+          cpf.trim().isNotEmpty &&
+          cpf.trim().length == 14 &&
+          cpfVerifica;
 
   String? get cpfErroMensagem {
     if (cpf == null || cpfValido()) return null;
