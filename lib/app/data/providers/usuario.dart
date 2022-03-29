@@ -23,7 +23,6 @@ class UsuarioProvider extends GetConnect {
       'auth/login?password=$senha&email=$email',
       {},
     );
-    print(retornoApi.body);
     print(retornoApi.statusCode);
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
@@ -66,6 +65,7 @@ class UsuarioProvider extends GetConnect {
     var retornoApi = await get(
       'especializacoes?page=1&nome',
     );
+    httpClient.defaultDecoder = null;
     if (retornoApi.statusCode == 200) {
       return retornoApi.body;
     } else {
@@ -88,13 +88,22 @@ class UsuarioProvider extends GetConnect {
       'auth/register',
       usuario,
     );
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
 
-  verificaEmail(String email) async {
-    await Future.delayed(Duration(milliseconds: 200));
-    return true;
+  Future<bool> verificaDadosRepetidos(
+      {String email = '',
+      crm = '',
+      cpf = '',
+      uf = '',
+      tipoPesquisa = ''}) async {
+    var retornoApi = await get(
+      'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&sigla_estado=$uf',
+    );
+
+    return retornoApi.body[tipoPesquisa]['validate'];
   }
 
   validaCRM(String crm, String uf) async {

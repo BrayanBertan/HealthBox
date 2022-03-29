@@ -18,7 +18,14 @@ class UsuarioRepository {
   salvarUsuario(Map<String, dynamic> usuario) =>
       provider.salvarUsuario(usuario);
   validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
-  verificaEmail(String email) => provider.verificaEmail(email);
+  verificaDadosRepetidos(
+          {String email = '',
+          crm = '',
+          cpf = '',
+          uf = '',
+          tipoPesquisa = ''}) =>
+      provider.verificaDadosRepetidos(
+          email: email, cpf: cpf, crm: crm, uf: uf, tipoPesquisa: tipoPesquisa);
   getEspecializacoes() => provider.getEspecializacoes();
   logout() => provider.logout();
 }

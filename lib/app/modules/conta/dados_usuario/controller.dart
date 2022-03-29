@@ -22,11 +22,18 @@ class DadosUsuarioController extends GetxController {
   void onInit() {
     super.onInit();
     getEspecializacoes();
-    interval(_crm, (val) => validaCRM(),
-        time: const Duration(milliseconds: 1000));
-    interval(_crmUf, (val) => validaCRM(),
-        time: const Duration(milliseconds: 500));
+    interval(_crm, (val) async {
+      await verificaCrm();
+      validaCRM();
+    }, time: const Duration(milliseconds: 1000));
+    interval(_crmUf, (val) async {
+      await verificaCrm();
+      validaCRM();
+    }, time: const Duration(milliseconds: 1000));
+
     interval(_email, (val) => verificaEmail(),
+        time: const Duration(milliseconds: 1000));
+    interval(_cpf, (val) => verificaCpf(),
         time: const Duration(milliseconds: 1000));
   }
 
@@ -38,7 +45,7 @@ class DadosUsuarioController extends GetxController {
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
-      !isValidStep(activeStepIndex) || value < activeStepIndex
+      isValidStep(activeStepIndex) || value < activeStepIndex
           ? value
           : activeStepIndex;
   activeStepIndexIncrease() => this._activeStepIndex.value++;
@@ -128,19 +135,25 @@ class DadosUsuarioController extends GetxController {
   setCrm(value) => this._crm.value = value;
   //=====Validações=====
 
-  bool crmValido() => crm != null && crm.trim().isNotEmpty && isCrmValid;
+  bool crmValido() =>
+      crm != null && crm.trim().isNotEmpty && isCrmValid && crmVerifica;
 
   String? get crmErroMensagem {
     if (crm == null || crmValido()) return null;
     if (!isCrmValid) return 'CRM invalido ou inativo';
+    if (!crmVerifica) return 'CRM em uso';
     return 'Campo obrigatório ';
   }
 
   bool cpfValido() =>
-      cpf != null && cpf.trim().isNotEmpty && cpf.trim().length == 14;
+      cpf != null &&
+      cpf.trim().isNotEmpty &&
+      cpf.trim().length == 14 &&
+      cpfVerifica;
 
   String? get cpfErroMensagem {
     if (cpf == null || cpfValido()) return null;
+    if (!cpfVerifica && cpf.length == 14) return 'CPF em uso';
     return 'Campo obrigatório ';
   }
 
@@ -203,6 +216,8 @@ class DadosUsuarioController extends GetxController {
   final _email = Rx<String?>(null);
   final _senha = Rx<String?>(null);
   final _emailVerifica = false.obs;
+  final _crmVerifica = false.obs;
+  final _cpfVerifica = false.obs;
   final _senhaRepeticao = Rx<String?>(null);
 
   final _genero = Genero.MASCULINO.obs;
@@ -211,6 +226,10 @@ class DadosUsuarioController extends GetxController {
   setEmail(value) => this._email.value = value;
   get emailVerifica => this._emailVerifica.value;
   set emailVerifica(value) => this._emailVerifica.value = value;
+  get crmVerifica => this._crmVerifica.value;
+  set crmVerifica(value) => this._crmVerifica.value = value;
+  get cpfVerifica => this._cpfVerifica.value;
+  set cpfVerifica(value) => this._cpfVerifica.value = value;
   get senha => this._senha.value;
   setSenha(value) => this._senha.value = value;
   get senhaRepeticao => this._senhaRepeticao.value;
@@ -232,7 +251,7 @@ class DadosUsuarioController extends GetxController {
     if (email == null || emailValido()) return null;
     if (email != null && !email.toString().isEmailValid())
       return 'E-mail invalido';
-    if (!emailVerifica) return 'E-mail em uso!';
+    if (!emailVerifica) return 'E-mail em uso';
     return 'Campo obrigatório ';
   }
 
@@ -309,7 +328,7 @@ class DadosUsuarioController extends GetxController {
     Map<String, dynamic> dados = {
       'tipo': tipoName[0],
       'name': nome,
-      'email': 'teste3@gmail.com',
+      'email': email,
       'password': senha,
       'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
       'telefone': '88046155',
@@ -321,11 +340,7 @@ class DadosUsuarioController extends GetxController {
     if (tipo == TipoUsuario.PACIENTE) {
       dados = {
         ...{
-          'caracteristicas': {
-            'cpf': '97899999999',
-            'altura': altura,
-            'peso': peso
-          }
+          'caracteristicas': {'cpf': cpf, 'altura': altura, 'peso': peso}
         },
         ...dados
       };
@@ -386,8 +401,20 @@ class DadosUsuarioController extends GetxController {
 
   verificaEmail() {
     repository
-        .verificaEmail('brayanbertan@gmail.com')
+        .verificaDadosRepetidos(email: email, tipoPesquisa: 'email')
         .then((retorno) => emailVerifica = retorno);
+  }
+
+  verificaCrm() {
+    repository
+        .verificaDadosRepetidos(crm: crm, uf: crmUf, tipoPesquisa: 'crm')
+        .then((retorno) => crmVerifica = retorno);
+  }
+
+  verificaCpf() {
+    repository
+        .verificaDadosRepetidos(cpf: cpf, tipoPesquisa: 'cpf')
+        .then((retorno) => cpfVerifica = retorno);
   }
 
   getEspecializacoes() {
