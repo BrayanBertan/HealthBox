@@ -1,6 +1,8 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/usuario.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
+import 'package:healthbox/app/data/models/medico.dart';
+import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 
 class LoginController extends GetxController {
@@ -15,7 +17,8 @@ class LoginController extends GetxController {
   final _email = ''.obs;
   final _senha = ''.obs;
   final _loginErroMensagem = Rx<String?>(null);
-  final _usuario = Rx<Usuario?>(null);
+  final _paciente = Rx<Paciente?>(null);
+  final _medico = Rx<Medico?>(null);
   final _token = ''.obs;
   final _isLoading = false.obs;
 
@@ -23,13 +26,16 @@ class LoginController extends GetxController {
   setEmail(value) => this._email.value = value;
 
   get senha => this._senha.value;
-  setSenha(value) => this._senha.value = value;
+  setSenha(value) => this._senha.value = value ?? '';
 
   get loginErroMensagem => this._loginErroMensagem.value;
   set loginErroMensagem(value) => this._loginErroMensagem.value = value;
 
-  get usuario => this._usuario.value;
-  set usuario(value) => this._usuario.value = value;
+  get paciente => this._paciente.value;
+  set paciente(value) => this._paciente.value = value;
+
+  get medico => this._medico.value;
+  set medico(value) => this._medico.value = value;
 
   get token => this._token.value;
   set token(value) => this._token.value = value;
@@ -61,16 +67,21 @@ class LoginController extends GetxController {
 //validar
   getUsuario() => repository.getUsuario().then((retorno) {
         if (retorno is bool) {
-          usuario = null;
+          logout();
         } else {
-          usuario = retorno;
+          if (retorno.tipo == TipoUsuario.PACIENTE) {
+            paciente = retorno;
+          } else {
+            medico = retorno;
+          }
         }
       });
 
   getSessaoToken() => token = repository.getSessaoToken();
 
   logout() {
-    usuario = null;
+    paciente = null;
+    medico = null;
     token = '';
     repository.logout();
     Get.offNamed('/login');

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/especializacao.dart';
+import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
@@ -15,8 +16,38 @@ import '../../../../core/theme/easy_loading_config.dart';
 
 class DadosUsuarioController extends GetxController {
   final UsuarioRepository repository;
+  final loginController = Get.find<LoginController>();
+  dynamic usuario;
   DadosUsuarioController({required this.repository})
-      : assert(repository != null);
+      : assert(repository != null) {
+    usuario = loginController.paciente != null
+        ? loginController.paciente
+        : loginController.medico;
+    if (usuario != null) {
+      isEditing = true;
+      _id.value = usuario.id;
+      setTipo(usuario.tipo);
+      setNome(usuario.nome);
+      dataNascimento = usuario.dataNascimento;
+      foto = usuario.fotoPath;
+      setEmail(usuario.email);
+      setTelefone(usuario.telefone);
+      setGenero(usuario.genero);
+      nomeController.text = nome;
+      telefoneController.text = telefone;
+      if (usuario is Paciente) {
+        setCpf(usuario.cpf);
+        setAltura(usuario.altura);
+        setPeso(usuario.peso);
+      } else {
+        setDescricao(usuario.descricao);
+        descricaoController.text = descricao;
+        setCrm(usuario.crms[0].crm);
+        setCrmUf(usuario.crms[0].estado_sigla);
+        setEspecializacoes(usuario.crms[0].especializacoes);
+      }
+    }
+  }
 
   @override
   void onInit() {
@@ -42,6 +73,7 @@ class DadosUsuarioController extends GetxController {
   final _id = Rx<int?>(null);
   final _activeStepIndex = 0.obs;
   final _validStep = false.obs;
+  final _isEditing = false.obs;
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
@@ -52,6 +84,8 @@ class DadosUsuarioController extends GetxController {
   activeStepIndexDecrease() => this._activeStepIndex.value--;
   get validStep => this._validStep.value;
   set validStep(value) => this._validStep.value = value;
+  get isEditing => this._isEditing.value;
+  set isEditing(value) => this._isEditing.value = value;
   //=====Validações=====
   bool step0Valido() {
     if (tipo == TipoUsuario.PACIENTE && cpfValido()) return true;
@@ -136,6 +170,7 @@ class DadosUsuarioController extends GetxController {
   //=====Validações=====
 
   bool crmValido() =>
+      isEditing ||
       crm != null && crm.trim().isNotEmpty && isCrmValid && crmVerifica;
 
   String? get crmErroMensagem {
@@ -241,11 +276,12 @@ class DadosUsuarioController extends GetxController {
 
   //=====Validações=====
   bool emailValido() =>
+      isEditing ||
       email != null &&
-      email.trim().isNotEmpty &&
-      email.toString().isEmailValid() &&
-      email.trim().length <= 50 &&
-      emailVerifica;
+          email.trim().isNotEmpty &&
+          email.toString().isEmailValid() &&
+          email.trim().length <= 50 &&
+          emailVerifica;
 
   String? get emailErroMensagem {
     if (email == null || emailValido()) return null;
@@ -256,11 +292,12 @@ class DadosUsuarioController extends GetxController {
   }
 
   bool senhaValida() =>
+      (senha == null && isEditing) ||
       senha != null &&
-      senha.trim().isNotEmpty &&
-      senha.trim().length >= 8 &&
-      //senha.trim() == senhaRepeticao?.trim() &&
-      senha.trim().length <= 50;
+          senha.trim().isNotEmpty &&
+          senha.trim().length >= 8 &&
+          //senha.trim() == senhaRepeticao?.trim() &&
+          senha.trim().length <= 50;
 
   String? get senhaErroMensagem {
     if (senha == null || senhaValida()) return null;
@@ -380,19 +417,27 @@ class DadosUsuarioController extends GetxController {
       };
 
       especializacoesSelecionadas.forEach((especializacao) {
-        dados['crms'][0]['especializacoes']
-            .add({'especializacao_id': especializacao.id});
+        dados['crms'][0]['especializacoes'].add({
+          'id': especializacao.id,
+          'especializacao_id': especializacao.especializacaoId
+        });
       });
+      if (isEditing) {
+        dados['crms'][0]['id'] = usuario.crms[0].id;
+      }
     }
-
     repository.salvarUsuario(dados).then((retorno) {
       if (!retorno) {
         EasyLoading.instance.backgroundColor = Colors.red;
-        EasyLoading.showError('Erro ao cadastrar');
+        EasyLoading.showError('Erro ao salvar');
       } else {
-        Get.find<LoginController>().setEmail(email);
-        Get.find<LoginController>().setSenha(senha);
-        Get.find<LoginController>().verificaLogin();
+        EasyLoading.showSuccess('Salvo com sucesso');
+        Future.delayed(Duration(seconds: 1)).then((value) {
+          EasyLoadingConfig();
+          loginController.setEmail(email);
+          loginController.setSenha(senha);
+          loginController.verificaLogin();
+        });
       }
     });
 

@@ -67,4 +67,9 @@ class Medico extends Usuario {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return "crms $crms";
+  }
 }

@@ -45,6 +45,6 @@ class Especializacao {
 
   @override
   String toString() {
-    return "id: $id Nome: $nome";
+    return "especialização $especializacaoId $nome";
   }
 }

@@ -81,10 +81,20 @@ class UsuarioProvider extends GetConnect {
   }
 
   salvarUsuario(Map<String, dynamic> usuario) async {
-    var retornoApi = await post(
-      'auth/register',
-      usuario,
-    );
+    dynamic retornoApi;
+    if (usuario.containsKey('id')) {
+      retornoApi = await put(
+        'usuarios/${usuario['id']}',
+        usuario,
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    } else {
+      retornoApi = await post(
+        'auth/register',
+        usuario,
+      );
+    }
+
     print(retornoApi.statusCode);
     print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;

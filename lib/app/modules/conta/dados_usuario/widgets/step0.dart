@@ -27,30 +27,33 @@ class Step0Page extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Obx(() => GestureDetector(
-                  onTap: () => controller.setTipo(TipoUsuario.PACIENTE),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                            color: controller.tipo == TipoUsuario.PACIENTE
-                                ? corPrincipal
-                                : Colors.transparent,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
-                        child: Image.asset(
-                          '${baseImagemUrl}patient.png',
-                          width: 25,
-                          height: 25,
+            Obx(() => AbsorbPointer(
+                  absorbing: controller.isEditing,
+                  child: GestureDetector(
+                    onTap: () => controller.setTipo(TipoUsuario.PACIENTE),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: controller.tipo == TipoUsuario.PACIENTE
+                                  ? corPrincipal
+                                  : Colors.transparent,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15))),
+                          child: Image.asset(
+                            '${baseImagemUrl}patient.png',
+                            width: 25,
+                            height: 25,
+                          ),
                         ),
-                      ),
-                      const Text(
-                        'Paciente',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
+                        const Text(
+                          'Paciente',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
                   ),
                 )),
             Obx(() => GestureDetector(
@@ -100,38 +103,41 @@ class Step0Page extends StatelessWidget {
                       labelStyle: const TextStyle(color: Colors.grey),
                       errorText: controller.cpfErroMensagem),
                 ))
-            : Row(
-                children: [
-                  Expanded(flex: 1, child: Container()),
-                  Obx(() => Expanded(
-                      flex: 4,
-                      child: TextFormField(
-                        initialValue: controller.crm,
-                        onChanged: controller.setCrm,
-                        decoration: InputDecoration(
-                            icon: const Icon(
-                              Icons.document_scanner,
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade100)),
-                            labelText: "CRM",
-                            enabledBorder: InputBorder.none,
-                            labelStyle: const TextStyle(color: Colors.grey),
-                            errorText: controller.crmErroMensagem),
-                      ))),
-                  Expanded(flex: 1, child: Container()),
-                  Expanded(
-                      flex: 1,
-                      child: Obx(() => DropdownButton<String>(
-                          value: controller.crmUf,
-                          items: ufs
-                              .map((String uf) => DropdownMenuItem<String>(
-                                  value: uf, child: Text(uf)))
-                              .toList(),
-                          onChanged: controller.setCrmUf))),
-                  Expanded(flex: 1, child: Container()),
-                ],
+            : AbsorbPointer(
+                absorbing: controller.isEditing,
+                child: Row(
+                  children: [
+                    Expanded(flex: 1, child: Container()),
+                    Obx(() => Expanded(
+                        flex: 4,
+                        child: TextFormField(
+                          initialValue: controller.crm,
+                          onChanged: controller.setCrm,
+                          decoration: InputDecoration(
+                              icon: const Icon(
+                                Icons.document_scanner,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade100)),
+                              labelText: "CRM",
+                              enabledBorder: InputBorder.none,
+                              labelStyle: const TextStyle(color: Colors.grey),
+                              errorText: controller.crmErroMensagem),
+                        ))),
+                    Expanded(flex: 1, child: Container()),
+                    Expanded(
+                        flex: 1,
+                        child: Obx(() => DropdownButton<String>(
+                            value: controller.crmUf,
+                            items: ufs
+                                .map((String uf) => DropdownMenuItem<String>(
+                                    value: uf, child: Text(uf)))
+                                .toList(),
+                            onChanged: controller.setCrmUf))),
+                    Expanded(flex: 1, child: Container()),
+                  ],
+                ),
               )
       ],
     );

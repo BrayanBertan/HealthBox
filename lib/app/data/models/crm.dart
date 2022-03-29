@@ -40,6 +40,6 @@ class Crm {
 
   @override
   String toString() {
-    return "id: $id Nome: $crm";
+    return "id: $id Nome: $crm especializações $especializacoes";
   }
 }

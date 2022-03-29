@@ -13,25 +13,28 @@ class Step3MedicoPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Obx(() => controller.especializacoes.length > 0
-            ? MultiSelectChipField<Especializacao?>(
-                initialValue: controller.especializacoesSelecionadas,
-                title: const Text('Especializações'),
-                searchable: true,
-                height: 50,
-                searchHint: 'pesquisar',
-                onTap: (itens) {
-                  if (itens.length > 2) {
-                    itens.removeLast();
-                  }
-                  controller.setEspecializacoes(itens);
-                },
-                items: controller.especializacoes
-                    .map((especializacao) => MultiSelectItem<Especializacao?>(
-                        especializacao, especializacao.nome))
-                    .toList(),
-              )
-            : const Text('Carregando...')),
+        AbsorbPointer(
+          absorbing: false,
+          child: Obx(() => controller.especializacoes.length > 0
+              ? MultiSelectChipField<Especializacao?>(
+                  initialValue: controller.especializacoesSelecionadas,
+                  title: const Text('Especializações'),
+                  searchable: true,
+                  height: 50,
+                  searchHint: 'pesquisar',
+                  onTap: (itens) {
+                    if (itens.length > 2) {
+                      itens.removeLast();
+                    }
+                    controller.setEspecializacoes(itens);
+                  },
+                  items: controller.especializacoes
+                      .map((especializacao) => MultiSelectItem<Especializacao?>(
+                          especializacao, especializacao.nome))
+                      .toList(),
+                )
+              : const Text('Carregando...')),
+        ),
         Obx(() => TextFormField(
               controller: controller.descricaoController,
               onChanged: controller.setDescricao,
