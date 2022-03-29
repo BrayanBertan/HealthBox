@@ -21,41 +21,37 @@ class SideMenu extends StatelessWidget {
             decoration: BoxDecoration(
               color: corPrincipal,
             ),
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
+                Text(
+                  'Olá, ${usuario.nome}',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                Row(
                   children: [
                     CircleAvatar(
                         child: Image.asset('${baseImagemUrl}user_pic.png'),
                         minRadius: 40,
                         maxRadius: 40),
                     TextButton(
-                        onPressed: Get.find<LoginController>().logout,
-                        child: const Text(
-                          'sair',
-                          style: TextStyle(color: Colors.white),
-                        ))
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'Olá, ${usuario.nome}',
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    TextButton(
                         onPressed: () {
                           Get.toNamed('/conta');
                         },
                         child: const Text(
-                          'Minha conta.',
+                          'Minha conta',
                           style: TextStyle(color: Colors.white),
-                        ))
+                        )),
+                    TextButton(
+                        onPressed: Get.find<LoginController>().logout,
+                        child: const Text(
+                          'sair',
+                          style: TextStyle(color: Colors.white),
+                        )),
                   ],
-                ),
+                )
               ],
             ),
           ),

@@ -46,7 +46,8 @@ class LoginController extends GetxController {
   verificaLogin() {
     isLoading = true;
     EasyLoading.showInfo('Verificando...');
-    repository.verificaLogin(email, senha).then((retorno) {
+
+    repository.verificaLogin(email.trim(), senha.trim()).then((retorno) {
       if (retorno is bool) {
         loginErroMensagem = 'Dados incorretos!';
       } else {

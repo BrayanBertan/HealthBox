@@ -25,6 +25,7 @@ class UsuarioProvider extends GetConnect {
       {},
     );
     print(retornoApi.statusCode);
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
   }
@@ -87,9 +88,9 @@ class UsuarioProvider extends GetConnect {
   }
 
   salvarUsuario(Map<String, dynamic> usuario) async {
-    isSessionValid();
     dynamic retornoApi;
     if (usuario.containsKey('id')) {
+      isSessionValid();
       retornoApi = await put(
         'usuarios/${usuario['id']}',
         usuario,
