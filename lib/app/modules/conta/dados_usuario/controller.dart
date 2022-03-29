@@ -66,7 +66,7 @@ class DadosUsuarioController extends GetxController {
       fotoValida();
   bool step2Valido() => emailValido() && senhaValida();
   bool step3PacienteValido() => alturaValida() && pesoValido();
-  bool step3MedicoValido() => descricaoValido();
+  bool step3MedicoValido() => espealizacoesValida() && descricaoValido();
   bool step4Valido() {
     if (!step1Valido() || !step2Valido()) return false;
     if (tipo == TipoUsuario.PACIENTE && !step3PacienteValido()) return false;
@@ -306,9 +306,20 @@ class DadosUsuarioController extends GetxController {
   final _descricao = Rx<String?>(null);
   final especializacoes = <Especializacao>[].obs;
   final especializacoesSelecionadas = <Especializacao>[].obs;
+  final _isEspecializacaoUntouched = true.obs;
   //=====Getters e Setters=====
   get descricao => this._descricao.value;
   setDescricao(value) => this._descricao.value = value;
+  get isEspecializacaoUntouched => this._isEspecializacaoUntouched.value;
+  setIsEspecializacaoUntouched(value) =>
+      this._isEspecializacaoUntouched.value = value;
+  setEspecializacoes(value) {
+    setIsEspecializacaoUntouched(false);
+    List<Especializacao> values = [];
+    value.forEach((element) => values.add(element!));
+    especializacoesSelecionadas.assignAll(values);
+  }
+
   final descricaoController = TextEditingController();
   //=====Validações=====
 
@@ -321,6 +332,13 @@ class DadosUsuarioController extends GetxController {
     if (descricao == null || descricaoValido()) return null;
     return 'Campo obrigatório ';
   }
+
+  bool espealizacoesValida() => especializacoesSelecionadas.length > 0;
+
+  String? get espealizacoesErroMensagem {
+    if (isEspecializacaoUntouched || espealizacoesValida()) return null;
+    return 'Selecione suas especializações';
+  }
 //==========STEP 4=======================
 
   salvarUsuario() {
@@ -331,8 +349,8 @@ class DadosUsuarioController extends GetxController {
       'email': email,
       'password': senha,
       'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
-      'telefone': '88046155',
-      'fotoPath': foto,
+      'telefone': telefone,
+      'foto_path': foto,
       'ativo': 1,
       'sexo': generoName[0]
     };
@@ -353,11 +371,20 @@ class DadosUsuarioController extends GetxController {
             'crm': crm,
             'especializacao': especializacoesSelecionadas,
             'descricao': descricao
-          }
+          },
+          'crms': [
+            {'crm': crm, 'estado_sigla': crmUf, 'especializacoes': []},
+          ]
         },
         ...dados
       };
+
+      especializacoesSelecionadas.forEach((especializacao) {
+        dados['crms'][0]['especializacoes']
+            .add({'especializacao_id': especializacao.id});
+      });
     }
+
     repository.salvarUsuario(dados).then((retorno) {
       if (!retorno) {
         EasyLoading.instance.backgroundColor = Colors.red;
@@ -418,9 +445,9 @@ class DadosUsuarioController extends GetxController {
   }
 
   getEspecializacoes() {
-    repository.getEspecializacoes().then((List<Especializacao> retorno) {
+    repository.getEspecializacoes().then((List<Especializacao>? retorno) {
       this.especializacoes.clear();
-      this.especializacoes.assignAll(retorno);
+      this.especializacoes.assignAll(retorno!);
     });
   }
 }

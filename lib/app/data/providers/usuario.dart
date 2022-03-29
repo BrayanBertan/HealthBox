@@ -56,16 +56,14 @@ class UsuarioProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) =>
             obj['tipo'] == 'P' ? Paciente.fromJson(obj) : Medico.fromJson(obj));
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return retornoApi.body;
     return false;
   }
 
-  Future<List<Especializacao>> getEspecializacoes() async {
-    httpClient.defaultDecoder = Especializacao.listFromJson;
-    var retornoApi = await get(
-      'especializacoes?page=1&nome',
-    );
-    httpClient.defaultDecoder = null;
+  Future<List<Especializacao>?> getEspecializacoes() async {
+    var retornoApi = await get('especializacoes?page=1&nome',
+        decoder: (obj) => Especializacao.listFromJson(obj));
     if (retornoApi.statusCode == 200) {
       return retornoApi.body;
     } else {
@@ -83,11 +81,11 @@ class UsuarioProvider extends GetConnect {
   }
 
   salvarUsuario(Map<String, dynamic> usuario) async {
-    httpClient.defaultDecoder = null;
     var retornoApi = await post(
       'auth/register',
       usuario,
     );
+    print(retornoApi.statusCode);
     print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
@@ -100,7 +98,7 @@ class UsuarioProvider extends GetConnect {
       uf = '',
       tipoPesquisa = ''}) async {
     var retornoApi = await get(
-      'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&sigla_estado=$uf',
+      'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
 
     return retornoApi.body[tipoPesquisa]['validate'];
@@ -108,7 +106,6 @@ class UsuarioProvider extends GetConnect {
 
   validaCRM(String crm, String uf) async {
     httpClient.baseUrl = '';
-    httpClient.defaultDecoder = null;
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');
     httpClient.baseUrl = baseUrl;

@@ -24,9 +24,7 @@ class Step3MedicoPage extends StatelessWidget {
                   if (itens.length > 2) {
                     itens.removeLast();
                   }
-                  List<Especializacao> values = [];
-                  itens.forEach((element) => values.add(element!));
-                  controller.especializacoesSelecionadas.assignAll(values);
+                  controller.setEspecializacoes(itens);
                 },
                 items: controller.especializacoes
                     .map((especializacao) => MultiSelectItem<Especializacao?>(

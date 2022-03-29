@@ -1,13 +1,30 @@
 class Especializacao {
-  int id;
+  int? id;
+  int especializacaoId;
   String nome;
 
-  Especializacao({required this.id, required this.nome});
+  Especializacao({this.id, required this.especializacaoId, required this.nome});
 
-  factory Especializacao.fromJson(Map<String, dynamic> json) =>
-      Especializacao(id: json['id'], nome: json['nome']);
+  factory Especializacao.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('especializacao_id')) {
+      return Especializacao(
+          id: json['id'],
+          especializacaoId: json['especializacao_id'],
+          nome: json['nome']);
+    }
+    return Especializacao(especializacaoId: json['id'], nome: json['nome']);
+  }
 
-  Map<String, dynamic> toJson() => {'id': this.id, 'titulo': this.nome};
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {
+      'especializacao_id': this.especializacaoId,
+      'nome': this.nome
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
 
   static List<Especializacao> listFromJson(list) {
     var tempList;
@@ -19,6 +36,11 @@ class Especializacao {
 
     return List<Especializacao>.from(tempList
         .map((especializacao) => Especializacao.fromJson(especializacao)));
+  }
+
+  static List<Especializacao> listToJson(list) {
+    return List<Especializacao>.from(
+        list.map((especializacao) => especializacao.toJson()));
   }
 
   @override

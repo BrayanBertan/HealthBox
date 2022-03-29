@@ -1,4 +1,4 @@
-import 'package:healthbox/app/data/models/especializacao.dart';
+import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/core/extensions/enums.dart';
 
@@ -6,14 +6,12 @@ import '../enums/genero.dart';
 import '../enums/tipo_usuario.dart';
 
 class Medico extends Usuario {
-  String crm;
   String descricao;
-  List<Especializacao> especializacoes;
+  List<Crm> crms;
 
   Medico(
-      {required this.crm,
-      required this.descricao,
-      required this.especializacoes,
+      {required this.descricao,
+      required this.crms,
       int? id,
       required TipoUsuario tipo,
       required String nome,
@@ -37,32 +35,30 @@ class Medico extends Usuario {
             genero: genero);
 
   factory Medico.fromJson(Map<String, dynamic> json) => Medico(
-      crm: json['crm'],
-      descricao: json['descricao'],
-      especializacoes: json['especializacao'],
+      descricao: json['caracteristica']['descricao'],
+      crms: Crm.listFromJson(json['crms']),
       id: json['id'],
       tipo: json['tipo'].toString().tipoUsuario(),
-      nome: json['nome'],
+      nome: json['name'],
       email: json['email'],
-      senha: json['senha'],
-      dataNascimento: json['data_nascimento'],
+      senha: '',
+      dataNascimento: DateTime.parse(json['data_nascimento']),
       telefone: json['telefone'],
-      fotoPath: json['fotoPath'],
+      fotoPath: json['foto_path'],
       genero: json['genero'].toString().genero(),
       ativo: json['ativo']);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'crm': crm,
-      'descricao': descricao,
-      'especializacao': especializacoes,
+      'crms': Crm.listToJson(crms),
+      'descricao': this.descricao,
       'tipo': this.tipo,
-      'nome': this.nome,
+      'name': this.nome,
       'email': this.email,
-      'senha': this.senha,
+      'password': this.senha,
       'data_nascimento': this.dataNascimento,
       'telefone': this.telefone,
-      'fotoPath': this.fotoPath,
+      'foto_path': this.fotoPath,
       'ativo': this.ativo,
       'genero': this.genero
     };

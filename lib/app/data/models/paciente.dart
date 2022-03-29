@@ -36,18 +36,18 @@ class Paciente extends Usuario {
             genero: genero);
 
   factory Paciente.fromJson(Map<String, dynamic> json) => Paciente(
-      cpf: json['cpf'] ?? '',
-      altura: json['altura'] ?? 0.0,
-      peso: json['peso'] ?? 0.0,
+      cpf: json['caracteristica']['cpf'] ?? '',
+      altura: double.parse('${json['caracteristica']['altura']}'),
+      peso: double.parse('${json['caracteristica']['peso']}'),
       id: json['id'],
       tipo: json['tipo'].toString().tipoUsuario(),
-      nome: json['nome'] ?? '',
+      nome: json['name'] ?? '',
       email: json['email'],
-      senha: json['senha'] ?? '',
+      senha: '',
       dataNascimento: DateTime.parse(json['data_nascimento']),
       telefone: json['telefone'],
-      fotoPath: json['fotoPath'] ?? '',
-      genero: json['genero'].toString().genero(),
+      fotoPath: json['foto_path'] ?? '',
+      genero: json['sexo'].toString().genero(),
       ativo: json['ativo']);
 
   Map<String, dynamic> toJson() {
@@ -56,12 +56,12 @@ class Paciente extends Usuario {
       'altura': altura,
       'peso': peso,
       'tipo': this.tipo,
-      'nome': this.nome,
+      'name': this.nome,
       'email': this.email,
-      'senha': this.senha,
+      'password': this.senha,
       'data_nascimento': this.dataNascimento,
       'telefone': this.telefone,
-      'fotoPath': this.fotoPath,
+      'foto_path': this.fotoPath,
       'ativo': this.ativo,
       'genero': this.genero
     };
