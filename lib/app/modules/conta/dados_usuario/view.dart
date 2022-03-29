@@ -18,7 +18,8 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Cadastro')),
+      appBar: AppBar(
+          title: Obx(() => Text(controller.isEditing ? 'Editar' : 'Cadastro'))),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(5),
         child: Column(

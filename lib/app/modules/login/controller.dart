@@ -64,7 +64,7 @@ class LoginController extends GetxController {
   criaSessao(int duracaoSessao) => repository.criaSessao(token, duracaoSessao);
 
   verificaSessao() => repository.verificaSessao();
-//validar
+
   getUsuario() => repository.getUsuario().then((retorno) {
         if (retorno is bool) {
           logout();
@@ -83,6 +83,8 @@ class LoginController extends GetxController {
     paciente = null;
     medico = null;
     token = '';
+    setEmail('');
+    setSenha('');
     repository.logout();
     Get.offNamed('/login');
   }
