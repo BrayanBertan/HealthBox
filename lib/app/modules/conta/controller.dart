@@ -3,6 +3,7 @@ import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 
+import '../../data/models/especializacao.dart';
 import '../login/controller.dart';
 
 class ContaController extends GetxController {
@@ -17,6 +18,14 @@ class ContaController extends GetxController {
       crms.assignAll(usuario.crms);
     }
   }
+  final especializacoes = <Especializacao>[].obs;
 
   final crms = <Crm>[].obs;
+
+  getEspecializacoes() {
+    repository.getEspecializacoes().then((List<Especializacao>? retorno) {
+      this.especializacoes.clear();
+      this.especializacoes.assignAll(retorno!);
+    });
+  }
 }
