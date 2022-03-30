@@ -7,11 +7,9 @@ import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
 class OpinioesPage extends GetView<OpinioesController> {
   OpinioesPage({Key? key}) : super(key: key);
-  final controller_login = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
-    controller_login.getUsuario();
     return Scaffold(
       appBar: AppBar(),
       drawer: SideMenu(),

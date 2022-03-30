@@ -57,7 +57,7 @@ class SideMenu extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.toNamed('/');
+              Get.offAllNamed('/');
             },
             leading:
                 Image.asset('${baseImagemUrl}acompanhamentos.png', width: 40),
@@ -66,7 +66,7 @@ class SideMenu extends StatelessWidget {
           const Divider(),
           ListTile(
             onTap: () {
-              Get.toNamed('/');
+              Get.offAllNamed('/');
             },
             leading: Image.asset('${baseImagemUrl}feedback.png', width: 40),
             title: const Text('Opiniões'),

@@ -22,7 +22,10 @@ class AppPages {
       page: () => LoginPage(), /* middlewares: [SetTokenUsuario()]*/
     ),
     GetPage(
-        name: Routes.CONTA, page: () => ContaPage(), binding: ContaBinding()),
+        name: Routes.CONTA,
+        page: () => ContaPage(),
+        binding: ContaBinding(),
+        middlewares: [AutenticaUsuario()]),
     GetPage(
         name: Routes.DADOS_USUARIO,
         page: () => DadosUsuarioPage(),

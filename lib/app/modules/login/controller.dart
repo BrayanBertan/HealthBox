@@ -26,7 +26,10 @@ class LoginController extends GetxController {
   setEmail(value) => this._email.value = value;
 
   get senha => this._senha.value;
-  setSenha(value) => this._senha.value = value ?? '';
+  setSenha(value) {
+    print('mudou - $value');
+    this._senha.value = value ?? '';
+  }
 
   get loginErroMensagem => this._loginErroMensagem.value;
   set loginErroMensagem(value) => this._loginErroMensagem.value = value;
@@ -87,6 +90,7 @@ class LoginController extends GetxController {
     token = '';
     setEmail('');
     setSenha('');
+    loginErroMensagem = null;
     repository.logout();
     Get.offNamed('/login');
   }

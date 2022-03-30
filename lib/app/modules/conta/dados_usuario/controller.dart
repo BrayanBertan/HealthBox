@@ -433,10 +433,13 @@ class DadosUsuarioController extends GetxController {
         EasyLoading.showSuccess('Salvo com sucesso');
         Future.delayed(Duration(seconds: 1)).then((value) {
           EasyLoadingConfig();
-          if (isEditing && (senha == null || senha == '')) setSenha(senhaTemp);
-          loginController.setEmail(email);
-          loginController.setSenha(senha);
-          loginController.verificaLogin();
+          if (isEditing) {
+            Get.offNamed('/conta');
+          } else {
+            loginController.setEmail(email);
+            loginController.setSenha(senha);
+            loginController.verificaLogin();
+          }
         });
       }
     });

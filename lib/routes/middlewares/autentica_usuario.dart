@@ -18,6 +18,7 @@ class AutenticaUsuario extends GetMiddleware {
   @override
   GetPageBuilder onPageBuildStart(GetPageBuilder? page) {
     UsuarioProvider.token = Get.find<LoginController>().token;
+    Get.find<LoginController>().getUsuario();
     return page!;
   }
 }
