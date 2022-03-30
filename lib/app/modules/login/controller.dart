@@ -81,6 +81,7 @@ class LoginController extends GetxController {
   getSessaoToken() => token = repository.getSessaoToken();
 
   logout() {
+    print('aaaa');
     paciente = null;
     medico = null;
     token = '';

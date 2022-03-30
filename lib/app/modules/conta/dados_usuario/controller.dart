@@ -26,6 +26,7 @@ class DadosUsuarioController extends GetxController {
       _id.value = usuario.id;
       setTipo(usuario.tipo);
       setNome(usuario.nome);
+      senhaTemp = loginController.senha;
       dataNascimento = usuario.dataNascimento;
       foto = usuario.fotoPath;
       setEmail(usuario.email);
@@ -74,6 +75,7 @@ class DadosUsuarioController extends GetxController {
   final _validStep = false.obs;
   final _isEditing = false.obs;
   String cpfTemp = '';
+  String senhaTemp = '';
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
@@ -385,7 +387,7 @@ class DadosUsuarioController extends GetxController {
       'tipo': tipoName[0],
       'name': nome,
       'email': email,
-      'password': senha,
+      'password': senha ?? '',
       'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
       'telefone': telefone,
       'foto_path': foto,
@@ -431,6 +433,7 @@ class DadosUsuarioController extends GetxController {
         EasyLoading.showSuccess('Salvo com sucesso');
         Future.delayed(Duration(seconds: 1)).then((value) {
           EasyLoadingConfig();
+          if (isEditing && (senha == null || senha == '')) setSenha(senhaTemp);
           loginController.setEmail(email);
           loginController.setSenha(senha);
           loginController.verificaLogin();

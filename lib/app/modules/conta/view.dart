@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/medico.dart';
@@ -202,7 +204,15 @@ class ContaPage extends GetView<ContaController> {
                   ],
                 )
               ],
-            ))
+            )),
+            ElevatedButton(
+              onLongPress: () {
+                Timer(Duration(milliseconds: 1000), () => print('xd'));
+              },
+              onPressed: () {},
+              child: const Text('Deletar conta'),
+              style: ElevatedButton.styleFrom(primary: Colors.red),
+            )
           ],
         ),
       ),

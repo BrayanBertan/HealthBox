@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/services/storage.dart';
-import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/values/keys.dart';
 
+import '../../modules/login/controller.dart';
 import '../models/especializacao.dart';
 import '../models/medico.dart';
 import '../models/paciente.dart';
@@ -20,6 +20,8 @@ class UsuarioProvider extends GetConnect {
   }
 
   verificaLogin(String email, String senha) async {
+    print(email);
+    print(senha);
     var retornoApi = await post(
       'auth/login?password=$senha&email=$email',
       {},
@@ -59,7 +61,7 @@ class UsuarioProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) =>
             obj['tipo'] == 'P' ? Paciente.fromJson(obj) : Medico.fromJson(obj));
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return retornoApi.body;
     return false;
   }
@@ -118,7 +120,7 @@ class UsuarioProvider extends GetConnect {
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
-
+    print(retornoApi.body);
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 
