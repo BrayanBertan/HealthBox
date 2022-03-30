@@ -84,7 +84,6 @@ class LoginController extends GetxController {
   getSessaoToken() => token = repository.getSessaoToken();
 
   logout() {
-    print('aaaa');
     paciente = null;
     medico = null;
     token = '';
@@ -92,7 +91,7 @@ class LoginController extends GetxController {
     setSenha('');
     loginErroMensagem = null;
     repository.logout();
-    Get.offNamed('/login');
+    Get.offAllNamed('/login');
   }
 
   dynamic getLogin() => paciente != null ? paciente : medico;

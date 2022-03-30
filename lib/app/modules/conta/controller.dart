@@ -22,6 +22,39 @@ class ContaController extends GetxController {
 
   final crms = <Crm>[].obs;
 
+  final _buttonPressed = false.obs;
+  final _loopActive = false.obs;
+  final _carregandoDeleta = 0.obs;
+  get buttonPressed => this._buttonPressed.value;
+  set buttonPressed(value) => this._buttonPressed.value = value;
+
+  get loopActive => this._loopActive.value;
+  set loopActive(value) => this._loopActive.value = value;
+
+  get carregandoDeleta => this._carregandoDeleta.value;
+  set carregandoDeleta(value) => this._carregandoDeleta.value = value;
+
+  confirmandoDeletarConta() async {
+    if (loopActive) return;
+
+    loopActive = true;
+
+    while (buttonPressed) {
+      if (carregandoDeleta < 100) carregandoDeleta = carregandoDeleta + 10;
+      await Future.delayed(const Duration(milliseconds: 300));
+      if (carregandoDeleta == 100) buttonPressed = false;
+    }
+    if (carregandoDeleta == 100) {
+      repository.deletaUsuario(usuario.id).then((retorno) {
+        if (retorno) {
+          loginController.logout();
+        }
+      });
+    }
+    carregandoDeleta = 0;
+    loopActive = false;
+  }
+
   getEspecializacoes() {
     repository.getEspecializacoes().then((List<Especializacao>? retorno) {
       this.especializacoes.clear();

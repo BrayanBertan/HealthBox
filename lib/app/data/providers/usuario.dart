@@ -124,6 +124,18 @@ class UsuarioProvider extends GetConnect {
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 
+  Future<bool> deletaUsuario(int id) async {
+    print(token);
+    var retornoApi = await delete(
+      'usuarios/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
   validaCRM(String crm, String uf) async {
     httpClient.baseUrl = '';
     var retornoApi = await get(

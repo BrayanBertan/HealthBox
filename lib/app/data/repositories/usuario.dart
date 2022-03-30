@@ -28,4 +28,5 @@ class UsuarioRepository {
           email: email, cpf: cpf, crm: crm, uf: uf, tipoPesquisa: tipoPesquisa);
   getEspecializacoes() => provider.getEspecializacoes();
   logout() => provider.logout();
+  deletaUsuario(int id) => provider.deletaUsuario(id);
 }
