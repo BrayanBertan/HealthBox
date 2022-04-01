@@ -5,7 +5,6 @@ class Crm {
   String crm;
   String estado_sigla;
   List<Especializacao>? especializacoes;
-
   Crm(
       {this.id,
       required this.crm,
@@ -22,7 +21,9 @@ class Crm {
     Map<String, dynamic> map = {
       'crm': crm,
       'estado_sigla': estado_sigla,
-      'especializacoes': Especializacao.listToJson(especializacoes),
+      'especializacoes': especializacoes != null
+          ? Especializacao.listToJson(especializacoes)
+          : null,
     };
     if (id != null) {
       map['id'] = id;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -137,13 +138,29 @@ class UsuarioProvider extends GetConnect {
     return false;
   }
 
-  Future<bool> salvarCrm(int medicoId, String crm, String uf) async {
+  Future<bool> salvarCrm(Crm crm, int medicoId) async {
+    print('crm id ${crm.id}');
     httpClient.baseUrl = baseUrl;
-    var retornoApi = await post(
-      'crms',
-      {'estado_sigla': uf, 'medico_id': medicoId, 'crm': crm},
-      headers: {'Authorization': 'Bearer  $token'},
-    );
+    dynamic retornoApi;
+    if (crm.id == null) {
+      retornoApi = await post(
+        'crms',
+        {
+          ...crm.toJson(),
+          ...{'medico_id': medicoId}
+        },
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    } else {
+      retornoApi = await put(
+        'crms/${crm.id}',
+        {
+          ...crm.toJson(),
+          ...{'medico_id': medicoId}
+        },
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    }
     print(retornoApi.statusCode);
     print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
@@ -156,10 +173,7 @@ class UsuarioProvider extends GetConnect {
       'crms/$id',
       headers: {'Authorization': 'Bearer  $token'},
     );
-    print(token);
-    print(id);
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }

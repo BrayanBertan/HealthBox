@@ -25,11 +25,13 @@ class ContaController extends GetxController {
     }
   }
   final especializacoes = <Especializacao>[].obs;
+  final especializacoesCrm = <Especializacao>[].obs;
 
   final crms = <Crm>[].obs;
   final _buttonPressed = false.obs;
   final _loopActive = false.obs;
   final _carregandoDeleta = 0.obs;
+  final _crmId = Rx<int?>(null);
   final _crm = Rx<String?>(null);
   final _crmuf = 'SC'.obs;
   final _crmErroMensagem = Rx<String?>(null);
@@ -38,6 +40,9 @@ class ContaController extends GetxController {
 
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
+
+  get crmId => this._crmId.value;
+  set crmId(value) => this._crmId.value = value;
 
   get isLoading => this._isLoading.value;
   set isLoading(value) => this._isLoading.value = value;
@@ -103,7 +108,12 @@ class ContaController extends GetxController {
       isLoading = false;
       return;
     }
-    repository.salvarCrm(usuario.id, crm, crmuf).then((retorno) {
+    Crm _crmObj = Crm(
+      crm: crm,
+      estado_sigla: crmuf,
+    );
+    if (crmId != null) _crmObj.id = crmId;
+    repository.salvarCrm(_crmObj, usuario.id).then((retorno) {
       if (retorno) {
         EasyLoading.showToast('Crm $crm  $crmuf adicionado com sucesso',
             toastPosition: EasyLoadingToastPosition.bottom);
@@ -132,7 +142,7 @@ class ContaController extends GetxController {
       if (retorno) {
         EasyLoading.showToast('Crm $crm deletado com sucesso',
             toastPosition: EasyLoadingToastPosition.bottom);
-        getEspecializacoes();
+        atualizaUsuarioCrms();
       } else {
         EasyLoading.showToast('Erro ao deletar Crm $crm',
             toastPosition: EasyLoadingToastPosition.bottom);
