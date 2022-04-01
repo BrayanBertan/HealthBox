@@ -31,4 +31,5 @@ class UsuarioRepository {
   deletaUsuario(int id) => provider.deletaUsuario(id);
   salvarCrm(int medicoId, String crm, String uf) =>
       provider.salvarCrm(medicoId, crm, uf);
+  deletaCrm(int id) => provider.deletaCrm(id);
 }

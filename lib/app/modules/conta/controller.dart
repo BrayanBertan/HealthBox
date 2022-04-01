@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
@@ -101,15 +103,14 @@ class ContaController extends GetxController {
       isLoading = false;
       return;
     }
-    repository.salvarCrm(usuario.id, crm, crmuf).then((retorno) async {
+    repository.salvarCrm(usuario.id, crm, crmuf).then((retorno) {
       if (retorno) {
+        EasyLoading.showToast('Crm $crm  $crmuf adicionado com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom);
         crmController.clear();
         crmuf = 'SC';
         crmErroMensagem = null;
-        await loginController.getUsuario();
-        usuario = loginController.getLogin();
-        crms.clear();
-        crms.assignAll(usuario.crms);
+        atualizaUsuarioCrms();
       } else {
         crmErroMensagem = 'Erro ao salvar crm';
       }
@@ -124,6 +125,26 @@ class ContaController extends GetxController {
 
   validaCrm() async {
     await dadosController.validaCRM();
+  }
+
+  deletarCrm(int crmId, String crm) {
+    repository.deletaCrm(crmId).then((retorno) {
+      if (retorno) {
+        EasyLoading.showToast('Crm $crm deletado com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom);
+        getEspecializacoes();
+      } else {
+        EasyLoading.showToast('Erro ao deletar Crm $crm',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
+    });
+  }
+
+  atualizaUsuarioCrms() async {
+    await loginController.getUsuario();
+    usuario = loginController.getLogin();
+    crms.clear();
+    crms.assignAll(usuario.crms);
   }
 
   getEspecializacoes() {
