@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
+import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 
 import '../../data/models/especializacao.dart';
 import '../login/controller.dart';
@@ -9,6 +11,7 @@ import '../login/controller.dart';
 class ContaController extends GetxController {
   final UsuarioRepository repository;
   final loginController = Get.find<LoginController>();
+  final dadosController = Get.find<DadosUsuarioController>();
   dynamic usuario;
 
   ContaController({required this.repository}) : assert(repository != null) {
@@ -16,17 +19,35 @@ class ContaController extends GetxController {
     if (usuario is Medico) {
       crms.clear();
       crms.assignAll(usuario.crms);
+      crmController.clear();
     }
   }
   final especializacoes = <Especializacao>[].obs;
 
   final crms = <Crm>[].obs;
-
   final _buttonPressed = false.obs;
   final _loopActive = false.obs;
   final _carregandoDeleta = 0.obs;
+  final _crm = Rx<String?>(null);
+  final _crmuf = 'SC'.obs;
+  final _crmErroMensagem = Rx<String?>(null);
+  final _isLoading = false.obs;
+  final crmController = TextEditingController();
+
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
+
+  get isLoading => this._isLoading.value;
+  set isLoading(value) => this._isLoading.value = value;
+
+  get crmErroMensagem => this._crmErroMensagem.value;
+  set crmErroMensagem(value) => this._crmErroMensagem.value = value;
+
+  get crm => this._crm.value;
+  set crm(value) => this._crm.value = value;
+
+  get crmuf => this._crmuf.value;
+  set crmuf(value) => this._crmuf.value = value;
 
   get loopActive => this._loopActive.value;
   set loopActive(value) => this._loopActive.value = value;
@@ -53,6 +74,56 @@ class ContaController extends GetxController {
     }
     carregandoDeleta = 0;
     loopActive = false;
+  }
+
+  salvarCrm() async {
+    isLoading = true;
+    dadosController.setCrm(crm);
+    dadosController.setCrmUf(crmuf);
+
+    if (crm == null || crm!.trim().isEmpty || crm!.trim().length < 4) {
+      crmErroMensagem = 'Campo obrigatório';
+      isLoading = false;
+      return;
+    }
+
+    await validaCrm();
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!dadosController.isCrmValid) {
+      crmErroMensagem = 'Crm inválido';
+      isLoading = false;
+      return;
+    }
+    await verificaCrm();
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!dadosController.crmVerifica) {
+      crmErroMensagem = 'Crm em uso';
+      isLoading = false;
+      return;
+    }
+    repository.salvarCrm(usuario.id, crm, crmuf).then((retorno) async {
+      if (retorno) {
+        crmController.clear();
+        crmuf = 'SC';
+        crmErroMensagem = null;
+        await loginController.getUsuario();
+        usuario = loginController.getLogin();
+        crms.clear();
+        crms.assignAll(usuario.crms);
+      } else {
+        crmErroMensagem = 'Erro ao salvar crm';
+      }
+
+      isLoading = false;
+    });
+  }
+
+  verificaCrm() async {
+    await dadosController.verificaCrm();
+  }
+
+  validaCrm() async {
+    await dadosController.validaCRM();
   }
 
   getEspecializacoes() {

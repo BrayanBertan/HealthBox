@@ -29,4 +29,6 @@ class UsuarioRepository {
   getEspecializacoes() => provider.getEspecializacoes();
   logout() => provider.logout();
   deletaUsuario(int id) => provider.deletaUsuario(id);
+  salvarCrm(int medicoId, String crm, String uf) =>
+      provider.salvarCrm(medicoId, crm, uf);
 }

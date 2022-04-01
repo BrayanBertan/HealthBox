@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/conta/controller.dart';
 
 import '../../../../../core/values/keys.dart';
 
@@ -15,6 +17,8 @@ class BarraNovoCrm extends StatelessWidget {
       Key? key})
       : super(key: key);
 
+  final controller = Get.find<ContaController>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,32 +29,44 @@ class BarraNovoCrm extends StatelessWidget {
         children: [
           Expanded(
               flex: 4,
-              child: TextFormField(
-                initialValue: crm,
-                decoration: InputDecoration(
-                    icon: const Icon(
-                      Icons.document_scanner,
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey.shade100)),
-                    labelText: titulo,
-                    enabledBorder: InputBorder.none,
-                    labelStyle: const TextStyle(color: Colors.grey)),
-              )),
+              child: Obx(() => TextFormField(
+                    controller: controller.crmController,
+                    onChanged: (value) => controller.crm = value,
+                    decoration: InputDecoration(
+                        icon: const Icon(
+                          Icons.document_scanner,
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade100)),
+                        labelText: titulo,
+                        enabledBorder: InputBorder.none,
+                        labelStyle: const TextStyle(color: Colors.grey),
+                        errorText: controller.crmErroMensagem),
+                  ))),
           Expanded(
               flex: 1,
-              child: DropdownButton<String>(
-                  value: uf,
+              child: Obx(() => DropdownButton<String>(
+                  menuMaxHeight: 250,
+                  value: controller.crmuf,
                   items: ufs
                       .map((String uf) =>
                           DropdownMenuItem<String>(value: uf, child: Text(uf)))
                       .toList(),
-                  onChanged: (uf) {})),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(icone),
-            color: Colors.green,
-          )
+                  onChanged: (uf) {
+                    controller.crmuf = uf;
+                  }))),
+          Obx(() => IconButton(
+                onPressed: controller.isLoading
+                    ? null
+                    : () {
+                        print('xd');
+                        FocusScope.of(context).unfocus();
+                        controller.salvarCrm();
+                      },
+                icon: Icon(icone),
+                color: Colors.green,
+              ))
         ],
       ),
     );

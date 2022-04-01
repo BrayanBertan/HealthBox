@@ -28,6 +28,7 @@ class Especializacao {
 
   static List<Especializacao> listFromJson(list) {
     var tempList;
+    if (list.isEmpty) return List<Especializacao>.empty();
     if (list[0] == null) {
       tempList = list['data'];
     } else {

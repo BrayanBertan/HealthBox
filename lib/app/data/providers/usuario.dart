@@ -98,15 +98,14 @@ class UsuarioProvider extends GetConnect {
         usuario,
         headers: {'Authorization': 'Bearer  $token'},
       );
-      print(retornoApi.statusCode);
-      print(retornoApi.body);
     } else {
       retornoApi = await post(
         'auth/register',
         usuario,
       );
     }
-
+    print(usuario);
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -117,9 +116,11 @@ class UsuarioProvider extends GetConnect {
       cpf = '',
       uf = '',
       tipoPesquisa = ''}) async {
+    httpClient.baseUrl = baseUrl;
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
+    print(crm);
     print(retornoApi.body);
     return retornoApi.body[tipoPesquisa]['validate'];
   }
@@ -128,6 +129,19 @@ class UsuarioProvider extends GetConnect {
     print(token);
     var retornoApi = await delete(
       'usuarios/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  Future<bool> salvarCrm(int medicoId, String crm, String uf) async {
+    httpClient.baseUrl = baseUrl;
+    var retornoApi = await post(
+      'crms',
+      {'estado_sigla': uf, 'medico_id': medicoId, 'crm': crm},
       headers: {'Authorization': 'Bearer  $token'},
     );
     print(retornoApi.statusCode);

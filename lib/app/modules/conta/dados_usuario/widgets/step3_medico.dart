@@ -16,23 +16,26 @@ class Step3MedicoPage extends StatelessWidget {
         AbsorbPointer(
           absorbing: controller.isEditing,
           child: Obx(() => !controller.isEditing
-              ? MultiSelectChipField<Especializacao?>(
-                  initialValue: controller.especializacoesSelecionadas,
-                  title: const Text('Especializações'),
-                  searchable: true,
-                  height: 50,
-                  searchHint: 'pesquisar',
-                  onTap: (itens) {
-                    if (itens.length > 2) {
-                      itens.removeLast();
-                    }
-                    controller.setEspecializacoes(itens);
-                  },
-                  items: controller.especializacoes
-                      .map((especializacao) => MultiSelectItem<Especializacao?>(
-                          especializacao, especializacao.nome))
-                      .toList(),
-                )
+              ? controller.especializacoes.isNotEmpty
+                  ? MultiSelectChipField<Especializacao?>(
+                      initialValue: controller.especializacoesSelecionadas,
+                      title: const Text('Especializações'),
+                      searchable: true,
+                      height: 50,
+                      searchHint: 'pesquisar',
+                      onTap: (itens) {
+                        if (itens.length > 2) {
+                          itens.removeLast();
+                        }
+                        controller.setEspecializacoes(itens);
+                      },
+                      items: controller.especializacoes
+                          .map((especializacao) =>
+                              MultiSelectItem<Especializacao?>(
+                                  especializacao, especializacao.nome))
+                          .toList(),
+                    )
+                  : Text('carregando...')
               : const Center(
                   child: Text(
                     'Use a aba de gerenciamento de Crm para modificar suas especializações',
