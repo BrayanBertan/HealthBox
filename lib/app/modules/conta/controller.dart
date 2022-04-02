@@ -37,6 +37,7 @@ class ContaController extends GetxController {
   final _crmErroMensagem = Rx<String?>(null);
   final _isLoading = false.obs;
   final crmController = TextEditingController();
+  final _crmDescricao = ''.obs;
 
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
@@ -62,6 +63,9 @@ class ContaController extends GetxController {
   get carregandoDeleta => this._carregandoDeleta.value;
   set carregandoDeleta(value) => this._carregandoDeleta.value = value;
 
+  get crmDescricao => this._crmDescricao.value;
+  set crmDescricao(value) => this._crmDescricao.value = value;
+
   confirmandoDeletarConta() async {
     if (loopActive) return;
 
@@ -81,6 +85,17 @@ class ContaController extends GetxController {
     }
     carregandoDeleta = 0;
     loopActive = false;
+  }
+
+  setCrmEdicao(Crm crmObj) {
+    crmErroMensagem = null;
+    crm = crmObj.crm;
+    crmuf = crmObj.estado_sigla;
+    especializacoesCrm
+        .assignAll(crmObj.especializacoes ?? List<Especializacao>.empty());
+    crmId = crmObj.id;
+    crmController.text = crmObj.crm;
+    crmDescricao = '${crmObj.crm} ${crmObj.estado_sigla}';
   }
 
   salvarCrm() async {
@@ -117,10 +132,16 @@ class ContaController extends GetxController {
       if (retorno) {
         EasyLoading.showToast('Crm $crm  $crmuf adicionado com sucesso',
             toastPosition: EasyLoadingToastPosition.bottom);
-        crmController.clear();
-        crmuf = 'SC';
         crmErroMensagem = null;
-        atualizaUsuarioCrms();
+        if (crmId != null) {
+          crmDescricao = '${_crmObj.crm} ${_crmObj.estado_sigla}';
+          crmController.text = _crmObj.crm;
+          crmuf = _crmObj.estado_sigla;
+        } else {
+          crmController.clear();
+          crmuf = 'SC';
+          atualizaUsuarioCrms();
+        }
       } else {
         crmErroMensagem = 'Erro ao salvar crm';
       }

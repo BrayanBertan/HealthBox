@@ -23,6 +23,7 @@ class UsuarioProvider extends GetConnect {
   verificaLogin(String email, String senha) async {
     print(email);
     print(senha);
+    httpClient.baseUrl = baseUrl;
     var retornoApi = await post(
       'auth/login?password=$senha&email=$email',
       {},
@@ -118,11 +119,13 @@ class UsuarioProvider extends GetConnect {
       uf = '',
       tipoPesquisa = ''}) async {
     httpClient.baseUrl = baseUrl;
+    // print(
+    //     '${httpClient.baseUrl}usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf');
+    // return false;
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
-    print(crm);
-    print(retornoApi.body);
+
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 
@@ -139,7 +142,6 @@ class UsuarioProvider extends GetConnect {
   }
 
   Future<bool> salvarCrm(Crm crm, int medicoId) async {
-    print('crm id ${crm.id}');
     httpClient.baseUrl = baseUrl;
     dynamic retornoApi;
     if (crm.id == null) {
@@ -161,6 +163,7 @@ class UsuarioProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
       );
     }
+    print('aqui');
     print(retornoApi.statusCode);
     print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
@@ -179,6 +182,7 @@ class UsuarioProvider extends GetConnect {
   }
 
   validaCRM(String crm, String uf) async {
+    print('Bearer  $token');
     httpClient.baseUrl = '';
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');

@@ -24,7 +24,7 @@ class AppPages {
     GetPage(
         name: Routes.CONTA,
         page: () => ContaPage(),
-        bindings: [ContaBinding(), DadosUsuarioBinding()],
+        bindings: [ContaBinding()],
         middlewares: [AutenticaUsuario()]),
     GetPage(
         name: Routes.DADOS_USUARIO,

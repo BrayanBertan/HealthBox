@@ -26,16 +26,15 @@ class DialogDetalhesCrm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'CRM ${crm.crm} ${crm.estado_sigla}',
-              style: titulo,
-            ),
-            BarraNovoCrm(
-              titulo: 'Editar crm',
-              crm: crm.crm,
-              uf: crm.estado_sigla,
-              icone: Icons.save,
-            ),
+            Obx(() => Text(
+                  'CRM ${controller.crmDescricao}',
+                  style: titulo,
+                )),
+            Obx(() => BarraNovoCrm(
+                  titulo: 'Editar crm',
+                  uf: controller.crmuf,
+                  icone: Icons.save,
+                )),
             Text(
               'Especializações',
               style: subTitulo,

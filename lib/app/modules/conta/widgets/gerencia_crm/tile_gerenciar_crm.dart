@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/especializacao.dart';
 import 'package:healthbox/app/modules/conta/controller.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/barra_novo_crm.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/crm_detalhes_dialog.dart';
@@ -32,17 +31,19 @@ class TileGerenciarCrm extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              onPressed: () {
-                                controller.crm = controller.crms[index].crm;
-                                controller.crmuf =
-                                    controller.crms[index].estado_sigla;
-                                controller.especializacoesCrm.assignAll(
-                                    controller.crms[index].especializacoes ??
-                                        List<Especializacao>.empty());
-                                controller.crmId = controller.crms[index].id;
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => DialogDetalhesCrm());
+                              onPressed: () async {
+                                controller.setCrmEdicao(controller.crms[index]);
+                                FocusScope.of(context).unfocus();
+                                await showDialog(
+                                        context: context,
+                                        builder: (_) => DialogDetalhesCrm())
+                                    .then((retorno) {
+                                  controller.crmId = null;
+                                  controller.crmController.clear();
+                                  controller.crmuf = 'SC';
+                                  controller.crmErroMensagem = null;
+                                  controller.atualizaUsuarioCrms();
+                                });
                               },
                               icon: const Icon(Icons.edit),
                               color: Colors.yellow,

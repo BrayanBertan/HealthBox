@@ -483,7 +483,7 @@ class DadosUsuarioController extends GetxController {
   verificaCrm() {
     repository
         .verificaDadosRepetidos(crm: crm, uf: crmUf, tipoPesquisa: 'crm')
-        .then((retorno) => crmVerifica = retorno);
+        .then((retorno) => print(retorno));
   }
 
   verificaCpf() {

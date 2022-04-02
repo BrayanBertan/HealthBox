@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/conta/controller.dart';
 
@@ -6,18 +7,16 @@ import '../../../../../core/values/keys.dart';
 
 class BarraNovoCrm extends StatelessWidget {
   String titulo;
-  String crm;
+
   String uf;
   IconData icone;
+  final controller = Get.find<ContaController>();
   BarraNovoCrm(
       {this.titulo = 'Novo crm',
-      this.crm = '',
       this.uf = 'SC',
       this.icone = Icons.add,
       Key? key})
       : super(key: key);
-
-  final controller = Get.find<ContaController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +31,9 @@ class BarraNovoCrm extends StatelessWidget {
               child: Obx(() => TextFormField(
                     controller: controller.crmController,
                     onChanged: (value) => controller.crm = value,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                     decoration: InputDecoration(
                         icon: const Icon(
                           Icons.document_scanner,

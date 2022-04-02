@@ -124,6 +124,9 @@ class Step0Page extends StatelessWidget {
                               enabledBorder: InputBorder.none,
                               labelStyle: const TextStyle(color: Colors.grey),
                               errorText: controller.crmErroMensagem),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                         ))),
                     Expanded(flex: 1, child: Container()),
                     Expanded(
