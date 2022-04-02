@@ -19,14 +19,14 @@ class Crm {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'crm': crm,
-      'estado_sigla': estado_sigla,
-      'especializacoes': especializacoes != null
+      "crm": crm,
+      "estado_sigla": estado_sigla,
+      "especializacoes": especializacoes != null
           ? Especializacao.listToJson(especializacoes)
           : null,
     };
     if (id != null) {
-      map['id'] = id;
+      map["id"] = id;
     }
     return map;
   }
@@ -41,6 +41,6 @@ class Crm {
 
   @override
   String toString() {
-    return "id: $id Nome: $crm especializações $especializacoes";
+    return "id: $id Nome: $crm  $estado_sigla especializações $especializacoes";
   }
 }

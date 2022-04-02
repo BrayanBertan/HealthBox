@@ -4,14 +4,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
-import 'package:healthbox/app/data/repositories/usuario.dart';
+import 'package:healthbox/app/data/repositories/conta.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 
 import '../../data/models/especializacao.dart';
 import '../login/controller.dart';
 
 class ContaController extends GetxController {
-  final UsuarioRepository repository;
+  final ContaRepository repository;
   final loginController = Get.find<LoginController>();
   final dadosController = Get.find<DadosUsuarioController>();
   dynamic usuario;
@@ -103,7 +103,7 @@ class ContaController extends GetxController {
     dadosController.setCrm(crm);
     dadosController.setCrmUf(crmuf);
 
-    if (crm == null || crm!.trim().isEmpty || crm!.trim().length < 4) {
+    if (crm == null || crm!.trim().isEmpty || crm!.trim().length < 3) {
       crmErroMensagem = 'Campo obrigatório';
       isLoading = false;
       return;
@@ -118,6 +118,7 @@ class ContaController extends GetxController {
     }
     await verificaCrm();
     await Future.delayed(const Duration(milliseconds: 500));
+
     if (!dadosController.crmVerifica) {
       crmErroMensagem = 'Crm em uso';
       isLoading = false;
@@ -128,6 +129,7 @@ class ContaController extends GetxController {
       estado_sigla: crmuf,
     );
     if (crmId != null) _crmObj.id = crmId;
+
     repository.salvarCrm(_crmObj, usuario.id).then((retorno) {
       if (retorno) {
         EasyLoading.showToast('Crm $crm  $crmuf adicionado com sucesso',

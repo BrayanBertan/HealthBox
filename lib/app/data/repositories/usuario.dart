@@ -1,4 +1,3 @@
-import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 
 class UsuarioRepository {
@@ -29,7 +28,4 @@ class UsuarioRepository {
           email: email, cpf: cpf, crm: crm, uf: uf, tipoPesquisa: tipoPesquisa);
   getEspecializacoes() => provider.getEspecializacoes();
   logout() => provider.logout();
-  deletaUsuario(int id) => provider.deletaUsuario(id);
-  salvarCrm(Crm crm, int medicoId) => provider.salvarCrm(crm, medicoId);
-  deletaCrm(int id) => provider.deletaCrm(id);
 }

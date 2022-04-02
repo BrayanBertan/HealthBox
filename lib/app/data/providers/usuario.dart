@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -127,58 +126,6 @@ class UsuarioProvider extends GetConnect {
     );
 
     return retornoApi.body[tipoPesquisa]['validate'];
-  }
-
-  Future<bool> deletaUsuario(int id) async {
-    print(token);
-    var retornoApi = await delete(
-      'usuarios/$id',
-      headers: {'Authorization': 'Bearer  $token'},
-    );
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
-    if (retornoApi.statusCode == 200) return true;
-    return false;
-  }
-
-  Future<bool> salvarCrm(Crm crm, int medicoId) async {
-    httpClient.baseUrl = baseUrl;
-    dynamic retornoApi;
-    if (crm.id == null) {
-      retornoApi = await post(
-        'crms',
-        {
-          ...crm.toJson(),
-          ...{'medico_id': medicoId}
-        },
-        headers: {'Authorization': 'Bearer  $token'},
-      );
-    } else {
-      retornoApi = await put(
-        'crms/${crm.id}',
-        {
-          ...crm.toJson(),
-          ...{'medico_id': medicoId}
-        },
-        headers: {'Authorization': 'Bearer  $token'},
-      );
-    }
-    print('aqui');
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
-    if (retornoApi.statusCode == 200) return true;
-    return false;
-  }
-
-  Future<bool> deletaCrm(int id) async {
-    httpClient.baseUrl = baseUrl;
-    var retornoApi = await delete(
-      'crms/$id',
-      headers: {'Authorization': 'Bearer  $token'},
-    );
-
-    if (retornoApi.statusCode == 200) return true;
-    return false;
   }
 
   validaCRM(String crm, String uf) async {
