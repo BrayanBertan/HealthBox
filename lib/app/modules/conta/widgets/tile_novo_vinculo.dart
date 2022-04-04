@@ -12,7 +12,7 @@ class TileNovoVinculo extends StatelessWidget {
         showDialog(context: context, builder: (_) => DialogAddVinculo());
       },
       leading: const Icon(Icons.person_add),
-      title: const Text('Novo vinculo'),
+      title: const Text('Novo vínculo'),
     );
   }
 }

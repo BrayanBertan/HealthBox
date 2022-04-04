@@ -39,7 +39,7 @@ class ContaPage extends GetView<ContaController> {
               ],
             )),
             Text(
-              'Vinculos',
+              'vínculo',
               style: TextStyle(color: corPrincipal),
             ),
             Card(

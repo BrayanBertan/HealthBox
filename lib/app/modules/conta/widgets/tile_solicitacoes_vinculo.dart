@@ -9,7 +9,7 @@ class TileSolicitacoesVinculo extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       leading: const Icon(Icons.notifications_on),
-      title: const Text('Solicitações de vinculo'),
+      title: const Text('Solicitações de vínculo'),
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.30,
@@ -21,8 +21,7 @@ class TileSolicitacoesVinculo extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: CircleAvatar(
-                        child: Image.asset(
-                            '${baseImagemUrl}user_pic.png'),
+                        child: Image.asset('${baseImagemUrl}user_pic.png'),
                         minRadius: 50,
                         maxRadius: 50),
                     title: Text('Luis Vidal Miranda'),

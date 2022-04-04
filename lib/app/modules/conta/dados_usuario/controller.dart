@@ -177,7 +177,7 @@ class DadosUsuarioController extends GetxController {
 
   String? get crmErroMensagem {
     if (crm == null || crmValido()) return null;
-    if (!isCrmValid) return 'CRM invalido ou inativo';
+    if (!isCrmValid) return 'CRM inválido ou inativo';
     if (!crmVerifica) return 'CRM em uso';
     return 'Campo obrigatório ';
   }
@@ -289,7 +289,7 @@ class DadosUsuarioController extends GetxController {
   String? get emailErroMensagem {
     if (email == null || emailValido()) return null;
     if (email != null && !email.toString().isEmailValid())
-      return 'E-mail invalido';
+      return 'E-mail inválido';
     if (!emailVerifica) return 'E-mail em uso';
     return 'Campo obrigatório ';
   }

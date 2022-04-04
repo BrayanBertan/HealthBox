@@ -101,7 +101,7 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                                       fixedSize: const Size(150, 50)),
                                   child: Text(controller.activeStepIndex == 4
                                       ? 'Confirmar?'
-                                      : 'Proximo'))),
+                                      : 'Próximo'))),
                             ],
                           ),
                         );

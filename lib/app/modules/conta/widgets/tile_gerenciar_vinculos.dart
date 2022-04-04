@@ -9,7 +9,7 @@ class TileGerenciarVinculos extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       leading: const Icon(Icons.people),
-      title: const Text('Gerenciar vinculos'),
+      title: const Text('Gerenciar vínculos'),
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.30,

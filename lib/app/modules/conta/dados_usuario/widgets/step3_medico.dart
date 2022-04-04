@@ -22,7 +22,7 @@ class Step3MedicoPage extends StatelessWidget {
                       title: const Text('Especializações'),
                       searchable: true,
                       height: 50,
-                      searchHint: 'pesquisar',
+                      searchHint: 'Pesquisar',
                       onTap: (itens) {
                         if (itens.length > 2) {
                           itens.removeLast();

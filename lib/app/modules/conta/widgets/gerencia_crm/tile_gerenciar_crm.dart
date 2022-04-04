@@ -11,7 +11,7 @@ class TileGerenciarCrm extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       leading: const Icon(Icons.document_scanner),
-      title: const Text('Gerenciar crm'),
+      title: const Text('Gerenciar CRM'),
       children: [
         BarraNovoCrm(),
         Container(

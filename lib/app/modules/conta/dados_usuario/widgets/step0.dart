@@ -56,30 +56,33 @@ class Step0Page extends StatelessWidget {
                     ),
                   ),
                 )),
-            Obx(() => GestureDetector(
-                  onTap: () => controller.setTipo(TipoUsuario.MEDICO),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                            color: controller.tipo == TipoUsuario.MEDICO
-                                ? corPrincipal
-                                : Colors.transparent,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
-                        child: Image.asset(
-                          '${baseImagemUrl}doctor.png',
-                          width: 25,
-                          height: 25,
+            Obx(() => AbsorbPointer(
+                  absorbing: controller.isEditing,
+                  child: GestureDetector(
+                    onTap: () => controller.setTipo(TipoUsuario.MEDICO),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: controller.tipo == TipoUsuario.MEDICO
+                                  ? corPrincipal
+                                  : Colors.transparent,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15))),
+                          child: Image.asset(
+                            '${baseImagemUrl}doctor.png',
+                            width: 25,
+                            height: 25,
+                          ),
                         ),
-                      ),
-                      const Text(
-                        'Médico',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
+                        const Text(
+                          'Médico',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
                   ),
                 )),
           ],
