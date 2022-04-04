@@ -42,8 +42,7 @@ class DialogDetalhesCrm extends StatelessWidget {
                               trailing: IconButton(
                                 onPressed: () {
                                   controller.deletarEspecializacao(
-                                      especializacao.especializacaoId,
-                                      especializacao.nome);
+                                      especializacao.id!, especializacao.nome);
                                 },
                                 icon: const Icon(Icons.delete_forever),
                                 color: Colors.redAccent,

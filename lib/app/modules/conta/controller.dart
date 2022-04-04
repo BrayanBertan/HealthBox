@@ -165,7 +165,7 @@ class ContaController extends GetxController {
         EasyLoading.showToast(
             'Especialização ${especializacaoSelecionada.nome} adicionada com sucesso',
             toastPosition: EasyLoadingToastPosition.bottom);
-        especializacoesCrm.add(especializacaoSelecionada);
+        atualizaUsuarioCrms();
       } else {
         EasyLoading.showToast(
             'Erro ao adicionar a especialização ${especializacaoSelecionada.nome}',
@@ -195,14 +195,14 @@ class ContaController extends GetxController {
     });
   }
 
-  deletarEspecializacao(int especializacaoId, String especializacao) {
-    repository.deletaEspecializacao(especializacaoId).then((retorno) {
+  deletarEspecializacao(int id, String especializacao) {
+    repository.deletaEspecializacao(id).then((retorno) {
       if (retorno) {
         EasyLoading.showToast(
             'Especialização $especializacao deletada com sucesso',
             toastPosition: EasyLoadingToastPosition.bottom);
-        especializacoesCrm.removeWhere((especializacao) =>
-            especializacao.especializacaoId == especializacaoId);
+        especializacoesCrm
+            .removeWhere((especializacao) => especializacao.id == id);
         getEspecializacoes();
       } else {
         EasyLoading.showToast('Erro ao deletar especialização $especializacao',
@@ -216,6 +216,13 @@ class ContaController extends GetxController {
     usuario = loginController.getLogin();
     crms.clear();
     crms.assignAll(usuario.crms);
+    if (crmId != null) {
+      especializacoesCrm.clear();
+      List<Especializacao> listaAtualizada =
+          crms.firstWhere((element) => element.id == crmId).especializacoes ??
+              List<Especializacao>.empty();
+      especializacoesCrm.assignAll(listaAtualizada);
+    }
   }
 
   getEspecializacoes() {
