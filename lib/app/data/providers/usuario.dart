@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -23,6 +24,7 @@ class UsuarioProvider extends GetConnect {
     print(email);
     print(senha);
     httpClient.baseUrl = baseUrl;
+    print('base url ${httpClient.baseUrl = baseUrl}');
     var retornoApi = await post(
       'auth/login?password=$senha&email=$email',
       {},
@@ -86,8 +88,12 @@ class UsuarioProvider extends GetConnect {
     token = '';
   }
 
-  isSessionValid() {
-    if (!verificaSessao()) Get.find<LoginController>().logout();
+  isSessionValid() async {
+    if (!verificaSessao()) {
+      EasyLoading.showInfo('Sessão expirada!');
+      await Future.delayed(const Duration(milliseconds: 500));
+      Get.find<LoginController>().logout();
+    }
   }
 
   salvarUsuario(Map<String, dynamic> usuario) async {
@@ -118,21 +124,22 @@ class UsuarioProvider extends GetConnect {
       uf = '',
       tipoPesquisa = ''}) async {
     httpClient.baseUrl = baseUrl;
-    // print(
-    //     '${httpClient.baseUrl}usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf');
-    // return false;
+
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
-
+    print('retornoApi ${retornoApi.body[tipoPesquisa]['validate']}');
+    print(
+        'endpoint  ${httpClient.baseUrl}usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf');
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 
   validaCRM(String crm, String uf) async {
-    print('Bearer  $token');
+    print('crm $crm uf $uf');
     httpClient.baseUrl = '';
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');
+    print('status ${retornoApi.statusCode} body  ${retornoApi.statusCode}');
     httpClient.baseUrl = baseUrl;
     var retorno = jsonDecode(retornoApi.body)['dados']?[0];
     if (retorno != null && retornoApi.statusCode == 200) {

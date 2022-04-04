@@ -16,6 +16,7 @@ class ContaProvider extends GetConnect {
   }
 
   Future<bool> deletaUsuario(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
     var retornoApi = await delete(
       'usuarios/$id',
       headers: {'Authorization': 'Bearer  $token'},
@@ -27,6 +28,7 @@ class ContaProvider extends GetConnect {
   }
 
   Future<bool> salvarCrm(Crm crm, int medicoId) async {
+    Get.find<UsuarioProvider>().isSessionValid();
     var dados = {
       ...crm.toJson(),
       ...{"medico_id": medicoId}
@@ -54,6 +56,7 @@ class ContaProvider extends GetConnect {
   }
 
   Future<bool> deletaCrm(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
     httpClient.baseUrl = baseUrl;
     var retornoApi = await delete(
       'crms/$id',

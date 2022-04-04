@@ -111,7 +111,7 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                 );
               },
             ),
-            const LoginRedirect()
+            controller.isEditing ? Container() : const LoginRedirect()
           ],
         ),
       ),

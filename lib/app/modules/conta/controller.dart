@@ -110,14 +110,14 @@ class ContaController extends GetxController {
     }
 
     await validaCrm();
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 1000));
     if (!dadosController.isCrmValid) {
       crmErroMensagem = 'Crm inválido';
       isLoading = false;
       return;
     }
     await verificaCrm();
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
     if (!dadosController.crmVerifica) {
       crmErroMensagem = 'Crm em uso';
