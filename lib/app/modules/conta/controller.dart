@@ -203,6 +203,7 @@ class ContaController extends GetxController {
             toastPosition: EasyLoadingToastPosition.bottom);
         especializacoesCrm.removeWhere((especializacao) =>
             especializacao.especializacaoId == especializacaoId);
+        getEspecializacoes();
       } else {
         EasyLoading.showToast('Erro ao deletar especialização $especializacao',
             toastPosition: EasyLoadingToastPosition.bottom);
@@ -218,7 +219,10 @@ class ContaController extends GetxController {
   }
 
   getEspecializacoes() {
-    repository.getEspecializacoes().then((List<Especializacao>? retorno) {
+    print(especializacoesCrm);
+    repository
+        .getEspecializacoes(especializacoesCrm)
+        .then((List<Especializacao>? retorno) {
       this.especializacoes.clear();
       this.especializacoes.assignAll(retorno!);
       especializacaoSelecionada = especializacoes[0];

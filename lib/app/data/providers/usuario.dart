@@ -24,7 +24,9 @@ class UsuarioProvider extends GetConnect {
     print(email);
     print(senha);
     httpClient.baseUrl = baseUrl;
-    print('base url ${httpClient.baseUrl = baseUrl}');
+    print(
+        'endpoint ${httpClient.baseUrl}auth/login?password=$senha&email=$email');
+
     var retornoApi = await post(
       'auth/login?password=$senha&email=$email',
       {},

@@ -49,9 +49,11 @@ class TileGerenciarCrm extends StatelessWidget {
                               color: Colors.yellow,
                             ),
                             IconButton(
-                              onPressed: () => controller.deletarCrm(
-                                  controller.crms[index].id!,
-                                  '${controller.crms[index].crm} ${controller.crms[index].estado_sigla}'),
+                              onPressed: controller.crms.length <= 1
+                                  ? null
+                                  : () => controller.deletarCrm(
+                                      controller.crms[index].id!,
+                                      '${controller.crms[index].crm} ${controller.crms[index].estado_sigla}'),
                               icon: const Icon(Icons.delete_forever),
                               color: Colors.redAccent,
                             )
