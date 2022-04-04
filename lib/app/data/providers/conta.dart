@@ -76,4 +76,40 @@ class ContaProvider extends GetConnect {
       return List<Especializacao>.empty();
     }
   }
+
+  Future<bool> salvarEspecializacao(int medicoCrmId, especializacaoId) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    var dados = {
+      "medico_crm_id": medicoCrmId,
+      "especializacao_id": especializacaoId
+    };
+
+    dynamic retornoApi;
+    retornoApi = await post(
+      'especializacoes',
+      dados,
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    print('aqui especializacao');
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  Future<bool> deletaEspecializacao(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    httpClient.baseUrl = baseUrl;
+    print(id);
+    var retornoApi = await delete(
+      'especializacoes/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+    print('${httpClient.baseUrl}especializacoes/$id');
+    print('Bearer  $token');
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
 }

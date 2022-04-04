@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/modules/conta/controller.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/barra_novo_crm.dart';
 
@@ -8,14 +7,8 @@ import '../../../../../core/theme/app_text_theme.dart';
 import '../../../../data/models/especializacao.dart';
 
 class DialogDetalhesCrm extends StatelessWidget {
-  late Crm crm;
   final controller = Get.find<ContaController>();
-  DialogDetalhesCrm({Key? key}) : super(key: key) {
-    crm = Crm(
-        crm: controller.crm,
-        estado_sigla: controller.crmuf,
-        especializacoes: controller.especializacoesCrm);
-  }
+  DialogDetalhesCrm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +32,26 @@ class DialogDetalhesCrm extends StatelessWidget {
               'Especializações',
               style: subTitulo,
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children:
-                  crm.especializacoes != null && crm.especializacoes!.isNotEmpty
-                      ? crm.especializacoes!
-                          .map((especializacao) => ListTile(
-                                title: Text(especializacao.nome),
-                                trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.delete_forever),
-                                  color: Colors.redAccent,
-                                ),
-                              ))
-                          .toList()
-                      : [const Text('Sem especializações')],
+            Obx(
+              () => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: controller.especializacoesCrm.isNotEmpty
+                    ? controller.especializacoesCrm
+                        .map((especializacao) => ListTile(
+                              title: Text(especializacao.nome),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  controller.deletarEspecializacao(
+                                      especializacao.especializacaoId,
+                                      especializacao.nome);
+                                },
+                                icon: const Icon(Icons.delete_forever),
+                                color: Colors.redAccent,
+                              ),
+                            ))
+                        .toList()
+                    : [const Text('Sem especializações')],
+              ),
             ),
             const Divider(
               color: Colors.black,
@@ -67,7 +65,7 @@ class DialogDetalhesCrm extends StatelessWidget {
                       builder: (controller) => Container(
                             child: controller.especializacoes.isNotEmpty
                                 ? DropdownButton<Especializacao>(
-                                    value: controller.especializacoes[0],
+                                    value: controller.especializacaoSelecionada,
                                     items: controller.especializacoes
                                         .map((Especializacao especializacao) =>
                                             DropdownMenuItem<Especializacao>(
@@ -75,12 +73,15 @@ class DialogDetalhesCrm extends StatelessWidget {
                                                 child:
                                                     Text(especializacao.nome)))
                                         .toList(),
-                                    onChanged: (especializacao) {})
+                                    onChanged: (especializacao) {
+                                      controller.especializacaoSelecionada =
+                                          especializacao;
+                                    })
                                 : const Text('carregando...'),
                           )),
                   Expanded(
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: controller.salvarEspecializacao,
                       icon: const Icon(Icons.add),
                       color: Colors.green,
                     ),

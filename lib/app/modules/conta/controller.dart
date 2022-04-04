@@ -38,6 +38,7 @@ class ContaController extends GetxController {
   final _isLoading = false.obs;
   final crmController = TextEditingController();
   final _crmDescricao = ''.obs;
+  final _especializacaoSelecionada = Rx<Especializacao?>(null);
 
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
@@ -65,6 +66,10 @@ class ContaController extends GetxController {
 
   get crmDescricao => this._crmDescricao.value;
   set crmDescricao(value) => this._crmDescricao.value = value;
+
+  get especializacaoSelecionada => this._especializacaoSelecionada.value;
+  set especializacaoSelecionada(value) =>
+      this._especializacaoSelecionada.value = value;
 
   confirmandoDeletarConta() async {
     if (loopActive) return;
@@ -152,6 +157,23 @@ class ContaController extends GetxController {
     });
   }
 
+  salvarEspecializacao() {
+    repository
+        .salvarEspecializacao(crmId, especializacaoSelecionada.especializacaoId)
+        .then((retorno) {
+      if (retorno) {
+        EasyLoading.showToast(
+            'Especialização ${especializacaoSelecionada.nome} adicionada com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom);
+        especializacoesCrm.add(especializacaoSelecionada);
+      } else {
+        EasyLoading.showToast(
+            'Erro ao adicionar a especialização ${especializacaoSelecionada.nome}',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
+    });
+  }
+
   verificaCrm() async {
     await dadosController.verificaCrm();
   }
@@ -173,6 +195,21 @@ class ContaController extends GetxController {
     });
   }
 
+  deletarEspecializacao(int especializacaoId, String especializacao) {
+    repository.deletaEspecializacao(especializacaoId).then((retorno) {
+      if (retorno) {
+        EasyLoading.showToast(
+            'Especialização $especializacao deletada com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom);
+        especializacoesCrm.removeWhere((especializacao) =>
+            especializacao.especializacaoId == especializacaoId);
+      } else {
+        EasyLoading.showToast('Erro ao deletar especialização $especializacao',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
+    });
+  }
+
   atualizaUsuarioCrms() async {
     await loginController.getUsuario();
     usuario = loginController.getLogin();
@@ -184,6 +221,7 @@ class ContaController extends GetxController {
     repository.getEspecializacoes().then((List<Especializacao>? retorno) {
       this.especializacoes.clear();
       this.especializacoes.assignAll(retorno!);
+      especializacaoSelecionada = especializacoes[0];
     });
   }
 }

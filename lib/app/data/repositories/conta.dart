@@ -10,4 +10,7 @@ class ContaRepository {
   deletaUsuario(int id) => provider.deletaUsuario(id);
   salvarCrm(Crm crm, int medicoId) => provider.salvarCrm(crm, medicoId);
   deletaCrm(int id) => provider.deletaCrm(id);
+  salvarEspecializacao(int medicoCrmId, especializacaoId) =>
+      provider.salvarEspecializacao(medicoCrmId, especializacaoId);
+  deletaEspecializacao(int id) => provider.deletaEspecializacao(id);
 }
