@@ -21,7 +21,7 @@ class ContaPage extends GetView<ContaController> {
       drawer: SideMenu(),
       appBar: AppBar(title: const Text('Configurações')),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,

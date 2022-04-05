@@ -79,10 +79,14 @@ class DialogDetalhesCrm extends StatelessWidget {
                                 : const Text('carregando...'),
                           )),
                   Expanded(
-                    child: IconButton(
-                      onPressed: controller.salvarEspecializacao,
-                      icon: const Icon(Icons.add),
-                      color: Colors.green,
+                    child: Obx(
+                      () => IconButton(
+                        onPressed: controller.especializacoesCrm.length == 2
+                            ? null
+                            : controller.salvarEspecializacao,
+                        icon: const Icon(Icons.add),
+                        color: Colors.green,
+                      ),
                     ),
                   ),
                 ],
