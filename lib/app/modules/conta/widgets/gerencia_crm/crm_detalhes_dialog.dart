@@ -24,7 +24,7 @@ class DialogDetalhesCrm extends StatelessWidget {
                   style: titulo,
                 )),
             Obx(() => BarraNovoCrm(
-                  titulo: 'Editar crm',
+                  titulo: 'Editar CRM',
                   uf: controller.crmuf,
                   icone: Icons.save,
                 )),

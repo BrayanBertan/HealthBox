@@ -12,7 +12,7 @@ class BarraNovoCrm extends StatelessWidget {
   IconData icone;
   final controller = Get.find<ContaController>();
   BarraNovoCrm(
-      {this.titulo = 'Novo crm',
+      {this.titulo = 'Novo CRM',
       this.uf = 'SC',
       this.icone = Icons.add,
       Key? key})

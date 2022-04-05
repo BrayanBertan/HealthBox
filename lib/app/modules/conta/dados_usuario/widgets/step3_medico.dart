@@ -38,7 +38,7 @@ class Step3MedicoPage extends StatelessWidget {
                   : Text('carregando...')
               : const Center(
                   child: Text(
-                    'Use a aba de gerenciamento de Crm para modificar suas especializações',
+                    'Use a aba de gerenciamento de CRM para modificar suas especializações',
                     textAlign: TextAlign.center,
                   ),
                 )),

@@ -130,18 +130,15 @@ class UsuarioProvider extends GetConnect {
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
-    print('retornoApi ${retornoApi.body[tipoPesquisa]['validate']}');
-    print(
-        'endpoint  ${httpClient.baseUrl}usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf');
+
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 
   validaCRM(String crm, String uf) async {
-    print('crm $crm uf $uf');
     httpClient.baseUrl = '';
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');
-    print('status ${retornoApi.statusCode} body  ${retornoApi.statusCode}');
+
     httpClient.baseUrl = baseUrl;
     var retorno = jsonDecode(retornoApi.body)['dados']?[0];
     if (retorno != null && retornoApi.statusCode == 200) {
