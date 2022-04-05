@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthbox/core/theme/app_colors.dart';
 
 class CardPesquisa extends StatelessWidget {
   const CardPesquisa({Key? key}) : super(key: key);
@@ -20,15 +21,30 @@ class CardPesquisa extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                suffixIcon: const Icon(
-                  Icons.search,
+            Row(
+              children: [
+                Expanded(
+                    child: Container(
+                  height: 50,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Pesquisar opiniões",
+                      labelStyle: const TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                )),
+                const SizedBox(
+                  width: 5,
                 ),
-                border: OutlineInputBorder(),
-                labelText: "Pesquisar opiniões",
-                labelStyle: const TextStyle(color: Colors.grey),
-              ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.search,
+                      color: corPrincipal,
+                    ))
+              ],
             )
           ],
         ),

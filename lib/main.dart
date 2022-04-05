@@ -38,7 +38,7 @@ class HealthBoxApp extends StatelessWidget {
                   breakpoints: [
                     const ResponsiveBreakpoint.autoScale(450, name: MOBILE),
                     const ResponsiveBreakpoint.autoScale(700, name: TABLET),
-                    const ResponsiveBreakpoint.resize(800, name: DESKTOP),
+                    const ResponsiveBreakpoint.autoScale(800, name: DESKTOP),
                   ])),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
