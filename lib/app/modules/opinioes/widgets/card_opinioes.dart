@@ -15,7 +15,11 @@ class CardOpinioes extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [HeaderFiltro(), const Divider(), ListOpinioes()],
+          children: [
+            HeaderFiltro(),
+            const Divider(),
+            ListOpinioes(),
+          ],
         ),
       ),
     );

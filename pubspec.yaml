@@ -52,6 +52,7 @@ dependencies:
   step_progress_indicator: ^1.0.2
   like_button: ^2.0.4
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

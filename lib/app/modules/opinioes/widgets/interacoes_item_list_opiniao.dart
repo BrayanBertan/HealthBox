@@ -75,6 +75,18 @@ class InteracoesItemListOpiniao extends StatelessWidget {
                   ),
                 ],
               ),
+              false
+                  ? TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.black87,
+                      ),
+                      label: const Text(
+                        'Editar',
+                        style: TextStyle(color: Colors.black87),
+                      ))
+                  : Container(),
               InkWell(
                 onTap: () => Get.toNamed(Routes.DETALHES_OPINIAO),
                 child: Row(
