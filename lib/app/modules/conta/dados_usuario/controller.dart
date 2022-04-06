@@ -10,6 +10,7 @@ import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
+import 'package:healthbox/routes/app_pages.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/easy_loading_config.dart';
@@ -434,7 +435,7 @@ class DadosUsuarioController extends GetxController {
         Future.delayed(Duration(seconds: 1)).then((value) {
           EasyLoadingConfig();
           if (isEditing) {
-            Get.offNamed('/conta');
+            Get.offNamed(Routes.CONTA);
           } else {
             loginController.setEmail(email);
             loginController.setSenha(senha);

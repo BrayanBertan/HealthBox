@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/values/keys.dart';
@@ -21,36 +23,54 @@ class InteracoesItemListOpiniao extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset('${baseImagemUrl}gostar.png', width: 25),
-                  const SizedBox(
-                    width: 2,
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Image.asset('${baseImagemUrl}gostar.png', width: 25),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        Text('10'),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                      ],
+                    ),
                   ),
-                  Text('10'),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Image.asset('${baseImagemUrl}dislike.png', width: 25)
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 2,
-                  ),
-                  Text('5')
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Image.asset('${baseImagemUrl}dislike.png',
+                                width: 25)
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 2,
+                        ),
+                        Text('5')
+                      ],
+                    ),
+                  )
                 ],
               ),
-              Row(
-                children: [
-                  Image.asset('${baseImagemUrl}comments.png', width: 25),
-                  const SizedBox(
-                    width: 2,
-                  ),
-                  Text('10')
-                ],
+              InkWell(
+                onTap: () => Get.toNamed(Routes.DETALHES_OPINIAO),
+                child: Row(
+                  children: [
+                    Image.asset('${baseImagemUrl}details.png', width: 25),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Text('Detalhes')
+                  ],
+                ),
               ),
             ],
           ),

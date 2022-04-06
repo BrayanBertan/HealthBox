@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/values/keys.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_theme.dart';
@@ -135,7 +136,7 @@ class LoginPage extends GetView<LoginController> {
                     style: textoInfo,
                   ),
                   TextButton(
-                      onPressed: () => Get.offNamed('/conta/usuario'),
+                      onPressed: () => Get.offNamed(Routes.DADOS_USUARIO),
                       child: Text(
                         'Cadastrar',
                         style: TextStyle(

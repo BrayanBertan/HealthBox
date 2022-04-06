@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_text_theme.dart';
@@ -17,7 +18,7 @@ class LoginRedirect extends StatelessWidget {
           style: textoInfo,
         ),
         TextButton(
-            onPressed: () => Get.offNamed('/login'),
+            onPressed: () => Get.offNamed(Routes.LOGIN),
             child: Text(
               'Entrar',
               style: TextStyle(

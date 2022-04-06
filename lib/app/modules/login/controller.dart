@@ -4,6 +4,7 @@ import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 class LoginController extends GetxController {
   final UsuarioRepository repository;
@@ -58,7 +59,7 @@ class LoginController extends GetxController {
         token = retorno.body['access_token'];
         //getUsuario();
         criaSessao(retorno.body['expires_in']);
-        Get.offNamed('/');
+        Get.offNamed(Routes.INITIAL);
       }
       EasyLoading.dismiss();
       isLoading = false;
@@ -91,7 +92,7 @@ class LoginController extends GetxController {
     setSenha('');
     loginErroMensagem = null;
     repository.logout();
-    Get.offAllNamed('/login');
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   dynamic getLogin() => paciente != null ? paciente : medico;

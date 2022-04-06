@@ -11,7 +11,7 @@ class OpinioesPage extends GetView<OpinioesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text('Opiniões')),
       drawer: SideMenu(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
