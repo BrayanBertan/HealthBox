@@ -12,7 +12,7 @@ class InfoItemListOpiniao extends StatelessWidget {
         children: [
           Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eros justo, viverra quis nunc eget, laoreet volutpat nulla.',
-            maxLines: 1,
+            maxLines: true ? 10 : 1,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               overflow: TextOverflow.ellipsis,
@@ -23,7 +23,7 @@ class InfoItemListOpiniao extends StatelessWidget {
           ),
           Text(
               'Morbi fermentum ipsum a eros consectetur ultricies. Maecenas scelerisque ut tortor ut maximus. Nullam vulputate, risus non semper malesuada, quam nunc sollicitudin mi, eget dignissim lectus quam sit amet sapien. Aenean volutpat lectus ac ex hendrerit, sit amet efficitur tortor molestie. Curabitur enim risus, venenatis a diam non, gravida fringilla orci. Proin ac hendrerit purus. Mauris id magna eu tellus sodales faucibus. Aenean vitae orci eu tortor lobortis tristique.',
-              maxLines: 3,
+              maxLines: true ? 10 : 3,
               overflow: TextOverflow.ellipsis),
           const SizedBox(
             height: 10,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/routes/app_pages.dart';
+import 'package:like_button/like_button.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/values/keys.dart';
@@ -23,41 +24,55 @@ class InteracoesItemListOpiniao extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        Image.asset('${baseImagemUrl}gostar.png', width: 25),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        Text('10'),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                      ],
+                  LikeButton(
+                    circleColor: CircleColor(
+                        start: Colors.green.withOpacity(0.5),
+                        end: Colors.green.withOpacity(0.3)),
+                    bubblesColor: BubblesColor(
+                      dotPrimaryColor: Colors.green.withOpacity(0.7),
+                      dotSecondaryColor: Colors.green,
                     ),
+                    likeBuilder: (bool isLiked) {
+                      return Icon(
+                        Icons.thumb_up_outlined,
+                        color: isLiked ? Colors.green : Colors.black87,
+                      );
+                    },
+                    likeCount: 50,
+                    countBuilder: (int? count, bool isLiked, String text) {
+                      var color = isLiked ? Colors.green : Colors.black87;
+                      return Text(
+                        text,
+                        style: TextStyle(color: color),
+                      );
+                    },
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Image.asset('${baseImagemUrl}dislike.png',
-                                width: 25)
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 2,
-                        ),
-                        Text('5')
-                      ],
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  LikeButton(
+                    circleColor: CircleColor(
+                        start: Colors.red.withOpacity(0.5),
+                        end: Colors.red.withOpacity(0.3)),
+                    bubblesColor: BubblesColor(
+                      dotPrimaryColor: Colors.red.withOpacity(0.7),
+                      dotSecondaryColor: Colors.red,
                     ),
-                  )
+                    likeBuilder: (bool isLiked) {
+                      return Icon(
+                        Icons.thumb_down_alt_outlined,
+                        color: isLiked ? Colors.red : Colors.black87,
+                      );
+                    },
+                    likeCount: 50,
+                    countBuilder: (int? count, bool isLiked, String text) {
+                      var color = isLiked ? Colors.red : Colors.black87;
+                      return Text(
+                        text,
+                        style: TextStyle(color: color),
+                      );
+                    },
+                  ),
                 ],
               ),
               InkWell(
@@ -68,7 +83,7 @@ class InteracoesItemListOpiniao extends StatelessWidget {
                     const SizedBox(
                       width: 2,
                     ),
-                    Text('Detalhes')
+                    const Text('Detalhes')
                   ],
                 ),
               ),
