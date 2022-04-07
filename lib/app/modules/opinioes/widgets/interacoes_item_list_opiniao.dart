@@ -88,7 +88,8 @@ class InteracoesItemListOpiniao extends StatelessWidget {
                       ))
                   : Container(),
               InkWell(
-                onTap: () => Get.toNamed(Routes.DETALHES_OPINIAO),
+                onTap: () => Get.toNamed(Routes.DETALHES_OPINIAO)!
+                    .then((value) => FocusScope.of(context).unfocus()),
                 child: Row(
                   children: [
                     Image.asset('${baseImagemUrl}details.png', width: 25),
