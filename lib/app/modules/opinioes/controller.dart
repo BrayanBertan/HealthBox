@@ -14,7 +14,6 @@ class OpinioesController extends GetxController {
           return true;
         },
         onSelectionChanged: (text) {
-          print('aquii');
           texto = jsonEncode(controller_editor.document.toDelta().toJson());
           final doc = Document.fromJson(jsonDecode(texto));
         },

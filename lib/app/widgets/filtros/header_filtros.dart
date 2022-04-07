@@ -51,7 +51,7 @@ class HeaderFiltro extends StatelessWidget {
               ListTile(
                 title: const Text('Nova postagem'),
                 trailing: const Icon(Icons.add),
-                onTap: () => Get.toNamed(Routes.POSTAR_OPINIAO),
+                onTap: () => Get.toNamed(Routes.POSTAR_TRATAMENTO),
               ),
               ListTile(
                 title: const Text('Minhas postagens'),

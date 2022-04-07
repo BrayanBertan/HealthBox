@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
+import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
-class PagePostarOpiniao extends GetView<OpinioesController> {
-  PagePostarOpiniao({Key? key}) : super(key: key);
+class PagePostarTratamento extends GetView<PostarTratamentoController> {
+  PagePostarTratamento({Key? key}) : super(key: key);
+  final controller_opinioes = Get.find<OpinioesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class PagePostarOpiniao extends GetView<OpinioesController> {
               Container(
                   height: MediaQuery.of(context).size.height * 0.1,
                   child: QuillToolbar.basic(
-                    controller: controller.controller_editor,
+                    controller: controller_opinioes.controller_editor,
                     showAlignmentButtons: true,
                   )),
               const SizedBox(
@@ -30,7 +32,7 @@ class PagePostarOpiniao extends GetView<OpinioesController> {
               Container(
                 color: Colors.white,
                 height: MediaQuery.of(context).size.height * 0.2,
-                child: controller.quillEditor,
+                child: controller_opinioes.quillEditor,
               ),
             ],
           ),

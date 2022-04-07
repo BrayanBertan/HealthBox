@@ -7,7 +7,8 @@ import 'package:healthbox/app/modules/login/view.dart';
 import 'package:healthbox/app/modules/opinioes/binding.dart';
 import 'package:healthbox/app/modules/opinioes/view.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/detalhes_opiniao/page_detalhes_opiniao.dart';
-import 'package:healthbox/app/modules/opinioes/widgets/postar_opiniao/page_postar_opiniao.dart';
+import 'package:healthbox/app/modules/postar_tratamento/binding.dart';
+import 'package:healthbox/app/modules/postar_tratamento/view.dart';
 import 'package:healthbox/routes/middlewares/autentica_usuario.dart';
 
 part 'app_routes.dart';
@@ -24,9 +25,9 @@ class AppPages {
       page: () => PageDetalhesOpiniao(),
     ),
     GetPage(
-      name: Routes.POSTAR_OPINIAO,
-      page: () => PagePostarOpiniao(),
-    ),
+        name: Routes.POSTAR_TRATAMENTO,
+        page: () => PagePostarTratamento(),
+        binding: PostarTratamentoBinding()),
     GetPage(
       name: Routes.LOGIN,
       page: () => LoginPage(), /* middlewares: [SetTokenUsuario()]*/
