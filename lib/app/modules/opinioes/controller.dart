@@ -9,11 +9,14 @@ class OpinioesController extends GetxController {
     final doc = Document()..insert(0, '');
     controller_editor = QuillController(
         onReplaceText: (int1, int2, obj) {
+          if (controller_editor.document.toDelta().toJson().length >= 300)
+            return false;
+          return true;
+        },
+        onSelectionChanged: (text) {
+          print('aquii');
           texto = jsonEncode(controller_editor.document.toDelta().toJson());
           final doc = Document.fromJson(jsonDecode(texto));
-          print(texto);
-          if (texto.length >= 300) return false;
-          return true;
         },
         document: doc,
         selection: const TextSelection.collapsed(offset: 0));
