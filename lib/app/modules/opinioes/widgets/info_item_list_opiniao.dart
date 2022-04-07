@@ -1,7 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class InfoItemListOpiniao extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
+
+class InfoItemListOpiniao extends GetView<OpinioesController> {
   const InfoItemListOpiniao({Key? key}) : super(key: key);
+
+  get result => null;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +28,23 @@ class InfoItemListOpiniao extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Text(
-              'Morbi fermentum ipsum a eros consectetur ultricies. Maecenas scelerisque ut tortor ut maximus. Nullam vulputate, risus non semper malesuada, quam nunc sollicitudin mi, eget dignissim lectus quam sit amet sapien. Aenean volutpat lectus ac ex hendrerit, sit amet efficitur tortor molestie. Curabitur enim risus, venenatis a diam non, gravida fringilla orci. Proin ac hendrerit purus. Mauris id magna eu tellus sodales faucibus. Aenean vitae orci eu tortor lobortis tristique.',
-              maxLines: false ? 10 : 3,
-              overflow: TextOverflow.ellipsis),
+          IgnorePointer(
+            ignoring: true,
+            child: Obx(
+              () => QuillEditor(
+                controller: QuillController(
+                    document: Document.fromJson(jsonDecode(controller.texto)),
+                    selection: const TextSelection.collapsed(offset: 0)),
+                scrollController: ScrollController(),
+                scrollable: false,
+                focusNode: FocusNode(),
+                autoFocus: false,
+                readOnly: true,
+                expands: false,
+                padding: const EdgeInsets.all(5),
+              ),
+            ),
+          ),
           const SizedBox(
             height: 10,
           ),
