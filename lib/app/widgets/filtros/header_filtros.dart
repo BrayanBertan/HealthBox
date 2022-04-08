@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/widgets/filtros/dialog_filtros.dart';
 
 import '../../../core/values/keys.dart';
 import '../../../routes/app_pages.dart';
 
 class HeaderFiltro extends StatelessWidget {
-  const HeaderFiltro({Key? key}) : super(key: key);
-
+  HeaderFiltro({Key? key}) : super(key: key);
+  final controller = Get.find<OpinioesController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,7 +52,8 @@ class HeaderFiltro extends StatelessWidget {
               ListTile(
                 title: const Text('Nova postagem'),
                 trailing: const Icon(Icons.add),
-                onTap: () => Get.toNamed(Routes.POSTAR_TRATAMENTO),
+                onTap: () => Get.toNamed(Routes.POSTAR_TRATAMENTO)!
+                    .then((value) => controller.getOpinioes()),
               ),
               ListTile(
                 title: const Text('Minhas postagens'),

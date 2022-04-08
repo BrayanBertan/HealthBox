@@ -5,7 +5,8 @@ import 'package:healthbox/app/modules/opinioes/widgets/interacoes_item_list_opin
 import '../../../../core/values/keys.dart';
 
 class ItemListOpiniao extends StatelessWidget {
-  const ItemListOpiniao({Key? key}) : super(key: key);
+  int index;
+  ItemListOpiniao({required this.index, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,10 @@ class ItemListOpiniao extends StatelessWidget {
           child: Card(
             margin: const EdgeInsets.only(bottom: 25),
             child: Stack(
-              children: [InfoItemListOpiniao(), InteracoesItemListOpiniao()],
+              children: [
+                InfoItemListOpiniao(index: index),
+                InteracoesItemListOpiniao(index: index)
+              ],
             ),
           ),
         ),

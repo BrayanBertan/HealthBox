@@ -16,6 +16,7 @@ import 'core/theme/app_theme.dart';
 void main() async {
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const HealthBoxApp());
   EasyLoadingConfig();
 }

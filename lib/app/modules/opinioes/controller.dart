@@ -1,47 +1,35 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/opiniao.dart';
+
+import '../../data/repositories/tratamento.dart';
 
 class OpinioesController extends GetxController {
-  OpinioesController() {
-    final doc = Document()..insert(0, '');
-    controller_editor = QuillController(
-        onReplaceText: (int1, int2, obj) {
-          if (controller_editor.document.toDelta().toJson().length >= 300)
-            return false;
-          return true;
-        },
-        onSelectionChanged: (text) {
-          texto = jsonEncode(controller_editor.document.toDelta().toJson());
-          final doc = Document.fromJson(jsonDecode(texto));
-        },
-        document: doc,
-        selection: const TextSelection.collapsed(offset: 0));
-    final FocusNode _focusNode = FocusNode();
-    quillEditor = QuillEditor(
-      controller: controller_editor,
-      scrollController: ScrollController(),
-      scrollable: true,
-      focusNode: _focusNode,
-      autoFocus: false,
-      readOnly: false,
-      placeholder: 'Poste a sua opinião',
-      expands: false,
-      padding: const EdgeInsets.all(5),
-    );
-  }
+  final TratamentoRepository repository;
+  dynamic usuario;
+
+  OpinioesController({required this.repository}) : assert(repository != null) {}
 
   @override
   void onInit() {
     super.onInit();
+    getOpinioes();
   }
 
-  final _texto = '[{"insert":"testeee\\n"}]'.obs;
-  get texto => this._texto.value;
-  set texto(value) => this._texto.value = value;
+  final _opiniao = Rx<Opiniao?>(null);
+  final _carregando = false.obs;
+  final opinioes = <Opiniao>[].obs;
+  get carregando => this._carregando.value;
+  set carregando(value) => this._carregando.value = value;
 
-  QuillController controller_editor = QuillController.basic();
-  late QuillEditor quillEditor;
+  get opiniao => this._opiniao.value;
+  set opiniao(value) => this._opiniao.value = value;
+
+  getOpinioes() {
+    carregando = true;
+    repository.getOpinioes().then((retorno) {
+      opinioes.clear();
+      opinioes.assignAll(retorno);
+      carregando = false;
+    });
+  }
 }

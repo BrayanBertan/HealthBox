@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
@@ -8,8 +7,7 @@ import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class PagePostarTratamento extends GetView<PostarTratamentoController> {
-  PagePostarTratamento({Key? key}) : super(key: key);
-  final controller_opinioes = Get.find<OpinioesController>();
+  PagePostarTratamento({Key? key}) : super(key: key) {}
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,
             child: Stepper(
-              currentStep: 1,
+              currentStep: 0,
               type: StepperType.horizontal,
               steps: <Step>[
                 Step(

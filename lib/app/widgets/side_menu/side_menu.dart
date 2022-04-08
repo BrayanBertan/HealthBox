@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 import '../../../core/values/keys.dart';
@@ -64,13 +65,16 @@ class SideMenu extends StatelessWidget {
             title: const Text('Acompanhamentos'),
           ),
           const Divider(),
-          ListTile(
-            onTap: () {
-              Get.offAllNamed('/');
-            },
-            leading: Image.asset('${baseImagemUrl}feedback.png', width: 40),
-            title: const Text('Opiniões'),
-          ),
+          usuario.tipo == TipoUsuario.PACIENTE
+              ? ListTile(
+                  onTap: () {
+                    Get.offAllNamed('/');
+                  },
+                  leading:
+                      Image.asset('${baseImagemUrl}feedback.png', width: 40),
+                  title: const Text('Opiniões'),
+                )
+              : Container(),
         ],
       ),
     );

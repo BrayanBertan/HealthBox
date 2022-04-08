@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:like_button/like_button.dart';
 
@@ -7,8 +8,9 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/values/keys.dart';
 
 class InteracoesItemListOpiniao extends StatelessWidget {
-  const InteracoesItemListOpiniao({Key? key}) : super(key: key);
-
+  int index;
+  InteracoesItemListOpiniao({required this.index, Key? key}) : super(key: key);
+  final controller = Get.find<OpinioesController>();
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -88,8 +90,9 @@ class InteracoesItemListOpiniao extends StatelessWidget {
                       ))
                   : Container(),
               InkWell(
-                onTap: () => Get.toNamed(Routes.DETALHES_OPINIAO)!
-                    .then((value) => FocusScope.of(context).unfocus()),
+                onTap: () =>
+                    Get.toNamed(Routes.DETALHES_OPINIAO, arguments: index)!
+                        .then((value) => FocusScope.of(context).unfocus()),
                 child: Row(
                   children: [
                     Image.asset('${baseImagemUrl}details.png', width: 25),
