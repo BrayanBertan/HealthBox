@@ -8,7 +8,7 @@ class ListOpinioes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.width,
       child: ListView.builder(
           shrinkWrap: true,
           physics: const ScrollPhysics(),
