@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
-import 'package:healthbox/app/modules/opinioes/row_paginacao.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/item_list_opiniao.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/row_paginacao.dart';
 
 class ListOpinioes extends GetView<OpinioesController> {
   const ListOpinioes({Key? key}) : super(key: key);

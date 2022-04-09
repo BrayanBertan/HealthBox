@@ -21,8 +21,7 @@ class ContaProvider extends GetConnect {
       'usuarios/$id',
       headers: {'Authorization': 'Bearer  $token'},
     );
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -48,9 +47,7 @@ class ContaProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
       );
     }
-    print('aqui');
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -69,7 +66,6 @@ class ContaProvider extends GetConnect {
 
   Future<List<Especializacao>?> getEspecializacoes(
       List<Especializacao> itens) async {
-    print(itens);
     var retornoApi = await get('especializacoes?page=1&nome',
         decoder: (obj) => Especializacao.listFromJson(obj));
     List<Especializacao> itensRetorno = retornoApi.body!;
@@ -99,9 +95,6 @@ class ContaProvider extends GetConnect {
       headers: {'Authorization': 'Bearer  $token'},
     );
 
-    print('aqui especializacao');
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -109,13 +102,11 @@ class ContaProvider extends GetConnect {
   Future<bool> deletaEspecializacao(int id) async {
     Get.find<UsuarioProvider>().isSessionValid();
     httpClient.baseUrl = baseUrl;
-    print(id);
+
     var retornoApi = await delete(
       'especializacoes/$id',
       headers: {'Authorization': 'Bearer  $token'},
     );
-    print('${httpClient.baseUrl}especializacoes/$id');
-    print('Bearer  $token');
 
     if (retornoApi.statusCode == 200) return true;
     return false;

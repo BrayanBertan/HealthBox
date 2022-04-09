@@ -21,18 +21,13 @@ class UsuarioProvider extends GetConnect {
   }
 
   verificaLogin(String email, String senha) async {
-    print(email);
-    print(senha);
     httpClient.baseUrl = baseUrl;
-    print(
-        'endpoint ${httpClient.baseUrl}auth/login?password=$senha&email=$email');
 
     var retornoApi = await post(
       'auth/login?password=$senha&email=$email',
       {},
     );
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
   }
@@ -113,8 +108,7 @@ class UsuarioProvider extends GetConnect {
         usuario,
       );
     }
-    print(usuario);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }

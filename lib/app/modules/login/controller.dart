@@ -27,7 +27,6 @@ class LoginController extends GetxController {
 
   get senha => this._senha.value;
   setSenha(value) {
-    print('mudou - $value');
     this._senha.value = value ?? '';
   }
 
@@ -70,7 +69,6 @@ class LoginController extends GetxController {
   verificaSessao() => repository.verificaSessao();
 
   getUsuario() => repository.getUsuario().then((retorno) {
-        print(retorno);
         if (retorno is bool) {
           logout();
         } else {

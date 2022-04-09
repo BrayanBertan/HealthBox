@@ -226,7 +226,6 @@ class ContaController extends GetxController {
   }
 
   getEspecializacoes() {
-    print(especializacoesCrm);
     repository
         .getEspecializacoes(especializacoesCrm)
         .then((List<Especializacao>? retorno) {

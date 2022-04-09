@@ -62,7 +62,6 @@ class BarraNovoCrm extends GetView<ContaController> {
                 onPressed: controller.isLoading
                     ? null
                     : () {
-                        print('xd');
                         FocusScope.of(context).unfocus();
                         controller.salvarCrm();
                       },
