@@ -36,21 +36,20 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
               textAlign: TextAlign.center,
             ),
             Card(
-              child: IgnorePointer(
-                ignoring: true,
-                child: QuillEditor(
-                  controller: QuillController(
-                      document: Document.fromJson(jsonDecode(
-                          controller.opinioes[Get.arguments].descricao)),
-                      selection: const TextSelection.collapsed(offset: 0)),
-                  scrollController: ScrollController(),
-                  scrollable: false,
-                  focusNode: FocusNode(),
-                  autoFocus: false,
-                  readOnly: true,
-                  expands: false,
-                  padding: const EdgeInsets.all(5),
-                ),
+              child: QuillEditor(
+                controller: QuillController(
+                    document: Document.fromJson(jsonDecode(
+                        controller.opinioes[Get.arguments].descricao)),
+                    selection: const TextSelection.collapsed(offset: 0)),
+                scrollController: ScrollController(),
+                scrollable: true,
+                focusNode: FocusNode(),
+                maxHeight: MediaQuery.of(context).size.height * 0.3,
+                autoFocus: false,
+                readOnly: true,
+                enableInteractiveSelection: false,
+                expands: false,
+                padding: const EdgeInsets.all(5),
               ),
             ),
             CardDetalhesMedicamentos(),

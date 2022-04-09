@@ -23,7 +23,7 @@ class CardDetalhesMedicamentos extends StatelessWidget {
               ),
             ),
             Container(
-              height: 100,
+              height: MediaQuery.of(context).size.height * 0.1,
               child: ListView.builder(
                   physics: const ScrollPhysics(),
                   scrollDirection: Axis.vertical,
