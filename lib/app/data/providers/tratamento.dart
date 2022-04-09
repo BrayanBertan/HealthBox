@@ -28,9 +28,12 @@ class TratamentoProvider extends GetConnect {
   }
 
   Future<List<Opiniao>> getOpinioes({int? pacienteId, int page = 1}) async {
-    print(page);
-    var retornoApi = await get(
-        'opinioes?page=$page&ativo=1&paciente_id&order_eficaz=asc&order_likes=asc',
+    String endpoint =
+        'opinioes?page=$page&ativo=1&paciente_id&order_eficaz=asc&order_likes=asc';
+    if (pacienteId != null)
+      endpoint =
+          'opinioes?page=$page&ativo=1&paciente_id=$pacienteId&order_eficaz=asc&order_likes=asc';
+    var retornoApi = await get(endpoint,
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Opiniao.listFromJson(obj));
 

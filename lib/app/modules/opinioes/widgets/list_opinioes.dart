@@ -17,17 +17,22 @@ class ListOpinioes extends StatelessWidget {
                 'carregando...',
                 textAlign: TextAlign.center,
               )
-            : ListView.builder(
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemCount: controller.opinioes.length + 1,
-                itemBuilder: (context, index) {
-                  return index == controller.opinioes.length
-                      ? RowPaginacao()
-                      : ItemListOpiniao(
-                          index: index,
-                        );
-                }),
+            : controller.opinioes.isEmpty
+                ? const Text(
+                    'Nenhuma opinião encontrada para esse filtro...',
+                    textAlign: TextAlign.center,
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: controller.opinioes.length + 1,
+                    itemBuilder: (context, index) {
+                      return index == controller.opinioes.length
+                          ? RowPaginacao()
+                          : ItemListOpiniao(
+                              index: index,
+                            );
+                    }),
       ),
     );
   }

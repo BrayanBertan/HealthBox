@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/widgets/filtros/dialog_filtros.dart';
+import 'package:healthbox/core/theme/app_colors.dart';
 
 import '../../../core/values/keys.dart';
 import '../../../routes/app_pages.dart';
@@ -50,14 +51,23 @@ class HeaderFiltro extends StatelessWidget {
             title: const Text('Gerenciar minhas opiniões'),
             children: [
               ListTile(
-                title: const Text('Nova postagem'),
-                trailing: const Icon(Icons.add),
                 onTap: () => Get.toNamed(Routes.POSTAR_TRATAMENTO)!
                     .then((value) => controller.getOpinioes()),
+                title: const Text('Nova postagem'),
+                trailing: const Icon(Icons.add),
               ),
-              ListTile(
-                title: const Text('Minhas postagens'),
-                trailing: const Icon(Icons.list),
+              Obx(
+                () => ListTile(
+                  onTap: () {
+                    controller.setIsMinhasOpinoesChecked();
+                    controller.getOpinioes();
+                  },
+                  title: const Text('Minhas postagens'),
+                  trailing: const Icon(Icons.list),
+                  tileColor: controller.isMinhasOpinoesChecked
+                      ? corPrincipal
+                      : Colors.white,
+                ),
               ),
             ]),
       ],

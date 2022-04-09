@@ -11,7 +11,6 @@ class LoginController extends GetxController {
   LoginController({required this.repository}) : assert(repository != null);
   @override
   void onInit() {
-    //verificaSessao();
     super.onInit();
   }
 
@@ -71,6 +70,7 @@ class LoginController extends GetxController {
   verificaSessao() => repository.verificaSessao();
 
   getUsuario() => repository.getUsuario().then((retorno) {
+        print(retorno);
         if (retorno is bool) {
           logout();
         } else {

@@ -16,4 +16,5 @@ final appThemeData = ThemeData(
     }),
     primaryColor: corPrincipal500,
     fontFamily: 'sourcesanspro',
+    backgroundColor: corPrincipal100,
     textTheme: Typography().englishLike);

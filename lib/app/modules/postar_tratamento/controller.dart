@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import '../login/controller.dart';
 
@@ -53,6 +55,13 @@ class PostarTratamentoController extends GetxController {
 
     Opiniao opiniao =
         Opiniao(descricao: texto, pacienteId: usuario.id, eficaz: 1, ativo: 1);
-    repository.salvarOpiniao(opiniao).then((retorno) {});
+    repository.salvarOpiniao(opiniao).then((retorno) {
+      if (retorno) {
+        EasyLoading.showSuccess('Opinião salva com sucesso');
+        Get.offNamed(Routes.INITIAL);
+      } else {
+        EasyLoading.showError('Erro ao salvar opinião');
+      }
+    });
   }
 }

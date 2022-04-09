@@ -77,7 +77,7 @@ class InteracoesItemListOpiniao extends StatelessWidget {
                   ),
                 ],
               ),
-              false
+              controller.isMinhasOpinoesChecked
                   ? TextButton.icon(
                       onPressed: () {},
                       icon: const Icon(
