@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
@@ -19,7 +20,7 @@ class InfoItemListOpiniao extends GetView<OpinioesController> {
           Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eros justo, viverra quis nunc eget, laoreet volutpat nulla.',
             maxLines: false ? 10 : 1,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               overflow: TextOverflow.ellipsis,
             ),
@@ -27,20 +28,12 @@ class InfoItemListOpiniao extends GetView<OpinioesController> {
           const SizedBox(
             height: 10,
           ),
-          IgnorePointer(
-            ignoring: true,
-            child: QuillEditor(
-              controller: QuillController(
-                  document: Document.fromJson(
-                      jsonDecode(controller.opinioes[index].descricao)),
-                  selection: const TextSelection.collapsed(offset: 0)),
-              scrollController: ScrollController(),
-              scrollable: false,
-              focusNode: FocusNode(),
-              autoFocus: false,
-              readOnly: true,
-              expands: false,
-              padding: const EdgeInsets.all(5),
+          Text(
+            Document.fromJson(jsonDecode(controller.opinioes[index].descricao))
+                .toPlainText(),
+            maxLines: 3,
+            style: const TextStyle(
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           const SizedBox(

@@ -9,6 +9,7 @@ class QuillEditorColumn extends StatelessWidget {
   QuillEditorColumn({Key? key}) : super(key: key) {
     controller.controller_editor = QuillController(
         onReplaceText: (int1, int2, obj) {
+          if (controller.texto == null) controller.texto = '';
           int tamanho =
               controller.controller_editor.document.toPlainText().length;
           controller.controller_editor.document.toDelta();
@@ -29,9 +30,20 @@ class QuillEditorColumn extends StatelessWidget {
             child: QuillToolbar.basic(
               controller: controller.controller_editor,
               showAlignmentButtons: true,
+              showImageButton: false,
+              showVideoButton: false,
+              showCameraButton: false,
+              showColorButton: false,
+              showUndo: false,
+              showRedo: false,
+              showBackgroundColorButton: false,
+              showStrikeThrough: false,
+              showClearFormat: false,
+              locale: const Locale('pt'),
+              toolbarIconAlignment: WrapAlignment.start,
             )),
         Container(
-          margin: const EdgeInsets.only(top: 55),
+          margin: const EdgeInsets.only(top: 25),
           width: MediaQuery.of(context).size.width,
           color: Colors.white,
           height: MediaQuery.of(context).size.height * 0.3,
@@ -49,6 +61,25 @@ class QuillEditorColumn extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                 )),
         ),
+        const SizedBox(
+          height: 25,
+        ),
+        Obx(() => Wrap(
+              spacing: 25,
+              children: [
+                Text(
+                  controller.TextoErroMensagem ?? '',
+                  style: const TextStyle(color: Colors.red),
+                ),
+                Text(
+                  '${(controller.editorLength) - 2}/200',
+                  style: TextStyle(
+                      color: controller.editorLength <= 200
+                          ? Colors.black
+                          : Colors.red),
+                )
+              ],
+            ))
       ],
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
 
 class RowPaginacao extends StatelessWidget {
-  const RowPaginacao({Key? key}) : super(key: key);
-
+  RowPaginacao({Key? key}) : super(key: key);
+  final controller = Get.find<OpinioesController>();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -10,12 +12,22 @@ class RowPaginacao extends StatelessWidget {
       children: [
         Container(
             height: 50,
-            child:
-                ElevatedButton(onPressed: null, child: const Text('Anterior'))),
+            child: Obx(
+              () => ElevatedButton(
+                  onPressed: controller.page == 1
+                      ? null
+                      : () => controller.setPageAnterior(),
+                  child: const Text('Anterior')),
+            )),
         Container(
             height: 50,
-            child:
-                ElevatedButton(onPressed: () {}, child: const Text('Próximo'))),
+            child: Obx(
+              () => ElevatedButton(
+                  onPressed: controller.opinioes.length < 10
+                      ? null
+                      : () => controller.setPageProxima(),
+                  child: const Text('Próximo')),
+            )),
       ],
     );
   }

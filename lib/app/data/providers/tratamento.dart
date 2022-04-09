@@ -23,17 +23,14 @@ class TratamentoProvider extends GetConnect {
       opiniao.toJson(),
       headers: {'Authorization': 'Bearer  $token'},
     );
-
-    print('aqui cadastro opinião');
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
 
-  Future<List<Opiniao>> getOpinioes() async {
+  Future<List<Opiniao>> getOpinioes({int? pacienteId, int page = 1}) async {
+    print(page);
     var retornoApi = await get(
-        'opinioes?ativo=1&paciente_id&order_eficaz=asc&order_likes=asc',
+        'opinioes?page=$page&ativo=1&paciente_id&order_eficaz=asc&order_likes=asc',
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Opiniao.listFromJson(obj));
 

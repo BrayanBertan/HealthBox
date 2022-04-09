@@ -5,6 +5,7 @@ class TratamentoRepository {
   final TratamentoProvider provider;
   TratamentoRepository({required this.provider}) : assert(provider != null);
 
-  getOpinioes() => provider.getOpinioes();
+  getOpinioes({int? pacienteId, int page = 1}) =>
+      provider.getOpinioes(pacienteId: pacienteId, page: page);
   salvarOpiniao(Opiniao opiniao) => provider.salvarOpiniao(opiniao);
 }

@@ -13,20 +13,27 @@ class OpinioesController extends GetxController {
   void onInit() {
     super.onInit();
     getOpinioes();
+    ever(_page, (val) => getOpinioes());
   }
 
   final _opiniao = Rx<Opiniao?>(null);
   final _carregando = false.obs;
   final opinioes = <Opiniao>[].obs;
+  final _page = 1.obs;
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
 
   get opiniao => this._opiniao.value;
   set opiniao(value) => this._opiniao.value = value;
 
+  get page => this._page.value;
+
+  setPageAnterior() => this._page.value--;
+  setPageProxima() => this._page.value++;
+
   getOpinioes() {
     carregando = true;
-    repository.getOpinioes().then((retorno) {
+    repository.getOpinioes(page: page).then((retorno) {
       opinioes.clear();
       opinioes.assignAll(retorno);
       carregando = false;

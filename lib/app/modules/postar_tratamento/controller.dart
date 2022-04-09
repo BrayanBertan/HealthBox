@@ -26,13 +26,25 @@ class PostarTratamentoController extends GetxController {
   get doc => this._doc.value;
   set doc(value) => this._doc.value = value;
 
-  final _texto = '[{"insert":""}]'.obs;
+  final _texto = Rx<String?>(null);
   get texto => this._texto.value;
   set texto(value) => this._texto.value = value;
 
   final _carregando = false.obs;
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
+
+  get editorLength =>
+      controller_editor.document.toDelta().toJson()[0]['insert'].length;
+
+  bool TextoValido() =>
+      texto != null && editorLength > 10 && editorLength <= 200;
+
+  String? get TextoErroMensagem {
+    if (texto == null || TextoValido()) return null;
+    if (editorLength > 200) return 'Descrição muito longa';
+    return 'Descrição muito curta';
+  }
 
   QuillController controller_editor = QuillController.basic();
 
