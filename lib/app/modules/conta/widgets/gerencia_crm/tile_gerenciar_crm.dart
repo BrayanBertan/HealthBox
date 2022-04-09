@@ -4,9 +4,9 @@ import 'package:healthbox/app/modules/conta/controller.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/barra_novo_crm.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/crm_detalhes_dialog.dart';
 
-class TileGerenciarCrm extends StatelessWidget {
-  TileGerenciarCrm({Key? key}) : super(key: key);
-  final controller = Get.find<ContaController>();
+class TileGerenciarCrm extends GetView<ContaController> {
+  const TileGerenciarCrm({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(

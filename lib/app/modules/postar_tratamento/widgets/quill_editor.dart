@@ -3,9 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 
-class QuillEditorColumn extends StatelessWidget {
-  final controller = Get.find<PostarTratamentoController>();
-
+class QuillEditorColumn extends GetView<PostarTratamentoController> {
   QuillEditorColumn({Key? key}) : super(key: key) {
     controller.controller_editor = QuillController(
         onReplaceText: (int1, int2, obj) {

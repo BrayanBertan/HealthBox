@@ -48,6 +48,8 @@ class HeaderFiltro extends StatelessWidget {
           height: 15,
         ),
         ExpansionTile(
+            onExpansionChanged: (val) =>
+                controller.isGerenciarMinhasOpinioesOpen = val,
             title: const Text('Gerenciar minhas opiniões'),
             children: [
               ListTile(

@@ -9,7 +9,6 @@ import 'package:healthbox/app/modules/opinioes/controller.dart';
 class InfoItemListOpiniao extends GetView<OpinioesController> {
   int index;
   InfoItemListOpiniao({required this.index, Key? key}) : super(key: key);
-  final controller = Get.find<OpinioesController>();
   @override
   Widget build(BuildContext context) {
     return Padding(

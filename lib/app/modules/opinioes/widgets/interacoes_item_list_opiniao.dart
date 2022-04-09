@@ -7,10 +7,9 @@ import 'package:like_button/like_button.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/values/keys.dart';
 
-class InteracoesItemListOpiniao extends StatelessWidget {
+class InteracoesItemListOpiniao extends GetView<OpinioesController> {
   int index;
   InteracoesItemListOpiniao({required this.index, Key? key}) : super(key: key);
-  final controller = Get.find<OpinioesController>();
   @override
   Widget build(BuildContext context) {
     return Positioned(

@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 
 import '../controller.dart';
 
-class Step3PacientePage extends StatelessWidget {
-  Step3PacientePage({Key? key}) : super(key: key);
-  final controller = Get.find<DadosUsuarioController>();
+class Step3PacientePage extends GetView<DadosUsuarioController> {
+  const Step3PacientePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(

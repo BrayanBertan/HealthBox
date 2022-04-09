@@ -5,9 +5,9 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../controller.dart';
 
-class Step3MedicoPage extends StatelessWidget {
-  Step3MedicoPage({Key? key}) : super(key: key);
-  final controller = Get.find<DadosUsuarioController>();
+class Step3MedicoPage extends GetView<DadosUsuarioController> {
+  const Step3MedicoPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(

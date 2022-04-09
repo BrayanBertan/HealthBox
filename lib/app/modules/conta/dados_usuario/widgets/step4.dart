@@ -10,9 +10,8 @@ import 'package:healthbox/core/theme/app_text_theme.dart';
 import '../../../../../core/values/keys.dart';
 import '../controller.dart';
 
-class Step4Page extends StatelessWidget {
-  Step4Page({Key? key}) : super(key: key);
-  final controller = Get.find<DadosUsuarioController>();
+class Step4Page extends GetView<DadosUsuarioController> {
+  const Step4Page({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(

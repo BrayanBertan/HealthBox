@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 
-class RowPaginacao extends StatelessWidget {
+class RowPaginacao extends GetView<OpinioesController> {
   RowPaginacao({Key? key}) : super(key: key);
-  final controller = Get.find<OpinioesController>();
+
   @override
   Widget build(BuildContext context) {
     return Row(

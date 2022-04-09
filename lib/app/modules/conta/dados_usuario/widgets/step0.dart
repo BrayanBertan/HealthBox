@@ -9,9 +9,8 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/values/keys.dart';
 import '../../../../data/enums/tipo_usuario.dart';
 
-class Step0Page extends StatelessWidget {
-  Step0Page({Key? key}) : super(key: key);
-  final controller = Get.find<DadosUsuarioController>();
+class Step0Page extends GetView<DadosUsuarioController> {
+  const Step0Page({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,9 +6,8 @@ import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/barra_novo_crm.
 import '../../../../../core/theme/app_text_theme.dart';
 import '../../../../data/models/especializacao.dart';
 
-class DialogDetalhesCrm extends StatelessWidget {
-  final controller = Get.find<ContaController>();
-  DialogDetalhesCrm({Key? key}) : super(key: key);
+class DialogDetalhesCrm extends GetView<ContaController> {
+  const DialogDetalhesCrm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

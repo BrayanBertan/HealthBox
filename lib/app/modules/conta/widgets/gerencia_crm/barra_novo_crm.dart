@@ -5,12 +5,12 @@ import 'package:healthbox/app/modules/conta/controller.dart';
 
 import '../../../../../core/values/keys.dart';
 
-class BarraNovoCrm extends StatelessWidget {
+class BarraNovoCrm extends GetView<ContaController> {
   String titulo;
 
   String uf;
   IconData icone;
-  final controller = Get.find<ContaController>();
+
   BarraNovoCrm(
       {this.titulo = 'Novo CRM',
       this.uf = 'SC',

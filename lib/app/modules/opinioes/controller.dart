@@ -25,10 +25,15 @@ class OpinioesController extends GetxController {
   final opinioes = <Opiniao>[].obs;
   final _page = 1.obs;
   final _isMinhasOpinoesChecked = false.obs;
+  final _isGerenciarMinhasOpinioesOpen = false.obs;
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
   get usuario => this._usuario.value;
   set usuario(value) => this._usuario.value = value;
+  get isGerenciarMinhasOpinioesOpen =>
+      this._isGerenciarMinhasOpinioesOpen.value;
+  set isGerenciarMinhasOpinioesOpen(value) =>
+      this._isGerenciarMinhasOpinioesOpen.value = value;
 
   get opiniao => this._opiniao.value;
   set opiniao(value) => this._opiniao.value = value;

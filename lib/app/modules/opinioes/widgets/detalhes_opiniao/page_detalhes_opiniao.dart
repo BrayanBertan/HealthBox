@@ -10,9 +10,9 @@ import 'package:healthbox/core/theme/app_text_theme.dart';
 
 import '../../../../../core/values/keys.dart';
 
-class PageDetalhesOpiniao extends StatelessWidget {
+class PageDetalhesOpiniao extends GetView<OpinioesController> {
   PageDetalhesOpiniao({Key? key}) : super(key: key);
-  final controller = Get.find<OpinioesController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

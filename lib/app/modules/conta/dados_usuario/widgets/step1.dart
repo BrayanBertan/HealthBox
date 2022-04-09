@@ -8,9 +8,8 @@ import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/image_options.dart';
 import 'package:healthbox/core/values/keys.dart';
 
-class Step1Page extends StatelessWidget {
-  Step1Page({Key? key}) : super(key: key);
-  final controller = Get.find<DadosUsuarioController>();
+class Step1Page extends GetView<DadosUsuarioController> {
+  const Step1Page({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

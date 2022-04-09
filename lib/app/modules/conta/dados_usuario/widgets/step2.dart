@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 
-class Step2Page extends StatelessWidget {
-  Step2Page({Key? key}) : super(key: key);
-  final controller = Get.find<DadosUsuarioController>();
+class Step2Page extends GetView<DadosUsuarioController> {
+  const Step2Page({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
