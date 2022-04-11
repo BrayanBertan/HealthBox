@@ -59,25 +59,6 @@ class QuillEditorColumn extends GetView<PostarTratamentoController> {
                   padding: const EdgeInsets.all(5),
                 )),
         ),
-        const SizedBox(
-          height: 25,
-        ),
-        Obx(() => Wrap(
-              spacing: 25,
-              children: [
-                Text(
-                  controller.TextoErroMensagem ?? '',
-                  style: const TextStyle(color: Colors.red),
-                ),
-                Text(
-                  '${(controller.editorLength) - 2}/200',
-                  style: TextStyle(
-                      color: controller.editorLength <= 200
-                          ? Colors.black
-                          : Colors.red),
-                )
-              ],
-            ))
       ],
     );
   }

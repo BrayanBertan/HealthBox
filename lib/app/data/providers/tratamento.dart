@@ -16,13 +16,35 @@ class TratamentoProvider extends GetConnect {
 
   Future<bool> salvarOpiniao(Opiniao opiniao) async {
     Get.find<UsuarioProvider>().isSessionValid();
-
     dynamic retornoApi;
-    retornoApi = await post(
-      'opinioes',
-      opiniao.toJson(),
+
+    if (opiniao.id == null) {
+      retornoApi = await post(
+        'opinioes',
+        opiniao.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    } else {
+      retornoApi = await put(
+        'opinioes/${opiniao.id}',
+        opiniao.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    }
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  Future<bool> deletarOpiniao(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+
+    retornoApi = await delete(
+      'opinioes/$id',
       headers: {'Authorization': 'Bearer  $token'},
     );
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }

@@ -8,4 +8,5 @@ class TratamentoRepository {
   getOpinioes({int? pacienteId, int page = 1}) =>
       provider.getOpinioes(pacienteId: pacienteId, page: page);
   salvarOpiniao(Opiniao opiniao) => provider.salvarOpiniao(opiniao);
+  deletarOpiniao(int id) => provider.deletarOpiniao(id);
 }

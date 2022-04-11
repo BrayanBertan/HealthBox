@@ -9,6 +9,7 @@ class CardDetalhesMedicamentos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.only(right: 15),
       child: Padding(
         padding:
             const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 25),

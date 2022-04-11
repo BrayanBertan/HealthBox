@@ -54,23 +54,6 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                     fontSize: 17,
                   ),
                   children: <TextSpan>[
-                    TextSpan(
-                        text:
-                            'Status do tratamento no momento da postagem da opinião ',
-                        style: subTitulo),
-                    TextSpan(
-                        text: 'Concluido',
-                        style: TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold)),
-                  ]),
-              textAlign: TextAlign.start,
-            ),
-            Text.rich(
-              TextSpan(
-                  style: const TextStyle(
-                    fontSize: 17,
-                  ),
-                  children: <TextSpan>[
                     TextSpan(text: 'Link da bula ', style: subTitulo),
                     TextSpan(
                         text: 'www.bula.com.br',

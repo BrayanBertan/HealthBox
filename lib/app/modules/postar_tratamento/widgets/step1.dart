@@ -11,13 +11,67 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        TextFormField(
+          initialValue: controller.titulo,
+          onChanged: controller.setTitulo,
+          decoration: InputDecoration(
+              icon: const Icon(
+                Icons.title,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade100)),
+              labelText: "Título",
+              enabledBorder: InputBorder.none,
+              labelStyle: const TextStyle(
+                color: Colors.grey,
+              ),
+              errorText: controller.tituloErroMensagem),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         QuillEditorColumn(),
         const SizedBox(
           height: 25,
         ),
-        ElevatedButton(
-            onPressed: () => controller.salvarOpiniao(),
-            child: const Text('salvar'))
+        const SizedBox(
+          height: 25,
+        ),
+        Obx(() => Wrap(
+              spacing: MediaQuery.of(context).size.width * 0.25,
+              children: [
+                DropdownButton<int>(
+                    isDense: true,
+                    value: controller.eficacia,
+                    items: controller.eficazList
+                        .map((Map<String, dynamic> eficacia) =>
+                            DropdownMenuItem<int>(
+                                value: eficacia['valor'],
+                                child: Text(
+                                  eficacia['titulo'],
+                                )))
+                        .toList(),
+                    onChanged: controller.setEficacia),
+                Text(
+                  controller.textoErroMensagem ?? '',
+                  style: const TextStyle(color: Colors.red),
+                ),
+                Text(
+                  '${(controller.editorLength) - 2}/200',
+                  style: TextStyle(
+                      color: controller.editorLength <= 200
+                          ? Colors.black
+                          : Colors.red),
+                )
+              ],
+            )),
+        Obx(
+          () => ElevatedButton(
+              onPressed: !controller.step1Valido()
+                  ? () => controller.salvarOpiniao()
+                  : () => controller.salvarOpiniao(),
+              child: const Text('salvar')),
+        )
       ],
     );
   }

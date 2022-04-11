@@ -78,7 +78,8 @@ class InteracoesItemListOpiniao extends GetView<OpinioesController> {
               ),
               controller.isMinhasOpinoesChecked
                   ? TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.POSTAR_TRATAMENTO,
+                          arguments: controller.opinioes[index]),
                       icon: const Icon(
                         Icons.edit,
                         color: Colors.black87,
