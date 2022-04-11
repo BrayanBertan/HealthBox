@@ -23,6 +23,15 @@ class QuillEditorColumn extends GetView<PostarTratamentoController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        const Text(
+          'Sua opinião',
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
         Container(
             height: MediaQuery.of(context).size.height * 0.1,
             child: QuillToolbar.basic(

@@ -65,13 +65,6 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
                 )
               ],
             )),
-        Obx(
-          () => ElevatedButton(
-              onPressed: !controller.step1Valido()
-                  ? () => controller.salvarOpiniao()
-                  : () => controller.salvarOpiniao(),
-              child: const Text('salvar')),
-        )
       ],
     );
   }

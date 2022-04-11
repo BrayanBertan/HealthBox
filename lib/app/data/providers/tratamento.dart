@@ -3,6 +3,8 @@ import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 import 'package:healthbox/core/values/keys.dart';
 
+import '../models/medicamento.dart';
+
 class TratamentoProvider extends GetConnect {
   static String token = '';
   @override
@@ -17,7 +19,7 @@ class TratamentoProvider extends GetConnect {
   Future<bool> salvarOpiniao(Opiniao opiniao) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
-
+    print('Bearer $token');
     if (opiniao.id == null) {
       retornoApi = await post(
         'opinioes',
@@ -93,5 +95,18 @@ class TratamentoProvider extends GetConnect {
     print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
+  }
+
+  Future<List<Medicamento>> getMedicamentosFiltro(String filtro) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    var retornoApi = await get('remedios?nome=$filtro&page=1',
+        headers: {'Authorization': 'Bearer  $token'},
+        decoder: (obj) => Medicamento.listFromJson(obj));
+
+    if (retornoApi.statusCode == 200 && retornoApi.body != null) {
+      return retornoApi.body!;
+    } else {
+      return List<Medicamento>.empty();
+    }
   }
 }

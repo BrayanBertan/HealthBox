@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/medicamento.dart';
+import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
@@ -25,6 +27,35 @@ class PostarTratamentoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+  }
+
+  //======================TODOS==========================================
+  final _activeStepIndex = 0.obs;
+  get activeStepIndex => this._activeStepIndex.value;
+  setActiveStepIndex(value) => this._activeStepIndex.value =
+      isValidStep(activeStepIndex) || value < activeStepIndex
+          ? value
+          : activeStepIndex;
+  activeStepIndexIncrease() => this._activeStepIndex.value++;
+  activeStepIndexDecrease() => this._activeStepIndex.value--;
+
+  bool isValidStep(int step) {
+    bool retorno = false;
+    switch (step) {
+      case 0:
+        retorno = step1Valido();
+        break;
+      default:
+        retorno = step1Valido();
+    }
+    return retorno;
+  }
+
+  StepState getStepState(int step) {
+    if (step == activeStepIndex) return StepState.editing;
+    if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
+    if (step != activeStepIndex && !isValidStep(step)) return StepState.indexed;
+    return StepState.indexed;
   }
 
 //===============================STEP 1==================================
@@ -71,6 +102,15 @@ class PostarTratamentoController extends GetxController {
     if (texto == null || textoValido()) return null;
     if (editorLength > 200) return 'Descrição muito longa';
     return 'Descrição muito curta';
+  }
+
+  //===============================STEP 2==================================
+
+  final medicamentosSelecionados = <Medicamento>[].obs;
+  final medicamentosSelecionadosInfo = <MedicamentoInfo>[].obs;
+  Future<List<Medicamento>> getMedicamentos(String? filtro) async {
+    if (filtro == null) return List<Medicamento>.empty();
+    return await repository.getMedicamentosFiltro(filtro);
   }
 
   setOpiniaoEdicao(Opiniao opiniao) {

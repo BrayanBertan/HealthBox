@@ -23,58 +23,58 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
           children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.8,
-              child: Stepper(
-                currentStep: 0,
-                type: StepperType.horizontal,
-                steps: <Step>[
-                  Step(
-                      title: Text(''),
-                      content: Step1TratamentoPage(),
-                      isActive: true,
-                      state: StepState.indexed),
-                  Step(
-                      title: Text(''),
-                      content: Step2TratamentoPage(),
-                      isActive: false,
-                      state: StepState.indexed),
-                  Step(
-                      title: Text(''),
-                      content: Step1TratamentoPage(),
-                      isActive: false,
-                      state: StepState.indexed),
-                  Step(
-                      title: Text(''),
-                      content: Step1TratamentoPage(),
-                      isActive: false,
-                      state: StepState.indexed),
-                ],
-                controlsBuilder:
-                    (BuildContext context, ControlsDetails details) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        ElevatedButton(
-                            onPressed: () {
-                              details.onStepCancel!();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                onSurface: corPrincipal300,
-                                fixedSize: const Size(150, 50)),
-                            child: Text('Anterior')),
-                        ElevatedButton(
-                            onPressed: () {
-                              details.onStepContinue!();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                onSurface: corPrincipal300,
-                                fixedSize: const Size(150, 50)),
-                            child: Text('Próximo')),
-                      ],
-                    ),
-                  );
-                },
+              child: Obx(
+                () => Stepper(
+                  currentStep: controller.activeStepIndex,
+                  type: StepperType.horizontal,
+                  steps: <Step>[
+                    Step(
+                        title: Text(''),
+                        content: Step1TratamentoPage(),
+                        isActive: controller.activeStepIndex == 0,
+                        state: controller.getStepState(0)),
+                    Step(
+                        title: Text(''),
+                        content: Step2TratamentoPage(),
+                        isActive: controller.activeStepIndex == 1,
+                        state: controller.getStepState(1)),
+                  ],
+                  onStepCancel: controller.activeStepIndexDecrease,
+                  onStepContinue: controller.activeStepIndexIncrease,
+                  onStepTapped: (int step) {
+                    FocusScope.of(context).unfocus();
+                    controller.setActiveStepIndex(step);
+                  },
+                  controlsBuilder:
+                      (BuildContext context, ControlsDetails details) {
+                    return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Obx(() => ElevatedButton(
+                              onPressed: controller.activeStepIndex < 1
+                                  ? null
+                                  : details.onStepCancel,
+                              style: ElevatedButton.styleFrom(
+                                  onSurface: corPrincipal300,
+                                  fixedSize: const Size(150, 50)),
+                              child: const Text('Anterior'))),
+                          Obx(() => ElevatedButton(
+                              onPressed: () {
+                                details.onStepContinue!();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  onSurface: corPrincipal300,
+                                  fixedSize: const Size(150, 50)),
+                              child: Text(controller.activeStepIndex == 4
+                                  ? 'Confirmar?'
+                                  : 'Próximo'))),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
             controller.idOpiniao != null

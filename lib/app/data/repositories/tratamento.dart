@@ -12,4 +12,7 @@ class TratamentoRepository {
 
   setLike(bool isLike, opiniaoId) => provider.setLike(isLike, opiniaoId);
   deleteLike(int opiniaoId) => provider.deleteLike(opiniaoId);
+
+  getMedicamentosFiltro(String filtro) =>
+      provider.getMedicamentosFiltro(filtro);
 }
