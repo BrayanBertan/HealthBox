@@ -9,4 +9,7 @@ class TratamentoRepository {
       provider.getOpinioes(pacienteId: pacienteId, page: page);
   salvarOpiniao(Opiniao opiniao) => provider.salvarOpiniao(opiniao);
   deletarOpiniao(int id) => provider.deletarOpiniao(id);
+
+  setLike(bool isLike, opiniaoId) => provider.setLike(isLike, opiniaoId);
+  deleteLike(int opiniaoId) => provider.deleteLike(opiniaoId);
 }

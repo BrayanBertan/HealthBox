@@ -65,4 +65,33 @@ class TratamentoProvider extends GetConnect {
       return List<Opiniao>.empty();
     }
   }
+
+  Future<bool> setLike(bool isLike, opiniaoId) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+
+    retornoApi = await post(
+      'likes',
+      {'opiniao_id': opiniaoId, 'is_like': isLike ? 1 : 0},
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  Future<bool> deleteLike(int opiniaoId) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+
+    retornoApi = await delete(
+      'likes/$opiniaoId',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
 }

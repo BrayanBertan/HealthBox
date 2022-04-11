@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
@@ -26,8 +27,11 @@ class OpinioesController extends GetxController {
   final _page = 1.obs;
   final _isMinhasOpinoesChecked = false.obs;
   final _isGerenciarMinhasOpinioesOpen = true.obs;
+  final _isLiked = false.obs;
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
+  get isLiked => this._isLiked.value;
+  set isLiked(value) => this._isLiked.value = value;
   get usuario => this._usuario.value;
   set usuario(value) => this._usuario.value = value;
   get isGerenciarMinhasOpinioesOpen =>
@@ -57,6 +61,28 @@ class OpinioesController extends GetxController {
       opinioes.clear();
       opinioes.assignAll(retorno);
       carregando = false;
+    });
+  }
+
+  setLike(bool isLike, int opiniaoId) {
+    repository.setLike(isLike, opiniaoId).then((retorno) {
+      if (retorno) {
+        print('deu bom 1');
+      } else {
+        EasyLoading.showToast('Erro ao salvar like',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
+    });
+  }
+
+  deleteLike(int opiniaoId) {
+    repository.deleteLike(opiniaoId).then((retorno) {
+      if (retorno) {
+        print('deu bom 2');
+      } else {
+        EasyLoading.showToast('Erro ao deletar  like',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
     });
   }
 }
