@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
+import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
@@ -44,6 +45,12 @@ class PostarTratamentoController extends GetxController {
     switch (step) {
       case 0:
         retorno = step1Valido();
+        break;
+      case 1:
+        retorno = step2Valido();
+        break;
+      case 2:
+        retorno = step3Valido();
         break;
       default:
         retorno = step1Valido();
@@ -87,8 +94,7 @@ class PostarTratamentoController extends GetxController {
 
   bool step1Valido() => textoValido() && tituloValido();
 
-  bool tituloValido() =>
-      titulo != null && editorLength > 10 && editorLength <= 200;
+  bool tituloValido() => titulo != null && titulo.isNotEmpty;
 
   String? get tituloErroMensagem {
     if (titulo == null || tituloValido()) return null;
@@ -106,13 +112,26 @@ class PostarTratamentoController extends GetxController {
 
   //===============================STEP 2==================================
 
-  final medicamentosSelecionados = <Medicamento>[].obs;
   final medicamentosSelecionadosInfo = <MedicamentoInfo>[].obs;
   Future<List<Medicamento>> getMedicamentos(String? filtro) async {
     if (filtro == null) return List<Medicamento>.empty();
     return await repository.getMedicamentosFiltro(filtro);
   }
 
+  final _descricao = ''.obs;
+  get descricao => this._descricao.value;
+  setDescricao(value) => this._descricao.value = value;
+
+  bool medicamentosSelecionadosValid() =>
+      medicamentosSelecionadosInfo.where((item) => item.dose.isEmpty).length <=
+      0;
+
+  bool step2Valido() => medicamentosSelecionadosValid();
+
+  //==================STEP 3========================================
+
+  bool step3Valido() => step1Valido() && step2Valido();
+  // =====================================================================================
   setOpiniaoEdicao(Opiniao opiniao) {
     if (opiniao.pacienteId != usuario.id) {
       Get.offNamed(Routes.INITIAL);
@@ -125,6 +144,8 @@ class PostarTratamentoController extends GetxController {
   }
 
   salvarOpiniao() {
+    EasyLoading.showInfo('Salvando...', duration: const Duration(days: 1));
+
     texto = jsonEncode(controller_editor.document.toDelta().toJson());
 
     Opiniao opiniao = Opiniao(
@@ -134,14 +155,31 @@ class PostarTratamentoController extends GetxController {
         eficaz: eficacia,
         ativo: 1);
     repository.salvarOpiniao(opiniao).then((retorno) {
-      if (retorno) {
-        EasyLoading.showSuccess('Opinião salva com sucesso');
-        redirectListagem();
-      } else {
+      if (retorno == null || retorno is bool) {
         EasyLoading.instance.backgroundColor = Colors.red;
         EasyLoading.showError('Erro ao salvar opinião');
         EasyLoadingConfig();
+      } else {
+        Tratamento tratamento = Tratamento(
+            titulo: titulo,
+            descricao: descricao,
+            opiniaoId: retorno,
+            medicamentos: medicamentosSelecionadosInfo);
+
+        repository.salvarTratamento(tratamento).then((retorno1) {
+          if (retorno1) {
+            EasyLoading.showSuccess('Opinião salva com sucesso');
+            EasyLoadingConfig();
+            redirectListagem();
+          } else {
+            EasyLoading.instance.backgroundColor = Colors.red;
+            EasyLoading.showError('Erro ao salvar opinião');
+            EasyLoadingConfig();
+          }
+          EasyLoading.dismiss();
+        });
       }
+      EasyLoading.dismiss();
     });
   }
 

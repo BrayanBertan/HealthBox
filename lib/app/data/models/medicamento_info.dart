@@ -1,3 +1,4 @@
+import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/core/extensions/enums.dart';
 
 import '../enums/periodicidade_medicamento.dart';
@@ -5,12 +6,12 @@ import '../enums/unidade_medida.dart';
 
 class MedicamentoInfo {
   int? id;
-  int dose;
+  String dose;
   UnidadeMedida unidadeMedida;
-  int duracao;
-  int intervalo;
+  String duracao;
+  String intervalo;
   PeriodicidadeMedicamento periodicidadeMedicamento;
-  int? remedioId;
+  Medicamento medicamento;
 
   MedicamentoInfo({
     this.id,
@@ -19,20 +20,19 @@ class MedicamentoInfo {
     required this.duracao,
     required this.intervalo,
     required this.periodicidadeMedicamento,
-    required this.remedioId,
+    required this.medicamento,
   });
 
   factory MedicamentoInfo.fromJson(Map<String, dynamic> json) =>
       MedicamentoInfo(
         id: json['id'],
         dose: json['dose'],
-        unidadeMedida: json['unidadeMedida'].toString().unidadeMedida(),
+        unidadeMedida: json['unidade_medida'].toString().unidadeMedida(),
         duracao: json['duracao'],
         intervalo: json['intervalo'],
-        periodicidadeMedicamento: json['periodicidadeMedicamento']
-            .toString()
-            .periodicidadeMedicamento(),
-        remedioId: json['remedio_id'],
+        periodicidadeMedicamento:
+            json['periodicidade'].toString().periodicidadeMedicamento(),
+        medicamento: Medicamento.fromJson(json['remedio']),
       );
 
   Map<String, dynamic> toJson() {
@@ -42,7 +42,7 @@ class MedicamentoInfo {
       "duracao": duracao,
       "intervalo": intervalo,
       "periodicidade": periodicidadeMedicamento.name,
-      "remedio_id": remedioId
+      "remedio_id": medicamento.id
     };
     if (id != null) {
       map["id"] = id;
@@ -55,8 +55,8 @@ class MedicamentoInfo {
         .map((medicamentoInfo) => MedicamentoInfo.fromJson(medicamentoInfo)));
   }
 
-  static List<MedicamentoInfo> listToJson(list) {
-    return List<MedicamentoInfo>.from(
+  static List<Map<String, dynamic>> listToJson(list) {
+    return List<Map<String, dynamic>>.from(
         list.map((medicamentoInfo) => medicamentoInfo.toJson()));
   }
 

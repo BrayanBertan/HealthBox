@@ -12,8 +12,8 @@ void EasyLoadingConfig() {
     ..backgroundColor = corPrincipal
     ..maskColor = Colors.white
     ..indicatorColor = Colors.white
-    ..userInteractions = true
-    ..dismissOnTap = true
+    ..userInteractions = false
+    ..dismissOnTap = false
     ..boxShadow = <BoxShadow>[]
     ..indicatorType = EasyLoadingIndicatorType.cubeGrid;
 }

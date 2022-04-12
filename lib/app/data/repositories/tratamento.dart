@@ -1,4 +1,5 @@
 import 'package:healthbox/app/data/models/opiniao.dart';
+import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:healthbox/app/data/providers/tratamento.dart';
 
 class TratamentoRepository {
@@ -15,4 +16,7 @@ class TratamentoRepository {
 
   getMedicamentosFiltro(String filtro) =>
       provider.getMedicamentosFiltro(filtro);
+
+  salvarTratamento(Tratamento tratamento) =>
+      provider.salvarTratamento(tratamento);
 }

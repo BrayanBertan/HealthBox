@@ -33,6 +33,7 @@ class Opiniao {
   }
 
   static List<Opiniao> listFromJson(list) {
+    print(list);
     return List<Opiniao>.from(
         list['data'].map((opiniao) => Opiniao.fromJson(opiniao)));
   }

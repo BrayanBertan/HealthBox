@@ -1,7 +1,10 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/periodicidade_medicamento.dart';
+import 'package:healthbox/app/data/enums/unidade_medida.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
+import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/dialog_info_medicamento.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
@@ -15,22 +18,22 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TextFormField(
-          initialValue: controller.titulo,
-          onChanged: controller.setTitulo,
+          initialValue: controller.descricao,
+          onChanged: controller.setDescricao,
           maxLines: 10,
-          decoration: InputDecoration(
-              icon: const Icon(
-                Icons.text_fields,
-              ),
-              border: const OutlineInputBorder(),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black)),
-              labelText: "Descrição do tratamento",
-              enabledBorder: const OutlineInputBorder(),
-              labelStyle: const TextStyle(
-                color: Colors.grey,
-              ),
-              errorText: controller.tituloErroMensagem),
+          decoration: const InputDecoration(
+            icon: Icon(
+              Icons.text_fields,
+            ),
+            border: OutlineInputBorder(),
+            focusedBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+            labelText: "Descrição do tratamento",
+            enabledBorder: OutlineInputBorder(),
+            labelStyle: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
         ),
         const SizedBox(
           height: 10,
@@ -52,7 +55,13 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
           isFilteredOnline: true,
           onFind: (String? filter) => controller.getMedicamentos(filter),
           onChanged: (Medicamento? medicamento) =>
-              controller.medicamentosSelecionados.add(medicamento!),
+              controller.medicamentosSelecionadosInfo.add(MedicamentoInfo(
+                  dose: '',
+                  unidadeMedida: UnidadeMedida.MG,
+                  duracao: '',
+                  intervalo: '',
+                  periodicidadeMedicamento: PeriodicidadeMedicamento.horas,
+                  medicamento: medicamento!)),
         ),
         Text('Medicamentos selecionados', style: titulo),
         Container(
@@ -60,38 +69,53 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
           child: Obx(
             () => ListView.builder(
                 shrinkWrap: true,
-                itemCount: controller.medicamentosSelecionados.length,
-                itemBuilder: (context, index) => ListTile(
-                      title:
-                          Text('${controller.medicamentosSelecionados[index]}'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (_) => DialogInfoMedicamento(
-                                      medicamento: controller
-                                          .medicamentosSelecionados[index]));
-                            },
-                            icon: const Icon(
-                              Icons.info,
-                              color: Colors.yellow,
-                            ),
+                itemCount: controller.medicamentosSelecionadosInfo.length,
+                itemBuilder: (context, index) => Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                              '${controller.medicamentosSelecionadosInfo[index].medicamento}'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => DialogInfoMedicamento(
+                                          medicamento: controller
+                                                  .medicamentosSelecionadosInfo[
+                                              index]));
+                                },
+                                icon: const Icon(
+                                  Icons.info,
+                                  color: Colors.yellow,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  controller.medicamentosSelecionadosInfo
+                                      .remove(controller
+                                          .medicamentosSelecionadosInfo[index]);
+                                },
+                                icon: const Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.red,
+                                ),
+                              )
+                            ],
                           ),
-                          IconButton(
-                            onPressed: () {
-                              controller.medicamentosSelecionados.remove(
-                                  controller.medicamentosSelecionados[index]);
-                            },
-                            icon: const Icon(
-                              Icons.delete_forever,
-                              color: Colors.red,
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Obx(
+                          () => Text(
+                            controller.medicamentosSelecionadosInfo[index].dose
+                                    .isEmpty
+                                ? 'informações de uso são obrigátorias, clique no icone amarelo'
+                                : '',
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        )
+                      ],
                     )),
           ),
         ),

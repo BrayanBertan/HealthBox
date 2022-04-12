@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
@@ -27,18 +28,46 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                 () => Stepper(
                   currentStep: controller.activeStepIndex,
                   type: StepperType.horizontal,
-                  steps: <Step>[
-                    Step(
-                        title: Text(''),
-                        content: Step1TratamentoPage(),
-                        isActive: controller.activeStepIndex == 0,
-                        state: controller.getStepState(0)),
-                    Step(
-                        title: Text(''),
-                        content: Step2TratamentoPage(),
-                        isActive: controller.activeStepIndex == 1,
-                        state: controller.getStepState(1)),
-                  ],
+                  steps: controller.usuario.tipo == TipoUsuario.PACIENTE
+                      ? <Step>[
+                          Step(
+                              title: Text(''),
+                              content: Step1TratamentoPage(),
+                              isActive: controller.activeStepIndex == 0,
+                              state: controller.getStepState(0)),
+                          Step(
+                              title: Text(''),
+                              content: Step2TratamentoPage(),
+                              isActive: controller.activeStepIndex == 1,
+                              state: controller.getStepState(1)),
+                        ]
+                      : <Step>[
+                          Step(
+                              title: Text(''),
+                              content: Step1TratamentoPage(),
+                              isActive: controller.activeStepIndex == 0,
+                              state: controller.getStepState(0)),
+                          Step(
+                              title: Text(''),
+                              content: Step2TratamentoPage(),
+                              isActive: controller.activeStepIndex == 1,
+                              state: controller.getStepState(1)),
+                          Step(
+                              title: Text(''),
+                              content: Step2TratamentoPage(),
+                              isActive: false,
+                              state: controller.getStepState(1)),
+                          Step(
+                              title: Text(''),
+                              content: Step2TratamentoPage(),
+                              isActive: false,
+                              state: controller.getStepState(1)),
+                          Step(
+                              title: Text(''),
+                              content: Step2TratamentoPage(),
+                              isActive: false,
+                              state: controller.getStepState(1)),
+                        ],
                   onStepCancel: controller.activeStepIndexDecrease,
                   onStepContinue: controller.activeStepIndexIncrease,
                   onStepTapped: (int step) {
@@ -61,14 +90,22 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                   fixedSize: const Size(150, 50)),
                               child: const Text('Anterior'))),
                           Obx(() => ElevatedButton(
-                              onPressed: () {
-                                details.onStepContinue!();
-                              },
+                              onPressed: !controller
+                                      .isValidStep(controller.activeStepIndex)
+                                  ? null
+                                  : () {
+                                      FocusScope.of(context).unfocus();
+                                      if (controller.activeStepIndex == 1) {
+                                        controller.salvarOpiniao();
+                                        return;
+                                      }
+                                      details.onStepContinue!();
+                                    },
                               style: ElevatedButton.styleFrom(
                                   onSurface: corPrincipal300,
                                   fixedSize: const Size(150, 50)),
-                              child: Text(controller.activeStepIndex == 4
-                                  ? 'Confirmar?'
+                              child: Text(controller.activeStepIndex == 1
+                                  ? 'Salvar'
                                   : 'Próximo'))),
                         ],
                       ),
