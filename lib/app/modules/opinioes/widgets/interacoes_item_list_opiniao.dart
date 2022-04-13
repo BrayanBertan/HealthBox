@@ -42,9 +42,15 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                           controller_teste.setLike(
                               true, controller_teste.opinioes[index].id!);
                           controller_teste.opinioes[index].totalLike++;
+                          controller_teste.atualizaLikesLocalmente(index, 1);
                         } else {
                           controller_teste.deleteLike(
                               controller_teste.opinioes[index].likes ?? []);
+
+                          controller_teste.opinioes[index].likes!.removeWhere(
+                              (element) =>
+                                  element.idUsuario ==
+                                  controller_teste.usuario.id);
                         }
                         await Future.delayed(const Duration(milliseconds: 250));
                         return !isLike;
@@ -88,9 +94,14 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                           controller_teste.setLike(
                               false, controller_teste.opinioes[index].id!);
                           controller_teste.opinioes[index].totalDislike++;
+                          controller_teste.atualizaLikesLocalmente(index, 0);
                         } else {
                           controller_teste.deleteLike(
                               controller_teste.opinioes[index].likes ?? []);
+                          controller_teste.opinioes[index].likes!.removeWhere(
+                              (element) =>
+                                  element.idUsuario ==
+                                  controller_teste.usuario.id);
                         }
 
                         await Future.delayed(const Duration(milliseconds: 250));

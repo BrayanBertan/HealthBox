@@ -139,6 +139,33 @@ class OpinioesController extends GetxController {
       }
     }
   }
+
+  atualizaLikesLocalmente(int index, isLike) {
+    if (opinioes[index].likes == null) {
+      opinioes[index].likes = List<Like>.empty();
+      opinioes[index].likes!.add(Like(
+          id: 0,
+          idOpiniao: opinioes[index].id!,
+          idUsuario: usuario.id,
+          isLike: isLike));
+    }
+    int indexLike = opinioes[index]
+        .likes!
+        .indexWhere((element) => element.idUsuario == usuario.id);
+    if (indexLike < 0) {
+      opinioes[index].likes!.add(Like(
+          id: 0,
+          idOpiniao: opinioes[index].id!,
+          idUsuario: usuario.id,
+          isLike: isLike));
+    } else {
+      opinioes[index].likes![indexLike] = Like(
+          id: 0,
+          idOpiniao: opinioes[index].id!,
+          idUsuario: usuario.id,
+          isLike: isLike);
+    }
+  }
   // Stream<String> testee(int n) async* {
   //   for (var i = 1; i <= 30; i++) {
   //     await Future.delayed(Duration(seconds: 1));

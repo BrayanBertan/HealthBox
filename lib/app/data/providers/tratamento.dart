@@ -105,17 +105,17 @@ class TratamentoProvider extends GetConnect {
       {'opiniao_id': opiniaoId, 'is_like': isLike ? 1 : 0},
       headers: {'Authorization': 'Bearer  $token'},
     );
-
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
 
-  Future<bool> deleteLike(int opiniaoId) async {
+  Future<bool> deleteLike(int likeId) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
 
     retornoApi = await delete(
-      'likes/$opiniaoId',
+      'likes/$likeId',
       headers: {'Authorization': 'Bearer  $token'},
     );
 
