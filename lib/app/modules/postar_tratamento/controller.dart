@@ -70,6 +70,7 @@ class PostarTratamentoController extends GetxController {
   final _texto = Rx<String?>(null);
   final _titulo = Rx<String?>(null);
   final _idOpiniao = Rx<int?>(null);
+  final _idTratamento = Rx<int?>(null);
   final _carregando = false.obs;
   final _eficacia = 1.obs;
   QuillController controller_editor = QuillController.basic();
@@ -79,6 +80,8 @@ class PostarTratamentoController extends GetxController {
   ];
   get idOpiniao => this._idOpiniao.value;
   set idOpiniao(value) => this._idOpiniao.value = value;
+  get idTratamento => this._idTratamento.value;
+  set idTratamento(value) => this._idTratamento.value = value;
   get doc => this._doc.value;
   set doc(value) => this._doc.value = value;
   get titulo => this._titulo.value;
@@ -137,9 +140,15 @@ class PostarTratamentoController extends GetxController {
       Get.offNamed(Routes.INITIAL);
       return;
     }
+
+    idTratamento = opiniao.tratamento!.id;
     idOpiniao = opiniao.id;
     texto = opiniao.descricao;
     doc = Document.fromJson(jsonDecode(texto));
+    setTitulo(opiniao.tratamento?.titulo ?? '');
+    medicamentosSelecionadosInfo.clear();
+    medicamentosSelecionadosInfo.assignAll(
+        opiniao.tratamento?.medicamentos ?? List<MedicamentoInfo>.empty());
     setEficacia(opiniao.eficaz);
   }
 
@@ -161,6 +170,7 @@ class PostarTratamentoController extends GetxController {
         EasyLoadingConfig();
       } else {
         Tratamento tratamento = Tratamento(
+            id: idTratamento,
             titulo: titulo,
             descricao: descricao,
             opiniaoId: retorno,

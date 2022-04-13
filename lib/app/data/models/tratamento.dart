@@ -17,10 +17,11 @@ class Tratamento {
       this.medicamentos});
 
   factory Tratamento.fromJson(Map<String, dynamic> json) => Tratamento(
+      id: json['id'],
       opiniaoId: json['opiniao_id'],
       acompanhamentoId: json['acompanhamento_id'],
       titulo: json['titulo'],
-      descricao: json['descricao'],
+      descricao: json['descricao'] ?? '',
       medicamentos: json['remedios'] == null
           ? List<MedicamentoInfo>.empty()
           : MedicamentoInfo.listFromJson(json['remedios']));

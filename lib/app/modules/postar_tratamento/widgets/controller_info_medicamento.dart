@@ -6,6 +6,9 @@ import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 
 class ControllerInfoMedicamento extends GetxController {
+  final _id = Rx<int?>(null);
+  get id => this._id.value;
+  set id(value) => this._id.value = value;
   final _dose = Rx<String?>(null);
   get dose => this._dose.value;
   setDose(value) => this._dose.value = value;
@@ -60,6 +63,7 @@ class ControllerInfoMedicamento extends GetxController {
 
   salvarInfo() {
     MedicamentoInfo medicamentoInfo = MedicamentoInfo(
+        id: id,
         dose: dose,
         unidadeMedida: unidade,
         duracao: duracao,

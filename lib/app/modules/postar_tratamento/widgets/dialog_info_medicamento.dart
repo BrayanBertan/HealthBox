@@ -13,6 +13,7 @@ class DialogInfoMedicamento extends GetView<ControllerInfoMedicamento> {
   MedicamentoInfo medicamento;
   DialogInfoMedicamento({required this.medicamento, Key? key})
       : super(key: key) {
+    controller.id = medicamento.id;
     controller.setDose(medicamento.dose.isEmpty ? null : medicamento.dose);
     controller.setIntervalo(
         medicamento.intervalo.isEmpty ? null : medicamento.intervalo);

@@ -44,6 +44,7 @@ class TratamentoProvider extends GetConnect {
   Future<bool> salvarTratamento(Tratamento tratamento) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
+    print(tratamento.toJson());
     if (tratamento.id == null) {
       retornoApi = await post(
         'tratamentos',
@@ -57,7 +58,8 @@ class TratamentoProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
       );
     }
-
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
