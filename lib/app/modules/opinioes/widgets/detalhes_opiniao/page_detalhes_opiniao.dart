@@ -119,6 +119,19 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
                 )
               ],
             ),
+            Text(
+              'Descrição do tratamento',
+              style: subTitulo,
+            ),
+            Card(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: Text(
+                  controller.opiniao.tratamento.descricao,
+                ),
+              ),
+            ),
             CardDetalhesMedicamentos(
                 medicamentos: controller.opiniao.tratamento?.medicamentos ??
                     List<MedicamentoInfo>.empty()),
