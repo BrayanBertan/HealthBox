@@ -141,8 +141,10 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
               InkWell(
                 onTap: () {
                   controller_teste.opiniao = controller_teste.opinioes[index];
-                  Get.toNamed(Routes.DETALHES_OPINIAO)!
-                      .then((value) => FocusScope.of(context).unfocus());
+                  Get.toNamed(Routes.DETALHES_OPINIAO)!.then((value) {
+                    controller_teste.getOpinioes();
+                    FocusScope.of(context).unfocus();
+                  });
                 },
                 child: Row(
                   children: [
