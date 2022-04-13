@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 
 class DialogDetalhesMedicamentos extends StatelessWidget {
-  const DialogDetalhesMedicamentos({Key? key}) : super(key: key);
+  MedicamentoInfo medicamento;
+  DialogDetalhesMedicamentos({required this.medicamento, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,7 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              ('Medicamento 1'),
+              (medicamento.medicamento.nome),
               style: titulo,
               textAlign: TextAlign.center,
             ),
@@ -28,7 +31,7 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(text: 'Fabricado por  ', style: subTitulo),
                     TextSpan(
-                        text: 'Medly',
+                        text: medicamento.medicamento.fabricante,
                         style: TextStyle(
                             color: corPrincipal, fontWeight: FontWeight.bold)),
                   ]),
@@ -42,7 +45,8 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(text: 'Dose preescrita  ', style: subTitulo),
                     TextSpan(
-                        text: '10mg 1 vez ao dia por 30 dias',
+                        text:
+                            '${medicamento.dose}${medicamento.unidadeMedida.name}  a cada ${medicamento.intervalo} ${medicamento.periodicidadeMedicamento.name} por ${medicamento.dose} dias',
                         style: TextStyle(
                             color: corPrincipal, fontWeight: FontWeight.bold)),
                   ]),

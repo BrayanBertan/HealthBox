@@ -1,23 +1,29 @@
+import 'package:healthbox/app/data/models/tratamento.dart';
+
 class Opiniao {
   int? id;
   String descricao;
   int pacienteId;
   int eficaz;
   int ativo;
+  Tratamento? tratamento;
   Opiniao(
       {this.id,
       required this.descricao,
       required this.pacienteId,
       required this.eficaz,
-      required this.ativo});
+      required this.ativo,
+      this.tratamento});
 
   factory Opiniao.fromJson(Map<String, dynamic> json) => Opiniao(
-        id: json['id'],
-        descricao: json['descricao'],
-        pacienteId: json['paciente_id'],
-        eficaz: json['eficaz'],
-        ativo: json['ativo'],
-      );
+      id: json['id'],
+      descricao: json['descricao'],
+      pacienteId: json['paciente_id'],
+      eficaz: json['eficaz'],
+      ativo: json['ativo'],
+      tratamento: json['tratamento'] != null
+          ? Tratamento.fromJson(json['tratamento'])
+          : null);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
@@ -33,7 +39,6 @@ class Opiniao {
   }
 
   static List<Opiniao> listFromJson(list) {
-    print(list);
     return List<Opiniao>.from(
         list['data'].map((opiniao) => Opiniao.fromJson(opiniao)));
   }

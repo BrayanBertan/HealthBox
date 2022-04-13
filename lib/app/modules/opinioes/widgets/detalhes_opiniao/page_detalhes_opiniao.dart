@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/detalhes_opiniao/card_detalhes_interacoes.dart';
@@ -34,7 +35,7 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
               height: 10,
             ),
             Text(
-              'Nomeeeeee',
+              '${opiniao.tratamento!.titulo}',
               style: titulo,
               textAlign: TextAlign.center,
             ),
@@ -61,7 +62,9 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
                 ),
               ),
             ),
-            CardDetalhesMedicamentos(),
+            CardDetalhesMedicamentos(
+                medicamentos: opiniao.tratamento?.medicamentos ??
+                    List<MedicamentoInfo>.empty()),
             CardDetalhesInteracoes(),
           ],
         ),

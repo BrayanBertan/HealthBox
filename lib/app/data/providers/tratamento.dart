@@ -20,32 +20,43 @@ class TratamentoProvider extends GetConnect {
   salvarOpiniao(Opiniao opiniao) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
+    int id;
     if (opiniao.id == null) {
       retornoApi = await post(
         'opinioes',
         opiniao.toJson(),
         headers: {'Authorization': 'Bearer  $token'},
       );
+      id = retornoApi.body['opiniao']['id'];
     } else {
       retornoApi = await put(
         'opinioes/${opiniao.id}',
         opiniao.toJson(),
         headers: {'Authorization': 'Bearer  $token'},
       );
+      id = opiniao.id!;
     }
 
-    if (retornoApi.statusCode == 200) return retornoApi.body['opiniao']['id'];
+    if (retornoApi.statusCode == 200) return id;
     return false;
   }
 
   Future<bool> salvarTratamento(Tratamento tratamento) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
-    retornoApi = await post(
-      'tratamentos',
-      tratamento.toJson(),
-      headers: {'Authorization': 'Bearer  $token'},
-    );
+    if (tratamento.id == null) {
+      retornoApi = await post(
+        'tratamentos',
+        tratamento.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    } else {
+      retornoApi = await put(
+        'tratamentos/${tratamento.id}',
+        tratamento.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    }
 
     if (retornoApi.statusCode == 200) return true;
     return false;
@@ -65,6 +76,7 @@ class TratamentoProvider extends GetConnect {
   }
 
   Future<List<Opiniao>> getOpinioes({int? pacienteId, int page = 1}) async {
+    print('Bearer  $token');
     String endpoint =
         'opinioes?page=$page&ativo=1&paciente_id&eficaz&order_likes=asc';
     if (pacienteId != null)

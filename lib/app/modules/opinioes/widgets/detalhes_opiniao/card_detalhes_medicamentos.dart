@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/detalhes_opiniao/dialog_detalhes_medicamentos.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
 class CardDetalhesMedicamentos extends StatelessWidget {
-  const CardDetalhesMedicamentos({Key? key}) : super(key: key);
+  List<MedicamentoInfo> medicamentos;
+  CardDetalhesMedicamentos({required this.medicamentos, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +32,14 @@ class CardDetalhesMedicamentos extends StatelessWidget {
                   physics: const ScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: medicamentos.length,
                   itemBuilder: (context, index) => ListTile(
-                        title: Text('Medicamento $index'),
+                        title: Text(medicamentos[index].medicamento.nome),
                         trailing: IconButton(
                           onPressed: () => showDialog(
                               context: context,
-                              builder: (_) => DialogDetalhesMedicamentos()),
+                              builder: (_) => DialogDetalhesMedicamentos(
+                                  medicamento: medicamentos[index])),
                           icon: const Icon(Icons.info),
                           color: corPrincipal,
                         ),

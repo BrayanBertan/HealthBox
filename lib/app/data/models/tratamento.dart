@@ -1,6 +1,7 @@
 import 'package:healthbox/app/data/models/medicamento_info.dart';
 
 class Tratamento {
+  int? id;
   int? opiniaoId;
   int? acompanhamentoId;
   String titulo;
@@ -8,7 +9,8 @@ class Tratamento {
   List<MedicamentoInfo>? medicamentos;
 
   Tratamento(
-      {this.opiniaoId,
+      {this.id,
+      this.opiniaoId,
       this.acompanhamentoId,
       required this.titulo,
       required this.descricao,
@@ -19,7 +21,9 @@ class Tratamento {
       acompanhamentoId: json['acompanhamento_id'],
       titulo: json['titulo'],
       descricao: json['descricao'],
-      medicamentos: MedicamentoInfo.listFromJson(json['remedios']));
+      medicamentos: json['remedios'] == null
+          ? List<MedicamentoInfo>.empty()
+          : MedicamentoInfo.listFromJson(json['remedios']));
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
@@ -29,6 +33,7 @@ class Tratamento {
           ? MedicamentoInfo.listToJson(medicamentos)
           : null,
     };
+    if (id != null) map['id'] = id;
     if (opiniaoId != null) map["opiniao_id"] = opiniaoId;
     if (acompanhamentoId != null) map["acompanhamento_id"] = acompanhamentoId;
 

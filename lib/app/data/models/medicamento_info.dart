@@ -26,10 +26,10 @@ class MedicamentoInfo {
   factory MedicamentoInfo.fromJson(Map<String, dynamic> json) =>
       MedicamentoInfo(
         id: json['id'],
-        dose: json['dose'],
+        dose: '${json['dose']}',
         unidadeMedida: json['unidade_medida'].toString().unidadeMedida(),
-        duracao: json['duracao'],
-        intervalo: json['intervalo'],
+        duracao: '${json['duracao']}',
+        intervalo: '${json['intervalo']}',
         periodicidadeMedicamento:
             json['periodicidade'].toString().periodicidadeMedicamento(),
         medicamento: Medicamento.fromJson(json['remedio']),
@@ -62,6 +62,6 @@ class MedicamentoInfo {
 
   @override
   String toString() {
-    return "id: $id";
+    return "id: $id ";
   }
 }
