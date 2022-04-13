@@ -13,11 +13,17 @@ class OpinioesPage extends GetView<OpinioesController> {
     return Scaffold(
       appBar: AppBar(title: const Text('Opiniões')),
       drawer: SideMenu(),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [CardPesquisa(), CardOpinioes()],
-        ),
+      body: Obx(
+        () => controller.carregandoTela
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [CardPesquisa(), CardOpinioes()],
+                ),
+              ),
       ),
     );
   }

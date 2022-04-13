@@ -158,11 +158,8 @@ class PostarTratamentoController extends GetxController {
     texto = jsonEncode(controller_editor.document.toDelta().toJson());
 
     Opiniao opiniao = Opiniao(
-        id: idOpiniao,
-        descricao: texto,
-        pacienteId: usuario.id,
-        eficaz: eficacia,
-        ativo: 1);
+        descricao: texto, pacienteId: usuario.id, eficaz: eficacia, ativo: 1);
+    if (idOpiniao != null) opiniao.id = idOpiniao;
     repository.salvarOpiniao(opiniao).then((retorno) {
       if (retorno == null || retorno is bool) {
         EasyLoading.instance.backgroundColor = Colors.red;
@@ -170,11 +167,11 @@ class PostarTratamentoController extends GetxController {
         EasyLoadingConfig();
       } else {
         Tratamento tratamento = Tratamento(
-            id: idTratamento,
             titulo: titulo,
             descricao: descricao,
             opiniaoId: retorno,
             medicamentos: medicamentosSelecionadosInfo);
+        if (idTratamento != null) tratamento.id = idTratamento;
 
         repository.salvarTratamento(tratamento).then((retorno1) {
           if (retorno1) {

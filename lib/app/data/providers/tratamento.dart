@@ -84,10 +84,11 @@ class TratamentoProvider extends GetConnect {
     if (pacienteId != null)
       endpoint =
           'opinioes?page=$page&ativo=1&paciente_id=$pacienteId&eficaz&order_likes=asc';
+    print('${httpClient.baseUrl}$endpoint');
     var retornoApi = await get(endpoint,
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Opiniao.listFromJson(obj));
-
+    print('${httpClient.baseUrl}$endpoint');
     if (retornoApi.statusCode == 200) {
       return retornoApi.body!;
     } else {

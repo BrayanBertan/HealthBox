@@ -63,13 +63,13 @@ class ControllerInfoMedicamento extends GetxController {
 
   salvarInfo() {
     MedicamentoInfo medicamentoInfo = MedicamentoInfo(
-        id: id,
         dose: dose,
         unidadeMedida: unidade,
         duracao: duracao,
         intervalo: intervalo,
         periodicidadeMedicamento: periodicidade,
         medicamento: medicamento);
+    if (id != null) medicamentoInfo.id = id;
     final controller = Get.find<PostarTratamentoController>();
     int index = controller.medicamentosSelecionadosInfo.indexWhere(
         (medicamentoParam) =>

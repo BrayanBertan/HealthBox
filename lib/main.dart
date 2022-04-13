@@ -4,19 +4,34 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:healthbox/app/modules/login/binding.dart';
+import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
+import 'app/data/providers/usuario.dart';
+import 'app/data/repositories/usuario.dart';
 import 'app/data/services/storage.dart';
 import 'core/theme/app_theme.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
-  WidgetsFlutterBinding.ensureInitialized();
+
+  Get.lazyPut<UsuarioProvider>(() => UsuarioProvider());
+  Get.put<LoginController>(
+      LoginController(
+          repository: UsuarioRepository(provider: Get.find<UsuarioProvider>())),
+      permanent: true);
+  final controller = Get.find<LoginController>();
+  if (controller.verificaSessao()) {
+    controller.getSessaoToken();
+    UsuarioProvider.token = Get.find<LoginController>().token;
+    Get.find<LoginController>().getUsuario();
+  }
+  await Future.delayed(const Duration(seconds: 3));
   runApp(const HealthBoxApp());
   EasyLoadingConfig();
 }
@@ -49,7 +64,7 @@ class HealthBoxApp extends StatelessWidget {
       supportedLocales: const [Locale('pt')],
       defaultTransition: Transition.fade,
       getPages: AppPages.routes,
-      initialBinding: LoginBinding(),
+      // initialBinding: LoginBinding(),
       initialRoute: Routes.INITIAL,
     );
   }
