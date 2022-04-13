@@ -21,7 +21,11 @@ class OpinioesPage extends GetView<OpinioesController> {
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
                 child: Column(
-                  children: [CardPesquisa(), CardOpinioes()],
+                  children: [
+                    Obx(() => Text('${controller.usuario}')),
+                    CardPesquisa(),
+                    CardOpinioes()
+                  ],
                 ),
               ),
       ),

@@ -6,6 +6,8 @@ import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/routes/app_pages.dart';
 
+import '../../data/providers/usuario.dart';
+
 class LoginController extends GetxController {
   final UsuarioRepository repository;
   LoginController({required this.repository}) : assert(repository != null);
@@ -55,12 +57,16 @@ class LoginController extends GetxController {
       } else {
         loginErroMensagem = null;
         token = retorno.body['access_token'];
-        //getUsuario();
         criaSessao(retorno.body['expires_in']);
-        Get.offNamed(Routes.INITIAL);
+        UsuarioProvider.token = token;
+        print(getLogin());
+        getUsuario();
+        Future.delayed(const Duration(seconds: 3)).then((value) {
+          EasyLoading.dismiss();
+          isLoading = false;
+          Get.offNamed(Routes.INITIAL);
+        });
       }
-      EasyLoading.dismiss();
-      isLoading = false;
     });
   }
 
