@@ -54,18 +54,21 @@ class LoginController extends GetxController {
     repository.verificaLogin(email.trim(), senha.trim()).then((retorno) {
       if (retorno is bool) {
         loginErroMensagem = 'Dados incorretos!';
+        isLoading = false;
+        EasyLoading.dismiss();
       } else {
         loginErroMensagem = null;
         token = retorno.body['access_token'];
         criaSessao(retorno.body['expires_in']);
         UsuarioProvider.token = token;
-        print(getLogin());
-        getUsuario();
-        Future.delayed(const Duration(seconds: 3)).then((value) {
-          EasyLoading.dismiss();
+        getUsuario().then((val) {
           isLoading = false;
+          EasyLoading.dismiss();
           Get.offNamed(Routes.INITIAL);
         });
+        // Future.delayed(const Duration(seconds: 3)).then((value) {
+        //
+        // });
       }
     });
   }

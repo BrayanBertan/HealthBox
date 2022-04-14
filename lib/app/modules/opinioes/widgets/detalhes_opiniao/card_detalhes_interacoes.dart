@@ -10,13 +10,13 @@ import '../../controller.dart';
 
 class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
   Opiniao opiniao;
-  final controller_teste = Get.find<OpinioesController>();
+  final controllerOpinioes = Get.find<OpinioesController>();
   CardDetalhesInteracoes({required this.opiniao, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     controller.isLiked =
-        controller_teste.inicializaLikes(opiniao.likes ?? List<Like>.empty());
+        controllerOpinioes.inicializaLikes(opiniao.likes ?? List<Like>.empty());
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 75,
@@ -26,7 +26,7 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Container(
-              width: controller_teste.isMinhasOpinoesChecked ? 250 : 150,
+              width: controllerOpinioes.isMinhasOpinoesChecked ? 250 : 150,
               height: 65,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,10 +41,11 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
                               if (controller.isLiked == 0)
                                 opiniao.totalDislike--;
                               controller.isLiked = 1;
-                              controller_teste.setLike(true, opiniao.id!);
+                              controllerOpinioes.setLike(true, opiniao.id!);
                               opiniao.totalLike++;
                             } else {
-                              controller_teste.deleteLike(opiniao.likes ?? []);
+                              controllerOpinioes
+                                  .deleteLike(opiniao.likes ?? []);
                             }
                             await Future.delayed(
                                 const Duration(milliseconds: 250));
@@ -85,10 +86,11 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
                             if (!isLike) {
                               if (controller.isLiked == 1) opiniao.totalLike--;
                               controller.isLiked = 0;
-                              controller_teste.setLike(false, opiniao.id!);
+                              controllerOpinioes.setLike(false, opiniao.id!);
                               opiniao.totalDislike++;
                             } else {
-                              controller_teste.deleteLike(opiniao.likes ?? []);
+                              controllerOpinioes
+                                  .deleteLike(opiniao.likes ?? []);
                             }
 
                             await Future.delayed(
@@ -124,7 +126,7 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
                       ),
                     ],
                   ),
-                  controller_teste.isMinhasOpinoesChecked
+                  controllerOpinioes.isMinhasOpinoesChecked
                       ? TextButton.icon(
                           onPressed: () => Get.toNamed(Routes.POSTAR_TRATAMENTO,
                               arguments: opiniao),

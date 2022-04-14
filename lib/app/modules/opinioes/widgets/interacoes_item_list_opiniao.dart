@@ -12,13 +12,13 @@ import '../../../../core/values/keys.dart';
 
 class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
   int index;
-  final controller_teste = Get.find<OpinioesController>();
+  final controllerOpinioes = Get.find<OpinioesController>();
   InteracoesItemListOpiniao({required this.index, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.isLiked = controller_teste.inicializaLikes(
-        controller_teste.opinioes[index].likes ?? List<Like>.empty());
+    controller.isLiked = controllerOpinioes.inicializaLikes(
+        controllerOpinioes.opinioes[index].likes ?? List<Like>.empty());
     return Positioned(
         bottom: 0,
         right: 0,
@@ -37,20 +37,20 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                       onTap: (isLike) async {
                         if (!isLike) {
                           if (controller.isLiked == 0)
-                            controller_teste.opinioes[index].totalDislike--;
+                            controllerOpinioes.opinioes[index].totalDislike--;
                           controller.isLiked = 1;
-                          controller_teste.setLike(
-                              true, controller_teste.opinioes[index].id!);
-                          controller_teste.opinioes[index].totalLike++;
-                          controller_teste.atualizaLikesLocalmente(index, 1);
+                          controllerOpinioes.setLike(
+                              true, controllerOpinioes.opinioes[index].id!);
+                          controllerOpinioes.opinioes[index].totalLike++;
+                          controllerOpinioes.atualizaLikesLocalmente(index, 1);
                         } else {
-                          controller_teste.deleteLike(
-                              controller_teste.opinioes[index].likes ?? []);
+                          controllerOpinioes.deleteLike(
+                              controllerOpinioes.opinioes[index].likes ?? []);
 
-                          controller_teste.opinioes[index].likes!.removeWhere(
+                          controllerOpinioes.opinioes[index].likes!.removeWhere(
                               (element) =>
                                   element.idUsuario ==
-                                  controller_teste.usuario.id);
+                                  controllerOpinioes.usuario.id);
                         }
                         await Future.delayed(const Duration(milliseconds: 250));
                         return !isLike;
@@ -69,9 +69,10 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                           color: isLiked ? Colors.green : Colors.black87,
                         );
                       },
-                      likeCount: controller_teste.opinioes[index].totalLike >= 0
-                          ? controller_teste.opinioes[index].totalLike
-                          : 0,
+                      likeCount:
+                          controllerOpinioes.opinioes[index].totalLike >= 0
+                              ? controllerOpinioes.opinioes[index].totalLike
+                              : 0,
                       countBuilder: (int? count, bool isLiked, String text) {
                         var color = isLiked ? Colors.green : Colors.black87;
                         return Text(
@@ -89,19 +90,19 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                       onTap: (isLike) async {
                         if (!isLike) {
                           if (controller.isLiked == 1)
-                            controller_teste.opinioes[index].totalLike--;
+                            controllerOpinioes.opinioes[index].totalLike--;
                           controller.isLiked = 0;
-                          controller_teste.setLike(
-                              false, controller_teste.opinioes[index].id!);
-                          controller_teste.opinioes[index].totalDislike++;
-                          controller_teste.atualizaLikesLocalmente(index, 0);
+                          controllerOpinioes.setLike(
+                              false, controllerOpinioes.opinioes[index].id!);
+                          controllerOpinioes.opinioes[index].totalDislike++;
+                          controllerOpinioes.atualizaLikesLocalmente(index, 0);
                         } else {
-                          controller_teste.deleteLike(
-                              controller_teste.opinioes[index].likes ?? []);
-                          controller_teste.opinioes[index].likes!.removeWhere(
+                          controllerOpinioes.deleteLike(
+                              controllerOpinioes.opinioes[index].likes ?? []);
+                          controllerOpinioes.opinioes[index].likes!.removeWhere(
                               (element) =>
                                   element.idUsuario ==
-                                  controller_teste.usuario.id);
+                                  controllerOpinioes.usuario.id);
                         }
 
                         await Future.delayed(const Duration(milliseconds: 250));
@@ -122,8 +123,8 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                         );
                       },
                       likeCount:
-                          controller_teste.opinioes[index].totalDislike >= 0
-                              ? controller_teste.opinioes[index].totalDislike
+                          controllerOpinioes.opinioes[index].totalDislike >= 0
+                              ? controllerOpinioes.opinioes[index].totalDislike
                               : 0,
                       countBuilder: (int? count, bool isLiked, String text) {
                         var color = isLiked ? Colors.red : Colors.black87;
@@ -136,10 +137,10 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                   ),
                 ],
               ),
-              controller_teste.isMinhasOpinoesChecked
+              controllerOpinioes.isMinhasOpinoesChecked
                   ? TextButton.icon(
                       onPressed: () => Get.toNamed(Routes.POSTAR_TRATAMENTO,
-                          arguments: controller_teste.opinioes[index]),
+                          arguments: controllerOpinioes.opinioes[index]),
                       icon: const Icon(
                         Icons.edit,
                         color: Colors.black87,
@@ -151,9 +152,10 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                   : Container(),
               InkWell(
                 onTap: () {
-                  controller_teste.opiniao = controller_teste.opinioes[index];
+                  controllerOpinioes.opiniao =
+                      controllerOpinioes.opinioes[index];
                   Get.toNamed(Routes.DETALHES_OPINIAO)!.then((value) {
-                    controller_teste.getOpinioes();
+                    controllerOpinioes.getOpinioes();
                     FocusScope.of(context).unfocus();
                   });
                 },

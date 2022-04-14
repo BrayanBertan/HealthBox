@@ -29,11 +29,14 @@ void main() async {
   if (controller.verificaSessao()) {
     controller.getSessaoToken();
     UsuarioProvider.token = Get.find<LoginController>().token;
-    Get.find<LoginController>().getUsuario();
+    Get.find<LoginController>().getUsuario().then((val) {
+      EasyLoadingConfig();
+      runApp(const HealthBoxApp());
+    });
+  } else {
+    EasyLoadingConfig();
+    runApp(const HealthBoxApp());
   }
-  await Future.delayed(const Duration(seconds: 3));
-  runApp(const HealthBoxApp());
-  EasyLoadingConfig();
 }
 
 class HealthBoxApp extends StatelessWidget {
