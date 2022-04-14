@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/like.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/controller_interacoes.dart';
 import 'package:like_button/like_button.dart';
@@ -15,8 +14,7 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.isLiked =
-        controllerOpinioes.inicializaLikes(opiniao.likes ?? List<Like>.empty());
+    controller.isLiked = controllerOpinioes.inicializaLikes(opiniao.likes);
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 75,
@@ -41,11 +39,21 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
                               if (controller.isLiked == 0)
                                 opiniao.totalDislike--;
                               controller.isLiked = 1;
-                              controllerOpinioes.setLike(true, opiniao.id!);
+                              controllerOpinioes
+                                  .setLike(true, opiniao.id!, opiniao.likes)
+                                  .then((retorno) {
+                                if (controllerOpinioes
+                                    .listaLikesAtualizada.isNotEmpty) {
+                                  opiniao.likes.assignAll(
+                                      controllerOpinioes.listaLikesAtualizada);
+                                }
+                              });
                               opiniao.totalLike++;
                             } else {
-                              controllerOpinioes
-                                  .deleteLike(opiniao.likes ?? []);
+                              controllerOpinioes.deleteLike(opiniao.likes);
+                              opiniao.likes.removeWhere((element) =>
+                                  element.idUsuario ==
+                                  controllerOpinioes.usuario.id);
                             }
                             await Future.delayed(
                                 const Duration(milliseconds: 250));
@@ -86,11 +94,21 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
                             if (!isLike) {
                               if (controller.isLiked == 1) opiniao.totalLike--;
                               controller.isLiked = 0;
-                              controllerOpinioes.setLike(false, opiniao.id!);
+                              controllerOpinioes
+                                  .setLike(false, opiniao.id!, opiniao.likes)
+                                  .then((retorno) {
+                                if (controllerOpinioes
+                                    .listaLikesAtualizada.isNotEmpty) {
+                                  opiniao.likes.assignAll(
+                                      controllerOpinioes.listaLikesAtualizada);
+                                }
+                              });
                               opiniao.totalDislike++;
                             } else {
-                              controllerOpinioes
-                                  .deleteLike(opiniao.likes ?? []);
+                              controllerOpinioes.deleteLike(opiniao.likes);
+                              opiniao.likes.removeWhere((element) =>
+                                  element.idUsuario ==
+                                  controllerOpinioes.usuario.id);
                             }
 
                             await Future.delayed(

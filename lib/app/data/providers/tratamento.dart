@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/like.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
@@ -96,7 +97,7 @@ class TratamentoProvider extends GetConnect {
     }
   }
 
-  Future<bool> setLike(bool isLike, opiniaoId) async {
+  setLike(bool isLike, opiniaoId) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
 
@@ -105,8 +106,9 @@ class TratamentoProvider extends GetConnect {
       {'opiniao_id': opiniaoId, 'is_like': isLike ? 1 : 0},
       headers: {'Authorization': 'Bearer  $token'},
     );
-    print(retornoApi.body);
-    if (retornoApi.statusCode == 200) return true;
+
+    if (retornoApi.statusCode == 200)
+      return Like.fromJson(retornoApi.body['like']);
     return false;
   }
 

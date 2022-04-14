@@ -10,7 +10,7 @@ class Opiniao {
   Tratamento? tratamento;
   int totalLike;
   int totalDislike;
-  List<Like>? likes;
+  List<Like> likes;
   Opiniao(
       {this.id,
       required this.descricao,
@@ -20,7 +20,7 @@ class Opiniao {
       this.tratamento,
       this.totalLike = 0,
       this.totalDislike = 0,
-      this.likes});
+      this.likes = const <Like>[]});
 
   factory Opiniao.fromJson(Map<String, dynamic> json) => Opiniao(
       id: json['id'],

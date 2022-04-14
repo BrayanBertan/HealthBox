@@ -6,7 +6,7 @@ class Tratamento {
   int? acompanhamentoId;
   String titulo;
   String descricao;
-  List<MedicamentoInfo>? medicamentos;
+  List<MedicamentoInfo> medicamentos;
 
   Tratamento(
       {this.id,
@@ -14,7 +14,7 @@ class Tratamento {
       this.acompanhamentoId,
       required this.titulo,
       required this.descricao,
-      this.medicamentos});
+      this.medicamentos = const <MedicamentoInfo>[]});
 
   factory Tratamento.fromJson(Map<String, dynamic> json) => Tratamento(
       id: json['id'],
@@ -30,7 +30,7 @@ class Tratamento {
     Map<String, dynamic> map = {
       "titulo": titulo,
       "descricao": descricao,
-      "remedios": medicamentos != null
+      "remedios": medicamentos.isNotEmpty
           ? MedicamentoInfo.listToJson(medicamentos)
           : null,
     };

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/like.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/controller_interacoes.dart';
 import 'package:healthbox/routes/app_pages.dart';
@@ -17,8 +16,8 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.isLiked = controllerOpinioes.inicializaLikes(
-        controllerOpinioes.opinioes[index].likes ?? List<Like>.empty());
+    controller.isLiked = controllerOpinioes
+        .inicializaLikes(controllerOpinioes.opinioes[index].likes);
     return Positioned(
         bottom: 0,
         right: 0,
@@ -39,15 +38,26 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                           if (controller.isLiked == 0)
                             controllerOpinioes.opinioes[index].totalDislike--;
                           controller.isLiked = 1;
-                          controllerOpinioes.setLike(
-                              true, controllerOpinioes.opinioes[index].id!);
+                          controllerOpinioes
+                              .setLike(
+                                  true,
+                                  controllerOpinioes.opinioes[index].id!,
+                                  controllerOpinioes.opinioes[index].likes)
+                              .then((retorno) {
+                            if (controllerOpinioes
+                                .listaLikesAtualizada.isNotEmpty) {
+                              controllerOpinioes.opinioes[index].likes
+                                  .assignAll(
+                                      controllerOpinioes.listaLikesAtualizada);
+                            }
+                          });
+
                           controllerOpinioes.opinioes[index].totalLike++;
-                          controllerOpinioes.atualizaLikesLocalmente(index, 1);
                         } else {
                           controllerOpinioes.deleteLike(
-                              controllerOpinioes.opinioes[index].likes ?? []);
+                              controllerOpinioes.opinioes[index].likes);
 
-                          controllerOpinioes.opinioes[index].likes!.removeWhere(
+                          controllerOpinioes.opinioes[index].likes.removeWhere(
                               (element) =>
                                   element.idUsuario ==
                                   controllerOpinioes.usuario.id);
@@ -92,14 +102,24 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                           if (controller.isLiked == 1)
                             controllerOpinioes.opinioes[index].totalLike--;
                           controller.isLiked = 0;
-                          controllerOpinioes.setLike(
-                              false, controllerOpinioes.opinioes[index].id!);
+                          controllerOpinioes
+                              .setLike(
+                                  false,
+                                  controllerOpinioes.opinioes[index].id!,
+                                  controllerOpinioes.opinioes[index].likes)
+                              .then((retorno) {
+                            if (controllerOpinioes
+                                .listaLikesAtualizada.isNotEmpty) {
+                              controllerOpinioes.opinioes[index].likes
+                                  .assignAll(
+                                      controllerOpinioes.listaLikesAtualizada);
+                            }
+                          });
                           controllerOpinioes.opinioes[index].totalDislike++;
-                          controllerOpinioes.atualizaLikesLocalmente(index, 0);
                         } else {
                           controllerOpinioes.deleteLike(
-                              controllerOpinioes.opinioes[index].likes ?? []);
-                          controllerOpinioes.opinioes[index].likes!.removeWhere(
+                              controllerOpinioes.opinioes[index].likes);
+                          controllerOpinioes.opinioes[index].likes.removeWhere(
                               (element) =>
                                   element.idUsuario ==
                                   controllerOpinioes.usuario.id);

@@ -68,18 +68,29 @@ class OpinioesController extends GetxController {
     });
   }
 
-  setLike(bool isLike, int opiniaoId) {
-    repository.setLike(isLike, opiniaoId).then((retorno) {
-      if (retorno) {
-        print('deu bom 1');
-      } else {
-        EasyLoading.showToast('Erro ao salvar like',
-            toastPosition: EasyLoadingToastPosition.bottom);
-      }
-    });
-  }
+  final listaLikesAtualizada = <Like>[].obs;
+  setLike(bool isLike, int opiniaoId, List<Like> likes) =>
+      repository.setLike(isLike, opiniaoId).then((retorno) {
+        if (retorno is bool) {
+          EasyLoading.showToast('Erro ao salvar like',
+              toastPosition: EasyLoadingToastPosition.bottom);
+          listaLikesAtualizada.clear();
+        } else {
+          print('deu bom 1');
+          int indexLike =
+              likes.indexWhere((element) => element.idUsuario == usuario.id);
+          if (likes.isEmpty || indexLike < 0) {
+            likes.add(retorno);
+          } else {
+            likes[indexLike] = retorno;
+          }
+          listaLikesAtualizada.clear();
+          listaLikesAtualizada.assignAll(likes);
+        }
+      });
 
   isLiked(List<Like> likes, int isLike) {
+    //checar
     if (usuario == null) return false;
     return likes
         .where((like) => like.idUsuario == usuario.id && like.isLike == isLike)
@@ -140,32 +151,33 @@ class OpinioesController extends GetxController {
     }
   }
 
-  atualizaLikesLocalmente(int index, isLike) {
-    if (opinioes[index].likes == null) {
-      opinioes[index].likes = List<Like>.empty();
-      opinioes[index].likes!.add(Like(
-          id: 0,
-          idOpiniao: opinioes[index].id!,
-          idUsuario: usuario.id,
-          isLike: isLike));
-    }
-    int indexLike = opinioes[index]
-        .likes!
-        .indexWhere((element) => element.idUsuario == usuario.id);
-    if (indexLike < 0) {
-      opinioes[index].likes!.add(Like(
-          id: 0,
-          idOpiniao: opinioes[index].id!,
-          idUsuario: usuario.id,
-          isLike: isLike));
-    } else {
-      opinioes[index].likes![indexLike] = Like(
-          id: 0,
-          idOpiniao: opinioes[index].id!,
-          idUsuario: usuario.id,
-          isLike: isLike);
-    }
-  }
+  // atualizaLikesLocalmente(int index, isLike) {
+  //   if (opinioes[index].likes == null) {
+  //     opinioes[index].likes = List<Like>.empty();
+  //     opinioes[index].likes!.add(Like(
+  //         id: 0,
+  //         idOpiniao: opinioes[index].id!,
+  //         idUsuario: usuario.id,
+  //         isLike: isLike));
+  //   }
+  //   int indexLike = opinioes[index]
+  //       .likes!
+  //       .indexWhere((element) => element.idUsuario == usuario.id);
+  //   if (indexLike < 0) {
+  //     opinioes[index].likes!.add(Like(
+  //         id: 0,
+  //         idOpiniao: opinioes[index].id!,
+  //         idUsuario: usuario.id,
+  //         isLike: isLike));
+  //   } else {
+  //     opinioes[index].likes![indexLike] = Like(
+  //         id: 0,
+  //         idOpiniao: opinioes[index].id!,
+  //         idUsuario: usuario.id,
+  //         isLike: isLike);
+  //   }
+  //}
+
   // Stream<String> testee(int n) async* {
   //   for (var i = 1; i <= 30; i++) {
   //     await Future.delayed(Duration(seconds: 1));
