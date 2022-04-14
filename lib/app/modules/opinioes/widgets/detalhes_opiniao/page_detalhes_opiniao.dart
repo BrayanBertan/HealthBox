@@ -28,12 +28,17 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
               radius: 100.0,
               child: Image.asset('${baseImagemUrl}user_pic.png'),
             ),
+            Text(
+              '${controller.opiniao?.paciente?.nome ?? ''}',
+              style: titulo,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(
               height: 10,
             ),
             Text(
               '${controller.opiniao.tratamento!.titulo}',
-              style: titulo,
+              style: subTitulo,
               textAlign: TextAlign.center,
             ),
             Row(

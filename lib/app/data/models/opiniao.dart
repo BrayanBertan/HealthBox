@@ -1,4 +1,5 @@
 import 'package:healthbox/app/data/models/like.dart';
+import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
 
 class Opiniao {
@@ -11,6 +12,7 @@ class Opiniao {
   int totalLike;
   int totalDislike;
   List<Like> likes;
+  Paciente? paciente;
   Opiniao(
       {this.id,
       required this.descricao,
@@ -20,7 +22,8 @@ class Opiniao {
       this.tratamento,
       this.totalLike = 0,
       this.totalDislike = 0,
-      this.likes = const <Like>[]});
+      this.likes = const <Like>[],
+      this.paciente});
 
   factory Opiniao.fromJson(Map<String, dynamic> json) => Opiniao(
       id: json['id'],
@@ -35,7 +38,8 @@ class Opiniao {
       totalDislike: json['total_dislike'],
       likes: json['likes'] == null
           ? List<Like>.empty()
-          : Like.listFromJson(json['likes']));
+          : Like.listFromJson(json['likes']),
+      paciente: Paciente.fromJson(json['paciente']));
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

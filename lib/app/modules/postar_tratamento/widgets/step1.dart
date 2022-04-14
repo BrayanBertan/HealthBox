@@ -13,6 +13,7 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
       children: [
         TextFormField(
           initialValue: controller.titulo,
+          focusNode: controller.tituloFocus,
           onChanged: controller.setTitulo,
           decoration: InputDecoration(
               icon: const Icon(

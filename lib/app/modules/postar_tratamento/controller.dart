@@ -78,6 +78,7 @@ class PostarTratamentoController extends GetxController {
     {'titulo': 'Eficaz', 'valor': 1},
     {'titulo': 'Ineficaz', 'valor': 0}
   ];
+  FocusNode tituloFocus = FocusNode();
   get idOpiniao => this._idOpiniao.value;
   set idOpiniao(value) => this._idOpiniao.value = value;
   get idTratamento => this._idTratamento.value;

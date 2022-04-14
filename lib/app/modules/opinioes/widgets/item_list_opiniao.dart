@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/info_item_list_opiniao.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/interacoes_item_list_opiniao.dart';
 
 import '../../../../core/values/keys.dart';
 
-class ItemListOpiniao extends StatelessWidget {
+class ItemListOpiniao extends GetView<OpinioesController> {
   int index;
   ItemListOpiniao({required this.index, Key? key}) : super(key: key);
 
@@ -36,7 +38,7 @@ class ItemListOpiniao extends StatelessWidget {
                 const SizedBox(
                   width: 2,
                 ),
-                Text('Nomeeeee')
+                Text(controller.opinioes[index].paciente?.nome ?? '')
               ],
             )),
       ],
