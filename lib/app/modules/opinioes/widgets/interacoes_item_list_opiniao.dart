@@ -174,6 +174,7 @@ class InteracoesItemListOpiniao extends GetWidget<InteracaoController> {
                 onTap: () {
                   controllerOpinioes.opiniao =
                       controllerOpinioes.opinioes[index];
+                  FocusScope.of(context).unfocus();
                   Get.toNamed(Routes.DETALHES_OPINIAO)!.then((value) {
                     controllerOpinioes.getOpinioes();
                     FocusScope.of(context).unfocus();

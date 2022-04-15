@@ -86,11 +86,11 @@ class TratamentoProvider extends GetConnect {
       required String search}) async {
     //print(filtros);
     print('Bearer  $token');
-    String endpoint =
-        'opinioes?page=$page&ativo=1&paciente_id${filtros.eficaz}&${filtros.orderBy}$search';
+    String filtrosParam = '${filtros.eficaz}&${filtros.orderBy}$search';
+    String endpoint = 'opinioes?page=$page&ativo=1&paciente_id$filtrosParam';
     if (pacienteId != null)
       endpoint =
-          'opinioes?page=$page&ativo=1&paciente_id=$pacienteId&eficaz&order_likes=asc';
+          'opinioes?page=$page&ativo=1&paciente_id=$pacienteId$filtrosParam';
     print('${httpClient.baseUrl}$endpoint');
     var retornoApi = await get(endpoint,
         headers: {'Authorization': 'Bearer  $token'},
