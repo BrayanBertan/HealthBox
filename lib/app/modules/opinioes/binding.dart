@@ -10,8 +10,10 @@ class OpinioesBinding implements Bindings {
   void dependencies() {
     Get.create<InteracaoController>(() => InteracaoController());
     Get.lazyPut<TratamentoProvider>(() => TratamentoProvider());
+
     Get.lazyPut<OpinioesController>(() => OpinioesController(
-        repository:
-            TratamentoRepository(provider: Get.find<TratamentoProvider>())));
+          repository:
+              TratamentoRepository(provider: Get.find<TratamentoProvider>()),
+        ));
   }
 }

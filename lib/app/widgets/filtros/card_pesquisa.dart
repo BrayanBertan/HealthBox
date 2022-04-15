@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
-class CardPesquisa extends StatelessWidget {
+class CardPesquisa extends GetView<OpinioesController> {
   const CardPesquisa({Key? key}) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class CardPesquisa extends StatelessWidget {
                     child: Container(
                   height: 50,
                   child: TextFormField(
+                    controller: controller.searchController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Pesquisar opiniões",
@@ -39,7 +42,7 @@ class CardPesquisa extends StatelessWidget {
                 ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.white),
-                    onPressed: () {},
+                    onPressed: controller.setSearch,
                     child: Icon(
                       Icons.search,
                       color: corPrincipal,

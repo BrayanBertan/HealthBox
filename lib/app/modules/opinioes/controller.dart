@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/like.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/sub_controllers/controller_filtro_opinoes.dart';
 
+import '../../data/models/medicamento.dart';
 import '../../data/repositories/tratamento.dart';
 
 class OpinioesController extends GetxController {
   final TratamentoRepository repository;
+
   final loginController = Get.find<LoginController>();
 
   OpinioesController({required this.repository}) : assert(repository != null);
@@ -18,7 +21,23 @@ class OpinioesController extends GetxController {
     super.onInit();
     usuario = loginController.getLogin();
     getOpinioes();
-    ever(_page, (val) => getOpinioes());
+    everAll([_page, _filtros, _search], (val) => getOpinioes());
+  }
+
+  Future<List<Medicamento>> getMedicamentos(String? filtro) async {
+    final medicamento =
+        Medicamento(id: 0, nome: 'Todos', bula: '', fabricante: '');
+    if (filtro == null) {
+      return <Medicamento>[
+        ...[medicamento],
+        ...List<Medicamento>.empty()
+      ];
+    }
+    final medicamentos = await repository.getMedicamentosFiltro(filtro);
+    return <Medicamento>[
+      ...[medicamento],
+      ...medicamentos
+    ];
   }
 
   final _usuario = Rx<dynamic>(null);
@@ -29,9 +48,18 @@ class OpinioesController extends GetxController {
   final _page = 1.obs;
   final _isMinhasOpinoesChecked = false.obs;
   final _isGerenciarMinhasOpinioesOpen = true.obs;
+  final _filtros = FiltroOpinioesController().obs;
+  final searchController = TextEditingController();
+  final _search = ''.obs;
+
+  get search => this._search.value;
+  setSearch() => this._search.value = searchController.text;
 
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
+
+  get filtros => this._filtros.value;
+  set filtros(value) => this._filtros.value = value;
 
   get carregandoTela => this._carregandoTela.value;
   set carregandoTela(value) => this._carregandoTela.value = value;
@@ -61,7 +89,13 @@ class OpinioesController extends GetxController {
     if (isMinhasOpinoesChecked) {
       pacienteId = usuario.id;
     }
-    repository.getOpinioes(pacienteId: pacienteId, page: page).then((retorno) {
+    repository
+        .getOpinioes(
+            pacienteId: pacienteId,
+            page: page,
+            filtros: filtros,
+            search: '&search=$search')
+        .then((retorno) {
       opinioes.clear();
       opinioes.assignAll(retorno);
       carregando = false;

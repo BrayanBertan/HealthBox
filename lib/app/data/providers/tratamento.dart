@@ -5,6 +5,7 @@ import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 import 'package:healthbox/core/values/keys.dart';
 
+import '../../modules/opinioes/widgets/sub_controllers/controller_filtro_opinoes.dart';
 import '../models/medicamento.dart';
 
 class TratamentoProvider extends GetConnect {
@@ -78,10 +79,15 @@ class TratamentoProvider extends GetConnect {
     return false;
   }
 
-  Future<List<Opiniao>> getOpinioes({int? pacienteId, int page = 1}) async {
+  Future<List<Opiniao>> getOpinioes(
+      {int? pacienteId,
+      int page = 1,
+      required FiltroOpinioesController filtros,
+      required String search}) async {
+    //print(filtros);
     print('Bearer  $token');
     String endpoint =
-        'opinioes?page=$page&ativo=1&paciente_id&eficaz&order_likes=asc';
+        'opinioes?page=$page&ativo=1&paciente_id${filtros.eficaz}&${filtros.orderBy}$search';
     if (pacienteId != null)
       endpoint =
           'opinioes?page=$page&ativo=1&paciente_id=$pacienteId&eficaz&order_likes=asc';

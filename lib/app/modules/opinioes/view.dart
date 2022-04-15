@@ -21,7 +21,7 @@ class OpinioesPage extends GetView<OpinioesController> {
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
                 child: Column(
-                  children: [CardPesquisa(), CardOpinioes()],
+                  children: const [CardPesquisa(), CardOpinioes()],
                 ),
               ),
       ),
