@@ -28,6 +28,19 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
               radius: 100.0,
               child: Image.asset('${baseImagemUrl}user_pic.png'),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Postado em ${controller.opiniao?.dataPostagem ?? ''}',
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Atualizado em ${controller.opiniao?.dataAtualizacao ?? ''}',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
             Text(
               '${controller.opiniao?.paciente?.nome ?? ''}',
               style: titulo,

@@ -38,7 +38,8 @@ class ItemListOpiniao extends GetView<OpinioesController> {
                 const SizedBox(
                   width: 2,
                 ),
-                Text(controller.opinioes[index].paciente?.nome ?? '')
+                Text(
+                    '${controller.opinioes[index].paciente?.nome ?? ''} ${controller.opinioes[index].dataPostagem}')
               ],
             )),
       ],

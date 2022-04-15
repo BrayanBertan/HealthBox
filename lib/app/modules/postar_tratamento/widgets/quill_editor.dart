@@ -57,7 +57,7 @@ class QuillEditorColumn extends GetView<PostarTratamentoController> {
           child: Obx(() => controller.carregando
               ? const Text('carregando...')
               : QuillEditor(
-                  onTapUp: (_, __) {
+                  onTapDown: (_, __) {
                     controller.tituloFocus.unfocus();
                     return false;
                   },

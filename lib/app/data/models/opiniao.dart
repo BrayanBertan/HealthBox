@@ -1,6 +1,7 @@
 import 'package:healthbox/app/data/models/like.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
+import 'package:intl/intl.dart';
 
 class Opiniao {
   int? id;
@@ -13,6 +14,8 @@ class Opiniao {
   int totalDislike;
   List<Like> likes;
   Paciente? paciente;
+  String? dataPostagem;
+  String? dataAtualizacao;
   Opiniao(
       {this.id,
       required this.descricao,
@@ -23,23 +26,30 @@ class Opiniao {
       this.totalLike = 0,
       this.totalDislike = 0,
       this.likes = const <Like>[],
-      this.paciente});
+      this.paciente,
+      this.dataPostagem,
+      this.dataAtualizacao});
 
   factory Opiniao.fromJson(Map<String, dynamic> json) => Opiniao(
-      id: json['id'],
-      descricao: json['descricao'],
-      pacienteId: json['paciente_id'],
-      eficaz: json['eficaz'],
-      ativo: json['ativo'],
-      tratamento: json['tratamento'] != null
-          ? Tratamento.fromJson(json['tratamento'])
-          : null,
-      totalLike: json['total_like'],
-      totalDislike: json['total_dislike'],
-      likes: json['likes'] == null
-          ? List<Like>.empty()
-          : Like.listFromJson(json['likes']),
-      paciente: Paciente.fromJson(json['paciente']));
+        id: json['id'],
+        descricao: json['descricao'],
+        pacienteId: json['paciente_id'],
+        eficaz: json['eficaz'],
+        ativo: json['ativo'],
+        tratamento: json['tratamento'] != null
+            ? Tratamento.fromJson(json['tratamento'])
+            : null,
+        totalLike: json['total_like'],
+        totalDislike: json['total_dislike'],
+        likes: json['likes'] == null
+            ? List<Like>.empty()
+            : Like.listFromJson(json['likes']),
+        paciente: Paciente.fromJson(json['paciente']),
+        dataPostagem: DateFormat('dd/MM/yyyy hh:mm')
+            .format(DateTime.parse(json['created_at'])),
+        dataAtualizacao: DateFormat('dd/MM/yyyy hh:mm')
+            .format(DateTime.parse(json['updated_at'])),
+      );
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

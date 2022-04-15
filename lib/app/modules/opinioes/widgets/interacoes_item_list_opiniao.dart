@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
-import 'package:healthbox/app/modules/opinioes/widgets/controller_interacoes.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/sub_controllers/controller_interacoes.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:like_button/like_button.dart';
 

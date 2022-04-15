@@ -17,6 +17,7 @@ class UsuarioProvider extends GetConnect {
   void onInit() {
     //httpClient.defaultDecoder = Usuario.listFromJson;
     httpClient.baseUrl = baseUrl;
+    httpClient.timeout = const Duration(seconds: 15);
     super.onInit();
   }
 
@@ -27,7 +28,6 @@ class UsuarioProvider extends GetConnect {
       'auth/login?password=$senha&email=$email',
       {},
     );
-
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
   }

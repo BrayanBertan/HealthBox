@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
-import 'package:healthbox/app/modules/opinioes/widgets/controller_interacoes.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/sub_controllers/controller_interacoes.dart';
 import 'package:like_button/like_button.dart';
 
 import '../../../../../routes/app_pages.dart';
@@ -24,7 +24,9 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Container(
-              width: controllerOpinioes.isMinhasOpinoesChecked ? 250 : 150,
+              width: controllerOpinioes.usuario.id == opiniao.pacienteId
+                  ? 250
+                  : 150,
               height: 65,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -144,7 +146,7 @@ class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
                       ),
                     ],
                   ),
-                  controllerOpinioes.isMinhasOpinoesChecked
+                  controllerOpinioes.usuario.id == opiniao.pacienteId
                       ? TextButton.icon(
                           onPressed: () => Get.toNamed(Routes.POSTAR_TRATAMENTO,
                               arguments: opiniao),

@@ -18,7 +18,7 @@ class CardOpinioes extends StatelessWidget {
           children: [
             HeaderFiltro(),
             const Divider(),
-            ListOpinioes(),
+            const ListOpinioes(),
           ],
         ),
       ),
