@@ -34,6 +34,7 @@ class OpinioesController extends GetxController {
       ];
     }
     final medicamentos = await repository.getMedicamentosFiltro(filtro);
+
     return <Medicamento>[
       ...[medicamento],
       ...medicamentos
@@ -89,12 +90,17 @@ class OpinioesController extends GetxController {
     if (isMinhasOpinoesChecked) {
       pacienteId = usuario.id;
     }
+
+    filtros.medicamentosSelecionados
+        .forEach((element) => filtros.medicamentosId += '${element.id},');
+    filtros.medicamentosId =
+        filtros.medicamentosId.substring(0, filtros.medicamentosId.length - 1);
     repository
         .getOpinioes(
             pacienteId: pacienteId,
             page: page,
             filtros: filtros,
-            search: '&search=$search')
+            search: search.isEmpty ? '&titulo' : '&titulo=$search')
         .then((retorno) {
       opinioes.clear();
       opinioes.assignAll(retorno);

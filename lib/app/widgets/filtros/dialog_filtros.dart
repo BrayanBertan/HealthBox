@@ -126,6 +126,42 @@ class DialogFiltros extends GetView<OpinioesController> {
                   onChanged: controllerFiltro.setMedicamento,
                 ),
               ),
+              Text('Medicamentos selecionados', style: titulo),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: Obx(
+                  () => ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          controllerFiltro.medicamentosSelecionados.length,
+                      itemBuilder: (context, index) => Column(
+                            children: [
+                              ListTile(
+                                  title: Text(
+                                      '${controllerFiltro.medicamentosSelecionados[index].nome}'),
+                                  trailing: IconButton(
+                                    onPressed: controllerFiltro
+                                                .medicamentosSelecionados[index]
+                                                .id ==
+                                            0
+                                        ? null
+                                        : () => controllerFiltro
+                                            .deleteMedicamento(index),
+                                    icon: Icon(
+                                      Icons.delete_forever,
+                                      color: controllerFiltro
+                                                  .medicamentosSelecionados[
+                                                      index]
+                                                  .id ==
+                                              0
+                                          ? Colors.grey
+                                          : Colors.red,
+                                    ),
+                                  )),
+                            ],
+                          )),
+                ),
+              ),
               const SizedBox(
                 height: 15,
               ),

@@ -84,9 +84,16 @@ class TratamentoProvider extends GetConnect {
       int page = 1,
       required FiltroOpinioesController filtros,
       required String search}) async {
-    //print(filtros);
+    print(filtros.medicamentosId);
     print('Bearer  $token');
-    String filtrosParam = '${filtros.eficaz}&${filtros.orderBy}$search';
+    String filtrosParam = '';
+    if (filtros.medicamentosSelecionados.first.id == 0) {
+      filtrosParam = '${filtros.eficaz}${filtros.orderBy}$search';
+    } else {
+      filtrosParam =
+          '${filtros.eficaz}${filtros.orderBy}${search}&remedios=${filtros.medicamentosId}';
+    }
+
     String endpoint = 'opinioes?page=$page&ativo=1&paciente_id$filtrosParam';
     if (pacienteId != null)
       endpoint =
@@ -95,7 +102,7 @@ class TratamentoProvider extends GetConnect {
     var retornoApi = await get(endpoint,
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Opiniao.listFromJson(obj));
-    print('${httpClient.baseUrl}$endpoint');
+    // print('${httpClient.baseUrl}$endpoint');
     if (retornoApi.statusCode == 200) {
       return retornoApi.body!;
     } else {
