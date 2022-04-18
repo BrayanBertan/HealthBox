@@ -21,7 +21,13 @@ class OpinioesController extends GetxController {
     super.onInit();
     usuario = loginController.getLogin();
     getOpinioes();
-    everAll([_page, _filtros, _search], (val) => getOpinioes());
+    ever(_page, (val) => getOpinioes());
+    everAll([_filtros, _search], (val) {
+      if (page == 1)
+        getOpinioes();
+      else
+        _page.value = 1;
+    });
   }
 
   Future<List<Medicamento>> getMedicamentos(String? filtro) async {
