@@ -7,4 +7,5 @@ abstract class Routes {
   static const LOGIN = '/login';
   static const CONTA = '/conta';
   static const DADOS_USUARIO = '/conta/usuario';
+  static const GRAFICOS_OPINIOES = '/graficos-opinioes';
 }
