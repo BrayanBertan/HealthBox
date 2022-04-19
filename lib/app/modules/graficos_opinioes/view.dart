@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/modules/graficos_opinioes/widgets/aviso.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -53,6 +54,7 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                       ),
                     );
                   }),
+              const Aviso()
             ],
           )),
     );

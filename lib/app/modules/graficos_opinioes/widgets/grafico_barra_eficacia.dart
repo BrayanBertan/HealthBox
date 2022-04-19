@@ -84,7 +84,6 @@ class GraficoBarraEficaciaPage extends GetView<GraficosOpinioesController> {
       backgroundColor: corPrincipal100,
       appBar: AppBar(
         title: Text(controller.tituloAppBar),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),

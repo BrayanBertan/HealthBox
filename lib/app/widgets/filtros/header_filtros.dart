@@ -27,7 +27,8 @@ class HeaderFiltro extends StatelessWidget {
             Container(
               height: 50,
               child: ElevatedButton.icon(
-                onPressed: () => Get.toNamed(Routes.GRAFICOS_OPINIOES),
+                onPressed: () => Get.toNamed(Routes.GRAFICOS_OPINIOES)!
+                    .then((val) => controller.getOpinioes()),
                 style: ElevatedButton.styleFrom(primary: Colors.white),
                 icon: Image.asset(
                   '${baseImagemUrl}graficos.png',

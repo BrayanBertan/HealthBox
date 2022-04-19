@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/repositories/grafico.dart';
+import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
 
 class GraficosOpinioesController extends GetxController {
@@ -107,7 +108,7 @@ class GraficosOpinioesController extends GetxController {
       'page': Routes.GRAFICO_PIE
     },
     {
-      'titulo': 'Remédio x Quantidade de uso por trimestre',
+      'titulo': 'Remédio x Quantidade de uso por data',
       'imagem': 'line-chart.png',
       'page': Routes.GRAFICO_LINES
     },
@@ -119,5 +120,7 @@ class GraficosOpinioesController extends GetxController {
   ];
 
   @override
-  void onClose() {}
+  void onClose() {
+    EasyLoadingConfig();
+  }
 }

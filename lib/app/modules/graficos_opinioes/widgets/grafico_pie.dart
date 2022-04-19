@@ -28,7 +28,6 @@ class GraficoPiePage extends GetView<GraficosOpinioesController> {
       backgroundColor: corPrincipal100,
       appBar: AppBar(
         title: Text(controller.tituloAppBar),
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
@@ -66,6 +65,8 @@ class GraficoPiePage extends GetView<GraficosOpinioesController> {
                                       charts.SelectionModelConfig<String>(
                                         type: charts.SelectionModelType.info,
                                         changedListener: (model) {
+                                          if (model.selectedDatum.isEmpty)
+                                            return;
                                           int index =
                                               model.selectedDatum.first.index!;
                                           EasyLoading.instance.backgroundColor =
@@ -78,7 +79,8 @@ class GraficoPiePage extends GetView<GraficosOpinioesController> {
                                                   EasyLoadingToastPosition
                                                       .bottom,
                                               duration: const Duration(
-                                                  milliseconds: 1000));
+                                                  milliseconds: 2000),
+                                              dismissOnTap: true);
                                         },
                                         updatedListener: (model) {},
                                       ),

@@ -15,6 +15,7 @@ class GraficoProvider extends GetConnect {
   }
 
   Future<List<Grafico>> getGraficos({required String medicamentos}) async {
+    Get.find<UsuarioProvider>().isSessionValid();
     var retornoApi = await get('graficos/paciente-remedio',
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Grafico.listFromJson(obj));
