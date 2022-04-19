@@ -84,6 +84,7 @@ class TratamentoProvider extends GetConnect {
       int page = 1,
       required FiltroOpinioesController filtros,
       required String search}) async {
+    Get.find<UsuarioProvider>().isSessionValid();
     print(filtros.medicamentosId);
     print('Bearer  $token');
     String filtrosParam = '';

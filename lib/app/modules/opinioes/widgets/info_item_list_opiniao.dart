@@ -17,7 +17,7 @@ class InfoItemListOpiniao extends GetView<OpinioesController> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eros justo, viverra quis nunc eget, laoreet volutpat nulla.',
+            controller.opinioes[index].tratamento?.titulo ?? '',
             maxLines: false ? 10 : 1,
             style: const TextStyle(
               fontWeight: FontWeight.bold,

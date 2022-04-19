@@ -96,11 +96,7 @@ class OpinioesController extends GetxController {
     if (isMinhasOpinoesChecked) {
       pacienteId = usuario.id;
     }
-
-    filtros.medicamentosSelecionados
-        .forEach((element) => filtros.medicamentosId += '${element.id},');
-    filtros.medicamentosId =
-        filtros.medicamentosId.substring(0, filtros.medicamentosId.length - 1);
+    setMedicamentosId();
     repository
         .getOpinioes(
             pacienteId: pacienteId,
@@ -112,6 +108,14 @@ class OpinioesController extends GetxController {
       opinioes.assignAll(retorno);
       carregando = false;
     });
+  }
+
+  setMedicamentosId() {
+    filtros.medicamentosId = '';
+    filtros.medicamentosSelecionados
+        .forEach((element) => filtros.medicamentosId += '${element.id},');
+    filtros.medicamentosId =
+        filtros.medicamentosId.substring(0, filtros.medicamentosId.length - 1);
   }
 
   final listaLikesAtualizada = <Like>[].obs;

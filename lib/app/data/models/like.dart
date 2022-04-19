@@ -17,7 +17,7 @@ class Like {
       );
 
   static List<Like> listFromJson(list) {
-    return List<Like>.from(list.map((crm) => Like.fromJson(crm)));
+    return List<Like>.from(list.map((like) => Like.fromJson(like)));
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_barra_horizontal.dart';
 
 import '../app/modules/conta/binding.dart';
 import '../app/modules/conta/dados_usuario/binding.dart';
@@ -46,8 +47,12 @@ class AppPages {
         binding: DadosUsuarioBinding()),
     GetPage(
       name: Routes.GRAFICOS_OPINIOES,
-      page: () => GraficosOpinioesView(),
+      page: () => GraficosOpinioesPage(),
       binding: GraficosOpinioesBinding(),
+    ),
+    GetPage(
+      name: Routes.GRAFICO_BARRA,
+      page: () => GraficoBarraHorizontalPage(),
     ),
   ];
 }

@@ -22,7 +22,26 @@ class HeaderFiltro extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              width: 20,
+              width: 10,
+            ),
+            Container(
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: () => Get.toNamed(Routes.GRAFICOS_OPINIOES),
+                style: ElevatedButton.styleFrom(primary: Colors.white),
+                icon: Image.asset(
+                  '${baseImagemUrl}graficos.png',
+                  width: 30,
+                  fit: BoxFit.cover,
+                ),
+                label: const Text(
+                  'Gráficos',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
             ),
             Container(
               height: 50,
