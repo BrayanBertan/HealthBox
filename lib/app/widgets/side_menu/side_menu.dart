@@ -29,7 +29,9 @@ class SideMenu extends StatelessWidget {
                   'Olá, ${usuario.nome}',
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
@@ -43,13 +45,13 @@ class SideMenu extends StatelessWidget {
                         },
                         child: const Text(
                           'Minha conta',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(fontSize: 17, color: Colors.white),
                         )),
                     TextButton(
                         onPressed: Get.find<LoginController>().logout,
                         child: const Text(
                           'sair',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(fontSize: 17, color: Colors.white),
                         )),
                   ],
                 )
@@ -62,7 +64,10 @@ class SideMenu extends StatelessWidget {
             },
             leading:
                 Image.asset('${baseImagemUrl}acompanhamentos.png', width: 40),
-            title: const Text('Acompanhamentos'),
+            title: const Text(
+              'Acompanhamentos',
+              style: TextStyle(fontSize: 17),
+            ),
           ),
           const Divider(),
           usuario.tipo == TipoUsuario.PACIENTE
@@ -72,7 +77,7 @@ class SideMenu extends StatelessWidget {
                   },
                   leading:
                       Image.asset('${baseImagemUrl}feedback.png', width: 40),
-                  title: const Text('Opiniões'),
+                  title: const Text('Opiniões', style: TextStyle(fontSize: 17)),
                 )
               : Container(),
         ],

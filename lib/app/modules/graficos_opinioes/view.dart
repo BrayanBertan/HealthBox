@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
-import 'package:healthbox/routes/app_pages.dart';
 
 import 'controller.dart';
 
@@ -18,7 +17,7 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
           child: Column(
             children: [
               Text(
-                'Seleciona o tipo de gráfico',
+                'Selecione o tipo de gráfico',
                 style: titulo,
                 textAlign: TextAlign.center,
               ),
@@ -37,7 +36,11 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                   itemCount: controller.tiposDeGraficos.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => Get.toNamed(Routes.GRAFICO_BARRA),
+                      onTap: () {
+                        controller.tituloAppBar =
+                            controller.tiposDeGraficos[index]['titulo'];
+                        Get.toNamed(controller.tiposDeGraficos[index]['page']);
+                      },
                       child: Column(
                         children: [
                           Image.asset(

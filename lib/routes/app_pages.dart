@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_barra_eficacia.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_barra_horizontal.dart';
+import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_lines.dart';
+import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_pie.dart';
 
 import '../app/modules/conta/binding.dart';
 import '../app/modules/conta/dados_usuario/binding.dart';
@@ -53,6 +56,18 @@ class AppPages {
     GetPage(
       name: Routes.GRAFICO_BARRA,
       page: () => GraficoBarraHorizontalPage(),
+    ),
+    GetPage(
+      name: Routes.GRAFICO_PIE,
+      page: () => GraficoPiePage(),
+    ),
+    GetPage(
+      name: Routes.GRAFICO_BARRA_EFICACIA,
+      page: () => GraficoBarraEficaciaPage(),
+    ),
+    GetPage(
+      name: Routes.GRAFICO_LINES,
+      page: () => GraficoLinesPage(),
     ),
   ];
 }

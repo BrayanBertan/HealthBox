@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts hide TextStyle;
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
@@ -9,42 +10,18 @@ import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
+class GraficoPiePage extends GetView<GraficosOpinioesController> {
   @override
   Widget build(BuildContext context) {
     List<charts.Series<Grafico, String>> seriesgrafico = [
       charts.Series<Grafico, String>(
         id: 'graficoId',
-        colorFn: (Grafico segment, __) {
-          switch (segment.id) {
-            case 0:
-              return charts.MaterialPalette.green.shadeDefault;
-            case 1:
-              return charts.MaterialPalette.yellow.shadeDefault;
-            case 2:
-              return charts.MaterialPalette.red.shadeDefault;
-            case 3:
-              return charts.MaterialPalette.blue.shadeDefault;
-            case 4:
-              return charts.MaterialPalette.purple.shadeDefault;
-            case 5:
-              return charts.MaterialPalette.pink.shadeDefault;
-            case 6:
-              return charts.MaterialPalette.gray.shadeDefault;
-            case 7:
-              return charts.MaterialPalette.cyan.shadeDefault;
-            case 8:
-              return charts.MaterialPalette.deepOrange.shadeDefault;
-            case 9:
-              return charts.MaterialPalette.lime.shadeDefault;
-            default:
-              return charts.MaterialPalette.indigo.shadeDefault;
-          }
-        },
+        colorFn: (Grafico segment, __) =>
+            controller.getGraficosColor(segment.id),
         domainFn: (Grafico series, _) => series.eixoX,
         measureFn: (Grafico series, _) => series.eixoY.toDouble(),
         data: controller.graficos,
-        labelAccessorFn: (Grafico row, _) => '${row.label}',
+        labelAccessorFn: (Grafico row, _) => '${row.eixoY}%:${row.eixoX}',
       )
     ];
     return Scaffold(
@@ -75,7 +52,7 @@ class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height *
-                          (controller.graficos.length * 0.08),
+                          (controller.graficos.length * 0.075),
                       padding: const EdgeInsets.all(5),
                       child: Center(
                         child: controller.carregando
@@ -83,14 +60,36 @@ class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
                                 color: corPrincipal,
                               )
                             : controller.graficos.isNotEmpty
-                                ? charts.BarChart(
-                                    seriesgrafico,
+                                ? charts.PieChart(seriesgrafico,
                                     animate: true,
-                                    vertical: false,
-                                    barRendererDecorator:
-                                        charts.BarLabelDecorator<String>(),
-                                    domainAxis: const charts.OrdinalAxisSpec(),
-                                  )
+                                    selectionModels: [
+                                      charts.SelectionModelConfig<String>(
+                                        type: charts.SelectionModelType.info,
+                                        changedListener: (model) {
+                                          int index =
+                                              model.selectedDatum.first.index!;
+                                          EasyLoading.instance.backgroundColor =
+                                              controller.getGraficosColor(
+                                                  controller.graficos[index].id,
+                                                  tipo: 1);
+                                          EasyLoading.showToast(
+                                              '${controller.graficos[index].eixoX} é fabricado por ${controller.graficos[index].label}',
+                                              toastPosition:
+                                                  EasyLoadingToastPosition
+                                                      .bottom,
+                                              duration: const Duration(
+                                                  milliseconds: 1000));
+                                        },
+                                        updatedListener: (model) {},
+                                      ),
+                                    ],
+                                    defaultRenderer:
+                                        charts.ArcRendererConfig<String>(
+                                            arcRendererDecorators: [
+                                          charts.ArcLabelDecorator(
+                                              labelPosition:
+                                                  charts.ArcLabelPosition.auto)
+                                        ]))
                                 : const Text(
                                     'Sem dados para esses medicamentos'),
                       ),
