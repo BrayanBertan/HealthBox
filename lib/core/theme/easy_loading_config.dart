@@ -4,7 +4,7 @@ import 'package:healthbox/core/theme/app_colors.dart';
 
 void EasyLoadingConfig() {
   EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 2000)
+    ..displayDuration = const Duration(milliseconds: 5000)
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 60
     ..textColor = Colors.white

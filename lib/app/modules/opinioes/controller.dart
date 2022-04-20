@@ -54,7 +54,7 @@ class OpinioesController extends GetxController {
   final opinioes = <Opiniao>[].obs;
   final _page = 1.obs;
   final _isMinhasOpinoesChecked = false.obs;
-  final _isGerenciarMinhasOpinioesOpen = true.obs;
+  final _isGerenciarMinhasOpinioesOpen = false.obs;
   final _filtros = FiltroOpinioesController().obs;
   final searchController = TextEditingController();
   final _search = ''.obs;
