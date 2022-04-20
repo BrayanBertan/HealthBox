@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts hide TextStyle;
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
@@ -121,6 +122,32 @@ class GraficoBarraEficaciaPage extends GetView<GraficosOpinioesController> {
                                           charts.BarGroupingType.grouped,
                                       animate: true,
                                       vertical: false,
+                                      selectionModels: [
+                                        charts.SelectionModelConfig<String>(
+                                          type: charts.SelectionModelType.info,
+                                          changedListener: (model) {
+                                            if (model.selectedDatum.isEmpty)
+                                              return;
+                                            int index = model
+                                                .selectedDatum.first.index!;
+                                            EasyLoading
+                                                    .instance.backgroundColor =
+                                                controller.getGraficosColor(
+                                                    controller
+                                                        .graficos[index].id,
+                                                    tipo: 1);
+                                            EasyLoading.showToast(
+                                                '${controller.graficos[index].eixoX} é fabricado por ${controller.graficos[index].label}',
+                                                toastPosition:
+                                                    EasyLoadingToastPosition
+                                                        .bottom,
+                                                duration: const Duration(
+                                                    milliseconds: 2000),
+                                                dismissOnTap: true);
+                                          },
+                                          updatedListener: (model) {},
+                                        ),
+                                      ],
                                       barRendererDecorator:
                                           charts.BarLabelDecorator<String>(),
                                       domainAxis:
