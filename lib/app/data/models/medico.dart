@@ -19,7 +19,7 @@ class Medico extends Usuario {
       required String senha,
       required DateTime dataNascimento,
       required String telefone,
-      required String fotoPath,
+      String? fotoPath,
       required int ativo,
       required Genero genero})
       : super(

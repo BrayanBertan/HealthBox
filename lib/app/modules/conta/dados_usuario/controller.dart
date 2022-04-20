@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/extensions/validacoes.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 
 import '../../../../core/theme/easy_loading_config.dart';
 
@@ -97,10 +99,7 @@ class DadosUsuarioController extends GetxController {
   }
 
   bool step1Valido() =>
-      nomeValido() &&
-      telefoneValido() &&
-      dataNascimentoValida() &&
-      fotoValida();
+      nomeValido() && telefoneValido() && dataNascimentoValida();
   bool step2Valido() => emailValido() && senhaValida();
   bool step3PacienteValido() => alturaValida() && pesoValido();
   bool step3MedicoValido() => espealizacoesValida() && descricaoValido();
@@ -204,6 +203,7 @@ class DadosUsuarioController extends GetxController {
   final nomeController = TextEditingController();
   final _telefone = Rx<String?>(null);
   final telefoneController = TextEditingController();
+  File? _tmpFile;
 
   //=====Getters e Setters=====
 
@@ -246,8 +246,10 @@ class DadosUsuarioController extends GetxController {
 
   void onImageSelected(File image) async {
     Get.back();
-    File tmpFile = File(image.path);
-    foto = tmpFile.path;
+    _tmpFile = File(image.path);
+    if (_tmpFile != null) {
+      foto = _tmpFile;
+    }
   }
 
 //==========STEP 2=======================
@@ -382,8 +384,21 @@ class DadosUsuarioController extends GetxController {
   }
 //==========STEP 4=======================
 
-  salvarUsuario() {
+  salvarUsuario() async {
     EasyLoading.showInfo('Salvando...');
+    if (_tmpFile != null) {
+      final fileName = basename(_tmpFile!.path);
+      final pasta = 'files/$fileName';
+
+      try {
+        final ref =
+            firebase_storage.FirebaseStorage.instance.ref(pasta).child('file/');
+        await ref.putFile(_tmpFile!);
+        foto = await ref.getDownloadURL();
+      } catch (e) {
+        print('Erro');
+      }
+    }
     Map<String, dynamic> dados = {
       'tipo': tipoName[0],
       'name': nome,

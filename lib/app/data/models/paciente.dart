@@ -20,7 +20,7 @@ class Paciente extends Usuario {
       required String senha,
       required DateTime dataNascimento,
       required String telefone,
-      required String fotoPath,
+      String? fotoPath,
       required int ativo,
       required Genero genero})
       : super(
@@ -46,7 +46,7 @@ class Paciente extends Usuario {
       senha: '',
       dataNascimento: DateTime.parse(json['data_nascimento']),
       telefone: json['telefone'],
-      fotoPath: json['foto_path'] ?? '',
+      fotoPath: json['foto_path'],
       genero: json['sexo'].toString().genero(),
       ativo: json['ativo']);
 

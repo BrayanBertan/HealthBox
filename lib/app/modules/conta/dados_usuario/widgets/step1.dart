@@ -25,7 +25,9 @@ class Step1Page extends GetView<DadosUsuarioController> {
                   CircleAvatar(
                       child: controller.foto == null
                           ? Image.asset('${baseImagemUrl}user_pic.png')
-                          : Image.file(File(controller.foto)),
+                          : controller.foto is File
+                              ? Image.file(controller.foto)
+                              : Image.network(controller.foto),
                       minRadius: 75,
                       maxRadius: 100),
                   const Text(

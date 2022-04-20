@@ -53,6 +53,9 @@ dependencies:
   like_button: ^2.0.4
   flutter_quill: ^4.1.1
   dropdown_search: ^2.0.1
+  firebase_core: ^1.14.1
+  firebase_storage: ^10.2.12
+  path: ^1.8.0
 
 
 

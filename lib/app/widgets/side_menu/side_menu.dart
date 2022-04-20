@@ -36,7 +36,10 @@ class SideMenu extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                        child: Image.asset('${baseImagemUrl}user_pic.png'),
+                        backgroundImage: usuario.fotoPath == null
+                            ? const AssetImage('${baseImagemUrl}user_pic.png')
+                                as ImageProvider
+                            : NetworkImage(usuario.fotoPath!),
                         minRadius: 40,
                         maxRadius: 40),
                     TextButton(

@@ -9,7 +9,7 @@ abstract class Usuario {
   String senha;
   DateTime dataNascimento;
   String telefone;
-  String fotoPath;
+  String? fotoPath;
   int ativo;
   Genero genero;
 
@@ -21,7 +21,7 @@ abstract class Usuario {
       required this.senha,
       required this.dataNascimento,
       required this.telefone,
-      required this.fotoPath,
+      this.fotoPath,
       required this.ativo,
       required this.genero});
 

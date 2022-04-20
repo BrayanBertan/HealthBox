@@ -25,12 +25,16 @@ class Step4Page extends GetView<DadosUsuarioController> {
         const SizedBox(
           height: 15,
         ),
-        Obx(() => CircleAvatar(
-            child: controller.foto == null
-                ? Image.asset('${baseImagemUrl}user_pic.png')
-                : Image.file(File(controller.foto)),
-            minRadius: 85,
-            maxRadius: 85)),
+        Obx(
+          () => CircleAvatar(
+              child: controller.foto == null
+                  ? Image.asset('${baseImagemUrl}user_pic.png')
+                  : controller.foto is File
+                      ? Image.file(controller.foto)
+                      : Image.network(controller.foto),
+              minRadius: 85,
+              maxRadius: 85),
+        ),
         StepLines(texto: '1'),
         Obx(() => CustomTextRich(
             titulo: 'Você é: ',

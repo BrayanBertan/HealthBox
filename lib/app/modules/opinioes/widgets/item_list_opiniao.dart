@@ -33,7 +33,12 @@ class ItemListOpiniao extends GetView<OpinioesController> {
             child: Row(
               children: [
                 CircleAvatar(
-                  child: Image.asset('${baseImagemUrl}user_pic.png'),
+                  backgroundImage:
+                      controller.opinioes[index].paciente?.fotoPath == null
+                          ? const AssetImage('${baseImagemUrl}user_pic.png')
+                              as ImageProvider
+                          : NetworkImage(
+                              controller.opinioes[index].paciente!.fotoPath!),
                 ),
                 const SizedBox(
                   width: 2,

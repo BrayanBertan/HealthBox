@@ -28,7 +28,10 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
           children: [
             CircleAvatar(
               radius: 100.0,
-              child: Image.asset('${baseImagemUrl}user_pic.png'),
+              backgroundImage: controller.opiniao?.paciente?.fotoPath == null
+                  ? const AssetImage('${baseImagemUrl}user_pic.png')
+                      as ImageProvider
+                  : NetworkImage(controller.opiniao!.paciente!.fotoPath!),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
