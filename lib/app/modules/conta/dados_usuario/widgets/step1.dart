@@ -23,11 +23,11 @@ class Step1Page extends GetView<DadosUsuarioController> {
           child: Obx(() => Column(
                 children: [
                   CircleAvatar(
-                      child: controller.foto == null
-                          ? Image.asset('${baseImagemUrl}user_pic.png')
+                      backgroundImage: controller.foto == null
+                          ? const AssetImage('${baseImagemUrl}user_pic.png')
                           : controller.foto is File
-                              ? Image.file(controller.foto)
-                              : Image.network(controller.foto),
+                              ? FileImage(controller.foto)
+                              : NetworkImage(controller.foto) as ImageProvider,
                       minRadius: 75,
                       maxRadius: 100),
                   const Text(
