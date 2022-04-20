@@ -47,7 +47,8 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
           showSearchBox: true,
           emptyBuilder: (_, __) => const Center(
             child: Text(
-              'Nenhum medicamento foi encontrado',
+              'Nenhum medicamento foi encontrado.Use o campo de pesquisa acima.',
+              textAlign: TextAlign.center,
             ),
           ),
           showClearButton: true,

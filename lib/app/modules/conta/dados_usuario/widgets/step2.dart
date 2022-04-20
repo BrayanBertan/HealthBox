@@ -64,6 +64,7 @@ class Step2Page extends GetView<DadosUsuarioController> {
             Expanded(
                 child: Obx(() => DropdownButton<Genero>(
                     value: controller.genero,
+                    underline: Container(),
                     items: Genero.values
                         .map((Genero tipo) => DropdownMenuItem<Genero>(
                             value: tipo, child: Text(tipo.name)))

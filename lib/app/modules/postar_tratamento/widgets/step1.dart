@@ -43,6 +43,7 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
               children: [
                 DropdownButton<int>(
                     isDense: true,
+                    underline: Container(),
                     value: controller.eficacia,
                     items: controller.eficazList
                         .map((Map<String, dynamic> eficacia) =>

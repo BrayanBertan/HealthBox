@@ -11,10 +11,9 @@ class ListOpinioes extends GetView<OpinioesController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        height: !controller.isGerenciarMinhasOpinioesOpen ||
-                controller.opinioes.length > 4
-            ? MediaQuery.of(context).size.width
-            : MediaQuery.of(context).size.width * 0.8,
+        height: controller.isGerenciarMinhasOpinioesOpen
+            ? MediaQuery.of(context).size.width * 0.8
+            : MediaQuery.of(context).size.width,
         child: Obx(
           () => controller.carregando
               ? const Text(

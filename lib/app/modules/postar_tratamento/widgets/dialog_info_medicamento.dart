@@ -88,6 +88,7 @@ class DialogInfoMedicamento extends GetView<ControllerInfoMedicamento> {
                     () => DropdownButton<UnidadeMedida>(
                         isDense: false,
                         value: controller.unidade,
+                        underline: Container(),
                         items: UnidadeMedida.values
                             .map((UnidadeMedida unidadeMedida) =>
                                 DropdownMenuItem<UnidadeMedida>(
@@ -141,6 +142,7 @@ class DialogInfoMedicamento extends GetView<ControllerInfoMedicamento> {
                   child: Obx(
                     () => DropdownButton<PeriodicidadeMedicamento>(
                         isDense: false,
+                        underline: Container(),
                         value: controller.periodicidade,
                         items: PeriodicidadeMedicamento.values
                             .map((PeriodicidadeMedicamento unidadeMedida) =>

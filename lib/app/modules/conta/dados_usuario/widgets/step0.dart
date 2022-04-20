@@ -135,6 +135,7 @@ class Step0Page extends GetView<DadosUsuarioController> {
                         flex: 1,
                         child: Obx(() => DropdownButton<String>(
                             value: controller.crmUf,
+                            underline: Container(),
                             items: ufs
                                 .map((String uf) => DropdownMenuItem<String>(
                                     value: uf, child: Text(uf)))

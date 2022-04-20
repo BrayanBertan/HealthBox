@@ -75,7 +75,7 @@ class GraficoBarraEficaciaPage extends GetView<GraficosOpinioesController> {
           }
         },
         domainFn: (Grafico series, _) => series.eixoX,
-        measureFn: (Grafico series, _) => series.eixoY.toDouble(),
+        measureFn: (Grafico series, _) => series.eixoYTemp?.toDouble() ?? 0.0,
         data: controller.graficos,
         labelAccessorFn: (Grafico row, _) => 'Ineficaz',
       )

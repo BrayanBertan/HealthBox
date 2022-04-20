@@ -38,6 +38,8 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
+                        controller.getGraficos(
+                            controller.tiposDeGraficos[index]['endpoint']);
                         controller.tituloAppBar =
                             controller.tiposDeGraficos[index]['titulo'];
                         Get.toNamed(controller.tiposDeGraficos[index]['page']);

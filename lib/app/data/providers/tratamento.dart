@@ -103,7 +103,7 @@ class TratamentoProvider extends GetConnect {
     var retornoApi = await get(endpoint,
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Opiniao.listFromJson(obj));
-    // print('${httpClient.baseUrl}$endpoint');
+    print('${httpClient.baseUrl}$endpoint');
     if (retornoApi.statusCode == 200) {
       return retornoApi.body!;
     } else {

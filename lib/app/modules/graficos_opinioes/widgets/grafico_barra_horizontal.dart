@@ -91,7 +91,9 @@ class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
                                     domainAxis: const charts.OrdinalAxisSpec(),
                                   )
                                 : const Text(
-                                    'Sem dados para esses medicamentos'),
+                                    'Sem dados para esses medicamentos',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                       ),
                     ),
                   )),

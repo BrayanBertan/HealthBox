@@ -14,12 +14,13 @@ class GraficoProvider extends GetConnect {
     super.onInit();
   }
 
-  Future<List<Grafico>> getGraficos({required String medicamentos}) async {
+  Future<List<Grafico>> getGraficos(
+      {required String medicamentos, required String endpoint}) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    var retornoApi = await get('graficos/paciente-remedio',
+    var retornoApi = await get('graficos/$endpoint',
         headers: {'Authorization': 'Bearer  $token'},
         decoder: (obj) => Grafico.listFromJson(obj));
-
+    print('${httpClient.baseUrl}graficos/$endpoint');
     if (retornoApi.statusCode == 200) {
       return retornoApi.body!;
     } else {

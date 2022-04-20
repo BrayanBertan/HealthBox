@@ -15,7 +15,6 @@ class GraficosOpinioesController extends GetxController {
 
   @override
   void onInit() {
-    getGraficos();
     super.onInit();
   }
 
@@ -25,6 +24,7 @@ class GraficosOpinioesController extends GetxController {
   }
 
   final graficos = <Grafico>[].obs;
+  final graficosTemp = <Grafico>[].obs;
   final medicamentos = <Medicamento>[].obs;
   final medicamentosSelecionados = <Medicamento>[].obs;
   final _carregando = false.obs;
@@ -33,11 +33,14 @@ class GraficosOpinioesController extends GetxController {
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
 
-  getGraficos() {
+  getGraficos(String endpoint) {
     carregando = true;
-    repository.getGraficos(medicamentos: '').then((retorno) {
+    repository
+        .getGraficos(medicamentos: '', endpoint: endpoint)
+        .then((List<Grafico> retorno) {
       graficos.clear();
       graficos.assignAll(retorno);
+
       carregando = false;
     });
   }
@@ -100,22 +103,26 @@ class GraficosOpinioesController extends GetxController {
     {
       'titulo': 'Remédio x Quantidade de uso',
       'imagem': 'bar-chart.png',
-      'page': Routes.GRAFICO_BARRA
+      'page': Routes.GRAFICO_BARRA,
+      'endpoint': 'paciente-remedio'
     },
     {
       'titulo': 'Remédio x Porcentagem de uso',
       'imagem': 'pie-chart.png',
-      'page': Routes.GRAFICO_PIE
+      'page': Routes.GRAFICO_PIE,
+      'endpoint': 'paciente-remedio'
     },
     {
       'titulo': 'Remédio x Quantidade de uso por data',
       'imagem': 'line-chart.png',
-      'page': Routes.GRAFICO_LINES
+      'page': Routes.GRAFICO_LINES,
+      'endpoint': 'paciente-remedio'
     },
     {
       'titulo': 'Remédio x Eficaz x Ineficaz',
       'imagem': 'double-bar-chart.png',
-      'page': Routes.GRAFICO_BARRA_EFICACIA
+      'page': Routes.GRAFICO_BARRA_EFICACIA,
+      'endpoint': 'remedio-eficacia'
     },
   ];
 

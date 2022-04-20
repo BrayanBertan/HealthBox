@@ -64,6 +64,7 @@ class DialogDetalhesCrm extends GetView<ContaController> {
                             child: controller.especializacoes.isNotEmpty
                                 ? DropdownButton<Especializacao>(
                                     value: controller.especializacaoSelecionada,
+                                    underline: Container(),
                                     items: controller.especializacoes
                                         .map((Especializacao especializacao) =>
                                             DropdownMenuItem<Especializacao>(

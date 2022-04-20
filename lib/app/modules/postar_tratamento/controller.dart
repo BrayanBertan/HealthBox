@@ -151,6 +151,7 @@ class PostarTratamentoController extends GetxController {
     medicamentosSelecionadosInfo.assignAll(
         opiniao.tratamento?.medicamentos ?? List<MedicamentoInfo>.empty());
     setEficacia(opiniao.eficaz);
+    setDescricao(opiniao.tratamento?.descricao ?? '');
   }
 
   salvarOpiniao() {

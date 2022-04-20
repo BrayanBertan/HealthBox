@@ -17,7 +17,9 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Detalhes da opinião'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(25),
         child: Column(
@@ -43,7 +45,7 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
             ),
             Text(
               '${controller.opiniao?.paciente?.nome ?? ''}',
-              style: titulo,
+              style: subTitulo,
               textAlign: TextAlign.center,
             ),
             const SizedBox(
@@ -51,7 +53,7 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
             ),
             Text(
               '${controller.opiniao.tratamento!.titulo}',
-              style: subTitulo,
+              style: titulo,
               textAlign: TextAlign.center,
             ),
             Row(

@@ -82,8 +82,14 @@ class OpinioesController extends GetxController {
   set opiniao(value) => this._opiniao.value = value;
 
   get isMinhasOpinoesChecked => this._isMinhasOpinoesChecked.value;
-  setIsMinhasOpinoesChecked() =>
-      this._isMinhasOpinoesChecked.value = !isMinhasOpinoesChecked;
+  setIsMinhasOpinoesChecked() {
+    this._isMinhasOpinoesChecked.value = !isMinhasOpinoesChecked;
+    if (page == 1) {
+      getOpinioes();
+      return;
+    }
+    _page.value = 1;
+  }
 
   get page => this._page.value;
 
@@ -91,6 +97,7 @@ class OpinioesController extends GetxController {
   setPageProxima() => this._page.value++;
 
   getOpinioes() {
+    print('entrou');
     carregando = true;
     int? pacienteId = null;
     if (isMinhasOpinoesChecked) {

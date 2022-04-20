@@ -51,6 +51,7 @@ class BarraNovoCrm extends GetView<ContaController> {
               child: Obx(() => DropdownButton<String>(
                   menuMaxHeight: 250,
                   value: controller.crmuf,
+                  underline: Container(),
                   items: ufs
                       .map((String uf) =>
                           DropdownMenuItem<String>(value: uf, child: Text(uf)))
