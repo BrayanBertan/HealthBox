@@ -45,10 +45,12 @@ class Opiniao {
             ? List<Like>.empty()
             : Like.listFromJson(json['likes']),
         paciente: Paciente.fromJson(json['paciente']),
-        dataPostagem: DateFormat('dd/MM/yyyy hh:mm')
-            .format(DateTime.parse(json['created_at'])),
-        dataAtualizacao: DateFormat('dd/MM/yyyy hh:mm')
-            .format(DateTime.parse(json['updated_at'])),
+        dataPostagem: DateFormat('dd/MM/yyyy HH:mm').format(
+            DateTime.parse(json['created_at'])
+                .subtract(const Duration(hours: 3))),
+        dataAtualizacao: DateFormat('dd/MM/yyyy HH:mm').format(
+            DateTime.parse(json['updated_at'])
+                .subtract(const Duration(hours: 3))),
       );
 
   Map<String, dynamic> toJson() {
