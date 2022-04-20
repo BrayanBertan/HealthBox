@@ -51,7 +51,10 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                           const SizedBox(
                             height: 15,
                           ),
-                          Text(controller.tiposDeGraficos[index]['titulo'])
+                          Text(
+                            controller.tiposDeGraficos[index]['titulo'],
+                            textAlign: TextAlign.center,
+                          )
                         ],
                       ),
                     );

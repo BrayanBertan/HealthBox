@@ -101,7 +101,7 @@ class GraficosOpinioesController extends GetxController {
 
   final tiposDeGraficos = <Map<String, dynamic>>[
     {
-      'titulo': 'Remédio x Quantidade de uso',
+      'titulo': 'Remédio x Quantidade de pacientes usando',
       'imagem': 'bar-chart.png',
       'page': Routes.GRAFICO_BARRA,
       'endpoint': 'paciente-remedio'

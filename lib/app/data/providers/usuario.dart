@@ -87,7 +87,8 @@ class UsuarioProvider extends GetConnect {
 
   isSessionValid() async {
     if (!verificaSessao()) {
-      EasyLoading.showInfo('Sessão expirada!');
+      EasyLoading.showInfo('Sessão expirada!',
+          duration: const Duration(seconds: 1));
       await Future.delayed(const Duration(milliseconds: 500));
       Get.find<LoginController>().logout();
     }

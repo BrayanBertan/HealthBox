@@ -396,6 +396,7 @@ class DadosUsuarioController extends GetxController {
         await ref.putFile(_tmpFile!);
         foto = await ref.getDownloadURL();
       } catch (e) {
+        foto = null;
         print('Erro');
       }
     }
