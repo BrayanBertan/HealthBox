@@ -16,6 +16,9 @@ class GraficosOpinioesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    interval(_medicamentosId, (val) async {
+      getGraficos();
+    }, time: const Duration(milliseconds: 100));
   }
 
   @override
@@ -25,19 +28,38 @@ class GraficosOpinioesController extends GetxController {
 
   final graficos = <Grafico>[].obs;
   final graficosTemp = <Grafico>[].obs;
-  final medicamentos = <Medicamento>[].obs;
-  final medicamentosSelecionados = <Medicamento>[].obs;
+  final medicamentos = <Medicamento>[
+    Medicamento(id: 1, nome: 'Eficentus', fabricante: '', bula: ''),
+    Medicamento(id: 2, nome: 'Dipirona', fabricante: '', bula: ''),
+    Medicamento(id: 3, nome: 'BENEGRIP', fabricante: '', bula: ''),
+  ].obs;
+  final medicamentosSelecionados = List<Medicamento>.empty().obs;
   final _carregando = false.obs;
   String tituloAppBar = '';
-
+  String endpoint = '';
+  final _medicamentosId = ''.obs;
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
+  get medicamentosId => this._medicamentosId.value;
+  set medicamentosId(value) => this._medicamentosId.value = value;
 
-  getGraficos(String endpoint) {
+  setMedicamentos(items) {
+    medicamentosSelecionados.clear();
+    medicamentosId = '';
+    if (items.isEmpty) return;
+    items.forEach((element) => medicamentosSelecionados.add(element!));
+    medicamentosSelecionados
+        .forEach((element) => medicamentosId += '${element.id},');
+    medicamentosId = medicamentosId.substring(0, medicamentosId.length - 1);
+  }
+
+  getGraficos() {
     carregando = true;
-    repository
-        .getGraficos(medicamentos: '', endpoint: endpoint)
-        .then((List<Grafico> retorno) {
+    endpoint = endpoint.split('remedios')[0];
+    if (medicamentosId.isNotEmpty) {
+      endpoint += 'remedios=$medicamentosId';
+    }
+    repository.getGraficos(endpoint: endpoint).then((List<Grafico> retorno) {
       graficos.clear();
       graficos.assignAll(retorno);
 
@@ -104,25 +126,25 @@ class GraficosOpinioesController extends GetxController {
       'titulo': 'Remédio x Quantidade de pacientes usando',
       'imagem': 'bar-chart.png',
       'page': Routes.GRAFICO_BARRA,
-      'endpoint': 'paciente-remedio'
+      'endpoint': 'paciente-remedio?'
     },
     {
       'titulo': 'Remédio x Porcentagem de uso',
       'imagem': 'pie-chart.png',
       'page': Routes.GRAFICO_PIE,
-      'endpoint': 'paciente-remedio'
+      'endpoint': 'paciente-remedio?tipoGrafico=pie&'
     },
     {
       'titulo': 'Remédio x Quantidade de uso por data',
       'imagem': 'line-chart.png',
       'page': Routes.GRAFICO_LINES,
-      'endpoint': 'paciente-remedio'
+      'endpoint': 'paciente-remedio?'
     },
     {
       'titulo': 'Remédio x Eficaz x Ineficaz',
       'imagem': 'double-bar-chart.png',
       'page': Routes.GRAFICO_BARRA_EFICACIA,
-      'endpoint': 'remedio-eficacia'
+      'endpoint': 'remedio-eficacia?'
     },
   ];
 

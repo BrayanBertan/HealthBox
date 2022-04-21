@@ -12,6 +12,11 @@ class Grafico {
       this.eixoYTemp});
 
   factory Grafico.fromJson(Map<String, dynamic> json) {
+    return Grafico(
+        id: json['id'],
+        eixoX: json['label'].split('(')[0],
+        eixoY: json['percent'].round(),
+        label: json['label'].split('(')[1]);
     if (json.containsKey('eixoY_eficaz')) {
       return Grafico(
           id: json['id'],
@@ -29,6 +34,9 @@ class Grafico {
   }
 
   static List<Grafico> listFromJson(list) {
+    // print(list);
+    // List<Grafico>.from(list.map((grafico) => Grafico.fromJson(grafico)));
+    // return List<Grafico>.empty();
     return List<Grafico>.from(list.map((grafico) => Grafico.fromJson(grafico)));
   }
 

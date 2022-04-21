@@ -14,8 +14,7 @@ class GraficoProvider extends GetConnect {
     super.onInit();
   }
 
-  Future<List<Grafico>> getGraficos(
-      {required String medicamentos, required String endpoint}) async {
+  Future<List<Grafico>> getGraficos({required String endpoint}) async {
     Get.find<UsuarioProvider>().isSessionValid();
     var retornoApi = await get('graficos/$endpoint',
         headers: {'Authorization': 'Bearer  $token'},

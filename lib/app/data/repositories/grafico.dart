@@ -4,6 +4,6 @@ class GraficoRepository {
   final GraficoProvider provider;
   GraficoRepository({required this.provider}) : assert(provider != null);
 
-  getGraficos({required String medicamentos, required String endpoint}) =>
-      provider.getGraficos(medicamentos: medicamentos, endpoint: endpoint);
+  getGraficos({required String endpoint}) =>
+      provider.getGraficos(endpoint: endpoint);
 }
