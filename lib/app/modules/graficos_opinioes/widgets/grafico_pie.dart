@@ -19,7 +19,7 @@ class GraficoPiePage extends GetView<GraficosOpinioesController> {
         colorFn: (Grafico segment, __) =>
             controller.getGraficosColor(segment.id),
         domainFn: (Grafico series, _) => series.eixoX,
-        measureFn: (Grafico series, _) => series.eixoY.toDouble(),
+        measureFn: (Grafico series, _) => series.eixoY,
         data: controller.graficos,
         labelAccessorFn: (Grafico row, _) => '${row.eixoY}%:${row.eixoX}',
       )

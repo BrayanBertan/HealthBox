@@ -66,17 +66,22 @@ class ContaProvider extends GetConnect {
 
   Future<List<Especializacao>?> getEspecializacoes(
       List<Especializacao> itens) async {
-    var retornoApi = await get('especializacoes?page=1&nome',
-        decoder: (obj) => Especializacao.listFromJson(obj));
-    List<Especializacao> itensRetorno = retornoApi.body!;
-    // itensRetorno
-    //     .removeWhere((especializacao) => itens.contains(especializacao));
-    itens.forEach((element1) => itensRetorno.removeWhere(
-        (element2) => element1.especializacaoId == element2.especializacaoId));
+    try {
+      var retornoApi = await get('especializacoes?page=1&nome',
+          decoder: (obj) => Especializacao.listFromJson(obj));
+      List<Especializacao> itensRetorno = retornoApi.body!;
+      // itensRetorno
+      //     .removeWhere((especializacao) => itens.contains(especializacao));
+      itens.forEach((element1) => itensRetorno.removeWhere((element2) =>
+          element1.especializacaoId == element2.especializacaoId));
 
-    if (retornoApi.statusCode == 200) {
-      return itensRetorno;
-    } else {
+      if (retornoApi.statusCode == 200) {
+        return itensRetorno;
+      } else {
+        return List<Especializacao>.empty();
+      }
+    } catch (erro) {
+      print('Erro getEspecializacoes $erro');
       return List<Especializacao>.empty();
     }
   }

@@ -12,11 +12,11 @@ class CardGrafico extends GetView<GraficosOpinioesController> {
     return Obx(() => Card(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: controller.endpoint != 'paciente-remedio?tipoGrafico=pie&'
+            height: Get.rawRoute!.settings.name == '/graficos-opinioes/pie'
                 ? MediaQuery.of(context).size.height * 0.7
                 : controller.graficos.isNotEmpty
                     ? MediaQuery.of(context).size.height *
-                        (controller.graficos.length * 0.08)
+                        (controller.graficos.length * 0.1)
                     : 50,
             padding: const EdgeInsets.all(5),
             child: Center(

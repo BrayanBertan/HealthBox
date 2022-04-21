@@ -85,28 +85,33 @@ class TratamentoProvider extends GetConnect {
       required FiltroOpinioesController filtros,
       required String search}) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    print(filtros.medicamentosId);
-    print('Bearer  $token');
-    String filtrosParam = '';
-    if (filtros.medicamentosSelecionados.first.id == 0) {
-      filtrosParam = '${filtros.eficaz}${filtros.orderBy}$search';
-    } else {
-      filtrosParam =
-          '${filtros.eficaz}${filtros.orderBy}${search}&remedios=${filtros.medicamentosId}';
-    }
+    try {
+      print(filtros.medicamentosId);
+      print('Bearer  $token');
+      String filtrosParam = '';
+      if (filtros.medicamentosSelecionados.first.id == 0) {
+        filtrosParam = '${filtros.eficaz}${filtros.orderBy}$search';
+      } else {
+        filtrosParam =
+            '${filtros.eficaz}${filtros.orderBy}${search}&remedios=${filtros.medicamentosId}';
+      }
 
-    String endpoint = 'opinioes?page=$page&ativo=1&paciente_id$filtrosParam';
-    if (pacienteId != null)
-      endpoint =
-          'opinioes?page=$page&ativo=1&paciente_id=$pacienteId$filtrosParam';
-    print('${httpClient.baseUrl}$endpoint');
-    var retornoApi = await get(endpoint,
-        headers: {'Authorization': 'Bearer  $token'},
-        decoder: (obj) => Opiniao.listFromJson(obj));
-    print('${httpClient.baseUrl}$endpoint');
-    if (retornoApi.statusCode == 200) {
-      return retornoApi.body!;
-    } else {
+      String endpoint = 'opinioes?page=$page&ativo=1&paciente_id$filtrosParam';
+      if (pacienteId != null)
+        endpoint =
+            'opinioes?page=$page&ativo=1&paciente_id=$pacienteId$filtrosParam';
+      print('${httpClient.baseUrl}$endpoint');
+      var retornoApi = await get(endpoint,
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Opiniao.listFromJson(obj));
+      print('${httpClient.baseUrl}$endpoint');
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Opiniao>.empty();
+      }
+    } catch (erro) {
+      print('Erro getOpinioes $erro');
       return List<Opiniao>.empty();
     }
   }
@@ -143,13 +148,18 @@ class TratamentoProvider extends GetConnect {
 
   Future<List<Medicamento>> getMedicamentosFiltro(String filtro) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    var retornoApi = await get('remedios?nome=$filtro&page=1',
-        headers: {'Authorization': 'Bearer  $token'},
-        decoder: (obj) => Medicamento.listFromJson(obj));
+    try {
+      var retornoApi = await get('remedios?nome=$filtro&page=1',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Medicamento.listFromJson(obj));
 
-    if (retornoApi.statusCode == 200 && retornoApi.body != null) {
-      return retornoApi.body!;
-    } else {
+      if (retornoApi.statusCode == 200 && retornoApi.body != null) {
+        return retornoApi.body!;
+      } else {
+        return List<Medicamento>.empty();
+      }
+    } catch (erro) {
+      print('Erro getMedicamentosFiltro $erro');
       return List<Medicamento>.empty();
     }
   }

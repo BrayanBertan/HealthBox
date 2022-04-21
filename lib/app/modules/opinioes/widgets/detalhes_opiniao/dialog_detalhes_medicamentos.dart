@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DialogDetalhesMedicamentos extends StatelessWidget {
   MedicamentoInfo medicamento;
@@ -60,9 +63,21 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(text: 'Link da bula ', style: subTitulo),
                     TextSpan(
-                        text: 'www.bula.com.br',
-                        style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold)),
+                        text: medicamento.medicamento.bula,
+                        style: const TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.bold),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            try {
+                              await launch(medicamento.medicamento.bula);
+                            } catch (erro) {
+                              EasyLoading.showToast('Erro ao visualizar bula',
+                                  duration: const Duration(seconds: 2),
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom);
+                              throw 'Erro ao visualizar bula $erro';
+                            }
+                          }),
                   ]),
               textAlign: TextAlign.start,
             ),

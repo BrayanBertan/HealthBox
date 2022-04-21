@@ -97,7 +97,6 @@ class OpinioesController extends GetxController {
   setPageProxima() => this._page.value++;
 
   getOpinioes() {
-    print('entrou');
     carregando = true;
     int? pacienteId = null;
     if (isMinhasOpinoesChecked) {

@@ -57,21 +57,32 @@ class UsuarioProvider extends GetConnect {
 
   getUsuario() async {
     isSessionValid();
-    var retornoApi = await post('auth/me', {},
-        headers: {'Authorization': 'Bearer  $token'},
-        decoder: (obj) =>
-            obj['tipo'] == 'P' ? Paciente.fromJson(obj) : Medico.fromJson(obj));
+    try {
+      var retornoApi = await post('auth/me', {},
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => obj['tipo'] == 'P'
+              ? Paciente.fromJson(obj)
+              : Medico.fromJson(obj));
 
-    if (retornoApi.statusCode == 200) return retornoApi.body;
-    return false;
+      if (retornoApi.statusCode == 200) return retornoApi.body;
+      return false;
+    } catch (erro) {
+      print('Erro getUsuario $erro');
+      return false;
+    }
   }
 
   Future<List<Especializacao>?> getEspecializacoes() async {
-    var retornoApi = await get('especializacoes?page=1&nome',
-        decoder: (obj) => Especializacao.listFromJson(obj));
-    if (retornoApi.statusCode == 200) {
-      return retornoApi.body;
-    } else {
+    try {
+      var retornoApi = await get('especializacoes?page=1&nome',
+          decoder: (obj) => Especializacao.listFromJson(obj));
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body;
+      } else {
+        return List<Especializacao>.empty();
+      }
+    } catch (erro) {
+      print('Erro getEspecializacoes $erro');
       return List<Especializacao>.empty();
     }
   }

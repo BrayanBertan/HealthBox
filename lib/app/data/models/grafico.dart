@@ -1,44 +1,45 @@
 class Grafico {
   int id;
   String eixoX;
-  int eixoY;
-  int? eixoYTemp;
+  double eixoY;
+  double? eixoYTemp;
+  DateTime? eixoYData;
   String label;
   Grafico(
       {required this.id,
       required this.eixoX,
       required this.eixoY,
       required this.label,
-      this.eixoYTemp});
+      this.eixoYTemp,
+      this.eixoYData});
 
   factory Grafico.fromJson(Map<String, dynamic> json) {
-    return Grafico(
-        id: json['id'],
-        eixoX: json['label'].split('(')[0],
-        eixoY: json['percent'].round(),
-        label: json['label'].split('(')[1]);
     if (json.containsKey('eixoY_eficaz')) {
       return Grafico(
           id: json['id'],
           eixoX: json['eixoX'].split('(')[0],
-          eixoY: json['eixoY_eficaz'],
-          eixoYTemp: json['eixoY_ineficaz'],
+          eixoY: json['eixoY_eficaz'].toDouble(),
+          eixoYTemp: json['eixoY_ineficaz'].toDouble(),
+          label: json['eixoX'].split('(')[1]);
+    }
+    if (json.containsKey('data')) {
+      return Grafico(
+          id: json['id'],
+          eixoX: json['eixoX'].split('(')[0],
+          eixoY: json['id'],
+          eixoYData: json['data'],
           label: json['eixoX'].split('(')[1]);
     } else {
       return Grafico(
           id: json['id'],
           eixoX: json['eixoX'].split('(')[0],
-          eixoY: json['eixoY'],
+          eixoY: json['eixoY'].toDouble(),
           label: json['eixoX'].split('(')[1]);
     }
   }
 
-  static List<Grafico> listFromJson(list) {
-    // print(list);
-    // List<Grafico>.from(list.map((grafico) => Grafico.fromJson(grafico)));
-    // return List<Grafico>.empty();
-    return List<Grafico>.from(list.map((grafico) => Grafico.fromJson(grafico)));
-  }
+  static List<Grafico> listFromJson(list) =>
+      List<Grafico>.from(list.map((grafico) => Grafico.fromJson(grafico)));
 
   @override
   String toString() {

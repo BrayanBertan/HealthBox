@@ -11,22 +11,39 @@ class CardFiltro extends GetView<GraficosOpinioesController> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: MultiSelectDialogField<Medicamento?>(
-          decoration: BoxDecoration(color: corPrincipal),
-          buttonText: const Text('Clique aqui para selecionar os medicamentos'),
-          confirmText: const Text('Confirmar'),
-          cancelText: const Text('Cancelar'),
-          buttonIcon: const Icon(Icons.list),
-          initialValue: controller.medicamentosSelecionados,
-          title: const Text('Medicamentos'),
-          searchable: true,
-          searchHint: 'Pesquisar',
-          onConfirm: (items) => controller.setMedicamentos(items),
-          separateSelectedItems: true,
-          items: controller.medicamentos
-              .map((medicamento) =>
-                  MultiSelectItem<Medicamento?>(medicamento, medicamento.nome))
-              .toList()),
+      child: Obx(() => controller.carregandoMedicamentos
+          ? CircularProgressIndicator(
+              color: corPrincipal,
+            )
+          : MultiSelectDialogField<Medicamento?>(
+              decoration: BoxDecoration(
+                color: corPrincipal,
+              ),
+              buttonText:
+                  const Text('Clique aqui para selecionar os medicamentos'),
+              confirmText: const Text('Confirmar'),
+              cancelText: const Text('Cancelar'),
+              buttonIcon: const Icon(Icons.list),
+              initialValue: controller.medicamentosSelecionados,
+              title: const Text('Medicamentos'),
+              searchable: true,
+              searchHint: 'Pesquisar',
+              dialogHeight: MediaQuery.of(context).size.height * 0.3,
+              chipDisplay: MultiSelectChipDisplay(
+                scroll: true,
+                items: controller.medicamentosSelecionados
+                    .map((medicamento) => MultiSelectItem<Medicamento?>(
+                        medicamento,
+                        '${medicamento.nome} (${medicamento.fabricante})'))
+                    .toList(),
+              ),
+              onConfirm: (items) => controller.setMedicamentos(items),
+              separateSelectedItems: true,
+              items: controller.medicamentos
+                  .map((medicamento) => MultiSelectItem<Medicamento?>(
+                      medicamento,
+                      '${medicamento.nome} (${medicamento.fabricante})'))
+                  .toList())),
     );
   }
 }

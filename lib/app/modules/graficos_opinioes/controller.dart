@@ -16,9 +16,12 @@ class GraficosOpinioesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     interval(_medicamentosId, (val) async {
       getGraficos();
     }, time: const Duration(milliseconds: 100));
+
+    getMedicamentosUsadosFiltro();
   }
 
   @override
@@ -27,25 +30,29 @@ class GraficosOpinioesController extends GetxController {
   }
 
   final graficos = <Grafico>[].obs;
-  final graficosTemp = <Grafico>[].obs;
-  final medicamentos = <Medicamento>[
-    Medicamento(id: 1, nome: 'Eficentus', fabricante: '', bula: ''),
-    Medicamento(id: 2, nome: 'Dipirona', fabricante: '', bula: ''),
-    Medicamento(id: 3, nome: 'BENEGRIP', fabricante: '', bula: ''),
-  ].obs;
+
+  final medicamentos = <Medicamento>[].obs;
   final medicamentosSelecionados = List<Medicamento>.empty().obs;
   final _carregando = false.obs;
+  final _carregandoMedicamentos = false.obs;
   String tituloAppBar = '';
   String endpoint = '';
+
   final _medicamentosId = ''.obs;
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
   get medicamentosId => this._medicamentosId.value;
   set medicamentosId(value) => this._medicamentosId.value = value;
+  get carregandoMedicamentos => this._carregandoMedicamentos.value;
+  set carregandoMedicamentos(value) =>
+      this._carregandoMedicamentos.value = value;
 
   setMedicamentos(items) {
     medicamentosSelecionados.clear();
     medicamentosId = '';
+    if (items.length > 10) {
+      items = items.take(10);
+    }
     if (items.isEmpty) return;
     items.forEach((element) => medicamentosSelecionados.add(element!));
     medicamentosSelecionados
@@ -64,6 +71,17 @@ class GraficosOpinioesController extends GetxController {
       graficos.assignAll(retorno);
 
       carregando = false;
+    });
+  }
+
+  getMedicamentosUsadosFiltro() {
+    carregandoMedicamentos = true;
+
+    repository.getMedicamentosUsadosFiltro().then((List<Medicamento> retorno) {
+      medicamentos.clear();
+      medicamentos.assignAll(retorno);
+
+      carregandoMedicamentos = false;
     });
   }
 

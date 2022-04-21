@@ -6,4 +6,6 @@ class GraficoRepository {
 
   getGraficos({required String endpoint}) =>
       provider.getGraficos(endpoint: endpoint);
+
+  getMedicamentosUsadosFiltro() => provider.getMedicamentosUsadosFiltro();
 }

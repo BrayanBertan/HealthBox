@@ -29,6 +29,9 @@ class Medicamento {
   }
 
   static List<Medicamento> listFromJson(list) {
+    if (!list.contains('data'))
+      return List<Medicamento>.from(
+          list.map((nome) => Medicamento.fromJson(nome)));
     if (list['data'] == null || list['data'].isEmpty)
       return List<Medicamento>.empty();
     return List<Medicamento>.from(

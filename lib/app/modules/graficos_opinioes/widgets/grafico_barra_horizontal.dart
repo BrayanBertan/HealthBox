@@ -42,7 +42,7 @@ class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
           }
         },
         domainFn: (Grafico series, _) => series.eixoX,
-        measureFn: (Grafico series, _) => series.eixoY.toDouble(),
+        measureFn: (Grafico series, _) => series.eixoY,
         data: controller.graficos,
         labelAccessorFn: (Grafico row, _) => '${row.label}',
       )
