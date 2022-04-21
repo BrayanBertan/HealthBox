@@ -6,7 +6,7 @@ import 'package:healthbox/app/modules/graficos_opinioes/controller.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/aviso.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/card_filtro.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/card_grafico.dart';
-import 'package:healthbox/app/modules/graficos_opinioes/widgets/loading.dart';
+import 'package:healthbox/app/widgets/loading.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {

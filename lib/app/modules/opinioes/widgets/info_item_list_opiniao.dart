@@ -30,7 +30,7 @@ class InfoItemListOpiniao extends GetView<OpinioesController> {
           Text(
             Document.fromJson(jsonDecode(controller.opinioes[index].descricao))
                 .toPlainText(),
-            maxLines: 3,
+            maxLines: 1,
             style: const TextStyle(
               overflow: TextOverflow.ellipsis,
             ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/item_list_opiniao.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/row_paginacao.dart';
+import 'package:healthbox/app/widgets/loading.dart';
 
 class ListOpinioes extends GetView<OpinioesController> {
   const ListOpinioes({Key? key}) : super(key: key);
@@ -16,10 +17,7 @@ class ListOpinioes extends GetView<OpinioesController> {
             : MediaQuery.of(context).size.width,
         child: Obx(
           () => controller.carregando
-              ? const Text(
-                  'carregando...',
-                  textAlign: TextAlign.center,
-                )
+              ? const Loading()
               : controller.opinioes.isEmpty
                   ? const Text(
                       'Nenhuma opinião encontrada para esse filtro...',
@@ -27,7 +25,6 @@ class ListOpinioes extends GetView<OpinioesController> {
                     )
                   : Scrollbar(
                       child: ListView.builder(
-                          shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           itemCount: controller.opinioes.length + 1,
                           itemBuilder: (context, index) {

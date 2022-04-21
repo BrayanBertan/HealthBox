@@ -39,7 +39,9 @@ class SideMenu extends StatelessWidget {
                         backgroundImage: usuario.fotoPath == null
                             ? const AssetImage('${baseImagemUrl}user_pic.png')
                                 as ImageProvider
-                            : NetworkImage(usuario.fotoPath!),
+                            : NetworkImage(
+                                usuario.fotoPath!,
+                              ),
                         minRadius: 40,
                         maxRadius: 40),
                     TextButton(
