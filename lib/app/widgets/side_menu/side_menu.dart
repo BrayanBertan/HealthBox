@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../core/values/keys.dart';
 import '../../modules/login/controller.dart';
@@ -35,15 +37,44 @@ class SideMenu extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    CircleAvatar(
-                        backgroundImage: usuario.fotoPath == null
-                            ? const AssetImage('${baseImagemUrl}user_pic.png')
-                                as ImageProvider
-                            : NetworkImage(
-                                usuario.fotoPath!,
+                    usuario?.fotoPath == null
+                        ? Container(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('${baseImagemUrl}user_pic.png'),
+                                fit: BoxFit.cover,
                               ),
-                        minRadius: 40,
-                        maxRadius: 40),
+                            ),
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: usuario!.fotoPath!,
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(50)),
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                                child: const CircleAvatar(
+                                  maxRadius: 45,
+                                  minRadius: 45,
+                                ),
+                                baseColor: corPrincipal50,
+                                highlightColor: corPrincipal),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
                     TextButton(
                         onPressed: () {
                           Get.toNamed('/conta');

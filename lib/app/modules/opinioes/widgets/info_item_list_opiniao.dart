@@ -16,6 +16,9 @@ class InfoItemListOpiniao extends GetView<OpinioesController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          const SizedBox(
+            height: 25,
+          ),
           Text(
             controller.opinioes[index].tratamento?.titulo ?? '',
             maxLines: false ? 10 : 1,
