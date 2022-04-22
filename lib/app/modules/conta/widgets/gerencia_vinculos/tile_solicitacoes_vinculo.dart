@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/values/keys.dart';
+import '../../../../../core/values/keys.dart';
 
 class TileSolicitacoesVinculo extends StatelessWidget {
   const TileSolicitacoesVinculo({Key? key}) : super(key: key);

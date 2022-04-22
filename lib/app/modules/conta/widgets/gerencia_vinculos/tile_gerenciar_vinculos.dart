@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/values/keys.dart';
+import '../../../../../core/values/keys.dart';
 
 class TileGerenciarVinculos extends StatelessWidget {
   const TileGerenciarVinculos({Key? key}) : super(key: key);

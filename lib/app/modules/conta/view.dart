@@ -4,10 +4,10 @@ import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/modules/conta/controller.dart';
 import 'package:healthbox/app/modules/conta/widgets/button_deletar_conta.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_crm/tile_gerenciar_crm.dart';
+import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/tile_gerenciar_vinculos.dart';
+import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/tile_novo_vinculo.dart';
+import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/tile_solicitacoes_vinculo.dart';
 import 'package:healthbox/app/modules/conta/widgets/tile_editar_cadastro.dart';
-import 'package:healthbox/app/modules/conta/widgets/tile_gerenciar_vinculos.dart';
-import 'package:healthbox/app/modules/conta/widgets/tile_novo_vinculo.dart';
-import 'package:healthbox/app/modules/conta/widgets/tile_solicitacoes_vinculo.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 

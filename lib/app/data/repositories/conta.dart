@@ -15,4 +15,5 @@ class ContaRepository {
   salvarEspecializacao(int medicoCrmId, especializacaoId) =>
       provider.salvarEspecializacao(medicoCrmId, especializacaoId);
   deletaEspecializacao(int id) => provider.deletaEspecializacao(id);
+  getUsuariosDisponiveis(String nome) => provider.getUsuariosDisponiveis(nome);
 }

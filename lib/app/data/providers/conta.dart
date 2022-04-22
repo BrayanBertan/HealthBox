@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -115,5 +116,25 @@ class ContaProvider extends GetConnect {
 
     if (retornoApi.statusCode == 200) return true;
     return false;
+  }
+
+  Future<List<Vinculo>> getUsuariosDisponiveis(String nome) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    print('${httpClient.baseUrl}solicitacoes-vinculos/usuarios-disponiveis?nome=$nome');
+    try {
+      var retornoApi = await get(
+          'solicitacoes-vinculos/usuarios-disponiveis?nome=$nome',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Vinculo.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Vinculo>.empty();
+      }
+    } catch (erro) {
+      print('Erro getUsuariosDisponiveis $erro');
+      return List<Vinculo>.empty();
+    }
   }
 }

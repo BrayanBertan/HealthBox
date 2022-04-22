@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../widgets/add_vinculo_dialog.dart';
+import 'package:healthbox/app/widgets/add_vinculo_dialog.dart';
 
 class TileNovoVinculo extends StatelessWidget {
   const TileNovoVinculo({Key? key}) : super(key: key);

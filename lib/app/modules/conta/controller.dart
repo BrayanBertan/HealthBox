@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
+import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/data/repositories/conta.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
 
@@ -26,6 +27,7 @@ class ContaController extends GetxController {
   }
   final especializacoes = <Especializacao>[].obs;
   final especializacoesCrm = <Especializacao>[].obs;
+  final vinculosDisponiveis = <Vinculo>[].obs;
 
   final crms = <Crm>[].obs;
   final _buttonPressed = false.obs;
@@ -33,15 +35,22 @@ class ContaController extends GetxController {
   final _carregandoDeleta = 0.obs;
   final _crmId = Rx<int?>(null);
   final _crm = Rx<String?>(null);
+  final _pesquisaNome = Rx<String?>(null);
   final _crmuf = 'SC'.obs;
   final _crmErroMensagem = Rx<String?>(null);
   final _isLoading = false.obs;
   final crmController = TextEditingController();
   final _crmDescricao = ''.obs;
+  final _carregandoVinculosDisponiveis = false.obs;
   final _especializacaoSelecionada = Rx<Especializacao?>(null);
 
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
+
+  get carregandoVinculosDisponiveis =>
+      this._carregandoVinculosDisponiveis.value;
+  set carregandoVinculosDisponiveis(value) =>
+      this._carregandoVinculosDisponiveis.value = value;
 
   get crmId => this._crmId.value;
   set crmId(value) => this._crmId.value = value;
@@ -61,6 +70,9 @@ class ContaController extends GetxController {
   get loopActive => this._loopActive.value;
   set loopActive(value) => this._loopActive.value = value;
 
+  get pesquisaNome => this._pesquisaNome.value;
+  setPesquisaNome(value) => this._pesquisaNome.value = value;
+
   get carregandoDeleta => this._carregandoDeleta.value;
   set carregandoDeleta(value) => this._carregandoDeleta.value = value;
 
@@ -70,6 +82,17 @@ class ContaController extends GetxController {
   get especializacaoSelecionada => this._especializacaoSelecionada.value;
   set especializacaoSelecionada(value) =>
       this._especializacaoSelecionada.value = value;
+
+  bool pesquisaNomeValido() =>
+      pesquisaNome != null &&
+      pesquisaNome.trim().isNotEmpty &&
+      pesquisaNome.trim().length > 3;
+
+  String? get pesquisaNomeErroMensagem {
+    if (pesquisaNome == null || pesquisaNomeValido()) return null;
+    if (pesquisaNome.trim().length < 3) return 'Campo muito curto';
+    return 'Campo obrigatório ';
+  }
 
   confirmandoDeletarConta() async {
     if (loopActive) return;
@@ -232,6 +255,16 @@ class ContaController extends GetxController {
       this.especializacoes.clear();
       this.especializacoes.assignAll(retorno!);
       especializacaoSelecionada = especializacoes[0];
+    });
+  }
+
+  getUsuariosDisponiveis() {
+    carregandoVinculosDisponiveis = true;
+    repository.getUsuariosDisponiveis(pesquisaNome).then((retorno) {
+      print(retorno);
+      this.vinculosDisponiveis.clear();
+      this.vinculosDisponiveis.assignAll(retorno);
+      carregandoVinculosDisponiveis = false;
     });
   }
 }
