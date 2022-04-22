@@ -6,7 +6,6 @@ import 'package:healthbox/app/modules/graficos_opinioes/controller.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/aviso.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/card_filtro.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/widgets/card_grafico.dart';
-import 'package:healthbox/app/widgets/loading.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
@@ -52,28 +51,23 @@ class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
       appBar: AppBar(
         title: Text(controller.tituloAppBar),
       ),
-      body: Obx(
-        () => SingleChildScrollView(
-            padding: const EdgeInsets.all(10),
-            child: controller.carregando
-                ? const Loading()
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CardFiltro(),
-                      CardGrafico(
-                          grafico: charts.BarChart(
-                        seriesgrafico,
-                        animate: true,
-                        vertical: false,
-                        barRendererDecorator:
-                            charts.BarLabelDecorator<String>(),
-                        domainAxis: const charts.OrdinalAxisSpec(),
-                      )),
-                      const Aviso()
-                    ],
-                  )),
-      ),
+      body: SingleChildScrollView(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CardFiltro(),
+              CardGrafico(
+                  grafico: charts.BarChart(
+                seriesgrafico,
+                animate: true,
+                vertical: false,
+                barRendererDecorator: charts.BarLabelDecorator<String>(),
+                domainAxis: const charts.OrdinalAxisSpec(),
+              )),
+              const Aviso()
+            ],
+          )),
     );
   }
 }

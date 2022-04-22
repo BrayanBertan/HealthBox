@@ -152,12 +152,7 @@ class GraficosOpinioesController extends GetxController {
       'page': Routes.GRAFICO_PIE,
       'endpoint': 'paciente-remedio?tipoGrafico=pie&'
     },
-    {
-      'titulo': 'Remédio x Quantidade de uso por data',
-      'imagem': 'line-chart.png',
-      'page': Routes.GRAFICO_LINES,
-      'endpoint': 'paciente-remedio?'
-    },
+
     {
       'titulo': 'Remédio x Eficaz x Ineficaz',
       'imagem': 'double-bar-chart.png',

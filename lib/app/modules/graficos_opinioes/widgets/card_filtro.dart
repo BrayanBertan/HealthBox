@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/modules/graficos_opinioes/controller.dart';
+import 'package:healthbox/app/modules/graficos_opinioes/widgets/shimmer_graficos_filtro.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -12,9 +13,7 @@ class CardFiltro extends GetView<GraficosOpinioesController> {
   Widget build(BuildContext context) {
     return Card(
       child: Obx(() => controller.carregandoMedicamentos
-          ? CircularProgressIndicator(
-              color: corPrincipal,
-            )
+          ? const ShimmerGraficosFiltro()
           : MultiSelectDialogField<Medicamento?>(
               decoration: BoxDecoration(
                 color: corPrincipal,

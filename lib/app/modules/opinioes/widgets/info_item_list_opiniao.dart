@@ -15,13 +15,12 @@ class InfoItemListOpiniao extends GetView<OpinioesController> {
       padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(
-            height: 25,
-          ),
           Text(
             controller.opinioes[index].tratamento?.titulo ?? '',
-            maxLines: false ? 10 : 1,
+            maxLines: 1,
+            textAlign: TextAlign.left,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               overflow: TextOverflow.ellipsis,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/item_list_opiniao.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/row_paginacao.dart';
-import 'package:healthbox/app/widgets/loading.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/shimmer_opinioes.dart';
 
 class ListOpinioes extends GetView<OpinioesController> {
   const ListOpinioes({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class ListOpinioes extends GetView<OpinioesController> {
             : MediaQuery.of(context).size.width,
         child: Obx(
           () => controller.carregando
-              ? const Loading()
+              ? const ShimmerOpinioes()
               : controller.opinioes.isEmpty
                   ? const Text(
                       'Nenhuma opinião encontrada para esse filtro...',
