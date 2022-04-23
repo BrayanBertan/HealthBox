@@ -8,10 +8,12 @@ class ShimmerVinculos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Container(
+      height: 150,
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: 3,
+        physics: ScrollPhysics(),
         itemBuilder: (_, index) => Shimmer.fromColors(
             child: Row(
               children: [

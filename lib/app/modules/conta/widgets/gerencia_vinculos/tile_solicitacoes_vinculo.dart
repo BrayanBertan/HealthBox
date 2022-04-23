@@ -35,8 +35,8 @@ class TileSolicitacoesVinculo extends GetView<ContaController> {
                                       Icons.person_add_alt_1,
                                       color: Colors.green,
                                     ),
-                                    onPressed: () =>
-                                        controller.salvarVinculo(index),
+                                    onPressed: () => controller.salvarVinculo(
+                                        index, controller.solicitacoesVinculo),
                                   ),
                                   IconButton(
                                     icon: const Icon(
@@ -44,8 +44,7 @@ class TileSolicitacoesVinculo extends GetView<ContaController> {
                                       color: Colors.red,
                                     ),
                                     onPressed: () => controller.deletaVinculo(
-                                        controller.vinculosAtivos[index].id!,
-                                        controller.vinculosAtivos[index].nome),
+                                        index, controller.solicitacoesVinculo),
                                   )
                                 ],
                               ),

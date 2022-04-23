@@ -49,7 +49,8 @@ class LoginController extends GetxController {
 
   verificaLogin() {
     isLoading = true;
-    EasyLoading.showInfo('Verificando...');
+    EasyLoading.showInfo('Verificando...',
+        duration: const Duration(seconds: 90));
 
     repository.verificaLogin(email.trim(), senha.trim()).then((retorno) {
       if (retorno is bool) {

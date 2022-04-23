@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/especializacao.dart';
+import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
@@ -55,15 +56,17 @@ class DadosUsuarioController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getEspecializacoes();
-    interval(_crm, (val) async {
-      await verificaCrm();
-      validaCRM();
-    }, time: const Duration(milliseconds: 1000));
-    interval(_crmUf, (val) async {
-      await verificaCrm();
-      validaCRM();
-    }, time: const Duration(milliseconds: 1000));
+    if (usuario is Medico) {
+      getEspecializacoes();
+      interval(_crm, (val) async {
+        await verificaCrm();
+        validaCRM();
+      }, time: const Duration(milliseconds: 1000));
+      interval(_crmUf, (val) async {
+        await verificaCrm();
+        validaCRM();
+      }, time: const Duration(milliseconds: 1000));
+    }
 
     interval(_email, (val) => verificaEmail(),
         time: const Duration(milliseconds: 1000));

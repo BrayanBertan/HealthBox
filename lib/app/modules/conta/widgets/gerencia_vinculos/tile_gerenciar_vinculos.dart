@@ -18,7 +18,7 @@ class TileGerenciarVinculos extends GetView<ContaController> {
           child: Obx(() => controller.carregandoVinculos
               ? const ShimmerVinculos()
               : controller.vinculosAtivos.isEmpty
-                  ? const Center(child: const Text('Sem vínculos ativos'))
+                  ? const Center(child: Text('Sem vínculos ativos'))
                   : ListView.builder(
                       shrinkWrap: true,
                       itemCount: controller.vinculosAtivos.length,
@@ -35,8 +35,7 @@ class TileGerenciarVinculos extends GetView<ContaController> {
                                     color: Colors.red,
                                   ),
                                   onPressed: () => controller.deletaVinculo(
-                                      controller.vinculosAtivos[index].id!,
-                                      controller.vinculosAtivos[index].nome),
+                                      index, controller.vinculosAtivos),
                                 ),
                               ],
                             ),

@@ -285,48 +285,53 @@ class ContaController extends GetxController {
     });
   }
 
-  salvarVinculo(int index) {
+  salvarVinculo(int index, List<Vinculo> list) {
     int medicoId;
     int pacienteId;
-    int? id = null;
 
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       pacienteId = usuario.id;
-      medicoId = vinculosDisponiveis[index].usuarioId;
+      medicoId = list[index].usuarioId;
     } else {
-      pacienteId = vinculosDisponiveis[index].usuarioId;
+      pacienteId = list[index].usuarioId;
       medicoId = usuario.id;
     }
 
-    repository.salvarVinculo(medicoId, pacienteId, id: id).then((retorno) {
+    repository
+        .salvarVinculo(medicoId, pacienteId, id: list[index].id)
+        .then((retorno) {
       if (retorno) {
-        if (id == null) {
+        if (list[index].id == null) {
+          list.removeAt(index);
           getVinculos(0);
         } else {
           getVinculos(0);
           getVinculos(1);
         }
         EasyLoading.showToast(
-            'Solicitação de vínculo para ${vinculosDisponiveis[index].nome} enviada com sucesso',
-            toastPosition: EasyLoadingToastPosition.bottom);
-        vinculosDisponiveis.removeAt(index);
+            'Sucesso ao salvar vínculo com ${list[index].nome}',
+            toastPosition: EasyLoadingToastPosition.bottom,
+            duration: const Duration(milliseconds: 1500));
       } else {
-        EasyLoading.showToast(
-            'Erro ao enviar a solicitação de vínculo para ${vinculosDisponiveis[index].nome}',
-            toastPosition: EasyLoadingToastPosition.bottom);
+        EasyLoading.showToast('Erro ao salvar  vínculo com ${list[index].nome}',
+            toastPosition: EasyLoadingToastPosition.bottom,
+            duration: const Duration(milliseconds: 1500));
       }
     });
   }
 
-  deletaVinculo(int id, String vinculo) {
-    repository.deletaCrm(id).then((retorno) {
+  deletaVinculo(int index, List<Vinculo> list) {
+    repository.deletaVinculo(list[index].id!).then((retorno) {
       if (retorno) {
-        EasyLoading.showToast('Desvínculado de $vinculo  com sucesso',
-            toastPosition: EasyLoadingToastPosition.bottom);
-        atualizaUsuarioCrms();
+        EasyLoading.showToast(
+            'Vinculo com ${list[index].nome} excluido  com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom,
+            duration: const Duration(milliseconds: 750));
+        list.removeAt(index);
       } else {
-        EasyLoading.showToast('Erro ao desvíncular com $vinculo',
-            toastPosition: EasyLoadingToastPosition.bottom);
+        EasyLoading.showToast('Erro ao excluir vinculo com ${list[index].nome}',
+            toastPosition: EasyLoadingToastPosition.bottom,
+            duration: const Duration(milliseconds: 750));
       }
     });
   }

@@ -11,10 +11,10 @@ class DialogAddVinculo extends GetView<ContaController> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Padding(
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.3,
         padding: const EdgeInsets.all(10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
@@ -24,19 +24,22 @@ class DialogAddVinculo extends GetView<ContaController> {
             Row(
               children: [
                 Expanded(
-                    child: TextFormField(
-                  initialValue: controller.pesquisaNome,
-                  onChanged: controller.setPesquisaNome,
-                  decoration: InputDecoration(
-                      icon: const Icon(
-                        Icons.search,
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade100)),
-                      labelText: "Digite o nome",
-                      enabledBorder: InputBorder.none,
-                      labelStyle: const TextStyle(color: Colors.grey),
-                      errorText: controller.pesquisaNomeErroMensagem),
+                    child: Obx(
+                  () => TextFormField(
+                    initialValue: controller.pesquisaNome,
+                    onChanged: controller.setPesquisaNome,
+                    decoration: InputDecoration(
+                        icon: const Icon(
+                          Icons.search,
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade100)),
+                        labelText: "Digite o nome",
+                        enabledBorder: InputBorder.none,
+                        labelStyle: const TextStyle(color: Colors.grey),
+                        errorText: controller.pesquisaNomeErroMensagem),
+                  ),
                 )),
                 Obx(
                   () => ElevatedButton(
@@ -52,8 +55,7 @@ class DialogAddVinculo extends GetView<ContaController> {
                   ? const ShimmerVinculos()
                   : controller.vinculosDisponiveis.isEmpty
                       ? Center(
-                          child: Text(
-                              'Nenhum resultado para essa pesquisa ${controller.pesquisaNome ?? ''}'),
+                          child: Text('Nenhum resultado para essa pesquisa '),
                         )
                       : ListView.builder(
                           shrinkWrap: true,
@@ -64,8 +66,8 @@ class DialogAddVinculo extends GetView<ContaController> {
                                 trailing: <IconButton>[
                                   IconButton(
                                     icon: const Icon(Icons.person_add),
-                                    onPressed: () =>
-                                        controller.salvarVinculo(index),
+                                    onPressed: () => controller.salvarVinculo(
+                                        index, controller.vinculosDisponiveis),
                                   ),
                                 ],
                               )),

@@ -148,8 +148,8 @@ class ContaProvider extends GetConnect {
       );
     } else {
       retornoApi = await put(
-        'solicitacoes-vinculos?id=$id',
-        {},
+        'solicitacoes-vinculos/$id',
+        {'vinculado': 1},
         headers: {'Authorization': 'Bearer  $token'},
       );
     }
@@ -160,8 +160,7 @@ class ContaProvider extends GetConnect {
   Future<List<Vinculo>> getVinculos(int tipo) async {
     Get.find<UsuarioProvider>().isSessionValid();
     try {
-      var retornoApi = await get(
-          'solicitacoes-vinculos/solicitacoes-vinculos?vinculado=$tipo',
+      var retornoApi = await get('solicitacoes-vinculos?vinculado=$tipo',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Vinculo.listFromJson(obj));
 
