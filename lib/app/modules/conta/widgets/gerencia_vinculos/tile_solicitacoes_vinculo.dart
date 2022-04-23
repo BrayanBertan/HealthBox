@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/conta/controller.dart';
+import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/item_list_vinculos.dart';
+import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/shimmer_vinculos.dart';
 
-import '../../../../../core/values/keys.dart';
-
-class TileSolicitacoesVinculo extends StatelessWidget {
+class TileSolicitacoesVinculo extends GetView<ContaController> {
   const TileSolicitacoesVinculo({Key? key}) : super(key: key);
 
   @override
@@ -13,28 +15,45 @@ class TileSolicitacoesVinculo extends StatelessWidget {
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.30,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 15,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  ListTile(
-                    leading: CircleAvatar(
-                        child: Image.asset('${baseImagemUrl}user_pic.png'),
-                        minRadius: 50,
-                        maxRadius: 50),
-                    title: Text('Luis Vidal Miranda'),
-                    trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.person_add),
-                      color: Colors.green,
-                    ),
-                  ),
-                  const Divider()
-                ],
-              );
-            },
+          child: Obx(
+            () => controller.carregandoVinculos
+                ? const ShimmerVinculos()
+                : controller.solicitacoesVinculo.isEmpty
+                    ? const Center(child: Text('Sem solicitações pendentes'))
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.solicitacoesVinculo.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              ItemListaVinculos(
+                                lista: controller.solicitacoesVinculo,
+                                index: index,
+                                trailing: <IconButton>[
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.person_add_alt_1,
+                                      color: Colors.green,
+                                    ),
+                                    onPressed: () =>
+                                        controller.salvarVinculo(index),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.person_remove_alt_1,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () => controller.deletaVinculo(
+                                        controller.vinculosAtivos[index].id!,
+                                        controller.vinculosAtivos[index].nome),
+                                  )
+                                ],
+                              ),
+                              const Divider()
+                            ],
+                          );
+                        },
+                      ),
           ),
         )
       ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/vinculo.dart';
@@ -24,10 +25,14 @@ class ContaController extends GetxController {
       crms.assignAll(usuario.crms);
       crmController.clear();
     }
+    getVinculos(0);
+    getVinculos(1);
   }
   final especializacoes = <Especializacao>[].obs;
   final especializacoesCrm = <Especializacao>[].obs;
   final vinculosDisponiveis = <Vinculo>[].obs;
+  final vinculosAtivos = <Vinculo>[].obs;
+  final solicitacoesVinculo = <Vinculo>[].obs;
 
   final crms = <Crm>[].obs;
   final _buttonPressed = false.obs;
@@ -41,16 +46,14 @@ class ContaController extends GetxController {
   final _isLoading = false.obs;
   final crmController = TextEditingController();
   final _crmDescricao = ''.obs;
-  final _carregandoVinculosDisponiveis = false.obs;
+  final _carregandoVinculos = false.obs;
   final _especializacaoSelecionada = Rx<Especializacao?>(null);
 
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
 
-  get carregandoVinculosDisponiveis =>
-      this._carregandoVinculosDisponiveis.value;
-  set carregandoVinculosDisponiveis(value) =>
-      this._carregandoVinculosDisponiveis.value = value;
+  get carregandoVinculos => this._carregandoVinculos.value;
+  set carregandoVinculos(value) => this._carregandoVinculos.value = value;
 
   get crmId => this._crmId.value;
   set crmId(value) => this._crmId.value = value;
@@ -259,12 +262,72 @@ class ContaController extends GetxController {
   }
 
   getUsuariosDisponiveis() {
-    carregandoVinculosDisponiveis = true;
+    carregandoVinculos = true;
     repository.getUsuariosDisponiveis(pesquisaNome).then((retorno) {
-      print(retorno);
       this.vinculosDisponiveis.clear();
       this.vinculosDisponiveis.assignAll(retorno);
-      carregandoVinculosDisponiveis = false;
+      carregandoVinculos = false;
+    });
+  }
+
+  getVinculos(int tipo) {
+    carregandoVinculos = true;
+    repository.getVinculos(tipo).then((retorno) {
+      if (tipo == 0) {
+        this.solicitacoesVinculo.clear();
+        this.solicitacoesVinculo.assignAll(retorno);
+      } else {
+        this.vinculosAtivos.clear();
+        this.vinculosAtivos.assignAll(retorno);
+      }
+
+      carregandoVinculos = false;
+    });
+  }
+
+  salvarVinculo(int index) {
+    int medicoId;
+    int pacienteId;
+    int? id = null;
+
+    if (usuario.tipo == TipoUsuario.PACIENTE) {
+      pacienteId = usuario.id;
+      medicoId = vinculosDisponiveis[index].usuarioId;
+    } else {
+      pacienteId = vinculosDisponiveis[index].usuarioId;
+      medicoId = usuario.id;
+    }
+
+    repository.salvarVinculo(medicoId, pacienteId, id: id).then((retorno) {
+      if (retorno) {
+        if (id == null) {
+          getVinculos(0);
+        } else {
+          getVinculos(0);
+          getVinculos(1);
+        }
+        EasyLoading.showToast(
+            'Solicitação de vínculo para ${vinculosDisponiveis[index].nome} enviada com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom);
+        vinculosDisponiveis.removeAt(index);
+      } else {
+        EasyLoading.showToast(
+            'Erro ao enviar a solicitação de vínculo para ${vinculosDisponiveis[index].nome}',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
+    });
+  }
+
+  deletaVinculo(int id, String vinculo) {
+    repository.deletaCrm(id).then((retorno) {
+      if (retorno) {
+        EasyLoading.showToast('Desvínculado de $vinculo  com sucesso',
+            toastPosition: EasyLoadingToastPosition.bottom);
+        atualizaUsuarioCrms();
+      } else {
+        EasyLoading.showToast('Erro ao desvíncular com $vinculo',
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
     });
   }
 }

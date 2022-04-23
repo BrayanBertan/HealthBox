@@ -120,7 +120,6 @@ class ContaProvider extends GetConnect {
 
   Future<List<Vinculo>> getUsuariosDisponiveis(String nome) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    print('${httpClient.baseUrl}solicitacoes-vinculos/usuarios-disponiveis?nome=$nome');
     try {
       var retornoApi = await get(
           'solicitacoes-vinculos/usuarios-disponiveis?nome=$nome',
@@ -136,5 +135,55 @@ class ContaProvider extends GetConnect {
       print('Erro getUsuariosDisponiveis $erro');
       return List<Vinculo>.empty();
     }
+  }
+
+  Future<bool> salvarVinculo(int medicoId, pacienteId, {int? id}) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+    if (id == null) {
+      retornoApi = await post(
+        'solicitacoes-vinculos?medico_id=$medicoId&paciente_id=$pacienteId',
+        {},
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    } else {
+      retornoApi = await put(
+        'solicitacoes-vinculos?id=$id',
+        {},
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+    }
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  Future<List<Vinculo>> getVinculos(int tipo) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    try {
+      var retornoApi = await get(
+          'solicitacoes-vinculos/solicitacoes-vinculos?vinculado=$tipo',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Vinculo.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Vinculo>.empty();
+      }
+    } catch (erro) {
+      print('Erro getVinculos $erro');
+      return List<Vinculo>.empty();
+    }
+  }
+
+  Future<bool> deletaVinculo(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    var retornoApi = await delete(
+      'solicitacoes-vinculos/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
   }
 }

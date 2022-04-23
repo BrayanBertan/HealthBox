@@ -28,6 +28,7 @@ class UsuarioProvider extends GetConnect {
       'auth/login?password=$senha&email=$email',
       {},
     );
+    print('${httpClient.baseUrl}auth/login?password=$senha&email=$email');
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
   }

@@ -16,4 +16,8 @@ class ContaRepository {
       provider.salvarEspecializacao(medicoCrmId, especializacaoId);
   deletaEspecializacao(int id) => provider.deletaEspecializacao(id);
   getUsuariosDisponiveis(String nome) => provider.getUsuariosDisponiveis(nome);
+  salvarVinculo(int medicoId, pacienteId, {int? id}) =>
+      provider.salvarVinculo(medicoId, pacienteId, id: id);
+  getVinculos(int tipo) => provider.getVinculos(tipo);
+  deletaVinculo(int id) => provider.deletaVinculo(id);
 }

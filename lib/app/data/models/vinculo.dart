@@ -9,9 +9,9 @@ class Vinculo {
 
   factory Vinculo.fromJson(Map<String, dynamic> json) => Vinculo(
       id: json['id'],
-      usuarioId: json['usuario_id'],
-      fotoPath: json['name'],
-      nome: json['foto_path']);
+      usuarioId: json['id'],
+      fotoPath: json['foto_path'],
+      nome: json['name']);
 
   static List<Vinculo> listFromJson(list) => List<Vinculo>.from(
       list['data'].map((vinculo) => Vinculo.fromJson(vinculo)));
