@@ -12,7 +12,6 @@ class Vinculo {
 
   factory Vinculo.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('solicitante')) {
-      print(json['solicitante_id'] == usuarioAtivoId);
       if (json['solicitante_id'] == usuarioAtivoId) {
         return Vinculo(
             id: json['id'],
