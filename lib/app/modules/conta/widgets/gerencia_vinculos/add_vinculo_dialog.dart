@@ -54,7 +54,7 @@ class DialogAddVinculo extends GetView<ContaController> {
               () => controller.carregandoVinculos
                   ? const ShimmerVinculos()
                   : controller.vinculosDisponiveis.isEmpty
-                      ? Center(
+                      ? const Center(
                           child: Text('Nenhum resultado para essa pesquisa '),
                         )
                       : ListView.builder(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/conta/controller.dart';
-import 'package:healthbox/app/widgets/add_vinculo_dialog.dart';
+import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/add_vinculo_dialog.dart';
 
 class TileNovoVinculo extends GetView<ContaController> {
   const TileNovoVinculo({Key? key}) : super(key: key);
