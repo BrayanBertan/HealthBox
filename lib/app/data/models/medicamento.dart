@@ -35,10 +35,9 @@ class Medicamento {
       if (list['message'] != null) return List<Medicamento>.empty();
       return List<Medicamento>.from(
           list['data'].map((medicamento) => Medicamento.fromJson(medicamento)));
-    } else {
-      return List<Medicamento>.from(
-          list.map((nome) => Medicamento.fromJson(nome)));
     }
+    return List<Medicamento>.from(
+        list.map((nome) => Medicamento.fromJson(nome)));
   }
 
   static List<Medicamento> listToJson(list) {

@@ -54,7 +54,7 @@ extension StringExtension on String? {
     switch (this) {
       case 'horas':
         return PeriodicidadeMedicamento.horas;
-      case 'M':
+      case 'dias':
         return PeriodicidadeMedicamento.dias;
       default:
         return PeriodicidadeMedicamento.horas;
@@ -63,9 +63,9 @@ extension StringExtension on String? {
 
   TipoQuestao tipoQuestao() {
     switch (this) {
-      case 'horas':
+      case 'descritiva':
         return TipoQuestao.DESCRITIVA;
-      case 'M':
+      case 'multipla_escolha':
         return TipoQuestao.MULTIPLA_ESCOLHA;
       default:
         return TipoQuestao.DESCRITIVA;

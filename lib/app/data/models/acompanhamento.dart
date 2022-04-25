@@ -1,5 +1,6 @@
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
+import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:intl/intl.dart';
 
@@ -10,6 +11,7 @@ class Acompanhamento {
   int medicoId;
   int ativo;
   Tratamento? tratamento;
+  Questionario? questionario;
   int quantidadePeriodicidade;
   int diasDuracao;
   Paciente? paciente;
@@ -22,9 +24,11 @@ class Acompanhamento {
     required this.medicoId,
     required this.ativo,
     this.tratamento,
+    this.questionario,
     required this.quantidadePeriodicidade,
-    this.diasDuracao = 0,
+    required this.diasDuracao,
     this.paciente,
+    this.medico,
     this.dataInicio,
   });
 
@@ -37,9 +41,13 @@ class Acompanhamento {
         tratamento: json['tratamento'] != null
             ? Tratamento.fromJson(json['tratamento'])
             : null,
+        questionario: json['questionario'] != null
+            ? Questionario.fromJson(json['questionario'])
+            : null,
         quantidadePeriodicidade: json['quantidade_periodicidade'],
         diasDuracao: json['dias_duracao'],
         paciente: Paciente.fromJson(json['paciente']),
+        medico: Medico.fromJson(json['medico']),
         dataInicio: DateFormat('dd/MM/yyyy HH:mm')
             .format(DateTime.parse(json['data_inicio'])),
       );
@@ -50,6 +58,9 @@ class Acompanhamento {
       "paciente_id": pacienteId,
       "medico_id": medicoId,
       "ativo": ativo,
+      "quantidade_periodicidade": quantidadePeriodicidade,
+      "dias_duracao": diasDuracao,
+      "dataInicio": dataInicio,
     };
     if (id != null) {
       map["id"] = id;

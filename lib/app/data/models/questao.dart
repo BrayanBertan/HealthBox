@@ -1,19 +1,39 @@
+import 'package:healthbox/app/data/enums/tipo_questao.dart';
+import 'package:healthbox/app/data/models/opcao_questao.dart';
+import 'package:healthbox/core/extensions/enums.dart';
+
 class Questao {
   int? id;
-  int questaoId;
+  TipoQuestao tipo;
   String? descricao;
-  Questao({this.id, required this.questaoId, this.descricao});
+  List<OpcaoQuestao>? opcoes;
+  Questao({this.id, required this.tipo, this.descricao});
 
-  factory Questao.fromJson(Map<String, dynamic> json) => Questao(
+  factory Questao.fromJson(Map<String, dynamic> json) {
+    Questao questao;
+    questao = Questao(
       id: json['id'],
-      questaoId: json['questao_id'],
-      descricao: json['descricao']);
+      tipo: json['tipo'].toString().tipoQuestao(),
+      descricao: json['descricao'],
+    );
+    if (questao.tipo == TipoQuestao.MULTIPLA_ESCOLHA) {
+      questao.opcoes = json['opcoes'] == null
+          ? List<OpcaoQuestao>.empty()
+          : OpcaoQuestao.listFromJson(json['opcoes']);
+    }
+    return questao;
+  }
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'questao_id': this.questaoId,
+      'tipo': this.tipo.name,
       'descricao': this.descricao,
     };
+    if (tipo == TipoQuestao.MULTIPLA_ESCOLHA) {
+      map['opcoes'] = opcoes == null || opcoes!.isEmpty
+          ? null
+          : OpcaoQuestao.listToJson(opcoes);
+    }
     if (id != null) {
       map['id'] = id;
     }
@@ -28,6 +48,6 @@ class Questao {
 
   @override
   String toString() {
-    return "Questao $questaoId $descricao";
+    return "Questao $tipo $descricao";
   }
 }
