@@ -32,28 +32,9 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
           height: 10,
         ),
         QuillEditorColumn(),
-        const SizedBox(
-          height: 25,
-        ),
-        const SizedBox(
-          height: 25,
-        ),
         Obx(() => Wrap(
-              spacing: MediaQuery.of(context).size.width * 0.25,
+              spacing: MediaQuery.of(context).size.width * 0.7,
               children: [
-                DropdownButton<int>(
-                    isDense: true,
-                    underline: Container(),
-                    value: controller.eficacia,
-                    items: controller.eficazList
-                        .map((Map<String, dynamic> eficacia) =>
-                            DropdownMenuItem<int>(
-                                value: eficacia['valor'],
-                                child: Text(
-                                  eficacia['titulo'],
-                                )))
-                        .toList(),
-                    onChanged: controller.setEficacia),
                 Text(
                   controller.textoErroMensagem ?? '',
                   style: const TextStyle(color: Colors.red),
@@ -67,6 +48,33 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
                 )
               ],
             )),
+        Obx(() => controller.isPaciente
+            ? Row(
+                children: [
+                  const Text('Você considera esse tratamento'),
+                  Expanded(
+                      child: Column(children: [
+                    Radio(
+                        value: 1,
+                        groupValue: controller.eficacia,
+                        onChanged: controller.setEficacia),
+                    const Text('Eficaz')
+                  ])),
+                  Expanded(
+                    child: Column(children: [
+                      Radio(
+                          value: 0,
+                          groupValue: controller.eficacia,
+                          onChanged: controller.setEficacia),
+                      const Text('Ineficaz')
+                    ]),
+                  ),
+                ],
+              )
+            : Container()),
+        const SizedBox(
+          height: 10,
+        ),
       ],
     );
   }

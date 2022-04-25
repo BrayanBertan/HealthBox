@@ -46,7 +46,7 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                     TextSpan(text: 'Dose preescrita  ', style: subTitulo),
                     TextSpan(
                         text:
-                            '${medicamento.dose}${medicamento.unidadeMedida.name}  a cada ${medicamento.intervalo} ${medicamento.periodicidadeMedicamento.name} por ${medicamento.dose} dias',
+                            '${medicamento.dose}${medicamento.unidadeMedida.name}  a cada ${medicamento.intervalo} ${medicamento.periodicidadeMedicamento.name} por ${medicamento.duracao} dias',
                         style: TextStyle(
                             color: corPrincipal, fontWeight: FontWeight.bold)),
                   ]),

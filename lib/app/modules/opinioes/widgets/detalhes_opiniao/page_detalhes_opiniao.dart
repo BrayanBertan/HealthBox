@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:get/get.dart';
@@ -7,7 +8,9 @@ import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/detalhes_opiniao/card_detalhes_interacoes.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/detalhes_opiniao/card_detalhes_medicamentos.dart';
+import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/values/keys.dart';
 
@@ -26,13 +29,45 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CircleAvatar(
-              radius: 100.0,
-              backgroundImage: controller.opiniao?.paciente?.fotoPath == null
-                  ? const AssetImage('${baseImagemUrl}user_pic.png')
-                      as ImageProvider
-                  : NetworkImage(controller.opiniao!.paciente!.fotoPath!),
-            ),
+            if (controller.opiniao.paciente?.fotoPath == null)
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('${baseImagemUrl}user_pic.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              )
+            else
+              CachedNetworkImage(
+                imageUrl: controller.opiniao.paciente!.fotoPath,
+                imageBuilder: (context, imageProvider) => Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => Shimmer.fromColors(
+                    child: const CircleAvatar(
+                      maxRadius: 45,
+                      minRadius: 45,
+                    ),
+                    baseColor: corPrincipal50,
+                    highlightColor: corPrincipal),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -80,66 +115,23 @@ class PageDetalhesOpiniao extends GetView<OpinioesController> {
                     padding: const EdgeInsets.all(5),
                   ),
                 )),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    controller.opiniao.eficaz == 1
-                        ? Container(
-                            padding: const EdgeInsets.all(1),
-                            width: 30,
-                            height: 155,
-                            decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular((5)))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: controller
-                                  .getEficacia(1)
-                                  .map((texto) => texto)
-                                  .toList(),
-                            ))
-                        : Container(
-                            padding: const EdgeInsets.all(1),
-                            width: 30,
-                            height: 155,
-                            decoration: const BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular((5)))),
-                          ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    controller.opiniao.eficaz == 0
-                        ? Container(
-                            padding: const EdgeInsets.all(1),
-                            width: 30,
-                            height: 155,
-                            decoration: const BoxDecoration(
-                                color: Colors.red,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular((5)))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: controller
-                                  .getEficacia(0)
-                                  .map((texto) => texto)
-                                  .toList(),
-                            ))
-                        : Container(
-                            padding: const EdgeInsets.all(1),
-                            width: 30,
-                            height: 155,
-                            decoration: const BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular((5)))),
-                          ),
-                  ],
-                )
+                Container(
+                    padding: const EdgeInsets.all(1),
+                    width: 30,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    decoration: BoxDecoration(
+                        color: controller.opiniao.eficaz == 1
+                            ? Colors.green
+                            : Colors.red,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular((5)))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: controller
+                          .getEficacia(controller.opiniao.eficaz)
+                          .map((texto) => texto)
+                          .toList(),
+                    ))
               ],
             ),
             Text(

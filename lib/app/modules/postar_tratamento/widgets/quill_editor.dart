@@ -23,9 +23,9 @@ class QuillEditorColumn extends GetView<PostarTratamentoController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const Text(
-          'Sua opinião',
-          style: TextStyle(
+        Text(
+          controller.isPaciente ? 'Sua opinião' : 'Descrição do tratamento',
+          style: const TextStyle(
             fontSize: 25,
           ),
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
@@ -22,6 +23,7 @@ class PostarTratamentoController extends GetxController {
   PostarTratamentoController({required this.repository})
       : assert(repository != null) {
     usuario = loginController.getLogin();
+    isPaciente = usuario.tipo == TipoUsuario.PACIENTE;
     doc = Document()..insert(0, ' ');
   }
 
@@ -32,6 +34,9 @@ class PostarTratamentoController extends GetxController {
 
   //======================TODOS==========================================
   final _activeStepIndex = 0.obs;
+  final _isPaciente = false.obs;
+  get isPaciente => this._isPaciente.value;
+  set isPaciente(value) => this._isPaciente.value = value;
   get activeStepIndex => this._activeStepIndex.value;
   setActiveStepIndex(value) => this._activeStepIndex.value =
       isValidStep(activeStepIndex) || value < activeStepIndex

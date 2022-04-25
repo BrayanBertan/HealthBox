@@ -111,7 +111,7 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
                           () => Text(
                             controller.medicamentosSelecionadosInfo[index].dose
                                     .isEmpty
-                                ? 'informações de uso são obrigátorias, clique no icone amarelo'
+                                ? 'informações de uso são obrigátorias, clique no ícone amarelo'
                                 : '',
                             style: const TextStyle(color: Colors.red),
                           ),

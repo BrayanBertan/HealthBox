@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
@@ -28,7 +27,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                 () => Stepper(
                   currentStep: controller.activeStepIndex,
                   type: StepperType.horizontal,
-                  steps: controller.usuario.tipo == TipoUsuario.PACIENTE
+                  steps: controller.isPaciente
                       ? <Step>[
                           Step(
                               title: Text(''),
@@ -104,9 +103,13 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                               style: ElevatedButton.styleFrom(
                                   onSurface: corPrincipal300,
                                   fixedSize: const Size(150, 50)),
-                              child: Text(controller.activeStepIndex == 1
-                                  ? 'Salvar'
-                                  : 'Próximo'))),
+                              child: Text(controller.isPaciente
+                                  ? controller.activeStepIndex == 1
+                                      ? 'Salvar'
+                                      : 'Próximo'
+                                  : controller.activeStepIndex == 5
+                                      ? 'Salvar'
+                                      : 'Próximo'))),
                         ],
                       ),
                     );

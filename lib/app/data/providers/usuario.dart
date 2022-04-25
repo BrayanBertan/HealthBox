@@ -137,7 +137,8 @@ class UsuarioProvider extends GetConnect {
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
-
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 
