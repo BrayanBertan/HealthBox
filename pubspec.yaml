@@ -56,9 +56,9 @@ dependencies:
   firebase_core: ^1.14.1
   firebase_storage: ^10.2.12
   path: ^1.8.0
-  url_launcher: ^6.0.20
   cached_network_image: ^3.2.0
   shimmer: ^2.0.0
+  auto_size_text: ^3.0.0
 
 
 

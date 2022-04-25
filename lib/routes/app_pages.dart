@@ -1,15 +1,18 @@
 import 'package:get/get.dart';
-import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_barra_eficacia.dart';
-import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_barra_horizontal.dart';
-import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_lines.dart';
-import 'package:healthbox/app/modules/graficos_opinioes/widgets/grafico_pie.dart';
+import 'package:healthbox/app/modules/acompanhamentos/binding.dart';
+import 'package:healthbox/app/modules/acompanhamentos/view.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/questionarios_acompanhamento/view.dart';
+import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_eficacia.dart';
+import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_horizontal.dart';
+import 'package:healthbox/app/modules/graficos/widgets/grafico_lines.dart';
+import 'package:healthbox/app/modules/graficos/widgets/grafico_pie.dart';
 
 import '../app/modules/conta/binding.dart';
 import '../app/modules/conta/dados_usuario/binding.dart';
 import '../app/modules/conta/dados_usuario/view.dart';
 import '../app/modules/conta/view.dart';
-import '../app/modules/graficos_opinioes/binding.dart';
-import '../app/modules/graficos_opinioes/view.dart';
+import '../app/modules/graficos/binding.dart';
+import '../app/modules/graficos/view.dart';
 import '../app/modules/login/view.dart';
 import '../app/modules/opinioes/binding.dart';
 import '../app/modules/opinioes/view.dart';
@@ -37,13 +40,13 @@ class AppPages {
         binding: PostarTratamentoBinding()),
     GetPage(
       name: Routes.LOGIN,
-      page: () => LoginPage(), /* middlewares: [SetTokenUsuario()]*/
+      page: () => LoginPage(),
     ),
     GetPage(
-        name: Routes.CONTA,
-        page: () => ContaPage(),
-        bindings: [ContaBinding()],
-        middlewares: [AutenticaUsuario()]),
+      name: Routes.CONTA,
+      page: () => ContaPage(),
+      bindings: [ContaBinding()],
+    ),
     GetPage(
         name: Routes.DADOS_USUARIO,
         page: () => DadosUsuarioPage(),
@@ -68,6 +71,14 @@ class AppPages {
     GetPage(
       name: Routes.GRAFICO_LINES,
       page: () => GraficoLinesPage(),
+    ),
+    GetPage(
+        name: Routes.ACOMPANHAMENTOS,
+        page: () => AcompanhamentoPage(),
+        binding: AcompanhamentosBinding()),
+    GetPage(
+      name: Routes.QUESTIONARIOS_ACOMPANHAMENTO,
+      page: () => QuestionariosAcompanhamentosPage(),
     ),
   ];
 }

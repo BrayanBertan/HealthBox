@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
-import 'package:healthbox/app/modules/opinioes/widgets/card_opinioes.dart';
-import 'package:healthbox/app/widgets/filtros/card_pesquisa.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/filtros/card_opinioes.dart';
+import 'package:healthbox/app/modules/opinioes/widgets/filtros/card_pesquisa.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
 class OpinioesPage extends GetView<OpinioesController> {
@@ -13,17 +13,11 @@ class OpinioesPage extends GetView<OpinioesController> {
     return Scaffold(
       appBar: AppBar(title: const Text('Opiniões')),
       drawer: SideMenu(),
-      body: Obx(
-        () => controller.carregandoTela
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: const [CardPesquisa(), CardOpinioes()],
-                ),
-              ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: const [CardPesquisa(), CardOpinioes()],
+        ),
       ),
     );
   }

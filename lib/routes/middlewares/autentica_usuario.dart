@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import '../../app/data/providers/usuario.dart';
 
@@ -10,9 +12,12 @@ class AutenticaUsuario extends GetMiddleware {
     final controller = Get.find<LoginController>();
     if (controller.verificaSessao()) {
       controller.getSessaoToken();
+      if (controller.getLogin().tipo == TipoUsuario.MEDICO) {
+        return const RouteSettings(name: Routes.ACOMPANHAMENTOS);
+      }
       return null;
     } else {
-      return const RouteSettings(name: '/login');
+      return const RouteSettings(name: Routes.LOGIN);
     }
   }
 

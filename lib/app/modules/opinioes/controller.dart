@@ -50,7 +50,7 @@ class OpinioesController extends GetxController {
   final _usuario = Rx<dynamic>(null);
   final _opiniao = Rx<Opiniao?>(null);
   final _carregando = false.obs;
-  final _carregandoTela = false.obs;
+
   final opinioes = <Opiniao>[].obs;
   final _page = 1.obs;
   final _isMinhasOpinoesChecked = false.obs;
@@ -68,11 +68,9 @@ class OpinioesController extends GetxController {
   get filtros => this._filtros.value;
   set filtros(value) => this._filtros.value = value;
 
-  get carregandoTela => this._carregandoTela.value;
-  set carregandoTela(value) => this._carregandoTela.value = value;
-
   get usuario => this._usuario.value;
   set usuario(value) => this._usuario.value = value;
+
   get isGerenciarMinhasOpinioesOpen =>
       this._isGerenciarMinhasOpinioesOpen.value;
   set isGerenciarMinhasOpinioesOpen(value) =>

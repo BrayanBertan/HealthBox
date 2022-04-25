@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
+import 'package:healthbox/routes/app_pages.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../core/values/keys.dart';
@@ -96,7 +97,7 @@ class SideMenu extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Get.offAllNamed('/');
+              Get.offAllNamed(Routes.ACOMPANHAMENTOS);
             },
             leading:
                 Image.asset('${baseImagemUrl}acompanhamentos.png', width: 40),
@@ -109,7 +110,7 @@ class SideMenu extends StatelessWidget {
           usuario.tipo == TipoUsuario.PACIENTE
               ? ListTile(
                   onTap: () {
-                    Get.offAllNamed('/');
+                    Get.offAllNamed(Routes.INITIAL);
                   },
                   leading:
                       Image.asset('${baseImagemUrl}feedback.png', width: 40),
