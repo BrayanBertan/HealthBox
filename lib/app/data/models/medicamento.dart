@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class Medicamento {
   int? id;
   String nome;
@@ -29,13 +31,14 @@ class Medicamento {
   }
 
   static List<Medicamento> listFromJson(list) {
-    if (!list.contains('data'))
+    if (list is LinkedHashMap) {
+      if (list['message'] != null) return List<Medicamento>.empty();
+      return List<Medicamento>.from(
+          list['data'].map((medicamento) => Medicamento.fromJson(medicamento)));
+    } else {
       return List<Medicamento>.from(
           list.map((nome) => Medicamento.fromJson(nome)));
-    if (list['data'] == null || list['data'].isEmpty)
-      return List<Medicamento>.empty();
-    return List<Medicamento>.from(
-        list['data'].map((nome) => Medicamento.fromJson(nome)));
+    }
   }
 
   static List<Medicamento> listToJson(list) {

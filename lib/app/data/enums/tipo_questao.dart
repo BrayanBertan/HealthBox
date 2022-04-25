@@ -1,0 +1,1 @@
+enum TipoQuestao { DESCRITIVA, MULTIPLA_ESCOLHA }

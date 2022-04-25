@@ -1,5 +1,6 @@
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/periodicidade_medicamento.dart';
+import 'package:healthbox/app/data/enums/tipo_questao.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/enums/unidade_medida.dart';
 
@@ -57,6 +58,17 @@ extension StringExtension on String? {
         return PeriodicidadeMedicamento.dias;
       default:
         return PeriodicidadeMedicamento.horas;
+    }
+  }
+
+  TipoQuestao tipoQuestao() {
+    switch (this) {
+      case 'horas':
+        return TipoQuestao.DESCRITIVA;
+      case 'M':
+        return TipoQuestao.MULTIPLA_ESCOLHA;
+      default:
+        return TipoQuestao.DESCRITIVA;
     }
   }
 }
