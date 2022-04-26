@@ -9,10 +9,14 @@ import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
+import 'package:healthbox/app/data/models/vinculo.dart';
+import 'package:healthbox/app/data/providers/conta.dart';
+import 'package:healthbox/app/data/repositories/conta.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
+import 'package:intl/intl.dart';
 
 import '../login/controller.dart';
 
@@ -24,6 +28,9 @@ class PostarTratamentoController extends GetxController {
       : assert(repository != null) {
     usuario = loginController.getLogin();
     isPaciente = usuario.tipo == TipoUsuario.PACIENTE;
+    if (!isPaciente) {
+      getVinculos();
+    }
     doc = Document()..insert(0, ' ');
   }
 
@@ -47,19 +54,22 @@ class PostarTratamentoController extends GetxController {
 
   bool isValidStep(int step) {
     bool retorno = false;
-    switch (step) {
-      case 0:
-        retorno = step1Valido();
-        break;
-      case 1:
-        retorno = step2Valido();
-        break;
-      case 2:
-        retorno = step3Valido();
-        break;
-      default:
-        retorno = step1Valido();
-    }
+    if (isPaciente) {
+      switch (step) {
+        case 0:
+          retorno = step1Valido();
+          break;
+        case 1:
+          retorno = step2PacienteValido();
+          break;
+        case 2:
+          retorno = step3PacienteValido();
+          break;
+        default:
+          retorno = step1Valido();
+      }
+    } else {}
+
     return retorno;
   }
 
@@ -135,11 +145,46 @@ class PostarTratamentoController extends GetxController {
       medicamentosSelecionadosInfo.where((item) => item.dose.isEmpty).length <=
       0;
 
-  bool step2Valido() => medicamentosSelecionadosValid();
+  bool step2PacienteValido() => medicamentosSelecionadosValid();
 
   //==================STEP 3========================================
 
-  bool step3Valido() => step1Valido() && step2Valido();
+  bool step3PacienteValido() => step1Valido() && step2PacienteValido();
+  //==================STEP 4========================================
+  final vinculos = <Vinculo>[].obs;
+  final _dataInicial = Rx<DateTime?>(null);
+  final _carregandoVinculos = false.obs;
+  final _paciente = Rx<Vinculo?>(null);
+  final _quantidadePeriodicidade = Rx<String?>(null);
+  final _diasDuracao = Rx<String?>(null);
+
+  get carregandoVinculos => this._carregandoVinculos.value;
+  set carregandoVinculos(value) => this._carregandoVinculos.value = value;
+  String get formataDataInicial => dataInicial == null
+      ? DateFormat('dd/MM/yyyy').format(DateTime.now())
+      : DateFormat('dd/MM/yyyy').format(dataInicial);
+  get paciente => this._paciente.value;
+  set paciente(value) => this._paciente.value = value;
+
+  get dataInicial => this._dataInicial.value;
+  set dataInicial(value) => this._dataInicial.value = value;
+
+  get quantidadePeriodicidade => this._quantidadePeriodicidade.value;
+  setQuantidadePeriodicidade(value) =>
+      this._quantidadePeriodicidade.value = value;
+
+  get diasDuracao => this._diasDuracao.value;
+  setDiasDuracao(value) => this._diasDuracao.value = value;
+
+  getVinculos() {
+    carregandoVinculos = true;
+    ContaRepository(provider: ContaProvider()).getVinculos(1).then((retorno) {
+      vinculos.clear();
+      vinculos.assignAll(retorno);
+      carregandoVinculos = false;
+    });
+  }
+
   // =====================================================================================
   setOpiniaoEdicao(Opiniao opiniao) {
     if (opiniao.pacienteId != usuario.id) {

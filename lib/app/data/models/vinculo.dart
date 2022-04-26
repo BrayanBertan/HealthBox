@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:healthbox/app/modules/conta/controller.dart';
+import 'package:healthbox/app/modules/login/controller.dart';
 
 class Vinculo {
   int? id;
@@ -34,13 +34,13 @@ class Vinculo {
   }
 
   static List<Vinculo> listFromJson(list) {
-    usuarioAtivoId = Get.find<ContaController>().usuario.id;
+    usuarioAtivoId = Get.find<LoginController>().getLogin().id;
     return List<Vinculo>.from(
         list['data'].map((vinculo) => Vinculo.fromJson(vinculo)));
   }
 
   @override
   String toString() {
-    return "Vinculo $nome $fotoPath";
+    return nome;
   }
 }

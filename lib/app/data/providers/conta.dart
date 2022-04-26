@@ -159,6 +159,11 @@ class ContaProvider extends GetConnect {
 
   Future<List<Vinculo>> getVinculos(int tipo) async {
     Get.find<UsuarioProvider>().isSessionValid();
+
+    if (httpClient.baseUrl == null) {
+      httpClient.baseUrl = baseUrl;
+      token = UsuarioProvider.token;
+    }
     try {
       var retornoApi = await get('solicitacoes-vinculos?vinculado=$tipo',
           headers: {'Authorization': 'Bearer  $token'},

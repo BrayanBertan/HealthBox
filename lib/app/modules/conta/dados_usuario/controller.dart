@@ -449,6 +449,7 @@ class DadosUsuarioController extends GetxController {
       if (!retorno) {
         EasyLoading.instance.backgroundColor = Colors.red;
         EasyLoading.showError('Erro ao salvar');
+        EasyLoadingConfig();
       } else {
         EasyLoading.showSuccess('Salvo com sucesso');
         Future.delayed(Duration(seconds: 1)).then((value) {
@@ -463,8 +464,6 @@ class DadosUsuarioController extends GetxController {
         });
       }
     });
-
-    EasyLoadingConfig();
   }
 
   clearTextControllers() {

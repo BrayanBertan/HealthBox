@@ -22,7 +22,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.85,
               child: Obx(
                 () => Stepper(
                   currentStep: controller.activeStepIndex,
@@ -94,7 +94,13 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                   ? null
                                   : () {
                                       FocusScope.of(context).unfocus();
-                                      if (controller.activeStepIndex == 1) {
+                                      if (controller.isPaciente &&
+                                          controller.activeStepIndex == 1) {
+                                        controller.salvarOpiniao();
+                                        return;
+                                      }
+                                      if (!controller.isPaciente &&
+                                          controller.activeStepIndex == 9) {
                                         controller.salvarOpiniao();
                                         return;
                                       }
