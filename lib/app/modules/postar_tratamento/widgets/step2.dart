@@ -6,11 +6,9 @@ import 'package:healthbox/app/data/enums/periodicidade_medicamento.dart';
 import 'package:healthbox/app/data/enums/unidade_medida.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
-import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/dialog_info_medicamento.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
-import 'package:healthbox/core/values/keys.dart';
 
 class Step2TratamentoPage extends GetView<PostarTratamentoController> {
   Step2TratamentoPage({Key? key}) : super(key: key);
@@ -24,7 +22,7 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
           () => TextFormField(
             initialValue: controller.descricao,
             onChanged: controller.setDescricao,
-            maxLines: 6,
+            maxLines: 5,
             decoration: InputDecoration(
               icon: const Icon(
                 Icons.text_fields,
@@ -40,155 +38,14 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
                 color: Colors.grey,
               ),
             ),
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(150),
+            ],
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        const SizedBox(
-          height: 15,
-        ),
-        Obx(() => controller.isPaciente
-            ? Container()
-            : Column(
-                children: [
-                  controller.carregandoVinculos
-                      ? const Text('xd')
-                      : DropdownSearch<Vinculo>(
-                          mode: Mode.DIALOG,
-                          dropdownSearchDecoration: const InputDecoration(
-                            labelText: '  Vinculos',
-                            isDense: true,
-                          ),
-                          dropDownButton: Container(),
-                          items: controller.vinculos,
-                          dropdownButtonBuilder: null,
-                          showSearchBox: true,
-                          emptyBuilder: (_, __) => const Center(
-                            child: Text(
-                              'Nenhum vínculo foi encontrado.Use o campo de pesquisa acima.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          showClearButton: true,
-                          onChanged: (Vinculo? paciente) =>
-                              controller.paciente = paciente,
-                        ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      FocusScope.of(context).unfocus();
-                      controller.dataInicial = await showDatePicker(
-                        context: context,
-                        locale: const Locale("pt"),
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(
-                          2500,
-                          1,
-                          1,
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          '${baseImagemUrl}calendario.png',
-                          width: 30,
-                          height: 30,
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Obx(() => Text(controller.formataDataInicial))
-                      ],
-                    ),
-                  ),
-                  const Text(
-                    'Selecione a data inicial do tratamento',
-                    style: TextStyle(fontSize: 15, color: Colors.black),
-                  ),
-                  const Divider(
-                    color: Colors.black,
-                  ),
-                  Wrap(
-                    children: [
-                      const Text(
-                        ' Repetir o questionário por  ',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      Container(
-                        width: 50,
-                        height: 25,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        child: Obx(
-                          () => TextFormField(
-                            initialValue: '${controller.diasDuracao ?? ''}',
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade100)),
-                              isDense: false,
-                              border: const OutlineInputBorder(),
-                              labelStyle: const TextStyle(color: Colors.grey),
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(3),
-                            ],
-                            onChanged: controller.setDiasDuracao,
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        ' dias, uma vez a cada  ',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      Container(
-                        width: 40,
-                        height: 25,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        child: Obx(
-                          () => TextFormField(
-                            initialValue:
-                                '${controller.quantidadePeriodicidade ?? ''}',
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade100)),
-                              isDense: false,
-                              border: const OutlineInputBorder(),
-                              labelStyle: const TextStyle(color: Colors.grey),
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(2),
-                            ],
-                            onChanged: controller.setQuantidadePeriodicidade,
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        ' dias',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Colors.black,
-                  ),
-                ],
-              )),
         DropdownSearch<Medicamento>(
           mode: Mode.DIALOG,
           dropdownSearchDecoration: const InputDecoration(
@@ -216,9 +73,7 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
         ),
         Text('Medicamentos selecionados', style: titulo),
         Container(
-          height: controller.medicamentosSelecionadosInfo.isEmpty
-              ? 25
-              : MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.15,
           child: Obx(
             () => controller.medicamentosSelecionadosInfo.isEmpty
                 ? const Text(

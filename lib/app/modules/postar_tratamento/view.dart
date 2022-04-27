@@ -3,13 +3,15 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
+import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
+import 'package:healthbox/app/modules/postar_tratamento/widgets/step4_medico.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
 class PagePostarTratamento extends GetView<PostarTratamentoController> {
   PagePostarTratamento({Key? key}) : super(key: key) {
     final opiniao = Get.arguments;
-    if (opiniao != null) controller.setOpiniaoEdicao(opiniao);
+    if (opiniao != null) controller.setEdicao(opiniao);
   }
 
   @override
@@ -53,19 +55,14 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                               state: controller.getStepState(1)),
                           Step(
                               title: Text(''),
-                              content: Step2TratamentoPage(),
+                              content: Step3MedicoTratamentoPage(),
                               isActive: false,
-                              state: controller.getStepState(1)),
+                              state: controller.getStepState(2)),
                           Step(
                               title: Text(''),
-                              content: Step2TratamentoPage(),
+                              content: Step4MedicoTratamentoPage(),
                               isActive: false,
-                              state: controller.getStepState(1)),
-                          Step(
-                              title: Text(''),
-                              content: Step2TratamentoPage(),
-                              isActive: false,
-                              state: controller.getStepState(1)),
+                              state: controller.getStepState(3)),
                         ],
                   onStepCancel: controller.activeStepIndexDecrease,
                   onStepContinue: controller.activeStepIndexIncrease,
@@ -123,7 +120,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                 ),
               ),
             ),
-            controller.idOpiniao != null
+            controller.idPostagem != null
                 ? Container(
                     height: 50,
                     child: ElevatedButton(

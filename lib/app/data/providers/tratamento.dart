@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/like.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
+import 'package:healthbox/app/data/models/questao.dart';
+import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -19,6 +22,100 @@ class TratamentoProvider extends GetConnect {
     super.onInit();
   }
 
+  //=================================Acompanhamentos=====================================
+  salvarAcompanhamento(Acompanhamento acompanhamento) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+    int id;
+    if (acompanhamento.id == null) {
+      retornoApi = await post(
+        'acompanhamentos',
+        acompanhamento.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+      id = retornoApi.body['acompanhamento']['id'];
+    } else {
+      retornoApi = await put(
+        'acompanhamentos/${acompanhamento.id}',
+        acompanhamento.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+      id = acompanhamento.id!;
+    }
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    print('id acompanhamento =====  $id}');
+    if (retornoApi.statusCode == 200) return id;
+    return false;
+  }
+
+  salvarQuestionario(Questionario questionario) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+    int id;
+    if (questionario.id == null) {
+      retornoApi = await post(
+        'questionarios',
+        questionario.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+      print(retornoApi.body);
+      id = retornoApi.body['questionario']['id'];
+    } else {
+      retornoApi = await put(
+        'questionarios/${questionario.id}',
+        questionario.toJson(),
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+      id = questionario.id!;
+    }
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    print('id questionario =====  $id}');
+    if (retornoApi.statusCode == 200) return id;
+    return false;
+  }
+
+  Future<bool> deletarAcompanhamento(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+
+    retornoApi = await delete(
+      'acompanhamentos/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  salvarQuestao(Questao questao) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+
+    dynamic retornoApi;
+    retornoApi = await post(
+      'questoes',
+      questao.toJson(),
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    if (retornoApi.statusCode == 200) return retornoApi.body['questao']['id'];
+    return false;
+  }
+
+  Future<bool> deletarQuestao(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+    retornoApi = await delete(
+      'questoes/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+//=================================Opiniões=====================================
   salvarOpiniao(Opiniao opiniao) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;

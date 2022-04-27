@@ -301,6 +301,10 @@ class ContaController extends GetxController {
         .salvarVinculo(medicoId, pacienteId, id: list[index].id)
         .then((retorno) {
       if (retorno) {
+        EasyLoading.showToast(
+            'Sucesso ao salvar vínculo com ${list[index].nome}',
+            toastPosition: EasyLoadingToastPosition.bottom,
+            duration: const Duration(milliseconds: 1500));
         if (list[index].id == null) {
           list.removeAt(index);
           getVinculos(0);
@@ -308,10 +312,6 @@ class ContaController extends GetxController {
           getVinculos(0);
           getVinculos(1);
         }
-        EasyLoading.showToast(
-            'Sucesso ao salvar vínculo com ${list[index].nome}',
-            toastPosition: EasyLoadingToastPosition.bottom,
-            duration: const Duration(milliseconds: 1500));
       } else {
         EasyLoading.showToast('Erro ao salvar  vínculo com ${list[index].nome}',
             toastPosition: EasyLoadingToastPosition.bottom,

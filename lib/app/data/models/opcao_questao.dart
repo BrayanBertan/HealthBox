@@ -1,8 +1,8 @@
 class OpcaoQuestao {
   int? id;
-  int questaoId;
-  String? descricao;
-  OpcaoQuestao({this.id, required this.questaoId, this.descricao});
+  int? questaoId;
+  String descricao;
+  OpcaoQuestao({this.id, questaoId, required this.descricao});
 
   factory OpcaoQuestao.fromJson(Map<String, dynamic> json) => OpcaoQuestao(
       id: json['id'],
@@ -17,6 +17,7 @@ class OpcaoQuestao {
     if (id != null) {
       map['id'] = id;
     }
+
     return map;
   }
 
@@ -30,4 +31,8 @@ class OpcaoQuestao {
   String toString() {
     return "OpcaoQuestao $questaoId $descricao";
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [descricao];
 }

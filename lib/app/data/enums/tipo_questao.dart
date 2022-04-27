@@ -1,1 +1,1 @@
-enum TipoQuestao { DESCRITIVA, MULTIPLA_ESCOLHA }
+enum TipoQuestao { O, D }

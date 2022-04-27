@@ -63,12 +63,12 @@ extension StringExtension on String? {
 
   TipoQuestao tipoQuestao() {
     switch (this) {
-      case 'descritiva':
-        return TipoQuestao.DESCRITIVA;
-      case 'multipla_escolha':
-        return TipoQuestao.MULTIPLA_ESCOLHA;
+      case 'O':
+        return TipoQuestao.O;
+      case 'D':
+        return TipoQuestao.D;
       default:
-        return TipoQuestao.DESCRITIVA;
+        return TipoQuestao.O;
     }
   }
 }

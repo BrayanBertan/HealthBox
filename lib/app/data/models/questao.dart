@@ -16,7 +16,7 @@ class Questao {
       tipo: json['tipo'].toString().tipoQuestao(),
       descricao: json['descricao'],
     );
-    if (questao.tipo == TipoQuestao.MULTIPLA_ESCOLHA) {
+    if (questao.tipo == TipoQuestao.O) {
       questao.opcoes = json['opcoes'] == null
           ? List<OpcaoQuestao>.empty()
           : OpcaoQuestao.listFromJson(json['opcoes']);
@@ -29,7 +29,8 @@ class Questao {
       'tipo': this.tipo.name,
       'descricao': this.descricao,
     };
-    if (tipo == TipoQuestao.MULTIPLA_ESCOLHA) {
+
+    if (tipo == TipoQuestao.O) {
       map['opcoes'] = opcoes == null || opcoes!.isEmpty
           ? null
           : OpcaoQuestao.listToJson(opcoes);

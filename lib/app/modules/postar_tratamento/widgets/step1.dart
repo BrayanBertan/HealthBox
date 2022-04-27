@@ -40,7 +40,7 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
                   style: const TextStyle(color: Colors.red),
                 ),
                 Text(
-                  '${(controller.editorLength) - 2}/200',
+                  '${(controller.editorLength) - 1}/200',
                   style: TextStyle(
                       color: controller.editorLength <= 200
                           ? Colors.black

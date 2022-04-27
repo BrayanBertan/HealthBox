@@ -11,7 +11,8 @@ class QuillEditorColumn extends GetView<PostarTratamentoController> {
           int tamanho =
               controller.controller_editor.document.toPlainText().length;
           controller.controller_editor.document.toDelta();
-          if ((int1 == 0 && int2 == 1) || tamanho >= 200) return false;
+          if (obj.toString().isNotEmpty && tamanho < 200) return true;
+          if ((int1 == 0 && int2 == 0) || tamanho >= 200) return false;
           return true;
         },
         document: controller.doc,

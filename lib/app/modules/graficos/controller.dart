@@ -50,8 +50,8 @@ class GraficosOpinioesController extends GetxController {
   setMedicamentos(items) {
     medicamentosSelecionados.clear();
     medicamentosId = '';
-    if (items.length > 10) {
-      items = items.take(10);
+    if (items.length > 5) {
+      items = items.take(5);
     }
     if (items.isEmpty) return;
     items.forEach((element) => medicamentosSelecionados.add(element!));
@@ -152,7 +152,6 @@ class GraficosOpinioesController extends GetxController {
       'page': Routes.GRAFICO_PIE,
       'endpoint': 'paciente-remedio?tipoGrafico=pie&'
     },
-
     {
       'titulo': 'Remédio x Eficaz x Ineficaz',
       'imagem': 'double-bar-chart.png',

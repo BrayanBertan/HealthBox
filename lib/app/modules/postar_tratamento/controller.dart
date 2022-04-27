@@ -5,9 +5,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
+import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
+import 'package:healthbox/app/data/models/questao.dart';
+import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
 import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/data/providers/conta.dart';
@@ -42,6 +45,10 @@ class PostarTratamentoController extends GetxController {
   //======================TODOS==========================================
   final _activeStepIndex = 0.obs;
   final _isPaciente = false.obs;
+
+  final _rollBack = false.obs;
+  get rollBack => this._rollBack.value;
+  set rollBack(value) => this._rollBack.value = value;
   get isPaciente => this._isPaciente.value;
   set isPaciente(value) => this._isPaciente.value = value;
   get activeStepIndex => this._activeStepIndex.value;
@@ -60,15 +67,29 @@ class PostarTratamentoController extends GetxController {
           retorno = step1Valido();
           break;
         case 1:
-          retorno = step2PacienteValido();
-          break;
-        case 2:
           retorno = step3PacienteValido();
           break;
         default:
-          retorno = step1Valido();
+          retorno = step3PacienteValido();
       }
-    } else {}
+    } else {
+      switch (step) {
+        case 0:
+          retorno = step1Valido();
+          break;
+        case 1:
+          retorno = step2Valido();
+          break;
+        case 2:
+          retorno = step3MedicoValido();
+          break;
+        case 3:
+          retorno = step4MedicoValido();
+          break;
+        default:
+          retorno = step4MedicoValido();
+      }
+    }
 
     return retorno;
   }
@@ -84,18 +105,15 @@ class PostarTratamentoController extends GetxController {
   final _doc = Rx<Document>(Document()..insert(0, ' '));
   final _texto = Rx<String?>(null);
   final _titulo = Rx<String?>(null);
-  final _idOpiniao = Rx<int?>(null);
+  final _idPostagem = Rx<int?>(null);
   final _idTratamento = Rx<int?>(null);
   final _carregando = false.obs;
   final _eficacia = 1.obs;
   QuillController controller_editor = QuillController.basic();
-  final eficazList = <Map<String, dynamic>>[
-    {'titulo': 'Eficaz', 'valor': 1},
-    {'titulo': 'Ineficaz', 'valor': 0}
-  ];
+
   FocusNode tituloFocus = FocusNode();
-  get idOpiniao => this._idOpiniao.value;
-  set idOpiniao(value) => this._idOpiniao.value = value;
+  get idPostagem => this._idPostagem.value;
+  set idPostagem(value) => this._idPostagem.value = value;
   get idTratamento => this._idTratamento.value;
   set idTratamento(value) => this._idTratamento.value = value;
   get doc => this._doc.value;
@@ -108,8 +126,7 @@ class PostarTratamentoController extends GetxController {
   set carregando(value) => this._carregando.value = value;
   get eficacia => this._eficacia.value;
   setEficacia(value) => this._eficacia.value = value;
-  get editorLength =>
-      controller_editor.document.toDelta().toJson()[0]['insert'].length;
+  get editorLength => controller_editor.document.toPlainText().length;
 
   bool step1Valido() => textoValido() && tituloValido();
 
@@ -145,29 +162,93 @@ class PostarTratamentoController extends GetxController {
       medicamentosSelecionadosInfo.where((item) => item.dose.isEmpty).length <=
       0;
 
-  bool step2PacienteValido() => medicamentosSelecionadosValid();
+  bool step2Valido() => medicamentosSelecionadosValid();
 
-  //==================STEP 3========================================
+  //==================STEP 3 Paciente========================================
 
-  bool step3PacienteValido() => step1Valido() && step2PacienteValido();
+  bool step3PacienteValido() => step1Valido() && step2Valido();
+
+  //==================STEP 3 Medico========================================
+
+  bool step3MedicoValido() => tituloQuestionarioValido();
+  List<Questao> questoes = <Questao>[].obs;
+
+  addQuestao(Questao questao) {
+    if (questao.id == null) {
+      repository.salvarQuestao(questao).then((retorno) {
+        if (retorno == null || retorno is bool) {
+          EasyLoading.showToast('Erro ao adicionar questão',
+              duration: const Duration(milliseconds: 500),
+              toastPosition: EasyLoadingToastPosition.bottom);
+        } else {
+          questao.id = retorno;
+          questoes.add(questao);
+
+          EasyLoading.showToast('Questão adicionada com sucesso',
+              duration: const Duration(milliseconds: 500),
+              toastPosition: EasyLoadingToastPosition.bottom);
+        }
+      });
+      return;
+    } else {
+      questoes.add(questao);
+    }
+  }
+
+  deletarQuestao(int index) {
+    int id = questoes[index].id!;
+    repository.deletarQuestao(id).then((retorno) {
+      if (retorno) {
+        questoes.removeAt(index);
+        EasyLoading.showToast('Questão deletada com sucesso',
+            duration: const Duration(milliseconds: 500),
+            toastPosition: EasyLoadingToastPosition.bottom);
+      } else {
+        EasyLoading.showToast('Erro ao deletar questão',
+            duration: const Duration(milliseconds: 500),
+            toastPosition: EasyLoadingToastPosition.bottom);
+      }
+    });
+  }
+
+  final _tituloQuestionario = Rx<String?>(null);
+
+  final _descricaoQuestionario = ''.obs;
+  get tituloQuestionario => this._tituloQuestionario.value;
+  setTituloQuestionario(value) => this._tituloQuestionario.value = value;
+  get descricaoQuestionario => this._descricaoQuestionario.value;
+  setDescricaoQuestionario(value) => this._descricaoQuestionario.value = value;
+
+  bool tituloQuestionarioValido() =>
+      tituloQuestionario != null && tituloQuestionario.isNotEmpty;
+
+  String? get tituloQuestionarioErroMensagem {
+    if (tituloQuestionario == null || tituloQuestionarioValido()) return null;
+    return 'Campo obrigatório';
+  }
+
   //==================STEP 4========================================
   final vinculos = <Vinculo>[].obs;
   final _dataInicial = Rx<DateTime?>(null);
   final _carregandoVinculos = false.obs;
-  final _paciente = Rx<Vinculo?>(null);
+  final _vinculo = Rx<Vinculo?>(null);
   final _quantidadePeriodicidade = Rx<String?>(null);
   final _diasDuracao = Rx<String?>(null);
-
+  final _isVinculoUntouched = true.obs;
+  final _isDataInicialUntouched = true.obs;
   get carregandoVinculos => this._carregandoVinculos.value;
   set carregandoVinculos(value) => this._carregandoVinculos.value = value;
   String get formataDataInicial => dataInicial == null
-      ? DateFormat('dd/MM/yyyy').format(DateTime.now())
+      ? 'Nenhuma data selecionada'
       : DateFormat('dd/MM/yyyy').format(dataInicial);
-  get paciente => this._paciente.value;
-  set paciente(value) => this._paciente.value = value;
+  get vinculo => this._vinculo.value;
+  set vinculo(value) => this._vinculo.value = value;
 
   get dataInicial => this._dataInicial.value;
-  set dataInicial(value) => this._dataInicial.value = value;
+  set dataInicial(value) {
+    this._dataInicial.value = value;
+    isDataInicialUntouched = false;
+  }
 
   get quantidadePeriodicidade => this._quantidadePeriodicidade.value;
   setQuantidadePeriodicidade(value) =>
@@ -175,6 +256,55 @@ class PostarTratamentoController extends GetxController {
 
   get diasDuracao => this._diasDuracao.value;
   setDiasDuracao(value) => this._diasDuracao.value = value;
+
+  get isVinculoUntouched => this._isVinculoUntouched.value;
+  setIsVinculoUntouched() => this._isVinculoUntouched.value = false;
+
+  get isDataInicialUntouched => this._isDataInicialUntouched.value;
+  set isDataInicialUntouched(value) =>
+      this._isDataInicialUntouched.value = false;
+
+  bool vinculoValido() => vinculo != null;
+
+  String? get vinculoErroMensagem {
+    if (isVinculoUntouched || vinculoValido()) return null;
+    return 'Campo de paciente é obrigátorio';
+  }
+
+  bool dataInicialValida() => dataInicial != null;
+
+  String? get dataInicialErroMensagem {
+    if (isDataInicialUntouched || dataInicialValida()) return null;
+    return 'Campo de data inicial é obrigátorio';
+  }
+
+  bool diasQuestionarioValida() =>
+      diasDuracao != null &&
+      diasDuracao.trim().isNotEmpty &&
+      double.parse(diasDuracao.trim()) != 0;
+
+  bool periodicidadeQuestionarioValida() =>
+      quantidadePeriodicidade != null &&
+      quantidadePeriodicidade.trim().isNotEmpty &&
+      double.parse(quantidadePeriodicidade.trim()) != 0;
+
+  String? get duracaoQuestionarioErroMensagem {
+    if ((diasDuracao == null || diasQuestionarioValida()) &&
+        (quantidadePeriodicidade == null || periodicidadeQuestionarioValida()))
+      return null;
+    String retorno = 'Campos obrigátorios ';
+    if (!diasQuestionarioValida()) retorno += '(duração em dias)';
+    if (!periodicidadeQuestionarioValida())
+      retorno += ' (intervalo entre questionários)';
+
+    return retorno;
+  }
+
+  bool step4MedicoValido() =>
+      vinculoValido() &&
+      dataInicialValida() &&
+      diasQuestionarioValida() &&
+      periodicidadeQuestionarioValida();
 
   getVinculos() {
     carregandoVinculos = true;
@@ -186,14 +316,102 @@ class PostarTratamentoController extends GetxController {
   }
 
   // =====================================================================================
-  setOpiniaoEdicao(Opiniao opiniao) {
+
+  //===========================================Acompanhamentos=============================================
+  salvarAcompanhamento() {
+    EasyLoading.showInfo('Salvando...', duration: const Duration(seconds: 1));
+
+    texto = jsonEncode(controller_editor.document.toDelta().toJson());
+    Acompanhamento acompanhamento = Acompanhamento(
+        descricaoPaciente: descricao,
+        pacienteId: vinculo.usuarioId,
+        medicoId: usuario.id,
+        ativo: 1,
+        quantidadePeriodicidade: int.parse(quantidadePeriodicidade),
+        diasDuracao: int.parse(diasDuracao));
+
+    // if (idPostagem != null) acompanhamento.id = idPostagem;
+    repository.salvarAcompanhamento(acompanhamento).then((retorno) {
+      if (retorno == null || retorno is bool) {
+        EasyLoading.instance.backgroundColor = Colors.red;
+        EasyLoading.showError('Erro ao salvar acompanhamento');
+        EasyLoadingConfig();
+      } else {
+        Tratamento tratamento = Tratamento(
+            titulo: titulo,
+            descricao: texto,
+            acompanhamentoId: retorno,
+            medicamentos: medicamentosSelecionadosInfo);
+        if (idTratamento != null) tratamento.id = idTratamento;
+
+        repository.salvarTratamento(tratamento).then((retorno1) {
+          if (retorno1) {
+            Questionario questionario = Questionario(
+                titulo: tituloQuestionario,
+                descricao: descricaoQuestionario,
+                acompanhamentoId: retorno);
+            repository.salvarQuestionario(questionario).then((retorno2) {
+              if (retorno2 == null || retorno2 is bool) {
+                if (idPostagem == null) rollBackAcompanhamento(retorno);
+
+                EasyLoading.instance.backgroundColor = Colors.red;
+                EasyLoading.showError('Erro ao salvar acompanhamento');
+                EasyLoadingConfig();
+              } else {
+                EasyLoading.showSuccess('Acompanhamento salvo com sucesso');
+                EasyLoadingConfig();
+              }
+              EasyLoading.dismiss();
+            });
+          } else {
+            if (idPostagem == null) rollBackAcompanhamento(retorno);
+
+            EasyLoading.instance.backgroundColor = Colors.red;
+            EasyLoading.showError('Erro ao salvar acompanhamento');
+            EasyLoadingConfig();
+          }
+          EasyLoading.dismiss();
+        });
+      }
+      EasyLoading.dismiss();
+    });
+  }
+
+  rollBackAcompanhamento(int id) {
+    if (idPostagem == null) {
+      rollBack = true;
+      idPostagem = id;
+      deletarAcompanhamento();
+    }
+  }
+
+  deletarAcompanhamento() {
+    repository.deletarAcompanhamento(idPostagem).then((retorno) {
+      idPostagem = null;
+      if (retorno) {
+        if (!rollBack) {
+          EasyLoading.showToast('Acompanhamento deletado com sucesso',
+              toastPosition: EasyLoadingToastPosition.bottom);
+        }
+      } else {
+        if (!rollBack) {
+          EasyLoading.showToast('Erro ao deletar  Acompanhamento',
+              toastPosition: EasyLoadingToastPosition.bottom);
+        }
+      }
+      rollBack = false;
+    });
+  }
+
+  //===========================================OPINIÕES=============================================
+  setEdicao(Opiniao opiniao) {
     if (opiniao.pacienteId != usuario.id) {
       Get.offNamed(Routes.INITIAL);
       return;
     }
 
     idTratamento = opiniao.tratamento!.id;
-    idOpiniao = opiniao.id;
+    idPostagem = opiniao.id;
     texto = opiniao.descricao;
     doc = Document.fromJson(jsonDecode(texto));
     setTitulo(opiniao.tratamento?.titulo ?? '');
@@ -211,7 +429,7 @@ class PostarTratamentoController extends GetxController {
 
     Opiniao opiniao = Opiniao(
         descricao: texto, pacienteId: usuario.id, eficaz: eficacia, ativo: 1);
-    if (idOpiniao != null) opiniao.id = idOpiniao;
+    if (idPostagem != null) opiniao.id = idPostagem;
     repository.salvarOpiniao(opiniao).then((retorno) {
       if (retorno == null || retorno is bool) {
         EasyLoading.instance.backgroundColor = Colors.red;
@@ -231,6 +449,11 @@ class PostarTratamentoController extends GetxController {
             EasyLoadingConfig();
             redirectListagem();
           } else {
+            if (idPostagem == null) {
+              rollBack = true;
+              idPostagem = retorno;
+              deletarOpiniao();
+            }
             EasyLoading.instance.backgroundColor = Colors.red;
             EasyLoading.showError('Erro ao salvar opinião');
             EasyLoadingConfig();
@@ -243,15 +466,21 @@ class PostarTratamentoController extends GetxController {
   }
 
   deletarOpiniao() {
-    repository.deletarOpiniao(idOpiniao).then((retorno) {
+    repository.deletarOpiniao(idPostagem).then((retorno) {
+      idPostagem = null;
       if (retorno) {
-        EasyLoading.showToast('Opinião deletada com sucesso',
-            toastPosition: EasyLoadingToastPosition.bottom);
-        redirectListagem();
+        if (!rollBack) {
+          EasyLoading.showToast('Opinião deletada com sucesso',
+              toastPosition: EasyLoadingToastPosition.bottom);
+          redirectListagem();
+        }
       } else {
-        EasyLoading.showToast('Erro ao deletar  Opinião',
-            toastPosition: EasyLoadingToastPosition.bottom);
+        if (!rollBack) {
+          EasyLoading.showToast('Erro ao deletar  Opinião',
+              toastPosition: EasyLoadingToastPosition.bottom);
+        }
       }
+      rollBack = false;
     });
   }
 
