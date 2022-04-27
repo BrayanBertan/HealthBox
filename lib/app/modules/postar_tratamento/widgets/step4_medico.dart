@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
+import 'package:healthbox/app/modules/postar_tratamento/widgets/shimmer_select.dart';
+import 'package:healthbox/app/modules/postar_tratamento/widgets/tile_dropdown_vinculo.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -14,28 +16,39 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        controller.carregandoVinculos
-            ? const Text('xd')
-            : DropdownSearch<Vinculo>(
-                mode: Mode.DIALOG,
-                dropdownSearchDecoration: const InputDecoration(
-                  labelText: 'Selecionar o paciente',
-                  isDense: true,
-                ),
-                onPopupDismissed: controller.setIsVinculoUntouched,
-                dropDownButton: Container(),
-                items: controller.vinculos,
-                dropdownButtonBuilder: null,
-                showSearchBox: true,
-                emptyBuilder: (_, __) => const Center(
-                  child: Text(
-                    'Nenhum vínculo foi encontrado.Use o campo de pesquisa acima.',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                showClearButton: true,
-                onChanged: (Vinculo? vinculo) => controller.vinculo = vinculo,
-              ),
+        Obx(
+          () => controller.carregandoVinculos
+              ? const ShimmerSelects()
+              : controller.vinculos.isEmpty
+                  ? const Text('Sem vínculos disponiveis')
+                  : DropdownSearch<Vinculo>(
+                      mode: Mode.DIALOG,
+                      dropdownSearchDecoration: const InputDecoration(
+                        labelText: 'Selecionar o paciente',
+                        isDense: true,
+                      ),
+                      onPopupDismissed: controller.setIsVinculoUntouched,
+                      dropDownButton: Container(),
+                      items: controller.vinculos,
+                      dropdownButtonBuilder: null,
+                      dropdownBuilder: (_, vinculo) => controller.vinculo ==
+                              null
+                          ? const Text('')
+                          : TileDropDownVinculo(vinculo: controller.vinculo),
+                      popupItemBuilder: (_, vinculo, __) =>
+                          TileDropDownVinculo(vinculo: vinculo),
+                      showSearchBox: true,
+                      emptyBuilder: (_, __) => const Center(
+                        child: Text(
+                          'Nenhum vínculo foi encontrado.Use o campo de pesquisa acima.',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      showClearButton: true,
+                      onChanged: (Vinculo? vinculo) =>
+                          controller.vinculo = vinculo,
+                    ),
+        ),
         Obx(() => Text(
               controller.vinculoErroMensagem ?? '',
               style: const TextStyle(color: Colors.red),
@@ -153,9 +166,6 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
               controller.duracaoQuestionarioErroMensagem ?? '',
               style: const TextStyle(color: Colors.red),
             )),
-        ElevatedButton(
-            onPressed: () => controller.salvarAcompanhamento(),
-            child: const Text('pega pf xd')),
         const SizedBox(
           height: 25,
         ),

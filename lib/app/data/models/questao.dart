@@ -49,6 +49,6 @@ class Questao {
 
   @override
   String toString() {
-    return "Questao $tipo $descricao";
+    return "Questao ${tipo == TipoQuestao.D ? 'Descritiva' : 'Objetiva'} - $descricao";
   }
 }

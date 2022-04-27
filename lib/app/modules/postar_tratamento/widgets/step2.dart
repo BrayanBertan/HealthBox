@@ -43,6 +43,9 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
             ],
           ),
         ),
+        Obx(() => Align(
+            alignment: Alignment.centerRight,
+            child: Text('${controller.descricao?.length ?? 0}/150'))),
         const SizedBox(
           height: 10,
         ),

@@ -23,6 +23,25 @@ class TratamentoProvider extends GetConnect {
   }
 
   //=================================Acompanhamentos=====================================
+
+  Future<List<Acompanhamento>> getAcompanhamentos() async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    try {
+      var retornoApi = await get('acompanhamentos/vinculos-usuarios',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Acompanhamento.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Acompanhamento>.empty();
+      }
+    } catch (erro) {
+      print('Erro getAcompanhamentos $erro');
+      return List<Acompanhamento>.empty();
+    }
+  }
+
   salvarAcompanhamento(Acompanhamento acompanhamento) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
@@ -89,6 +108,7 @@ class TratamentoProvider extends GetConnect {
     return false;
   }
 
+//=================================Questões=====================================
   salvarQuestao(Questao questao) async {
     Get.find<UsuarioProvider>().isSessionValid();
 
@@ -113,6 +133,51 @@ class TratamentoProvider extends GetConnect {
 
     if (retornoApi.statusCode == 200) return true;
     return false;
+  }
+
+  Future<bool> deletarOpcao(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+    retornoApi = await delete(
+      'questoes/opcoes/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  salvarIntermediaria(Map<String, List<Map<String, dynamic>>> vinculos) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    print(vinculos);
+    dynamic retornoApi;
+    retornoApi = await post(
+      'questoes/vinculos',
+      vinculos,
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
+  }
+
+  Future<List<Questao>> getQuestoesPreCadastradas() async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    try {
+      var retornoApi = await get('questoes',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Questao.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Questao>.empty();
+      }
+    } catch (erro) {
+      print('Erro getQuestoesPreCadastradas $erro');
+      return List<Questao>.empty();
+    }
   }
 
 //=================================Opiniões=====================================

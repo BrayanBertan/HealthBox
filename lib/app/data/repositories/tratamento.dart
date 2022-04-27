@@ -11,6 +11,7 @@ class TratamentoRepository {
   TratamentoRepository({required this.provider}) : assert(provider != null);
 
   //=================================Acompanhamentos=====================================
+  getAcompanhamentos() => provider.getAcompanhamentos();
   salvarAcompanhamento(Acompanhamento acompanhamento) =>
       provider.salvarAcompanhamento(acompanhamento);
   salvarQuestionario(Questionario questionario) =>
@@ -18,10 +19,19 @@ class TratamentoRepository {
 
   deletarAcompanhamento(int id) => provider.deletarAcompanhamento(id);
 
+  //=================================Questões=====================================
   salvarQuestao(Questao questao) => provider.salvarQuestao(questao);
 
   deletarQuestao(int id) => provider.deletarQuestao(id);
-//=================================Opiniões=====================================
+
+  deletarOpcao(int id) => provider.deletarOpcao(id);
+
+  salvarIntermediaria(Map<String, List<Map<String, dynamic>>> vinculos) =>
+      provider.salvarIntermediaria(vinculos);
+
+  getQuestoesPreCadastradas() => provider.getQuestoesPreCadastradas();
+
+  //=================================Opiniões=====================================
   getOpinioes(
           {int? pacienteId,
           int page = 1,

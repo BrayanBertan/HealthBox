@@ -33,6 +33,7 @@ class PostarTratamentoController extends GetxController {
     isPaciente = usuario.tipo == TipoUsuario.PACIENTE;
     if (!isPaciente) {
       getVinculos();
+      getQuestoesPreCadastradas();
     }
     doc = Document()..insert(0, ' ');
   }
@@ -172,9 +173,14 @@ class PostarTratamentoController extends GetxController {
 
   bool step3MedicoValido() => tituloQuestionarioValido();
   List<Questao> questoes = <Questao>[].obs;
+  List<Questao> questoesPreCadastradas = <Questao>[].obs;
+  final _carregandoQuestoes = false.obs;
+  get carregandoQuestoes => this._carregandoQuestoes.value;
+  set carregandoQuestoes(value) => this._carregandoQuestoes.value = value;
 
-  addQuestao(Questao questao) {
+  addQuestao(Questao questao) async {
     if (questao.id == null) {
+      carregandoQuestoes = true;
       repository.salvarQuestao(questao).then((retorno) {
         if (retorno == null || retorno is bool) {
           EasyLoading.showToast('Erro ao adicionar questão',
@@ -188,18 +194,20 @@ class PostarTratamentoController extends GetxController {
               duration: const Duration(milliseconds: 500),
               toastPosition: EasyLoadingToastPosition.bottom);
         }
+        carregandoQuestoes = false;
       });
       return;
-    } else {
-      questoes.add(questao);
     }
+    questoes.add(questao);
   }
 
   deletarQuestao(int index) {
+    carregandoQuestoes = true;
     int id = questoes[index].id!;
     repository.deletarQuestao(id).then((retorno) {
       if (retorno) {
         questoes.removeAt(index);
+        getQuestoesPreCadastradas();
         EasyLoading.showToast('Questão deletada com sucesso',
             duration: const Duration(milliseconds: 500),
             toastPosition: EasyLoadingToastPosition.bottom);
@@ -208,6 +216,7 @@ class PostarTratamentoController extends GetxController {
             duration: const Duration(milliseconds: 500),
             toastPosition: EasyLoadingToastPosition.bottom);
       }
+      carregandoQuestoes = false;
     });
   }
 
@@ -225,6 +234,15 @@ class PostarTratamentoController extends GetxController {
   String? get tituloQuestionarioErroMensagem {
     if (tituloQuestionario == null || tituloQuestionarioValido()) return null;
     return 'Campo obrigatório';
+  }
+
+  getQuestoesPreCadastradas() {
+    carregandoQuestoes = true;
+    repository.getQuestoesPreCadastradas().then((retorno) {
+      questoesPreCadastradas.clear();
+      questoesPreCadastradas.assignAll(retorno);
+      carregandoQuestoes = false;
+    });
   }
 
   //==================STEP 4========================================
@@ -318,6 +336,15 @@ class PostarTratamentoController extends GetxController {
   // =====================================================================================
 
   //===========================================Acompanhamentos=============================================
+
+  erroAcompanhamento() async {
+    EasyLoading.instance.backgroundColor = Colors.red;
+    await EasyLoading.showError('Erro ao salvar acompanhamento',
+        duration: const Duration(milliseconds: 1000));
+    EasyLoading.dismiss();
+    EasyLoadingConfig();
+  }
+
   salvarAcompanhamento() {
     EasyLoading.showInfo('Salvando...', duration: const Duration(seconds: 1));
 
@@ -331,46 +358,60 @@ class PostarTratamentoController extends GetxController {
         diasDuracao: int.parse(diasDuracao));
 
     // if (idPostagem != null) acompanhamento.id = idPostagem;
-    repository.salvarAcompanhamento(acompanhamento).then((retorno) {
-      if (retorno == null || retorno is bool) {
-        EasyLoading.instance.backgroundColor = Colors.red;
-        EasyLoading.showError('Erro ao salvar acompanhamento');
-        EasyLoadingConfig();
+    repository
+        .salvarAcompanhamento(acompanhamento)
+        .then((retornoAcompanhamento) {
+      if (retornoAcompanhamento == null || retornoAcompanhamento is bool) {
+        erroAcompanhamento();
       } else {
         Tratamento tratamento = Tratamento(
             titulo: titulo,
             descricao: texto,
-            acompanhamentoId: retorno,
+            acompanhamentoId: retornoAcompanhamento,
             medicamentos: medicamentosSelecionadosInfo);
         if (idTratamento != null) tratamento.id = idTratamento;
 
-        repository.salvarTratamento(tratamento).then((retorno1) {
-          if (retorno1) {
+        repository.salvarTratamento(tratamento).then((retornoTratamento) {
+          if (retornoTratamento) {
             Questionario questionario = Questionario(
                 titulo: tituloQuestionario,
                 descricao: descricaoQuestionario,
-                acompanhamentoId: retorno);
-            repository.salvarQuestionario(questionario).then((retorno2) {
-              if (retorno2 == null || retorno2 is bool) {
-                if (idPostagem == null) rollBackAcompanhamento(retorno);
-
-                EasyLoading.instance.backgroundColor = Colors.red;
-                EasyLoading.showError('Erro ao salvar acompanhamento');
-                EasyLoadingConfig();
+                acompanhamentoId: retornoAcompanhamento);
+            repository
+                .salvarQuestionario(questionario)
+                .then((retornoQuestionario) {
+              if (retornoQuestionario == null || retornoQuestionario is bool) {
+                rollBackAcompanhamento(retornoAcompanhamento);
+                erroAcompanhamento();
               } else {
-                EasyLoading.showSuccess('Acompanhamento salvo com sucesso');
-                EasyLoadingConfig();
+                Map<String, List<Map<String, dynamic>>> vinculos = {
+                  'vinculos': []
+                };
+
+                questoes.forEach((questao) => vinculos['vinculos']!.add({
+                      'questionario_id': retornoQuestionario,
+                      'questao_id': questao.id
+                    }));
+
+                repository
+                    .salvarIntermediaria(vinculos)
+                    .then((retornoIntermediaria) {
+                  if (retornoIntermediaria) {
+                    EasyLoading.showSuccess('Acompanhamento salvo com sucesso');
+                    EasyLoading.dismiss();
+                    EasyLoadingConfig();
+                    redirectListagemAcompanhamentos();
+                  } else {
+                    rollBackAcompanhamento(retornoAcompanhamento);
+                    erroAcompanhamento();
+                  }
+                });
               }
-              EasyLoading.dismiss();
             });
           } else {
-            if (idPostagem == null) rollBackAcompanhamento(retorno);
-
-            EasyLoading.instance.backgroundColor = Colors.red;
-            EasyLoading.showError('Erro ao salvar acompanhamento');
-            EasyLoadingConfig();
+            rollBackAcompanhamento(retornoAcompanhamento);
+            erroAcompanhamento();
           }
-          EasyLoading.dismiss();
         });
       }
       EasyLoading.dismiss();
@@ -401,6 +442,11 @@ class PostarTratamentoController extends GetxController {
       }
       rollBack = false;
     });
+  }
+
+  redirectListagemAcompanhamentos() {
+    //Get.find<OpinioesController>().getOpinioes();
+    Get.offNamed(Routes.ACOMPANHAMENTOS);
   }
 
   //===========================================OPINIÕES=============================================
@@ -447,7 +493,7 @@ class PostarTratamentoController extends GetxController {
           if (retorno1) {
             EasyLoading.showSuccess('Opinião salva com sucesso');
             EasyLoadingConfig();
-            redirectListagem();
+            redirectListagemOpinioes();
           } else {
             if (idPostagem == null) {
               rollBack = true;
@@ -472,7 +518,7 @@ class PostarTratamentoController extends GetxController {
         if (!rollBack) {
           EasyLoading.showToast('Opinião deletada com sucesso',
               toastPosition: EasyLoadingToastPosition.bottom);
-          redirectListagem();
+          redirectListagemOpinioes();
         }
       } else {
         if (!rollBack) {
@@ -484,7 +530,7 @@ class PostarTratamentoController extends GetxController {
     });
   }
 
-  redirectListagem() {
+  redirectListagemOpinioes() {
     Get.find<OpinioesController>().getOpinioes();
     Get.offNamed(Routes.INITIAL);
   }

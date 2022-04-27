@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/quill_editor.dart';
@@ -27,7 +28,13 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
                 color: Colors.grey,
               ),
               errorText: controller.tituloErroMensagem),
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(50),
+          ],
         ),
+        Obx(() => Align(
+            alignment: Alignment.centerRight,
+            child: Text('${controller.titulo?.length ?? 0}/50'))),
         const SizedBox(
           height: 10,
         ),
@@ -40,7 +47,7 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
                   style: const TextStyle(color: Colors.red),
                 ),
                 Text(
-                  '${(controller.editorLength) - 1}/200',
+                  '${(controller.editorLength) - 2}/200',
                   style: TextStyle(
                       color: controller.editorLength <= 200
                           ? Colors.black

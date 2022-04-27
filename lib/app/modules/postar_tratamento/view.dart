@@ -97,8 +97,8 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                         return;
                                       }
                                       if (!controller.isPaciente &&
-                                          controller.activeStepIndex == 9) {
-                                        controller.salvarOpiniao();
+                                          controller.activeStepIndex == 3) {
+                                        controller.salvarAcompanhamento();
                                         return;
                                       }
                                       details.onStepContinue!();
@@ -110,7 +110,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                   ? controller.activeStepIndex == 1
                                       ? 'Salvar'
                                       : 'Próximo'
-                                  : controller.activeStepIndex == 5
+                                  : controller.activeStepIndex == 3
                                       ? 'Salvar'
                                       : 'Próximo'))),
                         ],
