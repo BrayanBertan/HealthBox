@@ -69,9 +69,8 @@ class Acompanhamento {
   }
 
   static List<Acompanhamento> listFromJson(list) {
-    print(list['data']);
-    return List<Acompanhamento>.from(list['data']
-        .map((acompanhamento) => Acompanhamento.fromJson(acompanhamento)));
+    return List<Acompanhamento>.from(
+        list.map((acompanhamento) => Acompanhamento.fromJson(acompanhamento)));
   }
 
   static List<Acompanhamento> listToJson(list) {

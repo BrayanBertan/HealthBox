@@ -11,7 +11,7 @@ class TratamentoRepository {
   TratamentoRepository({required this.provider}) : assert(provider != null);
 
   //=================================Acompanhamentos=====================================
-  getAcompanhamentos() => provider.getAcompanhamentos();
+  getUsuariosAcompanhamentos<T>() => provider.getUsuariosAcompanhamentos<T>();
   salvarAcompanhamento(Acompanhamento acompanhamento) =>
       provider.salvarAcompanhamento(acompanhamento);
   salvarQuestionario(Questionario questionario) =>

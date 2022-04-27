@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/like.dart';
+import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
+import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/models/questao.dart';
 import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/data/models/tratamento.dart';
+import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -24,26 +27,31 @@ class TratamentoProvider extends GetConnect {
 
   //=================================Acompanhamentos=====================================
 
-  Future<List<Acompanhamento>> getAcompanhamentos() async {
+  Future<List<Usuario>> getUsuariosAcompanhamentos<T>() async {
     Get.find<UsuarioProvider>().isSessionValid();
+    print('Bearer  $token');
     try {
       var retornoApi = await get('acompanhamentos/vinculos-usuarios',
           headers: {'Authorization': 'Bearer  $token'},
-          decoder: (obj) => Acompanhamento.listFromJson(obj));
-
+          decoder: (obj) => T == Paciente
+              ? Paciente.listFromJson(obj)
+              : Medico.listFromJson(obj));
+      print(retornoApi.statusCode);
+      print(retornoApi.body);
       if (retornoApi.statusCode == 200) {
         return retornoApi.body!;
       } else {
-        return List<Acompanhamento>.empty();
+        return List<Usuario>.empty();
       }
     } catch (erro) {
-      print('Erro getAcompanhamentos $erro');
-      return List<Acompanhamento>.empty();
+      print('Erro getUsuariosAcompanhamentos $erro');
+      return List<Usuario>.empty();
     }
   }
 
   salvarAcompanhamento(Acompanhamento acompanhamento) async {
     Get.find<UsuarioProvider>().isSessionValid();
+
     dynamic retornoApi;
     int id;
     if (acompanhamento.id == null) {

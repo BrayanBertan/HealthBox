@@ -70,4 +70,9 @@ class Paciente extends Usuario {
     }
     return map;
   }
+
+  static List<Paciente> listFromJson(list) {
+    return List<Paciente>.from(
+        list.map((paciente) => Paciente.fromJson(paciente)));
+  }
 }

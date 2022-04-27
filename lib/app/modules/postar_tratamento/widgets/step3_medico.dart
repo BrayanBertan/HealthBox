@@ -90,7 +90,10 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                       context: context,
                       builder: (_) => DialogQuestoes(
                           questao: Questao(tipo: TipoQuestao.D, descricao: '')))
-                  .then((val) => Get.find<ControllerQuestoes>().clearFields());
+                  .then((val) {
+                controller.setIsQuestoesUntouched(false);
+                Get.find<ControllerQuestoes>().clearFields();
+              });
             },
             style: ElevatedButton.styleFrom(primary: Colors.white),
             icon: Icon(
@@ -116,8 +119,10 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                     )
                   : DropdownSearch<Questao>(
                       mode: Mode.DIALOG,
+                      onPopupDismissed: () =>
+                          controller.setIsQuestoesUntouched(false),
                       dropdownSearchDecoration: const InputDecoration(
-                        labelText: 'Selecionar questão',
+                        labelText: 'Selecionar questão pré-cadastrada',
                         isDense: true,
                       ),
                       dropDownButton: Container(),
@@ -140,9 +145,11 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
         ),
         Obx(
           () => controller.questoes.isEmpty
-              ? const Text('Sem questões cadastradas para esse questionário')
+              ? Text(controller.isQuestoesUntouched
+                  ? 'Sem questões cadastradas para esse questionário'
+                  : '')
               : Container(
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.15,
                   child: controller.carregandoQuestoes
                       ? const ShimmerQuestoes()
                       : ListView.builder(
@@ -221,7 +228,11 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                                       .toList(),
                                 )),
                 ),
-        )
+        ),
+        Obx(() => Text(
+              controller.questoesErroMensagem ?? '',
+              style: const TextStyle(color: Colors.red),
+            ))
       ],
     );
   }

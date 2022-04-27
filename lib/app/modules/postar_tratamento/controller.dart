@@ -16,6 +16,7 @@ import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/data/providers/conta.dart';
 import 'package:healthbox/app/data/repositories/conta.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
+import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
@@ -171,12 +172,15 @@ class PostarTratamentoController extends GetxController {
 
   //==================STEP 3 Medico========================================
 
-  bool step3MedicoValido() => tituloQuestionarioValido();
+  bool step3MedicoValido() => questoesValida() && tituloQuestionarioValido();
   List<Questao> questoes = <Questao>[].obs;
   List<Questao> questoesPreCadastradas = <Questao>[].obs;
+  final _isQuestoesUntouched = true.obs;
   final _carregandoQuestoes = false.obs;
   get carregandoQuestoes => this._carregandoQuestoes.value;
   set carregandoQuestoes(value) => this._carregandoQuestoes.value = value;
+  get isQuestoesUntouched => this._isQuestoesUntouched.value;
+  setIsQuestoesUntouched(value) => this._isQuestoesUntouched.value = value;
 
   addQuestao(Questao questao) async {
     if (questao.id == null) {
@@ -234,6 +238,13 @@ class PostarTratamentoController extends GetxController {
   String? get tituloQuestionarioErroMensagem {
     if (tituloQuestionario == null || tituloQuestionarioValido()) return null;
     return 'Campo obrigatório';
+  }
+
+  bool questoesValida() => questoes.isNotEmpty;
+
+  String? get questoesErroMensagem {
+    if (isQuestoesUntouched || questoesValida()) return null;
+    return 'Nenhuma questão adicionada ao questionário';
   }
 
   getQuestoesPreCadastradas() {
@@ -445,7 +456,7 @@ class PostarTratamentoController extends GetxController {
   }
 
   redirectListagemAcompanhamentos() {
-    //Get.find<OpinioesController>().getOpinioes();
+    Get.find<AcompanhamentosController>().getUsuariosAcompanhamentos();
     Get.offNamed(Routes.ACOMPANHAMENTOS);
   }
 

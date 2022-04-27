@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/modules/opinioes/controller.dart';
+import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/filtros/dialog_filtros.dart';
 
 import '../../../../../core/values/keys.dart';
 import '../../../../../routes/app_pages.dart';
 
-class HeaderFiltro extends StatelessWidget {
+class HeaderFiltro extends GetView<AcompanhamentosController> {
   HeaderFiltro({Key? key}) : super(key: key);
-  final controller = Get.find<OpinioesController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +27,7 @@ class HeaderFiltro extends StatelessWidget {
               height: 50,
               child: ElevatedButton.icon(
                 onPressed: () => Get.toNamed(Routes.GRAFICOS_OPINIOES)!
-                    .then((val) => controller.getOpinioes()),
+                    .then((val) => controller.getUsuariosAcompanhamentos()),
                 style: ElevatedButton.styleFrom(primary: Colors.white),
                 icon: Image.asset(
                   '${baseImagemUrl}graficos.png',

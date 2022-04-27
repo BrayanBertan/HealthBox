@@ -68,6 +68,10 @@ class Medico extends Usuario {
     return map;
   }
 
+  static List<Medico> listFromJson(list) {
+    return List<Medico>.from(list.map((medico) => Medico.fromJson(medico)));
+  }
+
   @override
   String toString() {
     return "crms $crms";

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_acompanhamentos.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_pesquisa.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
-class AcompanhamentoPage extends StatelessWidget {
+class AcompanhamentoPage extends GetView<AcompanhamentosController> {
   const AcompanhamentoPage({Key? key}) : super(key: key);
 
   @override
