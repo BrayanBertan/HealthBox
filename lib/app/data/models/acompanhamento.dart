@@ -34,7 +34,7 @@ class Acompanhamento {
 
   factory Acompanhamento.fromJson(Map<String, dynamic> json) => Acompanhamento(
         id: json['id'],
-        descricaoPaciente: json['descricao_paciente'],
+        descricaoPaciente: json['descricao_paciente'] ?? '',
         pacienteId: json['paciente_id'],
         medicoId: json['medico_id'],
         ativo: json['ativo'],
@@ -46,10 +46,8 @@ class Acompanhamento {
             : null,
         quantidadePeriodicidade: json['quantidade_periodicidade'],
         diasDuracao: json['dias_duracao'],
-        paciente: Paciente.fromJson(json['paciente']),
-        medico: Medico.fromJson(json['medico']),
-        dataInicio: DateFormat('dd/MM/yyyy HH:mm')
-            .format(DateTime.parse(json['data_inicio'])),
+        dataInicio: DateFormat('dd/MM/yyyy HH:mm').format(
+            DateTime.parse(json['data_inicio'] ?? DateTime.now().toString())),
       );
 
   Map<String, dynamic> toJson() {

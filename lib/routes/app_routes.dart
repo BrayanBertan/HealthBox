@@ -13,5 +13,5 @@ abstract class Routes {
   static const GRAFICO_BARRA_EFICACIA = '/graficos-opinioes/barra-eficacia';
   static const GRAFICO_LINES = '/graficos-opinioes/lines';
   static const ACOMPANHAMENTOS = '/acompanhamentos';
-  static const QUESTIONARIOS_ACOMPANHAMENTO = '/acompanhamentos/questionarios';
+  static const LISTAGEM_ACOMPANHAMENTOS = '/acompanhamentos/listagem';
 }

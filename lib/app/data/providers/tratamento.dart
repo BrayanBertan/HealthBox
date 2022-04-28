@@ -49,6 +49,34 @@ class TratamentoProvider extends GetConnect {
     }
   }
 
+  Future<List<Acompanhamento>> getAcompanhamentos(int id) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    print('${httpClient.baseUrl}acompanhamentos?usuario_id=$id&ativo=1');
+    var retornoApi = await get('acompanhamentos?usuario_id=$id&ativo=1',
+        headers: {'Authorization': 'Bearer  $token'},
+        decoder: (obj) => Acompanhamento.listFromJson(obj));
+
+    if (retornoApi.statusCode == 200) {
+      return retornoApi.body!;
+    } else {
+      return List<Acompanhamento>.empty();
+    }
+    try {
+      var retornoApi = await get('acompanhamentos?usuario_id=$id&ativo=1',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Acompanhamento.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Acompanhamento>.empty();
+      }
+    } catch (erro) {
+      print('Erro getAcompanhamentos $erro');
+      return List<Acompanhamento>.empty();
+    }
+  }
+
   salvarAcompanhamento(Acompanhamento acompanhamento) async {
     Get.find<UsuarioProvider>().isSessionValid();
 

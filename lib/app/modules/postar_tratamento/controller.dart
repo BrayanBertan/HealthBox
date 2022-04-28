@@ -365,6 +365,7 @@ class PostarTratamentoController extends GetxController {
         pacienteId: vinculo.usuarioId,
         medicoId: usuario.id,
         ativo: 1,
+        dataInicio: dataInicial,
         quantidadePeriodicidade: int.parse(quantidadePeriodicidade),
         diasDuracao: int.parse(diasDuracao));
 

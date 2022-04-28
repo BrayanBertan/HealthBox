@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
-import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_acompanhamentos.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_pesquisa.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_usuarios_acompanhamentos.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
 class AcompanhamentoPage extends GetView<AcompanhamentosController> {
@@ -18,7 +18,7 @@ class AcompanhamentoPage extends GetView<AcompanhamentosController> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(
-          children: const [CardPesquisa(), CardAcompanhamentos()],
+          children: const [CardPesquisa(), CardUsuariosAcompanhamentos()],
         ),
       ),
     );

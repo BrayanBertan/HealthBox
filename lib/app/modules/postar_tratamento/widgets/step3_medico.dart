@@ -9,8 +9,8 @@ import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/bottom_sheet_opcoes_exclusao_questoes.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/controller_questoes.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/dialog_questoes.dart';
-import 'package:healthbox/app/modules/postar_tratamento/widgets/shimmer_questoes.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/shimmer_select.dart';
+import 'package:healthbox/app/widgets/shimmer_listagem_simples.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -151,7 +151,7 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
               : Container(
                   height: MediaQuery.of(context).size.height * 0.15,
                   child: controller.carregandoQuestoes
-                      ? const ShimmerQuestoes()
+                      ? const ShimmerListagemSimples()
                       : ListView.builder(
                           shrinkWrap: true,
                           itemCount: controller.questoes.length,

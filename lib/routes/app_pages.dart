@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/acompanhamentos/binding.dart';
 import 'package:healthbox/app/modules/acompanhamentos/view.dart';
-import 'package:healthbox/app/modules/acompanhamentos/widgets/questionarios_acompanhamento/view.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/view.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_eficacia.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_horizontal.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_lines.dart';
@@ -77,8 +77,8 @@ class AppPages {
         page: () => AcompanhamentoPage(),
         binding: AcompanhamentosBinding()),
     GetPage(
-      name: Routes.QUESTIONARIOS_ACOMPANHAMENTO,
-      page: () => QuestionariosAcompanhamentosPage(),
+      name: Routes.LISTAGEM_ACOMPANHAMENTOS,
+      page: () => ListagemAcompanhamentoPage(),
     ),
   ];
 }

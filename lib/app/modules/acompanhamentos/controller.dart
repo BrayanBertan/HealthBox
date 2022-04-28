@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
+import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/models/usuario.dart';
@@ -21,15 +22,17 @@ class AcompanhamentosController extends GetxController {
     getUsuariosAcompanhamentos();
   }
 
-  final _usuario = Rx<dynamic>(null);
+  //==========================Todos===========================================
   final _carregando = false.obs;
+  get carregando => this._carregando.value;
+  set carregando(value) => this._carregando.value = value;
+  //==========================Usuarios Acompanhamentos===========================================
+  final _usuario = Rx<dynamic>(null);
+
   List<Usuario> usuariosAcompanhamentos = <Usuario>[].obs;
 
   get usuario => this._usuario.value;
   set usuario(value) => this._usuario.value = value;
-
-  get carregando => this._carregando.value;
-  set carregando(value) => this._carregando.value = value;
 
   getUsuariosAcompanhamentos() {
     carregando = true;
@@ -39,6 +42,20 @@ class AcompanhamentosController extends GetxController {
     }
     func.then((retorno) {
       usuariosAcompanhamentos.assignAll(retorno);
+      carregando = false;
+    });
+  }
+
+  //==========================Acompanhamentos===========================================
+  final _usuarioSelecionado = Rx<Usuario?>(null);
+  get usuarioSelecionado => this._usuarioSelecionado.value;
+  set usuarioSelecionado(value) => this._usuarioSelecionado.value = value;
+  List<Acompanhamento> acompanhamentos = <Acompanhamento>[].obs;
+  getAcompanhamentos(int index) {
+    carregando = true;
+    usuarioSelecionado = usuariosAcompanhamentos[index];
+    repository.getAcompanhamentos(usuarioSelecionado.id).then((retorno) {
+      acompanhamentos.assignAll(retorno);
       carregando = false;
     });
   }

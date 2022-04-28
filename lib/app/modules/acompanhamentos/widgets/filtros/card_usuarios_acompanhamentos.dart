@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:healthbox/app/modules/acompanhamentos/widgets/grid_acompanhamentos.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/grid_usuarios_acompanhamentos.dart';
 
 import 'header_filtros.dart';
 
-class CardAcompanhamentos extends StatelessWidget {
-  const CardAcompanhamentos({Key? key}) : super(key: key);
+class CardUsuariosAcompanhamentos extends StatelessWidget {
+  const CardUsuariosAcompanhamentos({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CardAcompanhamentos extends StatelessWidget {
           children: [
             HeaderFiltro(),
             const Divider(),
-            const GridAcompanhamentos(),
+            const GridUsuariosAcompanhamentos(),
           ],
         ),
       ),

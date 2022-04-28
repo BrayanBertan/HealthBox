@@ -9,14 +9,19 @@ import 'package:healthbox/routes/app_pages.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ItemGridAcompanhamentos extends GetView<AcompanhamentosController> {
+class ItemGridUsuariosAcompanhamentos
+    extends GetView<AcompanhamentosController> {
   int index;
-  ItemGridAcompanhamentos({required this.index, Key? key}) : super(key: key);
+  ItemGridUsuariosAcompanhamentos({required this.index, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(Routes.QUESTIONARIOS_ACOMPANHAMENTO),
+      onTap: () {
+        controller.getAcompanhamentos(index);
+        Get.toNamed(Routes.LISTAGEM_ACOMPANHAMENTOS);
+      },
       child: Card(
         elevation: 8,
         child: Column(

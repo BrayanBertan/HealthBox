@@ -19,6 +19,8 @@ class TratamentoRepository {
 
   deletarAcompanhamento(int id) => provider.deletarAcompanhamento(id);
 
+  getAcompanhamentos(int id) => provider.getAcompanhamentos(id);
+
   //=================================Questões=====================================
   salvarQuestao(Questao questao) => provider.salvarQuestao(questao);
 

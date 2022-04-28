@@ -15,7 +15,9 @@ class Crm {
       id: json['id'],
       crm: json['crm'],
       estado_sigla: json['estado_sigla'],
-      especializacoes: Especializacao.listFromJson(json['especializacoes']));
+      especializacoes: json.containsKey('especializacoes')
+          ? Especializacao.listFromJson(json['especializacoes'])
+          : null);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
