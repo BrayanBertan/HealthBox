@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
+import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/modules/opinioes/widgets/sub_controllers/controller_interacoes.dart';
 import 'package:like_button/like_button.dart';
 
 import '../../../../../routes/app_pages.dart';
-import '../../controller.dart';
 
 class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
   Opiniao opiniao;

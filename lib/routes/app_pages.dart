@@ -6,6 +6,7 @@ import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_eficacia.da
 import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_horizontal.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_lines.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_pie.dart';
+import 'package:healthbox/app/widgets/detalhes_tratamento/page_detalhes_tratamento.dart';
 
 import '../app/modules/conta/binding.dart';
 import '../app/modules/conta/dados_usuario/binding.dart';
@@ -16,7 +17,6 @@ import '../app/modules/graficos/view.dart';
 import '../app/modules/login/view.dart';
 import '../app/modules/opinioes/binding.dart';
 import '../app/modules/opinioes/view.dart';
-import '../app/modules/opinioes/widgets/detalhes_opiniao/page_detalhes_opiniao.dart';
 import '../app/modules/postar_tratamento/binding.dart';
 import '../app/modules/postar_tratamento/view.dart';
 import 'middlewares/autentica_usuario.dart';
@@ -31,8 +31,8 @@ class AppPages {
         binding: OpinioesBinding(),
         middlewares: [AutenticaUsuario()]),
     GetPage(
-      name: Routes.DETALHES_OPINIAO,
-      page: () => PageDetalhesOpiniao(),
+      name: Routes.DETALHES_TRATAMENTO,
+      page: () => DetalhesTratamentoPage(),
     ),
     GetPage(
         name: Routes.POSTAR_TRATAMENTO,

@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
   int index;
@@ -10,7 +12,8 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => print('xd'),
+      onTap: () => Get.toNamed(Routes.DETALHES_TRATAMENTO,
+          arguments: controller.acompanhamentos[index]),
       child: ListTile(
         leading: Container(
           width: 25,
