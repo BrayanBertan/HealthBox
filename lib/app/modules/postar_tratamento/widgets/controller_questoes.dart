@@ -87,7 +87,11 @@ class ControllerQuestoes extends GetxController {
   }
 
   salvarInfo() {
-    Questao questao = Questao(tipo: tipo, descricao: descricaoQuestao);
+    Questao questao = Questao(
+      tipo: tipo,
+      descricao: descricaoQuestao,
+      utilizado: false,
+    );
     questao.opcoes = List.from(opcoesQuestao);
 
     if (questao.tipo == TipoQuestao.D) questao.opcoes = null;

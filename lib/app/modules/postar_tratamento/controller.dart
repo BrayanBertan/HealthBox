@@ -496,11 +496,7 @@ class PostarTratamentoController extends GetxController {
     texto = jsonEncode(controller_editor.document.toDelta().toJson());
 
     Opiniao opiniao = Opiniao(
-        descricao: texto,
-        pacienteId: usuario.id,
-        eficaz: eficacia,
-        utilizado: false,
-        ativo: 1);
+        descricao: texto, pacienteId: usuario.id, eficaz: eficacia, ativo: 1);
     if (idPostagem != null) opiniao.id = idPostagem;
     repository.salvarOpiniao(opiniao).then((retorno) {
       if (retorno == null || retorno is bool) {

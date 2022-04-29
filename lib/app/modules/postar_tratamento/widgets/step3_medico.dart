@@ -87,10 +87,13 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
           child: ElevatedButton.icon(
             onPressed: () {
               showDialog(
-                      context: context,
-                      builder: (_) => DialogQuestoes(
-                          questao: Questao(tipo: TipoQuestao.D, descricao: '')))
-                  .then((val) {
+                  context: context,
+                  builder: (_) => DialogQuestoes(
+                          questao: Questao(
+                        tipo: TipoQuestao.D,
+                        descricao: '',
+                        utilizado: false,
+                      ))).then((val) {
                 controller.setIsQuestoesUntouched(false);
                 Get.find<ControllerQuestoes>().clearFields();
               });

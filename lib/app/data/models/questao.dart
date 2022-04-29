@@ -7,7 +7,9 @@ class Questao {
   TipoQuestao tipo;
   String? descricao;
   List<OpcaoQuestao>? opcoes;
-  Questao({this.id, required this.tipo, this.descricao});
+  bool utilizado;
+  Questao(
+      {this.id, required this.tipo, this.descricao, required this.utilizado});
 
   factory Questao.fromJson(Map<String, dynamic> json) {
     Questao questao;
@@ -15,6 +17,7 @@ class Questao {
       id: json['id'],
       tipo: json['tipo'].toString().tipoQuestao(),
       descricao: json['descricao'],
+      utilizado: json['utilizado'],
     );
     if (questao.tipo == TipoQuestao.O) {
       questao.opcoes = json['opcoes'] == null

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step0_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step4_medico.dart';
+import 'package:healthbox/app/widgets/ficha_paciente/dialog_ficha.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
@@ -25,7 +27,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.85,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: Obx(
                 () => Stepper(
                   currentStep: controller.activeStepIndex,
@@ -126,16 +128,34 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                 ),
               ),
             ),
-            controller.idPostagem != null
-                ? Container(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () => controller.deletarOpiniao(),
-                      child: const Text('Deletar opinião'),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
-                    ),
-                  )
-                : Container()
+            Obx(
+              () => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  controller.idPostagem != null
+                      ? Container(
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () => controller.deletarOpiniao(),
+                            child: const Text('Deletar opinião'),
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.red),
+                          ),
+                        )
+                      : Container(),
+                  controller.usuario.tipo != TipoUsuario.MEDICO ||
+                          controller.vinculo == null
+                      ? Container()
+                      : TextButton.icon(
+                          onPressed: () => showDialog(
+                              context: context,
+                              builder: (_) => DialogFichaPaciente(
+                                  paciente: controller.vinculo?.paciente)),
+                          icon: const Icon(Icons.list_alt_outlined),
+                          label: const Text('ficha do paciente')),
+                ],
+              ),
+            ),
           ],
         ),
       ),
