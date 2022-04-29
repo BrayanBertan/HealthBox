@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
+import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/especializacao.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
@@ -43,6 +44,9 @@ class DadosUsuarioController extends GetxController {
         cpfTemp = usuario.cpf.trim();
         setAltura(usuario.altura);
         setPeso(usuario.peso);
+        setComorbidades(usuario.comorbidades);
+        setAlergiasMedicamentosas(usuario.alergiasMedicamentosas);
+        setPredisposicaoGenetica(usuario.preDisposicaoGenetica);
       } else {
         setDescricao(usuario.descricao);
         descricaoController.text = descricao;
@@ -56,17 +60,16 @@ class DadosUsuarioController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (usuario is Medico) {
-      getEspecializacoes();
-      interval(_crm, (val) async {
-        await verificaCrm();
-        validaCRM();
-      }, time: const Duration(milliseconds: 1000));
-      interval(_crmUf, (val) async {
-        await verificaCrm();
-        validaCRM();
-      }, time: const Duration(milliseconds: 1000));
-    }
+
+    getEspecializacoes();
+    interval(_crm, (val) async {
+      await verificaCrm();
+      validaCRM();
+    }, time: const Duration(milliseconds: 1000));
+    interval(_crmUf, (val) async {
+      await verificaCrm();
+      validaCRM();
+    }, time: const Duration(milliseconds: 1000));
 
     interval(_email, (val) => verificaEmail(),
         time: const Duration(milliseconds: 1000));
@@ -326,11 +329,21 @@ class DadosUsuarioController extends GetxController {
 
   final _altura = Rx<String?>(null);
   final _peso = Rx<String?>(null);
+  final _comorbidades = ''.obs;
+  final _alergiasMedicamentosas = ''.obs;
+  final _predisposicaoGenetica = ''.obs;
   //=====Getters e Setters=====
   get altura => this._altura.value;
   setAltura(value) => this._altura.value = '$value'.replaceAll(',', '.');
   get peso => this._peso.value;
   setPeso(value) => this._peso.value = '$value'.replaceAll(',', '.');
+  get comorbidades => this._comorbidades.value;
+  setComorbidades(value) => this._comorbidades.value = value;
+  get alergiasMedicamentosas => this._alergiasMedicamentosas.value;
+  setAlergiasMedicamentosas(value) =>
+      this._alergiasMedicamentosas.value = value;
+  get predisposicaoGenetica => this._predisposicaoGenetica.value;
+  setPredisposicaoGenetica(value) => this._predisposicaoGenetica.value = value;
   //=====Validações=====
 
   bool alturaValida() => altura != null && altura.trim().isNotEmpty;
@@ -403,59 +416,76 @@ class DadosUsuarioController extends GetxController {
         print('Erro');
       }
     }
-    Map<String, dynamic> dados = {
-      'tipo': tipoName[0],
-      'name': nome,
-      'email': email,
-      'password': senha ?? '',
-      'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
-      'telefone': telefone,
-      'foto_path': foto,
-      'ativo': 1,
-      'sexo': generoName[0]
-    };
-    if (_id.value != null) dados['id'] = _id.value;
+    var func;
     if (tipo == TipoUsuario.PACIENTE) {
-      dados = {
-        ...{
-          'caracteristicas': {'cpf': cpf.trim(), 'altura': altura, 'peso': peso}
-        },
-        ...dados
-      };
+      Paciente paciente = Paciente(
+          altura: double.parse(altura ?? '0.0'),
+          peso: double.parse(peso ?? '0.0'),
+          cpf: cpf,
+          comorbidades: comorbidades.isNotEmpty ? comorbidades : 'Nenhuma',
+          alergiasMedicamentosas: alergiasMedicamentosas.isNotEmpty
+              ? alergiasMedicamentosas
+              : 'Nenhuma',
+          preDisposicaoGenetica: predisposicaoGenetica.isNotEmpty
+              ? predisposicaoGenetica
+              : 'Nenhuma',
+          tipo: tipo,
+          nome: nome,
+          email: email,
+          senha: senha ?? '',
+          dataNascimento: dataNascimento,
+          telefone: telefone,
+          fotoPath: foto,
+          ativo: 1,
+          genero: genero);
+
+      if (_id.value != null) paciente.id = _id.value;
+
+      func = repository.salvarUsuario<Paciente>(paciente);
     }
 
     if (tipo == TipoUsuario.MEDICO) {
-      dados = {
-        ...{
-          'caracteristicas': {'descricao': descricao},
-          'crms': [
-            {'crm': crm, 'estado_sigla': crmUf, 'especializacoes': []},
-          ]
-        },
-        ...dados
-      };
+      Medico medico = Medico(
+        descricao: descricao,
+        crms: List<Crm>.empty(),
+        tipo: tipo,
+        nome: nome,
+        email: email,
+        senha: senha ?? '',
+        dataNascimento: dataNascimento,
+        telefone: telefone,
+        fotoPath: foto,
+        ativo: 1,
+        genero: genero,
+      );
+      Crm crmObj = Crm(
+          crm: crm, estado_sigla: crmUf, especializacoes: <Especializacao>[]);
 
       especializacoesSelecionadas.forEach((especializacao) {
-        dados['crms'][0]['especializacoes'].add({
-          'id': especializacao.id,
-          'especializacao_id': especializacao.especializacaoId
-        });
+        crmObj.especializacoes!.add(especializacao);
       });
       if (isEditing) {
-        dados['crms'][0]['id'] = usuario.crms[0].id;
+        crmObj.id = usuario.crms[0].id;
       }
+      medico.crms = <Crm>[];
+      medico.crms.add(crmObj);
+      if (_id.value != null) medico.id = _id.value;
+      func = repository.salvarUsuario<Medico>(medico);
     }
-    repository.salvarUsuario(dados).then((retorno) {
+
+    func.then((retorno) {
       if (!retorno) {
         EasyLoading.instance.backgroundColor = Colors.red;
         EasyLoading.showError('Erro ao salvar');
         EasyLoadingConfig();
       } else {
         EasyLoading.showSuccess('Salvo com sucesso');
-        Future.delayed(Duration(seconds: 1)).then((value) {
+        Future.delayed(const Duration(seconds: 1)).then((value) {
           EasyLoadingConfig();
           if (isEditing) {
-            Get.offNamed(Routes.CONTA);
+            loginController
+                .getUsuario()
+                .then((val) => Get.offNamed(Routes.CONTA));
           } else {
             loginController.setEmail(email);
             loginController.setSenha(senha);

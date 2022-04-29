@@ -39,10 +39,9 @@ class Especializacao {
         .map((especializacao) => Especializacao.fromJson(especializacao)));
   }
 
-  static List<Especializacao> listToJson(list) {
-    return List<Especializacao>.from(
-        list.map((especializacao) => especializacao.toJson()));
-  }
+  static List<Map<String, dynamic>> listToJson(list) =>
+      List<Map<String, dynamic>>.from(
+          list.map((especializacao) => especializacao.toJson()));
 
   @override
   String toString() {

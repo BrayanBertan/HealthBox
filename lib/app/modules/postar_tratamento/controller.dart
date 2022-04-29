@@ -77,15 +77,18 @@ class PostarTratamentoController extends GetxController {
     } else {
       switch (step) {
         case 0:
-          retorno = step1Valido();
+          retorno = step0Valido();
           break;
         case 1:
-          retorno = step2Valido();
+          retorno = step1Valido();
           break;
         case 2:
-          retorno = step3MedicoValido();
+          retorno = step2Valido();
           break;
         case 3:
+          retorno = step3MedicoValido();
+          break;
+        case 4:
           retorno = step4MedicoValido();
           break;
         default:
@@ -101,6 +104,37 @@ class PostarTratamentoController extends GetxController {
     if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
     if (step != activeStepIndex && !isValidStep(step)) return StepState.indexed;
     return StepState.indexed;
+  }
+
+  //===============================STEP 0================================
+  final vinculos = <Vinculo>[].obs;
+  final _vinculo = Rx<Vinculo?>(null);
+  final _isVinculoUntouched = true.obs;
+  final _carregandoVinculos = false.obs;
+
+  get carregandoVinculos => this._carregandoVinculos.value;
+  set carregandoVinculos(value) => this._carregandoVinculos.value = value;
+
+  get vinculo => this._vinculo.value;
+  set vinculo(value) => this._vinculo.value = value;
+
+  get isVinculoUntouched => this._isVinculoUntouched.value;
+  setIsVinculoUntouched() => this._isVinculoUntouched.value = false;
+  step0Valido() => vinculoValido();
+  bool vinculoValido() => vinculo != null;
+
+  String? get vinculoErroMensagem {
+    if (isVinculoUntouched || vinculoValido()) return null;
+    return 'Campo de paciente é obrigátorio';
+  }
+
+  getVinculos() {
+    carregandoVinculos = true;
+    ContaRepository(provider: ContaProvider()).getVinculos(1).then((retorno) {
+      vinculos.clear();
+      vinculos.assignAll(retorno);
+      carregandoVinculos = false;
+    });
   }
 
 //===============================STEP 1==================================
@@ -257,21 +291,17 @@ class PostarTratamentoController extends GetxController {
   }
 
   //==================STEP 4========================================
-  final vinculos = <Vinculo>[].obs;
+
   final _dataInicial = Rx<DateTime?>(null);
-  final _carregandoVinculos = false.obs;
-  final _vinculo = Rx<Vinculo?>(null);
+
   final _quantidadePeriodicidade = Rx<String?>(null);
   final _diasDuracao = Rx<String?>(null);
-  final _isVinculoUntouched = true.obs;
+
   final _isDataInicialUntouched = true.obs;
-  get carregandoVinculos => this._carregandoVinculos.value;
-  set carregandoVinculos(value) => this._carregandoVinculos.value = value;
+
   String get formataDataInicial => dataInicial == null
       ? 'Nenhuma data selecionada'
       : DateFormat('dd/MM/yyyy').format(dataInicial);
-  get vinculo => this._vinculo.value;
-  set vinculo(value) => this._vinculo.value = value;
 
   get dataInicial => this._dataInicial.value;
   set dataInicial(value) {
@@ -286,19 +316,9 @@ class PostarTratamentoController extends GetxController {
   get diasDuracao => this._diasDuracao.value;
   setDiasDuracao(value) => this._diasDuracao.value = value;
 
-  get isVinculoUntouched => this._isVinculoUntouched.value;
-  setIsVinculoUntouched() => this._isVinculoUntouched.value = false;
-
   get isDataInicialUntouched => this._isDataInicialUntouched.value;
   set isDataInicialUntouched(value) =>
       this._isDataInicialUntouched.value = false;
-
-  bool vinculoValido() => vinculo != null;
-
-  String? get vinculoErroMensagem {
-    if (isVinculoUntouched || vinculoValido()) return null;
-    return 'Campo de paciente é obrigátorio';
-  }
 
   bool dataInicialValida() => dataInicial != null;
 
@@ -330,19 +350,9 @@ class PostarTratamentoController extends GetxController {
   }
 
   bool step4MedicoValido() =>
-      vinculoValido() &&
       dataInicialValida() &&
       diasQuestionarioValida() &&
       periodicidadeQuestionarioValida();
-
-  getVinculos() {
-    carregandoVinculos = true;
-    ContaRepository(provider: ContaProvider()).getVinculos(1).then((retorno) {
-      vinculos.clear();
-      vinculos.assignAll(retorno);
-      carregandoVinculos = false;
-    });
-  }
 
   // =====================================================================================
 

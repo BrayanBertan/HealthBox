@@ -19,17 +19,21 @@ import '../../../../../core/values/keys.dart';
 
 class DetalhesTratamentoPage extends StatelessWidget {
   OpinioesController? controller;
+  LoginController loginController = Get.find<LoginController>();
   Acompanhamento? acompanhamento;
   String tituloPage = '';
   String tituloTratamento = '';
   String descricaoTratamento = '';
+  String descricaoPaciente = '';
   String? foto;
   String nomeUsuario = '';
   String dataPostagem = '';
   String dataAtualizacao = '';
+  var usuario;
   List<MedicamentoInfo> medicamentos = List<MedicamentoInfo>.empty();
   DetalhesTratamentoPage({Key? key}) : super(key: key) {
     acompanhamento = Get.arguments;
+    usuario = loginController.getLogin();
     if (acompanhamento == null) {
       controller = Get.find<OpinioesController>();
       tituloPage = 'Detalhes da opinião';
@@ -42,10 +46,8 @@ class DetalhesTratamentoPage extends StatelessWidget {
       medicamentos = controller!.opiniao.tratamento?.medicamentos ??
           List<MedicamentoInfo>.empty();
     } else {
-      var usuario = Get.find<LoginController>().getLogin();
       tituloPage = 'Detalhes do acompanhamento';
-      print('medico ${acompanhamento!.medico?.fotoPath}');
-      print('paciente ${acompanhamento!.paciente?.fotoPath}');
+      descricaoPaciente = acompanhamento!.descricaoPaciente;
       foto = usuario.tipo == TipoUsuario.PACIENTE
           ? acompanhamento!.medico?.fotoPath
           : acompanhamento!.paciente?.fotoPath;
@@ -185,7 +187,11 @@ class DetalhesTratamentoPage extends StatelessWidget {
               ],
             ),
             Text(
-              acompanhamento == null ? 'Descrição do tratamento' : '',
+              acompanhamento == null
+                  ? 'Descrição do tratamento'
+                  : usuario.tipo == TipoUsuario.PACIENTE
+                      ? ''
+                      : 'Descrição paciente',
               style: subTitulo,
             ),
             acompanhamento == null
@@ -198,7 +204,17 @@ class DetalhesTratamentoPage extends StatelessWidget {
                       ),
                     ),
                   )
-                : Container(),
+                : usuario.tipo == TipoUsuario.PACIENTE
+                    ? Container()
+                    : Card(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: Text(
+                            descricaoPaciente,
+                          ),
+                        ),
+                      ),
             CardDetalhesMedicamentos(medicamentos: medicamentos),
             acompanhamento == null
                 ? CardDetalhesInteracoes(opiniao: controller!.opiniao)

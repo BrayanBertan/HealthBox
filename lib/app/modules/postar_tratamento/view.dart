@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
+import 'package:healthbox/app/modules/postar_tratamento/widgets/step0_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
@@ -32,37 +33,42 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                   steps: controller.isPaciente
                       ? <Step>[
                           Step(
-                              title: Text(''),
-                              content: Step1TratamentoPage(),
+                              title: const Text(''),
+                              content: const Step1TratamentoPage(),
                               isActive: controller.activeStepIndex == 0,
                               state: controller.getStepState(0)),
                           Step(
-                              title: Text(''),
-                              content: Step2TratamentoPage(),
+                              title: const Text(''),
+                              content: const Step2TratamentoPage(),
                               isActive: controller.activeStepIndex == 1,
                               state: controller.getStepState(1)),
                         ]
                       : <Step>[
                           Step(
-                              title: Text(''),
-                              content: Step1TratamentoPage(),
+                              title: const Text(''),
+                              content: const Step0MedicoTratamentoPage(),
                               isActive: controller.activeStepIndex == 0,
                               state: controller.getStepState(0)),
                           Step(
-                              title: Text(''),
-                              content: Step2TratamentoPage(),
+                              title: const Text(''),
+                              content: const Step1TratamentoPage(),
                               isActive: controller.activeStepIndex == 1,
                               state: controller.getStepState(1)),
                           Step(
-                              title: Text(''),
-                              content: Step3MedicoTratamentoPage(),
-                              isActive: false,
+                              title: const Text(''),
+                              content: const Step2TratamentoPage(),
+                              isActive: controller.activeStepIndex == 2,
                               state: controller.getStepState(2)),
                           Step(
-                              title: Text(''),
-                              content: Step4MedicoTratamentoPage(),
-                              isActive: false,
+                              title: const Text(''),
+                              content: const Step3MedicoTratamentoPage(),
+                              isActive: controller.activeStepIndex == 3,
                               state: controller.getStepState(3)),
+                          Step(
+                              title: const Text(''),
+                              content: const Step4MedicoTratamentoPage(),
+                              isActive: controller.activeStepIndex == 4,
+                              state: controller.getStepState(4)),
                         ],
                   onStepCancel: controller.activeStepIndexDecrease,
                   onStepContinue: controller.activeStepIndexIncrease,
@@ -97,7 +103,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                         return;
                                       }
                                       if (!controller.isPaciente &&
-                                          controller.activeStepIndex == 3) {
+                                          controller.activeStepIndex == 4) {
                                         controller.salvarAcompanhamento();
                                         return;
                                       }
@@ -110,7 +116,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                   ? controller.activeStepIndex == 1
                                       ? 'Salvar'
                                       : 'Próximo'
-                                  : controller.activeStepIndex == 3
+                                  : controller.activeStepIndex == 4
                                       ? 'Salvar'
                                       : 'Próximo'))),
                         ],

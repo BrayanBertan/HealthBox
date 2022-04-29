@@ -1,5 +1,6 @@
 import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/core/extensions/enums.dart';
+import 'package:intl/intl.dart';
 
 import '../enums/genero.dart';
 import '../enums/tipo_usuario.dart';
@@ -8,11 +9,16 @@ class Paciente extends Usuario {
   double altura;
   double peso;
   String cpf;
-
+  String comorbidades;
+  String alergiasMedicamentosas;
+  String preDisposicaoGenetica;
   Paciente(
       {required this.altura,
       required this.peso,
       required this.cpf,
+      required this.comorbidades,
+      required this.alergiasMedicamentosas,
+      required this.preDisposicaoGenetica,
       int? id,
       required TipoUsuario tipo,
       required String nome,
@@ -39,6 +45,10 @@ class Paciente extends Usuario {
       cpf: json['caracteristica']?['cpf'] ?? '',
       altura: double.parse('${json['caracteristica']?['altura'] ?? '0.0'}'),
       peso: double.parse('${json['caracteristica']?['peso'] ?? '0.0'}'),
+      comorbidades: json['caracteristica']?['comorbidades'] ?? '',
+      alergiasMedicamentosas:
+          json['caracteristica']?['alergias_remedios'] ?? '',
+      preDisposicaoGenetica: json['caracteristica']?['pre_disposicoes'] ?? '',
       id: json['id'],
       tipo: json['tipo'].toString().tipoUsuario(),
       nome: json['name'] ?? '',
@@ -52,19 +62,25 @@ class Paciente extends Usuario {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'cpf': cpf,
-      'altura': altura,
-      'peso': peso,
-      'tipo': this.tipo,
-      'name': this.nome,
-      'email': this.email,
-      'password': this.senha,
-      'data_nascimento': this.dataNascimento,
-      'telefone': this.telefone,
-      'foto_path': this.fotoPath,
-      'ativo': this.ativo,
-      'genero': this.genero
+      'caracteristicas': {
+        'cpf': cpf,
+        'altura': altura,
+        'peso': peso,
+        'comorbidades': comorbidades,
+        'alergias_remedios': alergiasMedicamentosas,
+        'pre_disposicoes': preDisposicaoGenetica,
+      },
+      'tipo': tipo.name[0],
+      'name': nome,
+      'email': email,
+      'password': senha,
+      'data_nascimento': DateFormat('yyyy-MM-dd').format(dataNascimento),
+      'telefone': telefone,
+      'foto_path': fotoPath,
+      'ativo': ativo,
+      'sexo': genero.name[0]
     };
+
     if (id != null) {
       map['id'] = id;
     }

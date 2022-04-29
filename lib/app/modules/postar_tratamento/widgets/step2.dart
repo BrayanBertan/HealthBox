@@ -11,7 +11,7 @@ import 'package:healthbox/app/modules/postar_tratamento/widgets/dialog_info_medi
 import 'package:healthbox/core/theme/app_text_theme.dart';
 
 class Step2TratamentoPage extends GetView<PostarTratamentoController> {
-  Step2TratamentoPage({Key? key}) : super(key: key);
+  const Step2TratamentoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
               labelText: controller.isPaciente
                   ? "Descrição do tratamento"
                   : "Descrição do paciente",
-              enabledBorder: OutlineInputBorder(),
+              enabledBorder: const OutlineInputBorder(),
               labelStyle: const TextStyle(
                 color: Colors.grey,
               ),

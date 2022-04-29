@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 
 class Vinculo {
@@ -6,24 +7,32 @@ class Vinculo {
   int usuarioId;
   String nome;
   String? fotoPath;
+  Paciente? paciente;
   static int usuarioAtivoId = 0;
   Vinculo(
-      {this.id, required this.usuarioId, this.fotoPath, required this.nome});
+      {this.id,
+      required this.usuarioId,
+      this.fotoPath,
+      required this.nome,
+      this.paciente});
 
   factory Vinculo.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('solicitante')) {
       if (json['solicitante_id'] == usuarioAtivoId) {
         return Vinculo(
-            id: json['id'],
-            usuarioId: json['solicitado']['id'],
-            fotoPath: json['solicitado']['foto_path'],
-            nome: json['solicitado']['name']);
+          id: json['id'],
+          usuarioId: json['solicitado']['id'],
+          fotoPath: json['solicitado']['foto_path'],
+          nome: json['solicitado']['name'],
+          paciente: Paciente.fromJson(json['paciente']),
+        );
       } else {
         return Vinculo(
             id: json['id'],
             usuarioId: json['solicitante']['id'],
             fotoPath: json['solicitante']['foto_path'],
-            nome: json['solicitante']['name']);
+            nome: json['solicitante']['name'],
+            paciente: Paciente.fromJson(json['paciente']));
       }
     } else {
       return Vinculo(

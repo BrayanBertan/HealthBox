@@ -25,16 +25,14 @@ class Step4Page extends GetView<DadosUsuarioController> {
         const SizedBox(
           height: 15,
         ),
-        Obx(
-          () => CircleAvatar(
-              child: controller.foto == null
-                  ? Image.asset('${baseImagemUrl}user_pic.png')
-                  : controller.foto is File
-                      ? Image.file(controller.foto)
-                      : Image.network(controller.foto),
-              minRadius: 85,
-              maxRadius: 85),
-        ),
+        CircleAvatar(
+            backgroundImage: controller.foto == null
+                ? const AssetImage('${baseImagemUrl}user_pic.png')
+                : controller.foto is File
+                    ? FileImage(controller.foto)
+                    : NetworkImage(controller.foto) as ImageProvider,
+            minRadius: 75,
+            maxRadius: 100),
         StepLines(texto: '1'),
         Obx(() => CustomTextRich(
             titulo: 'Você é: ',
@@ -67,6 +65,21 @@ class Step4Page extends GetView<DadosUsuarioController> {
                       titulo: 'Altura: ', descricao: controller.altura)),
                   Obx(() => CustomTextRich(
                       titulo: 'Peso: ', descricao: controller.peso)),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Comorbidades: ',
+                      descricao: controller.comorbidades.isNotEmpty
+                          ? controller.comorbidades
+                          : 'Nenhuma')),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Alergias medicamentosas: ',
+                      descricao: controller.alergiasMedicamentosas.isNotEmpty
+                          ? controller.alergiasMedicamentosas
+                          : 'Nenhuma')),
+                  Obx(() => CustomTextRich(
+                      titulo: 'Predisposição genética: ',
+                      descricao: controller.predisposicaoGenetica.isNotEmpty
+                          ? controller.predisposicaoGenetica
+                          : 'Nenhuma')),
                 ],
               )
             : Column(

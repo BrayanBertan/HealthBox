@@ -37,9 +37,8 @@ class Crm {
     return List<Crm>.from(list.map((crm) => Crm.fromJson(crm)));
   }
 
-  static List<Crm> listToJson(list) {
-    return List<Crm>.from(list.map((crm) => crm.toJson()));
-  }
+  static List<Map<String, dynamic>> listToJson(list) =>
+      List<Map<String, dynamic>>.from(list.map((crm) => crm.toJson()));
 
   @override
   String toString() {

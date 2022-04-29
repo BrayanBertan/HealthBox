@@ -106,19 +106,27 @@ class UsuarioProvider extends GetConnect {
     }
   }
 
-  salvarUsuario(Map<String, dynamic> usuario) async {
+  salvarUsuario<T>(var usuario) async {
     dynamic retornoApi;
-    if (usuario.containsKey('id')) {
+    var usuarioObj;
+
+    if (T == Paciente) {
+      usuarioObj = usuario as Paciente;
+    } else {
+      usuarioObj = usuario as Medico;
+    }
+
+    if (usuario.id != null) {
       isSessionValid();
       retornoApi = await put(
-        'usuarios/${usuario['id']}',
-        usuario,
+        'usuarios/${usuarioObj.id}',
+        usuarioObj.toJson(),
         headers: {'Authorization': 'Bearer  $token'},
       );
     } else {
       retornoApi = await post(
         'auth/register',
-        usuario,
+        usuarioObj.toJson(),
       );
     }
 
@@ -142,6 +150,7 @@ class UsuarioProvider extends GetConnect {
   }
 
   validaCRM(String crm, String uf) async {
+    print('crm $crm');
     httpClient.baseUrl = '';
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');

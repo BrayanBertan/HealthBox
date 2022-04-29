@@ -15,8 +15,7 @@ class UsuarioRepository {
 
   getUsuario() => provider.getUsuario();
   getSessaoToken() => provider.getSessaoToken();
-  salvarUsuario(Map<String, dynamic> usuario) =>
-      provider.salvarUsuario(usuario);
+  salvarUsuario<T>(var usuario) => provider.salvarUsuario<T>(usuario);
   validaCRM(String crm, String uf) => provider.validaCRM(crm, uf);
   verificaDadosRepetidos(
           {String email = '',
