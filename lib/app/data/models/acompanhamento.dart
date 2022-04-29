@@ -44,9 +44,17 @@ class Acompanhamento {
         questionario: json['questionario'] != null
             ? Questionario.fromJson(json['questionario'])
             : null,
+        paciente: json['paciente'] != null &&
+                json['paciente']['caracteristica'] != null
+            ? Paciente.fromJson(json['paciente'])
+            : null,
+        medico:
+            json['medico'] != null && json['medico']['caracteristica'] != null
+                ? Medico.fromJson(json['medico'])
+                : null,
         quantidadePeriodicidade: json['quantidade_periodicidade'],
         diasDuracao: json['dias_duracao'],
-        dataInicio: DateFormat('dd/MM/yyyy HH:mm').format(
+        dataInicio: DateFormat('dd/MM/yyyy').format(
             DateTime.parse(json['data_inicio'] ?? DateTime.now().toString())),
       );
 
@@ -58,7 +66,7 @@ class Acompanhamento {
       "ativo": ativo,
       "quantidade_periodicidade": quantidadePeriodicidade,
       "dias_duracao": diasDuracao,
-      "dataInicio": dataInicio,
+      "data_inicio": dataInicio,
     };
     if (id != null) {
       map["id"] = id;

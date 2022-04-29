@@ -34,19 +34,22 @@ class Medico extends Usuario {
             ativo: ativo,
             genero: genero);
 
-  factory Medico.fromJson(Map<String, dynamic> json) => Medico(
-      descricao: json['caracteristica']['descricao'],
-      crms: Crm.listFromJson(json['crms']),
-      id: json['id'],
-      tipo: json['tipo'].toString().tipoUsuario(),
-      nome: json['name'],
-      email: json['email'],
-      senha: '',
-      dataNascimento: DateTime.parse(json['data_nascimento']),
-      telefone: json['telefone'],
-      fotoPath: json['foto_path'],
-      genero: json['genero'].toString().genero(),
-      ativo: json['ativo']);
+  factory Medico.fromJson(Map<String, dynamic> json) {
+    print('aquiiiiiiiiiiiiiiiiiiiiiiiii $json');
+    return Medico(
+        descricao: json['caracteristica']['descricao'],
+        crms: Crm.listFromJson(json['crms']),
+        id: json['id'],
+        tipo: json['tipo'].toString().tipoUsuario(),
+        nome: json['name'],
+        email: json['email'],
+        senha: '',
+        dataNascimento: DateTime.parse(json['data_nascimento']),
+        telefone: json['telefone'],
+        fotoPath: json['foto_path'],
+        genero: json['genero'].toString().genero(),
+        ativo: json['ativo']);
+  }
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

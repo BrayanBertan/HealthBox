@@ -56,6 +56,7 @@ class AcompanhamentosController extends GetxController {
     usuarioSelecionado = usuariosAcompanhamentos[index];
     repository.getAcompanhamentos(usuarioSelecionado.id).then((retorno) {
       acompanhamentos.assignAll(retorno);
+      print('$acompanhamentos');
       carregando = false;
     });
   }

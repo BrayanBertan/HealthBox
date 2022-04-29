@@ -44,6 +44,8 @@ class DetalhesTratamentoPage extends StatelessWidget {
     } else {
       var usuario = Get.find<LoginController>().getLogin();
       tituloPage = 'Detalhes do acompanhamento';
+      print('medico ${acompanhamento!.medico?.fotoPath}');
+      print('paciente ${acompanhamento!.paciente?.fotoPath}');
       foto = usuario.tipo == TipoUsuario.PACIENTE
           ? acompanhamento!.medico?.fotoPath
           : acompanhamento!.paciente?.fotoPath;
@@ -124,7 +126,7 @@ class DetalhesTratamentoPage extends StatelessWidget {
                     ],
                   )
                 : Text(
-                    'Tratamento iniciado em $dataAtualizacao',
+                    'Tratamento inicia em $dataAtualizacao',
                     textAlign: TextAlign.center,
                   ),
             Text(
