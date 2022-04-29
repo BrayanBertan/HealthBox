@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
-import 'package:healthbox/app/modules/conta/dados_usuario/widgets/custom_text_rich.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/steps_line.dart';
+import 'package:healthbox/app/widgets/custom_text_rich.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 
 import '../../../../../core/values/keys.dart';

@@ -11,6 +11,7 @@ import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/widgets/detalhes_tratamento/card_detalhes_interacoes.dart';
 import 'package:healthbox/app/widgets/detalhes_tratamento/card_detalhes_medicamentos.dart';
+import 'package:healthbox/app/widgets/ficha_paciente/dialog_ficha.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:shimmer/shimmer.dart';
@@ -131,10 +132,25 @@ class DetalhesTratamentoPage extends StatelessWidget {
                     'Tratamento inicia em $dataAtualizacao',
                     textAlign: TextAlign.center,
                   ),
-            Text(
-              nomeUsuario,
-              style: subTitulo,
-              textAlign: TextAlign.center,
+            Row(
+              children: [
+                Expanded(child: Container()),
+                Text(
+                  nomeUsuario,
+                  style: subTitulo,
+                  textAlign: TextAlign.center,
+                ),
+                acompanhamento != null && usuario.tipo == TipoUsuario.MEDICO
+                    ? TextButton.icon(
+                        onPressed: () => showDialog(
+                            context: context,
+                            builder: (_) => DialogFichaPaciente(
+                                paciente: acompanhamento!.paciente)),
+                        icon: const Icon(Icons.list_alt_outlined),
+                        label: const Text('ficha do paciente'))
+                    : Container(),
+                Expanded(child: Container()),
+              ],
             ),
             const SizedBox(
               height: 10,

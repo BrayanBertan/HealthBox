@@ -39,8 +39,8 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
           height: 10,
         ),
         QuillEditorColumn(),
-        Obx(() => Wrap(
-              spacing: MediaQuery.of(context).size.width * 0.7,
+        Obx(() => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   controller.textoErroMensagem ?? '',

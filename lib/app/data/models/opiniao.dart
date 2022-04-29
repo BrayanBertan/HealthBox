@@ -16,6 +16,7 @@ class Opiniao {
   Paciente? paciente;
   String? dataPostagem;
   String? dataAtualizacao;
+  bool utilizado;
   Opiniao(
       {this.id,
       required this.descricao,
@@ -28,7 +29,8 @@ class Opiniao {
       this.likes = const <Like>[],
       this.paciente,
       this.dataPostagem,
-      this.dataAtualizacao});
+      this.dataAtualizacao,
+      required this.utilizado});
 
   factory Opiniao.fromJson(Map<String, dynamic> json) => Opiniao(
         id: json['id'],
@@ -36,6 +38,7 @@ class Opiniao {
         pacienteId: json['paciente_id'],
         eficaz: json['eficaz'],
         ativo: json['ativo'],
+        utilizado: json['utilizado'],
         tratamento: json['tratamento'] != null
             ? Tratamento.fromJson(json['tratamento'])
             : null,

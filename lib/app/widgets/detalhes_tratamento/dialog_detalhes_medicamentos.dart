@@ -29,7 +29,7 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                     fontSize: 17,
                   ),
                   children: <TextSpan>[
-                    TextSpan(text: 'Fabricado por  ', style: subTitulo),
+                    const TextSpan(text: 'Fabricado por:  ', style: subTitulo),
                     TextSpan(
                         text: medicamento.medicamento.fabricante,
                         style: TextStyle(
@@ -43,7 +43,8 @@ class DialogDetalhesMedicamentos extends StatelessWidget {
                     fontSize: 17,
                   ),
                   children: <TextSpan>[
-                    TextSpan(text: 'Dose preescrita  ', style: subTitulo),
+                    const TextSpan(
+                        text: 'Dose preescrita:  ', style: subTitulo),
                     TextSpan(
                         text:
                             '${medicamento.dose}${medicamento.unidadeMedida.name}  a cada ${medicamento.intervalo} ${medicamento.periodicidadeMedicamento.name} por ${medicamento.duracao} dias',

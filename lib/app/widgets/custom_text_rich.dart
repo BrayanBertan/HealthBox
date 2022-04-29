@@ -17,7 +17,7 @@ class CustomTextRich extends StatelessWidget {
             TextSpan(
                 text: titulo,
                 style: const TextStyle(fontWeight: FontWeight.bold)),
-            TextSpan(text: '${descricao}'),
+            TextSpan(text: descricao),
           ]),
       textAlign: TextAlign.start,
     );

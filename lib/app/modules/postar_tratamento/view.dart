@@ -34,39 +34,39 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                       ? <Step>[
                           Step(
                               title: const Text(''),
-                              content: const Step1TratamentoPage(),
+                              content: Step1TratamentoPage(),
                               isActive: controller.activeStepIndex == 0,
                               state: controller.getStepState(0)),
                           Step(
                               title: const Text(''),
-                              content: const Step2TratamentoPage(),
+                              content: Step2TratamentoPage(),
                               isActive: controller.activeStepIndex == 1,
                               state: controller.getStepState(1)),
                         ]
                       : <Step>[
                           Step(
                               title: const Text(''),
-                              content: const Step0MedicoTratamentoPage(),
+                              content: Step0MedicoTratamentoPage(),
                               isActive: controller.activeStepIndex == 0,
                               state: controller.getStepState(0)),
                           Step(
                               title: const Text(''),
-                              content: const Step1TratamentoPage(),
+                              content: Step1TratamentoPage(),
                               isActive: controller.activeStepIndex == 1,
                               state: controller.getStepState(1)),
                           Step(
                               title: const Text(''),
-                              content: const Step2TratamentoPage(),
+                              content: Step2TratamentoPage(),
                               isActive: controller.activeStepIndex == 2,
                               state: controller.getStepState(2)),
                           Step(
                               title: const Text(''),
-                              content: const Step3MedicoTratamentoPage(),
+                              content: Step3MedicoTratamentoPage(),
                               isActive: controller.activeStepIndex == 3,
                               state: controller.getStepState(3)),
                           Step(
                               title: const Text(''),
-                              content: const Step4MedicoTratamentoPage(),
+                              content: Step4MedicoTratamentoPage(),
                               isActive: controller.activeStepIndex == 4,
                               state: controller.getStepState(4)),
                         ],
