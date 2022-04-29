@@ -8,17 +8,27 @@ import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step4_medico.dart';
 import 'package:healthbox/app/widgets/ficha_paciente/dialog_ficha.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
 class PagePostarTratamento extends GetView<PostarTratamentoController> {
   PagePostarTratamento({Key? key}) : super(key: key) {
-    final opiniao = Get.arguments;
-    if (opiniao != null) controller.setEdicao(opiniao);
+    final tratamento = Get.arguments;
+    if (tratamento != null)
+      Get.previousRoute == Routes.INITIAL
+          ? controller.setEdicaoOpiniao(tratamento)
+          : controller.setEdicaoAcompanhamento(tratamento);
   }
 
   @override
   Widget build(BuildContext context) {
+    // var tratamento = Get.arguments;
+    // controller.vinculo = Vinculo(
+    //     usuarioId: tratamento.paciente!.id!,
+    //     nome: tratamento.paciente!.nome,
+    //     fotoPath: tratamento.paciente!.fotoPath,
+    //     paciente: tratamento.paciente);
     return Scaffold(
       backgroundColor: corPrincipal100,
       appBar: AppBar(),

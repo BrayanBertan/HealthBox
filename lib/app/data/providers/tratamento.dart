@@ -108,6 +108,8 @@ class TratamentoProvider extends GetConnect {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
     int id;
+    print(questionario.id == null);
+    return false;
     if (questionario.id == null) {
       retornoApi = await post(
         'questionarios',

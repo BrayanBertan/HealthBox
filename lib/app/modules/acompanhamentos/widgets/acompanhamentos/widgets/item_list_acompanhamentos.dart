@@ -25,9 +25,25 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
           controller.acompanhamentos[index].tratamento?.titulo ?? '',
           maxLines: 1,
         ),
-        trailing: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.list),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton.icon(
+                onPressed: () => Get.toNamed(Routes.POSTAR_TRATAMENTO,
+                    arguments: controller.acompanhamentos[index]),
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.black87,
+                ),
+                label: const Text(
+                  'Editar',
+                  style: TextStyle(color: Colors.black87),
+                )),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.list),
+            ),
+          ],
         ),
       ),
     );

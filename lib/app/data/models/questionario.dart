@@ -1,19 +1,24 @@
+import 'package:healthbox/app/data/models/questao.dart';
+
 class Questionario {
   int? id;
   String titulo;
   String? descricao;
   int acompanhamentoId;
+  List<Questao>? questoes;
   Questionario(
       {this.id,
       required this.titulo,
       this.descricao,
-      required this.acompanhamentoId});
+      required this.acompanhamentoId,
+      this.questoes});
 
   factory Questionario.fromJson(Map<String, dynamic> json) => Questionario(
       id: json['id'],
       titulo: json['titulo'],
       descricao: json['descricao'],
-      acompanhamentoId: json['acompanhamento_id']);
+      acompanhamentoId: json['acompanhamento_id'],
+      questoes: Questao.listFromJson(json['questoes']));
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

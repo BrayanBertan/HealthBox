@@ -379,7 +379,7 @@ class PostarTratamentoController extends GetxController {
         quantidadePeriodicidade: int.parse(quantidadePeriodicidade),
         diasDuracao: int.parse(diasDuracao));
 
-    // if (idPostagem != null) acompanhamento.id = idPostagem;
+    if (idPostagem != null) acompanhamento.id = idPostagem;
     repository
         .salvarAcompanhamento(acompanhamento)
         .then((retornoAcompanhamento) {
@@ -472,7 +472,7 @@ class PostarTratamentoController extends GetxController {
   }
 
   //===========================================OPINIÕES=============================================
-  setEdicao(Opiniao opiniao) {
+  setEdicaoOpiniao(Opiniao opiniao) {
     if (opiniao.pacienteId != usuario.id) {
       Get.offNamed(Routes.INITIAL);
       return;
@@ -488,6 +488,41 @@ class PostarTratamentoController extends GetxController {
         opiniao.tratamento?.medicamentos ?? List<MedicamentoInfo>.empty());
     setEficacia(opiniao.eficaz);
     setDescricao(opiniao.tratamento?.descricao ?? '');
+  }
+
+  setEdicaoAcompanhamento(Acompanhamento acompanhamento) {
+    if (acompanhamento.medicoId != usuario.id) {
+      Get.offNamed(Routes.ACOMPANHAMENTOS);
+      return;
+    }
+
+    idTratamento = acompanhamento.tratamento!.id;
+    idPostagem = acompanhamento.id;
+    texto = acompanhamento.tratamento!.descricao;
+    doc = Document.fromJson(jsonDecode(texto));
+    setTitulo(acompanhamento.tratamento?.titulo ?? '');
+    setTituloQuestionario(acompanhamento.questionario?.titulo ?? '');
+    setTituloQuestionario(acompanhamento.questionario?.descricao ?? '');
+    medicamentosSelecionadosInfo.assignAll(
+        acompanhamento.tratamento?.medicamentos ??
+            List<MedicamentoInfo>.empty());
+    questoes.assignAll(
+        acompanhamento.questionario?.questoes ?? List<Questao>.empty());
+    setDescricao(acompanhamento.descricaoPaciente);
+
+    vinculo = Vinculo(
+        usuarioId: acompanhamento.paciente!.id!,
+        nome: acompanhamento.paciente!.nome,
+        fotoPath: acompanhamento.paciente!.fotoPath,
+        paciente: acompanhamento.paciente);
+    // await Future.delayed(const Duration(seconds: 5));
+    // _vinculo.update((val) {
+    //   vinculo = Vinculo(
+    //       usuarioId: acompanhamento.paciente!.id!,
+    //       nome: acompanhamento.paciente!.nome,
+    //       fotoPath: acompanhamento.paciente!.fotoPath,
+    //       paciente: acompanhamento.paciente);
+    // });
   }
 
   salvarOpiniao() {

@@ -44,8 +44,8 @@ class Questao {
     return map;
   }
 
-  static List<Questao> listFromJson(list) =>
-      List<Questao>.from(list.map((opcao) => Questao.fromJson(opcao)));
+  static List<Questao> listFromJson(list) => List<Questao>.from(
+      list.map((opcao) => Questao.fromJson(opcao['questao'])));
 
   static List<Map<String, dynamic>> listToJson(list) =>
       List<Map<String, dynamic>>.from(list.map((opcao) => opcao.toJson()));

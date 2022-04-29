@@ -54,7 +54,9 @@ class Step0MedicoTratamentoPage extends GetView<PostarTratamentoController> {
         const SizedBox(
           height: 10,
         ),
-        Obx(() => FichaPaciente(paciente: controller.vinculo?.paciente)),
+        GetX<PostarTratamentoController>(
+            builder: (_) =>
+                FichaPaciente(paciente: controller.vinculo?.paciente)),
         const SizedBox(
           height: 25,
         )
