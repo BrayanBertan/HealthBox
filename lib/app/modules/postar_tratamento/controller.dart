@@ -108,7 +108,7 @@ class PostarTratamentoController extends GetxController {
 
   bool checkDataInicial() =>
       dataInicial != null &&
-      dataInicial.difference(DateTime.now().toLocal()).inDays < 0;
+      dataInicial.difference(DateTime.now().toLocal()).inDays <= 0;
 
   //===============================STEP 0================================
   final vinculos = <Vinculo>[].obs;
@@ -245,10 +245,13 @@ class PostarTratamentoController extends GetxController {
               duration: const Duration(milliseconds: 500),
               toastPosition: EasyLoadingToastPosition.bottom);
         }
+        questoesPreCadastradas
+            .removeWhere((element) => element.id == questao.id);
         carregandoQuestoes = false;
       });
       return;
     }
+    questoesPreCadastradas.removeWhere((element) => element.id == questao.id);
     questoes.add(questao);
   }
 
@@ -269,6 +272,12 @@ class PostarTratamentoController extends GetxController {
       }
       carregandoQuestoes = false;
     });
+  }
+
+  removerQuestao(int index) {
+    Get.back();
+    questoesPreCadastradas.add(questoes[index]);
+    questoes.removeAt(index);
   }
 
   final _tituloQuestionario = Rx<String?>(null);
@@ -298,7 +307,9 @@ class PostarTratamentoController extends GetxController {
     carregandoQuestoes = true;
     repository.getQuestoesPreCadastradas().then((retorno) {
       questoesPreCadastradas.clear();
-      questoesPreCadastradas.assignAll(retorno);
+      var lista = retorno.where(
+          (element) => !questoes.any((element1) => element1.id == element.id));
+      questoesPreCadastradas.assignAll(lista);
       carregandoQuestoes = false;
     });
   }

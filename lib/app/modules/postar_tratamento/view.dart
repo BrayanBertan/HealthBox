@@ -37,7 +37,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.82,
               child: Obx(
                 () => Stepper(
                   currentStep: controller.activeStepIndex,
@@ -143,25 +143,24 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   controller.idPostagem != null
-                      ? Container(
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed:
-                                controller.usuario.tipo == TipoUsuario.MEDICO &&
-                                        controller.checkDataInicial()
-                                    ? null
-                                    : () => controller.usuario.tipo !=
-                                            TipoUsuario.MEDICO
-                                        ? controller.deletarOpiniao()
-                                        : controller.deletarAcompanhamento(),
-                            child: Text(
-                                controller.usuario.tipo != TipoUsuario.MEDICO
-                                    ? 'Deletar opinião'
-                                    : 'Deletar acompanhamento'),
-                            style:
-                                ElevatedButton.styleFrom(primary: Colors.red),
+                      ? TextButton.icon(
+                          onPressed: controller.usuario.tipo ==
+                                      TipoUsuario.MEDICO &&
+                                  controller.checkDataInicial()
+                              ? null
+                              : () =>
+                                  controller.usuario.tipo != TipoUsuario.MEDICO
+                                      ? controller.deletarOpiniao()
+                                      : controller.deletarAcompanhamento(),
+                          icon: const Icon(
+                            Icons.delete_forever,
+                            color: Colors.red,
                           ),
-                        )
+                          label: Text(
+                              controller.usuario.tipo != TipoUsuario.MEDICO
+                                  ? 'Deletar opinião'
+                                  : 'Deletar acompanhamento',
+                              style: const TextStyle(color: Colors.red)))
                       : Container(),
                   controller.usuario.tipo != TipoUsuario.MEDICO ||
                           controller.vinculo == null
@@ -172,7 +171,9 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                               builder: (_) => DialogFichaPaciente(
                                   paciente: controller.vinculo?.paciente)),
                           icon: const Icon(Icons.list_alt_outlined),
-                          label: const Text('ficha do paciente')),
+                          label: const Text(
+                            'ficha do paciente',
+                          )),
                 ],
               ),
             ),

@@ -15,7 +15,7 @@ class ControllerQuestoes extends GetxController {
   final _isOpcoesUntouched = true.obs;
   int? id;
   final descricaoOpcaController = TextEditingController();
-
+  List<Questao> questoesparam = <Questao>[];
   get descricaoQuestao => this._descricaoQuestao.value;
   setDescricaoQuestao(value) => this._descricaoQuestao.value = value;
   get tipo => this._tipo.value;
@@ -88,6 +88,17 @@ class ControllerQuestoes extends GetxController {
   }
 
   salvarInfo() {
+    int count = questoesparam
+        .where((element) =>
+            element.descricao!.trim().toLowerCase() ==
+            descricaoQuestao.trim().toLowerCase())
+        .length;
+    if (count > 0) {
+      EasyLoading.showToast('Já existe uma questão  com essa descrição',
+          duration: const Duration(milliseconds: 500),
+          toastPosition: EasyLoadingToastPosition.bottom);
+      return;
+    }
     Questao questao = Questao(
       id: id,
       tipo: tipo,

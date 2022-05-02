@@ -72,7 +72,7 @@ class ItemGridUsuariosAcompanhamentos
             ),
             !controller.usuariosAcompanhamentos[index].respostaPendente!
                 ? const AutoSizeText(
-                    'Questionários pendentes',
+                    'Questionários disponíveis',
                     style: TextStyle(fontSize: 12),
                     textAlign: TextAlign.center,
                     maxLines: 1,

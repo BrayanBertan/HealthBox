@@ -8,7 +8,10 @@ import 'package:healthbox/app/modules/postar_tratamento/widgets/controller_quest
 
 class DialogQuestoes extends GetView<ControllerQuestoes> {
   Questao questao;
-  DialogQuestoes({required this.questao, Key? key}) : super(key: key) {
+  List<Questao> questoes;
+  DialogQuestoes({required this.questao, required this.questoes, Key? key})
+      : super(key: key) {
+    controller.questoesparam = questoes;
     if (questao.id != null) {
       controller.id = questao.id;
       controller.setDescricaoQuestao(questao.descricao);
