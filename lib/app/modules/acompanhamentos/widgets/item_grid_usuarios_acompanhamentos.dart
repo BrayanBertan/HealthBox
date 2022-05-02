@@ -66,7 +66,7 @@ class ItemGridUsuariosAcompanhamentos
                   ),
             AutoSizeText(
               controller.usuariosAcompanhamentos[index].nome,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
               maxLines: 1,
             ),

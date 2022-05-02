@@ -257,7 +257,15 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                                                           .descricao ??
                                                       '',
                                                   maxLines: 1),
-                                              trailing: rowBotoes,
+                                              trailing: controller
+                                                              .questoes[index]
+                                                              .id ==
+                                                          1 ||
+                                                      controller.questoes[index]
+                                                              .id ==
+                                                          2
+                                                  ? Container()
+                                                  : rowBotoes,
                                             )
                                           : ExpansionTile(
                                               leading: AutoSizeText(
@@ -272,7 +280,15 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                                                           .descricao ??
                                                       '',
                                                   maxLines: 1),
-                                              trailing: rowBotoes,
+                                              trailing: controller
+                                                              .questoes[index]
+                                                              .id ==
+                                                          1 ||
+                                                      controller.questoes[index]
+                                                              .id ==
+                                                          2
+                                                  ? Container()
+                                                  : rowBotoes,
                                               children: controller
                                                   .questoes[index].opcoes!
                                                   .asMap()
