@@ -13,7 +13,7 @@ class ControllerQuestoes extends GetxController {
   final _tipo = TipoQuestao.D.obs;
   final _descricaoOpcao = Rx<String?>(null);
   final _isOpcoesUntouched = true.obs;
-
+  int? id;
   final descricaoOpcaController = TextEditingController();
 
   get descricaoQuestao => this._descricaoQuestao.value;
@@ -84,10 +84,12 @@ class ControllerQuestoes extends GetxController {
     setDescricaoQuestao(null);
     setDescricaoOpcao(null);
     isOpcoesUntouched = true;
+    id = null;
   }
 
   salvarInfo() {
     Questao questao = Questao(
+      id: id,
       tipo: tipo,
       descricao: descricaoQuestao,
       utilizado: false,
@@ -98,7 +100,7 @@ class ControllerQuestoes extends GetxController {
 
     final controller = Get.find<PostarTratamentoController>();
 
-    controller.addQuestao(questao);
+    controller.addQuestao(questao, true);
 
     Get.back();
   }

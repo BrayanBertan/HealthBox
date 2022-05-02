@@ -16,7 +16,7 @@ class Acompanhamento {
   int diasDuracao;
   Paciente? paciente;
   Medico? medico;
-  String? dataInicio;
+  DateTime dataInicio;
   Acompanhamento({
     this.id,
     required this.descricaoPaciente,
@@ -29,7 +29,7 @@ class Acompanhamento {
     required this.diasDuracao,
     this.paciente,
     this.medico,
-    this.dataInicio,
+    required this.dataInicio,
   });
 
   factory Acompanhamento.fromJson(Map<String, dynamic> json) => Acompanhamento(
@@ -54,8 +54,7 @@ class Acompanhamento {
                 : null,
         quantidadePeriodicidade: json['quantidade_periodicidade'],
         diasDuracao: json['dias_duracao'],
-        dataInicio: DateFormat('dd/MM/yyyy').format(
-            DateTime.parse(json['data_inicio'] ?? DateTime.now().toString())),
+        dataInicio: DateTime.parse(json['data_inicio']),
       );
 
   Map<String, dynamic> toJson() {
@@ -66,7 +65,7 @@ class Acompanhamento {
       "ativo": ativo,
       "quantidade_periodicidade": quantidadePeriodicidade,
       "dias_duracao": diasDuracao,
-      "data_inicio": dataInicio,
+      "data_inicio": DateFormat('yyyy-MM-dd').format(dataInicio),
     };
     if (id != null) {
       map["id"] = id;

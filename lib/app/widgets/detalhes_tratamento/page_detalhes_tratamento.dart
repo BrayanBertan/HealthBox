@@ -14,6 +14,7 @@ import 'package:healthbox/app/widgets/detalhes_tratamento/card_detalhes_medicame
 import 'package:healthbox/app/widgets/ficha_paciente/dialog_ficha.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/values/keys.dart';
@@ -55,7 +56,8 @@ class DetalhesTratamentoPage extends StatelessWidget {
       nomeUsuario = usuario.tipo == TipoUsuario.PACIENTE
           ? acompanhamento!.medico?.nome ?? ''
           : acompanhamento!.paciente?.nome ?? '';
-      dataAtualizacao = acompanhamento!.dataInicio ?? '';
+      dataAtualizacao =
+          DateFormat('dd/MM/yyyy').format(acompanhamento!.dataInicio);
       tituloTratamento = acompanhamento?.tratamento?.titulo ?? '';
       descricaoTratamento = acompanhamento?.tratamento?.descricao ?? '';
       medicamentos = acompanhamento?.tratamento?.medicamentos ??

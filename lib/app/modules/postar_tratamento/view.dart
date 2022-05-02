@@ -146,8 +146,18 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                       ? Container(
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () => controller.deletarOpiniao(),
-                            child: const Text('Deletar opinião'),
+                            onPressed:
+                                controller.usuario.tipo == TipoUsuario.MEDICO &&
+                                        controller.checkDataInicial()
+                                    ? null
+                                    : () => controller.usuario.tipo !=
+                                            TipoUsuario.MEDICO
+                                        ? controller.deletarOpiniao()
+                                        : controller.deletarAcompanhamento(),
+                            child: Text(
+                                controller.usuario.tipo != TipoUsuario.MEDICO
+                                    ? 'Deletar opinião'
+                                    : 'Deletar acompanhamento'),
                             style:
                                 ElevatedButton.styleFrom(primary: Colors.red),
                           ),

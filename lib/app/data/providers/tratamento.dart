@@ -108,8 +108,7 @@ class TratamentoProvider extends GetConnect {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
     int id;
-    print(questionario.id == null);
-    return false;
+
     if (questionario.id == null) {
       retornoApi = await post(
         'questionarios',
@@ -149,16 +148,29 @@ class TratamentoProvider extends GetConnect {
 //=================================Questões=====================================
   salvarQuestao(Questao questao) async {
     Get.find<UsuarioProvider>().isSessionValid();
+    try {
+      dynamic retornoApi;
+      if (questao.id == null) {
+        retornoApi = await post(
+          'questoes',
+          questao.toJson(),
+          headers: {'Authorization': 'Bearer  $token'},
+        );
+      } else {
+        retornoApi = await put(
+          'questoes/${questao.id}',
+          questao.toJson(),
+          headers: {'Authorization': 'Bearer  $token'},
+        );
+      }
 
-    dynamic retornoApi;
-    retornoApi = await post(
-      'questoes',
-      questao.toJson(),
-      headers: {'Authorization': 'Bearer  $token'},
-    );
-
-    if (retornoApi.statusCode == 200) return retornoApi.body['questao']['id'];
-    return false;
+      if (retornoApi.statusCode == 200)
+        return retornoApi.body['questao']?['id'] ?? questao.id;
+      return false;
+    } catch (erro) {
+      print('erro salvarQuestao $erro');
+      return false;
+    }
   }
 
   Future<bool> deletarQuestao(int id) async {
@@ -202,6 +214,7 @@ class TratamentoProvider extends GetConnect {
 
   Future<List<Questao>> getQuestoesPreCadastradas() async {
     Get.find<UsuarioProvider>().isSessionValid();
+
     try {
       var retornoApi = await get('questoes',
           headers: {'Authorization': 'Bearer  $token'},

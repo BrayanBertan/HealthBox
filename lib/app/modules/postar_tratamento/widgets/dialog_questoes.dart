@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_questao.dart';
+import 'package:healthbox/app/data/models/opcao_questao.dart';
 import 'package:healthbox/app/data/models/questao.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/controller_questoes.dart';
 
 class DialogQuestoes extends GetView<ControllerQuestoes> {
   Questao questao;
-  DialogQuestoes({required this.questao, Key? key}) : super(key: key);
+  DialogQuestoes({required this.questao, Key? key}) : super(key: key) {
+    if (questao.id != null) {
+      controller.id = questao.id;
+      controller.setDescricaoQuestao(questao.descricao);
+      controller.setTipo(questao.tipo);
+      controller.opcoesQuestao
+          .assignAll(questao.opcoes ?? List<OpcaoQuestao>.empty());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -106,6 +106,9 @@ class PostarTratamentoController extends GetxController {
     return StepState.indexed;
   }
 
+  checkDataInicial() =>
+      dataInicial != null && dataInicial.difference(DateTime.now()).inDays <= 0;
+
   //===============================STEP 0================================
   final vinculos = <Vinculo>[].obs;
   final _vinculo = Rx<Vinculo?>(null);
@@ -143,6 +146,7 @@ class PostarTratamentoController extends GetxController {
   final _titulo = Rx<String?>(null);
   final _idPostagem = Rx<int?>(null);
   final _idTratamento = Rx<int?>(null);
+  final _idQuestionario = Rx<int?>(null);
   final _carregando = false.obs;
   final _eficacia = 1.obs;
   QuillController controller_editor = QuillController.basic();
@@ -152,6 +156,8 @@ class PostarTratamentoController extends GetxController {
   set idPostagem(value) => this._idPostagem.value = value;
   get idTratamento => this._idTratamento.value;
   set idTratamento(value) => this._idTratamento.value = value;
+  get idQuestionario => this._idQuestionario.value;
+  set idQuestionario(value) => this._idQuestionario.value = value;
   get doc => this._doc.value;
   set doc(value) => this._doc.value = value;
   get titulo => this._titulo.value;
@@ -216,8 +222,8 @@ class PostarTratamentoController extends GetxController {
   get isQuestoesUntouched => this._isQuestoesUntouched.value;
   setIsQuestoesUntouched(value) => this._isQuestoesUntouched.value = value;
 
-  addQuestao(Questao questao) async {
-    if (questao.id == null) {
+  addQuestao(Questao questao, bool tipo) async {
+    if (tipo) {
       carregandoQuestoes = true;
       repository.salvarQuestao(questao).then((retorno) {
         if (retorno == null || retorno is bool) {
@@ -225,8 +231,14 @@ class PostarTratamentoController extends GetxController {
               duration: const Duration(milliseconds: 500),
               toastPosition: EasyLoadingToastPosition.bottom);
         } else {
-          questao.id = retorno;
-          questoes.add(questao);
+          if (questao.id == null) {
+            questao.id = retorno;
+            questoes.add(questao);
+          } else {
+            int indexQuestao =
+                questoes.indexWhere((element) => element.id == questao.id);
+            questoes[indexQuestao] = questao;
+          }
 
           EasyLoading.showToast('Questão adicionada com sucesso',
               duration: const Duration(milliseconds: 500),
@@ -294,8 +306,8 @@ class PostarTratamentoController extends GetxController {
 
   final _dataInicial = Rx<DateTime?>(null);
 
-  final _quantidadePeriodicidade = Rx<String?>(null);
-  final _diasDuracao = Rx<String?>(null);
+  final _quantidadePeriodicidade = Rx<int?>(null);
+  final _diasDuracao = Rx<int?>(null);
 
   final _isDataInicialUntouched = true.obs;
 
@@ -310,11 +322,12 @@ class PostarTratamentoController extends GetxController {
   }
 
   get quantidadePeriodicidade => this._quantidadePeriodicidade.value;
-  setQuantidadePeriodicidade(value) =>
-      this._quantidadePeriodicidade.value = value;
+  setQuantidadePeriodicidade(value) => this._quantidadePeriodicidade.value =
+      value == null || value.isEmpty ? 0 : int.parse(value);
 
   get diasDuracao => this._diasDuracao.value;
-  setDiasDuracao(value) => this._diasDuracao.value = value;
+  setDiasDuracao(value) => this._diasDuracao.value =
+      value == null || value.isEmpty ? 0 : int.parse(value);
 
   get isDataInicialUntouched => this._isDataInicialUntouched.value;
   set isDataInicialUntouched(value) =>
@@ -327,15 +340,10 @@ class PostarTratamentoController extends GetxController {
     return 'Campo de data inicial é obrigátorio';
   }
 
-  bool diasQuestionarioValida() =>
-      diasDuracao != null &&
-      diasDuracao.trim().isNotEmpty &&
-      double.parse(diasDuracao.trim()) != 0;
+  bool diasQuestionarioValida() => diasDuracao != null && diasDuracao != 0;
 
   bool periodicidadeQuestionarioValida() =>
-      quantidadePeriodicidade != null &&
-      quantidadePeriodicidade.trim().isNotEmpty &&
-      double.parse(quantidadePeriodicidade.trim()) != 0;
+      quantidadePeriodicidade != null && quantidadePeriodicidade != 0;
 
   String? get duracaoQuestionarioErroMensagem {
     if ((diasDuracao == null || diasQuestionarioValida()) &&
@@ -375,9 +383,9 @@ class PostarTratamentoController extends GetxController {
         pacienteId: vinculo.usuarioId,
         medicoId: usuario.id,
         ativo: 1,
-        dataInicio: '$dataInicial',
-        quantidadePeriodicidade: int.parse(quantidadePeriodicidade),
-        diasDuracao: int.parse(diasDuracao));
+        dataInicio: dataInicial,
+        quantidadePeriodicidade: quantidadePeriodicidade,
+        diasDuracao: diasDuracao);
 
     if (idPostagem != null) acompanhamento.id = idPostagem;
     repository
@@ -399,6 +407,7 @@ class PostarTratamentoController extends GetxController {
                 titulo: tituloQuestionario,
                 descricao: descricaoQuestionario,
                 acompanhamentoId: retornoAcompanhamento);
+            if (idQuestionario != null) questionario.id = idQuestionario;
             repository
                 .salvarQuestionario(questionario)
                 .then((retornoQuestionario) {
@@ -498,17 +507,22 @@ class PostarTratamentoController extends GetxController {
 
     idTratamento = acompanhamento.tratamento!.id;
     idPostagem = acompanhamento.id;
+    idQuestionario = acompanhamento.questionario?.id;
     texto = acompanhamento.tratamento!.descricao;
     doc = Document.fromJson(jsonDecode(texto));
     setTitulo(acompanhamento.tratamento?.titulo ?? '');
     setTituloQuestionario(acompanhamento.questionario?.titulo ?? '');
-    setTituloQuestionario(acompanhamento.questionario?.descricao ?? '');
+    setDescricaoQuestionario(acompanhamento.questionario?.descricao ?? '');
+    dataInicial = acompanhamento.dataInicio;
     medicamentosSelecionadosInfo.assignAll(
         acompanhamento.tratamento?.medicamentos ??
             List<MedicamentoInfo>.empty());
     questoes.assignAll(
         acompanhamento.questionario?.questoes ?? List<Questao>.empty());
     setDescricao(acompanhamento.descricaoPaciente);
+
+    setDiasDuracao('${acompanhamento.diasDuracao}');
+    setQuantidadePeriodicidade('${acompanhamento.quantidadePeriodicidade}');
 
     vinculo = Vinculo(
         usuarioId: acompanhamento.paciente!.id!,
