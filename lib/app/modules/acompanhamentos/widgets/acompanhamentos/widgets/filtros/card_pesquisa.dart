@@ -94,7 +94,7 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.green),
               ),
-              title: const AutoSizeText('Acompanhamentos pendentes'),
+              title: const AutoSizeText('Questionário disponível'),
             ),
             ListTile(
               leading: Container(
@@ -104,7 +104,7 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.blue),
               ),
-              title: const AutoSizeText('Sem acompanhamentos pendentes'),
+              title: const AutoSizeText('Sem questionário disponível'),
             ),
           ],
         ),

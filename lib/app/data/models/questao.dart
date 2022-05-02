@@ -8,17 +8,22 @@ class Questao {
   String? descricao;
   List<OpcaoQuestao>? opcoes;
   bool utilizado;
+  int? idIndermediaria;
   Questao(
-      {this.id, required this.tipo, this.descricao, required this.utilizado});
+      {this.id,
+      required this.tipo,
+      this.descricao,
+      required this.utilizado,
+      this.idIndermediaria});
 
   factory Questao.fromJson(Map<String, dynamic> json) {
     Questao questao;
     questao = Questao(
-      id: json['id'],
-      tipo: json['tipo'].toString().tipoQuestao(),
-      descricao: json['descricao'],
-      utilizado: json['utilizado'],
-    );
+        id: json['id'],
+        tipo: json['tipo'].toString().tipoQuestao(),
+        descricao: json['descricao'],
+        utilizado: json['utilizado'],
+        idIndermediaria: json['intermediaria']);
     if (questao.tipo == TipoQuestao.O) {
       questao.opcoes = json['opcoes'] == null
           ? List<OpcaoQuestao>.empty()
@@ -45,8 +50,14 @@ class Questao {
   }
 
   static List<Questao> listFromJson(list) =>
-      List<Questao>.from(list.map((questao) => Questao.fromJson(
-          questao['questao'] == null ? questao : questao['questao'])));
+      List<Questao>.from(list.map((questao) {
+        if (questao['questao'] == null) {
+          return Questao.fromJson(questao);
+        } else {
+          questao['questao']['intermediaria'] = questao['id'];
+          return Questao.fromJson(questao['questao']);
+        }
+      }));
 
   static List<Map<String, dynamic>> listToJson(list) =>
       List<Map<String, dynamic>>.from(list.map((opcao) => opcao.toJson()));

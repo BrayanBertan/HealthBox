@@ -22,7 +22,8 @@ class Medico extends Usuario {
       required String telefone,
       String? fotoPath,
       required int ativo,
-      required Genero genero})
+      required Genero genero,
+      bool? respostaPendente})
       : super(
             id: id,
             tipo: tipo,
@@ -33,7 +34,8 @@ class Medico extends Usuario {
             telefone: telefone,
             fotoPath: fotoPath,
             ativo: ativo,
-            genero: genero);
+            genero: genero,
+            respostaPendente: respostaPendente);
 
   factory Medico.fromJson(Map<String, dynamic> json) => Medico(
       descricao: json['caracteristica']['descricao'],
@@ -47,7 +49,8 @@ class Medico extends Usuario {
       telefone: json['telefone'],
       fotoPath: json['foto_path'],
       genero: json['genero'].toString().genero(),
-      ativo: json['ativo']);
+      ativo: json['ativo'],
+      respostaPendente: json['resposta_pendente']);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

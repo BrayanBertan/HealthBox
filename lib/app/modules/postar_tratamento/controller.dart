@@ -106,8 +106,9 @@ class PostarTratamentoController extends GetxController {
     return StepState.indexed;
   }
 
-  checkDataInicial() =>
-      dataInicial != null && dataInicial.difference(DateTime.now()).inDays <= 0;
+  bool checkDataInicial() =>
+      dataInicial != null &&
+      dataInicial.difference(DateTime.now().toLocal()).inDays < 0;
 
   //===============================STEP 0================================
   final vinculos = <Vinculo>[].obs;

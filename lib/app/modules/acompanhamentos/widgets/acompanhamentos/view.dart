@@ -11,7 +11,7 @@ class ListagemAcompanhamentoPage extends GetView<AcompanhamentosController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Questionários'),
+        title: const Text('Acompanhamentos'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),

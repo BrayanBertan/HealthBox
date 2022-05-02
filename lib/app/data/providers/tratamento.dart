@@ -134,15 +134,20 @@ class TratamentoProvider extends GetConnect {
 
   Future<bool> deletarAcompanhamento(int id) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    dynamic retornoApi;
+    try {
+      dynamic retornoApi;
 
-    retornoApi = await delete(
-      'acompanhamentos/$id',
-      headers: {'Authorization': 'Bearer  $token'},
-    );
+      retornoApi = await delete(
+        'acompanhamentos/$id',
+        headers: {'Authorization': 'Bearer  $token'},
+      );
 
-    if (retornoApi.statusCode == 200) return true;
-    return false;
+      if (retornoApi.statusCode == 200) return true;
+      return false;
+    } catch (erro) {
+      print('erro deletarAcompanhamento $erro');
+      return false;
+    }
   }
 
 //=================================Questões=====================================
@@ -229,6 +234,22 @@ class TratamentoProvider extends GetConnect {
       print('Erro getQuestoesPreCadastradas $erro');
       return List<Questao>.empty();
     }
+  }
+
+//=================================Quesitonários=====================================
+  salvarRespostas(Map<String, dynamic> respostas) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+
+    dynamic retornoApi;
+    retornoApi = await post(
+      'questoes/respostas',
+      respostas,
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
   }
 
 //=================================Opiniões=====================================

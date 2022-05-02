@@ -12,7 +12,7 @@ abstract class Usuario {
   String? fotoPath;
   int ativo;
   Genero genero;
-
+  bool? respostaPendente;
   Usuario(
       {this.id,
       required this.tipo,
@@ -23,7 +23,8 @@ abstract class Usuario {
       required this.telefone,
       this.fotoPath,
       required this.ativo,
-      required this.genero});
+      required this.genero,
+      this.respostaPendente});
 
   @override
   String toString() {

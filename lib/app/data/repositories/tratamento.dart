@@ -20,7 +20,9 @@ class TratamentoRepository {
   deletarAcompanhamento(int id) => provider.deletarAcompanhamento(id);
 
   getAcompanhamentos(int id) => provider.getAcompanhamentos(id);
-
+//=================================Quesitonários=====================================
+  salvarRespostas(Map<String, dynamic> respostas) =>
+      provider.salvarRespostas(respostas);
   //=================================Questões=====================================
   salvarQuestao(Questao questao) => provider.salvarQuestao(questao);
 

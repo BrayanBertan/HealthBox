@@ -17,45 +17,47 @@ class Acompanhamento {
   Paciente? paciente;
   Medico? medico;
   DateTime dataInicio;
-  Acompanhamento({
-    this.id,
-    required this.descricaoPaciente,
-    required this.pacienteId,
-    required this.medicoId,
-    required this.ativo,
-    this.tratamento,
-    this.questionario,
-    required this.quantidadePeriodicidade,
-    required this.diasDuracao,
-    this.paciente,
-    this.medico,
-    required this.dataInicio,
-  });
+  bool? respostaPendente;
+  Acompanhamento(
+      {this.id,
+      required this.descricaoPaciente,
+      required this.pacienteId,
+      required this.medicoId,
+      required this.ativo,
+      this.tratamento,
+      this.questionario,
+      required this.quantidadePeriodicidade,
+      required this.diasDuracao,
+      this.paciente,
+      this.medico,
+      required this.dataInicio,
+      this.respostaPendente});
 
   factory Acompanhamento.fromJson(Map<String, dynamic> json) => Acompanhamento(
-        id: json['id'],
-        descricaoPaciente: json['descricao_paciente'] ?? '',
-        pacienteId: json['paciente_id'],
-        medicoId: json['medico_id'],
-        ativo: json['ativo'],
-        tratamento: json['tratamento'] != null
-            ? Tratamento.fromJson(json['tratamento'])
-            : null,
-        questionario: json['questionario'] != null
-            ? Questionario.fromJson(json['questionario'])
-            : null,
-        paciente: json['paciente'] != null &&
-                json['paciente']['caracteristica'] != null
-            ? Paciente.fromJson(json['paciente'])
-            : null,
-        medico:
-            json['medico'] != null && json['medico']['caracteristica'] != null
-                ? Medico.fromJson(json['medico'])
-                : null,
-        quantidadePeriodicidade: json['quantidade_periodicidade'],
-        diasDuracao: json['dias_duracao'],
-        dataInicio: DateTime.parse(json['data_inicio']),
-      );
+      id: json['id'],
+      descricaoPaciente: json['descricao_paciente'] ?? '',
+      pacienteId: json['paciente_id'],
+      medicoId: json['medico_id'],
+      ativo: json['ativo'],
+      tratamento: json['tratamento'] != null
+          ? Tratamento.fromJson(json['tratamento'])
+          : null,
+      questionario: json['questionario'] != null
+          ? Questionario.fromJson(json['questionario'])
+          : null,
+      paciente:
+          json['paciente'] != null && json['paciente']['caracteristica'] != null
+              ? Paciente.fromJson(json['paciente'])
+              : null,
+      medico: json['medico'] != null && json['medico']['caracteristica'] != null
+          ? Medico.fromJson(json['medico'])
+          : null,
+      quantidadePeriodicidade: json['quantidade_periodicidade'],
+      diasDuracao: json['dias_duracao'],
+      dataInicio: DateTime.parse(
+        json['data_inicio'],
+      ),
+      respostaPendente: json['resposta_pendente']);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

@@ -14,4 +14,5 @@ abstract class Routes {
   static const GRAFICO_LINES = '/graficos-opinioes/lines';
   static const ACOMPANHAMENTOS = '/acompanhamentos';
   static const LISTAGEM_ACOMPANHAMENTOS = '/acompanhamentos/listagem';
+  static const QUESTIONARIO_ACOMPANHAMENTOS = '/acompanhamentos/questionario';
 }

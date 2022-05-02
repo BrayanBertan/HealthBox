@@ -64,17 +64,21 @@ class ItemGridUsuariosAcompanhamentos
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
-
             AutoSizeText(
               controller.usuariosAcompanhamentos[index].nome,
+              style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
               maxLines: 1,
             ),
-            // AutoSizeText(
-            //   '2 questionários pendentes',
-            //   textAlign: TextAlign.center,
-            //   maxLines: 1,
-            // ),
+            !controller.usuariosAcompanhamentos[index].respostaPendente!
+                ? const AutoSizeText(
+                    'Questionários pendentes',
+                    style: TextStyle(fontSize: 12),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                : Container(),
           ],
         ),
       ),

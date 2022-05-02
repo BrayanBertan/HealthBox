@@ -28,7 +28,8 @@ class Paciente extends Usuario {
       required String telefone,
       String? fotoPath,
       required int ativo,
-      required Genero genero})
+      required Genero genero,
+      bool? respostaPendente})
       : super(
             id: id,
             tipo: tipo,
@@ -39,7 +40,8 @@ class Paciente extends Usuario {
             telefone: telefone,
             fotoPath: fotoPath,
             ativo: ativo,
-            genero: genero);
+            genero: genero,
+            respostaPendente: respostaPendente);
 
   factory Paciente.fromJson(Map<String, dynamic> json) => Paciente(
       cpf: json['caracteristica']?['cpf'] ?? '',
@@ -58,7 +60,8 @@ class Paciente extends Usuario {
       telefone: json['telefone'],
       fotoPath: json['foto_path'],
       genero: json['sexo'].toString().genero(),
-      ativo: json['ativo']);
+      ativo: json['ativo'],
+      respostaPendente: json['resposta_pendente']);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
