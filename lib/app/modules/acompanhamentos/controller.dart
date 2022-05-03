@@ -103,6 +103,11 @@ class AcompanhamentosController extends GetxController {
     repository
         .getQuestionarios(idAcompanhamento: idAcompanhamento)
         .then((retorno) {
+      if (idAcompanhamento != null) {
+        questionariosSelecionados.assignAll(retorno);
+        carregando = false;
+        return;
+      }
       questionarios = {};
       retorno.forEach((questionario) {
         DateTime dataIndex = DateTime(questionario.dataResposta!.year,
@@ -128,9 +133,24 @@ class AcompanhamentosController extends GetxController {
 
   setCamposRespostas(List<Questao> questoes) {
     camposRespostas.clear();
-    questoes.asMap().forEach((index, questao) => questao.tipo == TipoQuestao.O
-        ? camposRespostas.add(Rx<dynamic>(questao.opcoes?[0].id))
-        : camposRespostas.add(Rx<dynamic>(null)));
+    questoes.asMap().forEach((index, questao) {
+      print('baaa xd ${questao.resposta?.opcaoId}');
+      return questao.tipo == TipoQuestao.O
+          ? camposRespostas.add(Rx<dynamic>(questao.resposta?.opcaoId == null
+              ? questao.opcoes![0].id
+              : questao.resposta!.opcaoId))
+          : camposRespostas
+              .add(Rx<dynamic>(questao.resposta?.respostaDescritiva));
+    });
+  }
+
+  Map<String, dynamic> getHistoricoLegenda(DateTime date) {
+    DateTime hoje = DateTime.now();
+    hoje = DateTime(hoje.year, hoje.month, hoje.day);
+    int diferenca = date.difference(hoje).inDays;
+    if (diferenca > 0) return {'disponivel': 2, 'legenda': 'Futuro'};
+    if (diferenca < 0) return {'disponivel': 0, 'legenda': 'Finalizado'};
+    return {'disponivel': 1, 'legenda': 'Aberto'};
   }
 
   String? isCampoValido(index) {

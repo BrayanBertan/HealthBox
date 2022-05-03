@@ -269,7 +269,7 @@ class TratamentoProvider extends GetConnect {
         return List<Questionario>.empty();
       }
     } catch (erro) {
-      print('Erro getQuestoesPreCadastradas $erro');
+      print('Erro getQuestionarios $erro');
       return List<Questionario>.empty();
     }
   }

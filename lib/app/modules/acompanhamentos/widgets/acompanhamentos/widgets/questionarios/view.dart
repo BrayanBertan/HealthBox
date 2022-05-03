@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/card_info_questionario.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/card_listagem_questionarios.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/card_postar_resposta.dart';
 
 class QuestionarioPage extends GetView<AcompanhamentosController> {
@@ -17,7 +18,7 @@ class QuestionarioPage extends GetView<AcompanhamentosController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Questionário'),
+        title: Text(tipo == 1 ? 'Questionário' : 'Histórico'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
@@ -26,7 +27,7 @@ class QuestionarioPage extends GetView<AcompanhamentosController> {
             CardInfoQuesitonario(questionario: questionario!),
             tipo == 1
                 ? CardPostarRespostaPage(questionario: questionario!)
-                : Container()
+                : CardListagemQuestionarios(questionario: questionario!)
           ],
         ),
       ),

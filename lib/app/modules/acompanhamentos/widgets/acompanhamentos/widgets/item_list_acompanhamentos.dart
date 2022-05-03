@@ -65,7 +65,15 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                       : Container(),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.getQuestionarios(
+                    idAcompanhamento: controller.acompanhamentos[index].id);
+                Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS, arguments: {
+                  'questionario':
+                      controller.acompanhamentos[index].questionario,
+                  'tipo': 2
+                });
+              },
               icon: const Icon(Icons.list),
             ),
           ],

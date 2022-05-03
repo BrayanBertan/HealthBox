@@ -53,40 +53,61 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
         title: Text(controller.questionariosSelecionados[index].titulo),
-        trailing:
-            controller.questionariosSelecionados[index].respostaPendente ??
-                    false
-                ? TextButton.icon(
-                    onPressed: () => Get.toNamed(
-                            Routes.QUESTIONARIO_ACOMPANHAMENTOS,
-                            arguments: {
-                              'questionario':
-                                  controller.questionariosSelecionados[index],
-                              'tipo': 1
-                            }),
-                    icon: const Icon(
-                      Icons.edit,
-                      color: Colors.black87,
-                    ),
-                    label: const Text(
-                      'Responder',
-                      style: TextStyle(color: Colors.black),
-                    ))
-                : TextButton.icon(
-                    onPressed: () => Get.toNamed(
-                            Routes.QUESTIONARIO_ACOMPANHAMENTOS,
-                            arguments: {
-                              'questionario':
-                                  controller.questionariosSelecionados[index],
-                              'tipo': 1
-                            }),
-                    icon: const Icon(
-                      Icons.list_alt_outlined,
-                      color: Colors.black,
-                    ),
-                    label: const Text(
-                      'Visualizar',
-                      style: TextStyle(color: Colors.black),
-                    )));
+        trailing: controller.getHistoricoLegenda(controller
+                    .questionariosSelecionados[index]
+                    .dataResposta!)['disponivel'] ==
+                0
+            ? TextButton.icon(
+                onPressed: () {
+                  controller.getQuestionarios(
+                      idAcompanhamento: controller
+                          .questionariosSelecionados[index].acompanhamentoId);
+                  Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS, arguments: {
+                    'questionario': controller.questionariosSelecionados[index],
+                    'tipo': 2
+                  })!
+                      .then((val) {
+                    DateTime diaSelecionado = controller.diaSelecionado;
+                    controller.getQuestionarios();
+                    controller.questionariosSelecionados =
+                        controller.questionarios[diaSelecionado]!;
+                  });
+                },
+                icon: const Icon(
+                  Icons.list_alt_outlined,
+                  color: Colors.black,
+                ),
+                label: const Text(
+                  'Visualizar',
+                  style: TextStyle(color: Colors.black),
+                ))
+            : TextButton.icon(
+                onPressed: controller.getHistoricoLegenda(controller
+                            .questionariosSelecionados[index]
+                            .dataResposta!)['disponivel'] ==
+                        2
+                    ? null
+                    : () => Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS,
+                            arguments: {'questionario': controller.questionariosSelecionados[index], 'tipo': 1})!
+                        .then((val) => controller.getQuestionarios()),
+                icon: Icon(
+                  Icons.edit,
+                  color: controller.getHistoricoLegenda(controller
+                              .questionariosSelecionados[index]
+                              .dataResposta!)['disponivel'] ==
+                          2
+                      ? Colors.grey
+                      : Colors.black,
+                ),
+                label: Text(
+                  'Responder',
+                  style: TextStyle(
+                      color: controller.getHistoricoLegenda(controller
+                                  .questionariosSelecionados[index]
+                                  .dataResposta!)['disponivel'] ==
+                              2
+                          ? Colors.grey
+                          : Colors.black),
+                )));
   }
 }

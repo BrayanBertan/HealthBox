@@ -28,7 +28,9 @@ class Questionario {
       descricao: json['descricao'],
       acompanhamentoId: json['acompanhamento_id'],
       questoes: Questao.listFromJson(json['questoes']),
-      dataResposta: DateTime.parse(json['data_resposta']),
+      dataResposta: json['data_resposta'] == null
+          ? null
+          : DateTime.parse(json['data_resposta']),
       respostaPendente: json['resposta_pendente'],
       usuarioVinculado: json['usuario_vinculado'] == null
           ? null
@@ -56,6 +58,6 @@ class Questionario {
 
   @override
   String toString() {
-    return "Questionario $titulo $descricao";
+    return "Questionario $titulo $descricao questoes $questoes";
   }
 }

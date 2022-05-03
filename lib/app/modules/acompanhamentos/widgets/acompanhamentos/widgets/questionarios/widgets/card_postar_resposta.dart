@@ -12,6 +12,7 @@ class CardPostarRespostaPage extends GetView<AcompanhamentosController> {
   Questionario questionario;
   CardPostarRespostaPage({required this.questionario, Key? key})
       : super(key: key) {
+    print('questionario ${questionario.questoes![2].resposta}');
     controller
         .setCamposRespostas(questionario.questoes ?? List<Questao>.empty());
   }

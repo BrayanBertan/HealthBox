@@ -1,5 +1,6 @@
 import 'package:healthbox/app/data/enums/tipo_questao.dart';
 import 'package:healthbox/app/data/models/opcao_questao.dart';
+import 'package:healthbox/app/data/models/resposta.dart';
 import 'package:healthbox/core/extensions/enums.dart';
 
 class Questao {
@@ -9,12 +10,14 @@ class Questao {
   List<OpcaoQuestao>? opcoes;
   bool utilizado;
   int? idIndermediaria;
+  Resposta? resposta;
   Questao(
       {this.id,
       required this.tipo,
       this.descricao,
       required this.utilizado,
-      this.idIndermediaria});
+      this.idIndermediaria,
+      this.resposta});
 
   factory Questao.fromJson(Map<String, dynamic> json) {
     Questao questao;
@@ -23,7 +26,10 @@ class Questao {
         tipo: json['tipo'].toString().tipoQuestao(),
         descricao: json['descricao'],
         utilizado: json['utilizado'],
-        idIndermediaria: json['intermediaria']);
+        idIndermediaria: json['intermediaria'],
+        resposta: json['resposta'] == null
+            ? null
+            : Resposta.fromJson(json['resposta']));
     if (questao.tipo == TipoQuestao.O) {
       questao.opcoes = json['opcoes'] == null
           ? List<OpcaoQuestao>.empty()
@@ -54,6 +60,9 @@ class Questao {
         if (questao['questao'] == null) {
           return Questao.fromJson(questao);
         } else {
+          if (questao['resposta'] != null) {
+            questao['questao']['resposta'] = questao['resposta'];
+          }
           questao['questao']['intermediaria'] = questao['id'];
           return Questao.fromJson(questao['questao']);
         }
