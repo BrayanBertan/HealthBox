@@ -1,4 +1,7 @@
+import 'package:healthbox/app/data/models/medico.dart';
+import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/models/questao.dart';
+import 'package:healthbox/app/data/models/usuario.dart';
 
 class Questionario {
   int? id;
@@ -6,19 +9,32 @@ class Questionario {
   String? descricao;
   int acompanhamentoId;
   List<Questao>? questoes;
+  DateTime? dataResposta;
+  bool? respostaPendente;
+  Usuario? usuarioVinculado;
   Questionario(
       {this.id,
       required this.titulo,
       this.descricao,
       required this.acompanhamentoId,
-      this.questoes});
+      this.questoes,
+      this.dataResposta,
+      this.respostaPendente,
+      this.usuarioVinculado});
 
   factory Questionario.fromJson(Map<String, dynamic> json) => Questionario(
       id: json['id'],
       titulo: json['titulo'],
       descricao: json['descricao'],
       acompanhamentoId: json['acompanhamento_id'],
-      questoes: Questao.listFromJson(json['questoes']));
+      questoes: Questao.listFromJson(json['questoes']),
+      dataResposta: DateTime.parse(json['data_resposta']),
+      respostaPendente: json['resposta_pendente'],
+      usuarioVinculado: json['usuario_vinculado'] == null
+          ? null
+          : json['usuario_vinculado']['tipo'] == 'M'
+              ? Medico.fromJson(json['usuario_vinculado'])
+              : Paciente.fromJson(json['usuario_vinculado']));
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

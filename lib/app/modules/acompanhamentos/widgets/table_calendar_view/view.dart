@@ -1,41 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:healthbox/core/theme/app_colors.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:get/get.dart';
+import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/table_calendar_view/widgets/list_questionarios_calendar.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/table_calendar_view/widgets/table_calendar_builder.dart';
+import 'package:healthbox/app/modules/graficos/widgets/shimmer_graficos.dart';
 
-class TableCalendarPage extends StatelessWidget {
+class TableCalendarPage extends GetView<AcompanhamentosController> {
   const TableCalendarPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: TableCalendar(
-      locale: 'pt_BR',
-      calendarFormat: CalendarFormat.twoWeeks,
-      availableCalendarFormats: const {
-        CalendarFormat.month: 'Mês',
-        CalendarFormat.week: 'Semana',
-        CalendarFormat.twoWeeks: '2 semanas',
-      },
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      calendarStyle: CalendarStyle(
-        markerDecoration: BoxDecoration(color: corPrincipal),
-        selectedDecoration:
-            BoxDecoration(color: corPrincipal, shape: BoxShape.circle),
-        todayTextStyle:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        outsideDaysVisible: false,
-      ),
-      headerStyle: HeaderStyle(
-        formatButtonTextStyle:
-            const TextStyle(color: Colors.white, fontSize: 15.0),
-        formatButtonDecoration: BoxDecoration(
-          color: corPrincipal,
-          borderRadius: BorderRadius.circular(16.0),
+        child: Column(
+      children: [
+        Obx(
+          () => controller.carregando
+              ? const ShimmerGraficos()
+              : TableCalendarBuilder(),
         ),
-      ),
-      firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
-      focusedDay: DateTime.now(),
+        ListQuestionariosCalendar(),
+      ],
     ));
   }
 }

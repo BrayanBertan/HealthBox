@@ -38,8 +38,8 @@ class Medico extends Usuario {
             respostaPendente: respostaPendente);
 
   factory Medico.fromJson(Map<String, dynamic> json) => Medico(
-      descricao: json['caracteristica']['descricao'],
-      crms: Crm.listFromJson(json['crms']),
+      descricao: json['caracteristica']?['descricao'] ?? '',
+      crms: Crm.listFromJson(json['crms'] ?? List<Crm>.empty()),
       id: json['id'],
       tipo: json['tipo'].toString().tipoUsuario(),
       nome: json['name'],

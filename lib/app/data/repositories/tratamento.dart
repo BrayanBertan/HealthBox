@@ -23,6 +23,8 @@ class TratamentoRepository {
 //=================================Quesitonários=====================================
   salvarRespostas(Map<String, dynamic> respostas) =>
       provider.salvarRespostas(respostas);
+  getQuestionarios({int? idAcompanhamento}) =>
+      provider.getQuestionarios(idAcompanhamento: idAcompanhamento);
   //=================================Questões=====================================
   salvarQuestao(Questao questao) => provider.salvarQuestao(questao);
 

@@ -69,19 +69,33 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      height: 50,
-                      child: ElevatedButton.icon(
-                        onPressed: () => controller.tipoVisualizacao = 1,
-                        style: ElevatedButton.styleFrom(primary: Colors.white),
-                        icon: Image.asset(
-                          '${baseImagemUrl}gridview.png',
-                          width: 30,
-                          fit: BoxFit.cover,
+                    child: Obx(
+                      () => Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              offset: controller.tipoVisualizacao == 1
+                                  ? const Offset(3, 5)
+                                  : const Offset(0, 1),
+                              blurRadius: 5,
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ],
                         ),
-                        label: const Text(
-                          'Vínculo',
-                          style: TextStyle(color: Colors.black),
+                        child: ElevatedButton.icon(
+                          onPressed: () => controller.changeVisualizacao(1),
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.white),
+                          icon: Image.asset(
+                            '${baseImagemUrl}gridview.png',
+                            width: 30,
+                            fit: BoxFit.cover,
+                          ),
+                          label: const Text(
+                            'Vínculo',
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     ),
@@ -90,19 +104,33 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                     width: 15,
                   ),
                   Expanded(
-                    child: Container(
-                      height: 50,
-                      child: ElevatedButton.icon(
-                        onPressed: () => controller.tipoVisualizacao = 2,
-                        style: ElevatedButton.styleFrom(primary: Colors.white),
-                        icon: Image.asset(
-                          '${baseImagemUrl}table_calendar.png',
-                          width: 30,
-                          fit: BoxFit.cover,
+                    child: Obx(
+                      () => Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              offset: controller.tipoVisualizacao == 2
+                                  ? const Offset(3, 5)
+                                  : const Offset(0, 1),
+                              blurRadius: 5,
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ],
                         ),
-                        label: const Text(
-                          'Data',
-                          style: TextStyle(color: Colors.black),
+                        child: ElevatedButton.icon(
+                          onPressed: () => controller.changeVisualizacao(2),
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.white),
+                          icon: Image.asset(
+                            '${baseImagemUrl}table_calendar.png',
+                            width: 30,
+                            fit: BoxFit.cover,
+                          ),
+                          label: const Text(
+                            'Data',
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     ),

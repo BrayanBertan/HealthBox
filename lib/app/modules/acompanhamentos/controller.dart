@@ -6,9 +6,11 @@ import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/models/questao.dart';
+import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class AcompanhamentosController extends GetxController {
   final TratamentoRepository repository;
@@ -53,11 +55,18 @@ class AcompanhamentosController extends GetxController {
     });
   }
 
+  changeVisualizacao(int tipoVisuazalicaoParam) {
+    tipoVisualizacao = tipoVisuazalicaoParam;
+    if (tipoVisuazalicaoParam == 1) getUsuariosAcompanhamentos();
+    if (tipoVisuazalicaoParam == 2) getQuestionarios();
+  }
+
   //==========================Acompanhamentos===========================================
   final _usuarioSelecionado = Rx<Usuario?>(null);
+  List<Acompanhamento> acompanhamentos = <Acompanhamento>[].obs;
   get usuarioSelecionado => this._usuarioSelecionado.value;
   set usuarioSelecionado(value) => this._usuarioSelecionado.value = value;
-  List<Acompanhamento> acompanhamentos = <Acompanhamento>[].obs;
+
   getAcompanhamentos(int index) {
     carregando = true;
     usuarioSelecionado = usuariosAcompanhamentos[index];
@@ -71,6 +80,51 @@ class AcompanhamentosController extends GetxController {
 //==========================Questionários===========================================
 
   List<Rx<dynamic>> camposRespostas = <Rx<dynamic>>[].obs;
+  Map<DateTime, List<Questionario>> questionarios =
+      <DateTime, List<Questionario>>{}.obs;
+  List<Questionario> questionariosSelecionados = <Questionario>[].obs;
+  final _calendarFormat = CalendarFormat.twoWeeks.obs;
+  final _diaSelecionado = DateTime.now().obs;
+
+  get calendarFormat => this._calendarFormat.value;
+  setCalendarFormat(value) => this._calendarFormat.value = value;
+  get diaSelecionado => this._diaSelecionado.value;
+  set diaSelecionado(value) => this._diaSelecionado.value = value;
+
+  setQuestionariosDia(DateTime diaSelecionadoParam) {
+    diaSelecionado = DateTime(diaSelecionadoParam.year,
+        diaSelecionadoParam.month, diaSelecionadoParam.day);
+    questionariosSelecionados
+        .assignAll(questionarios[diaSelecionado] ?? <Questionario>[]);
+  }
+
+  getQuestionarios({int? idAcompanhamento}) {
+    carregando = true;
+    repository
+        .getQuestionarios(idAcompanhamento: idAcompanhamento)
+        .then((retorno) {
+      questionarios = {};
+      retorno.forEach((questionario) {
+        DateTime dataIndex = DateTime(questionario.dataResposta!.year,
+            questionario.dataResposta!.month, questionario.dataResposta!.day);
+        List<Questionario> original =
+            questionarios[dataIndex] ?? List<Questionario>.empty();
+
+        if (original.isEmpty) {
+          questionarios[dataIndex] = [questionario];
+        } else {
+          questionarios[dataIndex]!.add(questionario);
+        }
+      });
+      DateTime hoje = DateTime.now();
+
+      questionariosSelecionados.assignAll(
+          questionarios[DateTime(hoje.year, hoje.month, hoje.day)] ??
+              List<Questionario>.empty());
+
+      carregando = false;
+    });
+  }
 
   setCamposRespostas(List<Questao> questoes) {
     camposRespostas.clear();

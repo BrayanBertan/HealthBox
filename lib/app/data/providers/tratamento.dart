@@ -252,6 +252,28 @@ class TratamentoProvider extends GetConnect {
     return false;
   }
 
+  Future<List<Questionario>> getQuestionarios({int? idAcompanhamento}) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    String filtro = '';
+    if (idAcompanhamento != null) {
+      filtro = '?acompanhamento_id=$idAcompanhamento';
+    }
+    try {
+      var retornoApi = await get('acompanhamentos/questionarios$filtro',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Questionario.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<Questionario>.empty();
+      }
+    } catch (erro) {
+      print('Erro getQuestoesPreCadastradas $erro');
+      return List<Questionario>.empty();
+    }
+  }
+
 //=================================Opiniões=====================================
   salvarOpiniao(Opiniao opiniao) async {
     Get.find<UsuarioProvider>().isSessionValid();
