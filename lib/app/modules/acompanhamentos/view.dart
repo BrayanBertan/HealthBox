@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_pesquisa.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/filtros/card_usuarios_acompanhamentos.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/table_calendar_view/view.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
 class AcompanhamentoPage extends GetView<AcompanhamentosController> {
@@ -17,8 +18,15 @@ class AcompanhamentoPage extends GetView<AcompanhamentosController> {
       drawer: SideMenu(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          children: const [CardPesquisa(), CardUsuariosAcompanhamentos()],
+        child: Obx(
+          () => Column(
+            children: [
+              CardPesquisa(),
+              controller.tipoVisualizacao == 1
+                  ? CardUsuariosAcompanhamentos()
+                  : TableCalendarPage()
+            ],
+          ),
         ),
       ),
     );

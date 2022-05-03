@@ -125,7 +125,8 @@ class ContaProvider extends GetConnect {
           'solicitacoes-vinculos/usuarios-disponiveis?nome=$nome',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Vinculo.listFromJson(obj));
-
+      print(retornoApi.statusCode);
+      print(retornoApi.body);
       if (retornoApi.statusCode == 200) {
         return retornoApi.body!;
       } else {

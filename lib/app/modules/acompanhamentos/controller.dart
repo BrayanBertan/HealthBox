@@ -27,8 +27,12 @@ class AcompanhamentosController extends GetxController {
 
   //==========================Todos===========================================
   final _carregando = false.obs;
+  final _tipoVisualizacao = 1.obs;
+
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
+  get tipoVisualizacao => this._tipoVisualizacao.value;
+  set tipoVisualizacao(value) => this._tipoVisualizacao.value = value;
   //==========================Usuarios Acompanhamentos===========================================
   final _usuario = Rx<dynamic>(null);
 

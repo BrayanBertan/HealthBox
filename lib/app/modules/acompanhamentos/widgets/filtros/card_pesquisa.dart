@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
+import 'package:healthbox/core/values/keys.dart';
 
 class CardPesquisa extends GetView<AcompanhamentosController> {
   const CardPesquisa({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Pesquisar pacientes",
-                      labelStyle: const TextStyle(color: Colors.grey),
+                      labelStyle: TextStyle(color: Colors.grey),
                     ),
                   ),
                 )),
@@ -47,6 +49,66 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                       color: corPrincipal,
                     ))
               ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Expanded(
+                    child: AutoSizeText(
+                      'Visualizar por ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        onPressed: () => controller.tipoVisualizacao = 1,
+                        style: ElevatedButton.styleFrom(primary: Colors.white),
+                        icon: Image.asset(
+                          '${baseImagemUrl}gridview.png',
+                          width: 30,
+                          fit: BoxFit.cover,
+                        ),
+                        label: const Text(
+                          'Vínculo',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        onPressed: () => controller.tipoVisualizacao = 2,
+                        style: ElevatedButton.styleFrom(primary: Colors.white),
+                        icon: Image.asset(
+                          '${baseImagemUrl}table_calendar.png',
+                          width: 30,
+                          fit: BoxFit.cover,
+                        ),
+                        label: const Text(
+                          'Data',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
