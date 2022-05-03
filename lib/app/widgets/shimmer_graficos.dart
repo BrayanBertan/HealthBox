@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ShimmerGraficos extends StatelessWidget {
-  const ShimmerGraficos({Key? key}) : super(key: key);
+class ShimmerContainer extends StatelessWidget {
+  const ShimmerContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

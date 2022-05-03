@@ -16,19 +16,23 @@ class QuestionarioPage extends GetView<AcompanhamentosController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(tipo == 1 ? 'Questionário' : 'Histórico'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            CardInfoQuesitonario(questionario: questionario!),
-            tipo == 1
-                ? CardPostarRespostaPage(questionario: questionario!)
-                : CardListagemQuestionarios(questionario: questionario!)
-          ],
+    return WillPopScope(
+      onWillPop: () =>
+          Future.delayed(Duration.zero).then((value) => !controller.carregando),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(tipo == 1 ? 'Questionário' : 'Histórico'),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              CardInfoQuesitonario(questionario: questionario!),
+              tipo == 1
+                  ? CardPostarRespostaPage(questionario: questionario!)
+                  : CardListagemQuestionarios(questionario: questionario!)
+            ],
+          ),
         ),
       ),
     );

@@ -121,11 +121,11 @@ class AcompanhamentosController extends GetxController {
           questionarios[dataIndex]!.add(questionario);
         }
       });
-      DateTime hoje = DateTime.now();
+      DateTime selecionado = DateTime(
+          diaSelecionado.year, diaSelecionado.month, diaSelecionado.day);
 
-      questionariosSelecionados.assignAll(
-          questionarios[DateTime(hoje.year, hoje.month, hoje.day)] ??
-              List<Questionario>.empty());
+      questionariosSelecionados
+          .assignAll(questionarios[selecionado] ?? List<Questionario>.empty());
 
       carregando = false;
     });

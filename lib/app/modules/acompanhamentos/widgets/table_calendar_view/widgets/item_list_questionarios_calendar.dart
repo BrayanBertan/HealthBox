@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -53,9 +54,7 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
         title: Text(controller.questionariosSelecionados[index].titulo),
-        trailing: controller.getHistoricoLegenda(controller
-                    .questionariosSelecionados[index]
-                    .dataResposta!)['disponivel'] ==
+        trailing: controller.getHistoricoLegenda(controller.questionariosSelecionados[index].dataResposta!)['disponivel'] ==
                 0
             ? TextButton.icon(
                 onPressed: () {
@@ -66,12 +65,7 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                     'questionario': controller.questionariosSelecionados[index],
                     'tipo': 2
                   })!
-                      .then((val) {
-                    DateTime diaSelecionado = controller.diaSelecionado;
-                    controller.getQuestionarios();
-                    controller.questionariosSelecionados =
-                        controller.questionarios[diaSelecionado]!;
-                  });
+                      .then((val) => controller.getQuestionarios());
                 },
                 icon: const Icon(
                   Icons.list_alt_outlined,
@@ -81,33 +75,42 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                   'Visualizar',
                   style: TextStyle(color: Colors.black),
                 ))
-            : TextButton.icon(
-                onPressed: controller.getHistoricoLegenda(controller
-                            .questionariosSelecionados[index]
-                            .dataResposta!)['disponivel'] ==
-                        2
-                    ? null
-                    : () => Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS,
-                            arguments: {'questionario': controller.questionariosSelecionados[index], 'tipo': 1})!
-                        .then((val) => controller.getQuestionarios()),
-                icon: Icon(
-                  Icons.edit,
-                  color: controller.getHistoricoLegenda(controller
-                              .questionariosSelecionados[index]
-                              .dataResposta!)['disponivel'] ==
-                          2
-                      ? Colors.grey
-                      : Colors.black,
-                ),
-                label: Text(
-                  'Responder',
-                  style: TextStyle(
+            : controller.usuario.tipo == TipoUsuario.PACIENTE
+                ? TextButton.icon(
+                    onPressed: controller.getHistoricoLegenda(controller
+                                .questionariosSelecionados[index]
+                                .dataResposta!)['disponivel'] ==
+                            2
+                        ? null
+                        : () => Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS,
+                                    arguments: {
+                                  'questionario': controller
+                                      .questionariosSelecionados[index],
+                                  'tipo': 1
+                                })!
+                                .then((val) => controller.getQuestionarios()),
+                    icon: Icon(
+                      Icons.edit,
                       color: controller.getHistoricoLegenda(controller
                                   .questionariosSelecionados[index]
                                   .dataResposta!)['disponivel'] ==
                               2
                           ? Colors.grey
-                          : Colors.black),
-                )));
+                          : Colors.black,
+                    ),
+                    label: Text(
+                      'Responder',
+                      style: TextStyle(
+                          color: controller.getHistoricoLegenda(controller
+                                      .questionariosSelecionados[index]
+                                      .dataResposta!)['disponivel'] ==
+                                  2
+                              ? Colors.grey
+                              : Colors.black),
+                    ))
+                : Container(
+                    width: 0,
+                    height: 0,
+                  ));
   }
 }

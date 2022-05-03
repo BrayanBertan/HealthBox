@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/graficos/controller.dart';
-import 'package:healthbox/app/modules/graficos/widgets/shimmer_graficos.dart';
+import 'package:healthbox/app/widgets/shimmer_graficos.dart';
 
 class CardGrafico extends GetView<GraficosOpinioesController> {
   dynamic grafico;
@@ -11,7 +11,7 @@ class CardGrafico extends GetView<GraficosOpinioesController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.carregando
-        ? const ShimmerGraficos()
+        ? const ShimmerContainer()
         : Card(
             child: Container(
               width: MediaQuery.of(context).size.width,

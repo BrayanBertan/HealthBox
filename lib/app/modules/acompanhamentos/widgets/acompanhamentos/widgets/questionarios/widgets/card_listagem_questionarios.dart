@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/custom_list_questionario.dart';
-import 'package:healthbox/app/modules/graficos/widgets/shimmer_graficos.dart';
+import 'package:healthbox/app/widgets/shimmer_graficos.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:intl/intl.dart';
 
@@ -16,7 +16,7 @@ class CardListagemQuestionarios extends GetView<AcompanhamentosController> {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.carregando
-          ? const ShimmerGraficos()
+          ? const ShimmerContainer()
           : ListView.builder(
               shrinkWrap: true,
               physics: const ScrollPhysics(),

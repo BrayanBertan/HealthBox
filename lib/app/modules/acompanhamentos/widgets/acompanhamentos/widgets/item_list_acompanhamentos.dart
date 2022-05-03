@@ -69,8 +69,8 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                 controller.getQuestionarios(
                     idAcompanhamento: controller.acompanhamentos[index].id);
                 Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS, arguments: {
-                  'questionario':
-                      controller.acompanhamentos[index].questionario,
+                  'questionario': controller.acompanhamentos[index]
+                      .questionario,
                   'tipo': 2
                 });
               },

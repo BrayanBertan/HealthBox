@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/table_calendar_view/widgets/item_list_questionarios_calendar.dart';
-import 'package:healthbox/app/widgets/shimmer_listagem_simples.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:intl/intl.dart';
 
@@ -22,24 +21,21 @@ class ListQuestionariosCalendar extends GetView<AcompanhamentosController> {
               textAlign: TextAlign.center,
             )),
         Obx(
-          () => controller.carregando
-              ? const ShimmerListagemSimples()
-              : controller.questionariosSelecionados.isEmpty
-                  ? const Text(
-                      'Nenhum questionário foi encontrado para essa data...',
-                      textAlign: TextAlign.center,
-                    )
-                  : Scrollbar(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          itemCount:
-                              controller.questionariosSelecionados.length,
-                          itemBuilder: (context, index) =>
-                              ItemListQuestionariosCalendar(
-                                index: index,
-                              )),
-                    ),
+          () => controller.questionariosSelecionados.isEmpty
+              ? const Text(
+                  'Nenhum questionário foi encontrado para essa data...',
+                  textAlign: TextAlign.center,
+                )
+              : Scrollbar(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemCount: controller.questionariosSelecionados.length,
+                      itemBuilder: (context, index) =>
+                          ItemListQuestionariosCalendar(
+                            index: index,
+                          )),
+                ),
         ),
       ],
     ));
