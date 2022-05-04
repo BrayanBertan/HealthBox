@@ -109,16 +109,18 @@ class AcompanhamentosController extends GetxController {
         return;
       }
       questionarios = {};
-      retorno.forEach((questionario) {
-        DateTime dataIndex = DateTime(questionario.dataResposta!.year,
-            questionario.dataResposta!.month, questionario.dataResposta!.day);
+      retorno.forEach((questionarioParam) {
+        DateTime dataIndex = DateTime(
+            questionarioParam.dataResposta!.year,
+            questionarioParam.dataResposta!.month,
+            questionarioParam.dataResposta!.day);
         List<Questionario> original =
             questionarios[dataIndex] ?? List<Questionario>.empty();
 
         if (original.isEmpty) {
-          questionarios[dataIndex] = [questionario];
+          questionarios[dataIndex] = [questionarioParam];
         } else {
-          questionarios[dataIndex]!.add(questionario);
+          questionarios[dataIndex]!.add(questionarioParam);
         }
       });
       DateTime selecionado = DateTime(

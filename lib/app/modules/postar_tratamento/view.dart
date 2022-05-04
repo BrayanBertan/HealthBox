@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
+import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step0_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
@@ -8,7 +9,6 @@ import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step4_medico.dart';
 import 'package:healthbox/app/widgets/ficha_paciente/dialog_ficha.dart';
-import 'package:healthbox/routes/app_pages.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
@@ -16,7 +16,8 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
   PagePostarTratamento({Key? key}) : super(key: key) {
     final tratamento = Get.arguments;
     if (tratamento != null)
-      Get.previousRoute == Routes.INITIAL
+      // Get.previousRoute == Routes.INITIAL
+      tratamento is Opiniao
           ? controller.setEdicaoOpiniao(tratamento)
           : controller.setEdicaoAcompanhamento(tratamento);
   }
