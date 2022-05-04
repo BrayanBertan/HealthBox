@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_questao.dart';
@@ -37,7 +39,8 @@ class AcompanhamentosController extends GetxController {
   set tipoVisualizacao(value) => this._tipoVisualizacao.value = value;
   //==========================Usuarios Acompanhamentos===========================================
   final _usuario = Rx<dynamic>(null);
-
+  bool delayVinculos = false;
+  bool delayDatas = false;
   List<Usuario> usuariosAcompanhamentos = <Usuario>[].obs;
 
   get usuario => this._usuario.value;
@@ -57,8 +60,20 @@ class AcompanhamentosController extends GetxController {
 
   changeVisualizacao(int tipoVisuazalicaoParam) {
     tipoVisualizacao = tipoVisuazalicaoParam;
-    if (tipoVisuazalicaoParam == 1) getUsuariosAcompanhamentos();
-    if (tipoVisuazalicaoParam == 2) getQuestionarios();
+    if (tipoVisuazalicaoParam == 1) {
+      if (!delayVinculos) {
+        getUsuariosAcompanhamentos();
+        delayVinculos = true;
+        Timer(const Duration(seconds: 15), () => delayVinculos = false);
+      }
+    }
+    if (tipoVisuazalicaoParam == 2) {
+      if (!delayDatas) {
+        getQuestionarios();
+        delayDatas = true;
+        Timer(const Duration(seconds: 15), () => delayDatas = false);
+      }
+    }
   }
 
   //==========================Acompanhamentos===========================================

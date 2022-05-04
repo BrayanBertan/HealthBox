@@ -31,7 +31,7 @@ class TratamentoProvider extends GetConnect {
     Get.find<UsuarioProvider>().isSessionValid();
     print('Bearer  $token');
     try {
-      var retornoApi = await get('acompanhamentos/vinculos-usuarios',
+      var retornoApi = await get('acompanhamentos/vinculos/usuarios',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => T == Paciente
               ? Paciente.listFromJson(obj)
@@ -259,7 +259,8 @@ class TratamentoProvider extends GetConnect {
       filtro = '?acompanhamento_id=$idAcompanhamento';
     }
     try {
-      var retornoApi = await get('acompanhamentos/questionarios$filtro',
+      var retornoApi = await get(
+          'acompanhamentos/questionarios/responder$filtro',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Questionario.listFromJson(obj));
 
