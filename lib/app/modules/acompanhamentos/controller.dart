@@ -87,7 +87,6 @@ class AcompanhamentosController extends GetxController {
     usuarioSelecionado = usuariosAcompanhamentos[index];
     repository.getAcompanhamentos(usuarioSelecionado.id).then((retorno) {
       acompanhamentos.assignAll(retorno);
-      print('$acompanhamentos');
       carregando = false;
     });
   }
@@ -150,10 +149,21 @@ class AcompanhamentosController extends GetxController {
     });
   }
 
+  getInfoAcompanhamento(int idAcompanhamento) =>
+      repository.getInfoAcompanhamento(idAcompanhamento).then((retorno) {
+        if (retorno is bool) {
+          EasyLoading.showToast('Erro ao buscar info do acompanhamento',
+              duration: const Duration(milliseconds: 500),
+              toastPosition: EasyLoadingToastPosition.bottom);
+          return null;
+        } else {
+          return retorno;
+        }
+      });
+
   setCamposRespostas(List<Questao> questoes) {
     camposRespostas.clear();
     questoes.asMap().forEach((index, questao) {
-      print('baaa xd ${questao.resposta?.opcaoId}');
       return questao.tipo == TipoQuestao.O
           ? camposRespostas.add(Rx<dynamic>(questao.resposta?.opcaoId == null
               ? questao.opcoes![0].id
@@ -201,6 +211,13 @@ class AcompanhamentosController extends GetxController {
         EasyLoading.showToast('Questionário respondido com sucesso',
             duration: const Duration(milliseconds: 500),
             toastPosition: EasyLoadingToastPosition.bottom);
+        if (Get.previousRoute == '/acompanhamentos/listagem') {
+          int index = usuariosAcompanhamentos
+              .indexWhere((usuario) => usuario.id == usuarioSelecionado?.id);
+          getAcompanhamentos(index);
+        } else {
+          getQuestionarios();
+        }
       } else {
         EasyLoading.showToast(
             'Erro ao responder questionário, tente novamente mais tarde',

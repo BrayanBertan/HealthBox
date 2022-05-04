@@ -37,6 +37,9 @@ class TratamentoRepository {
 
   getQuestoesPreCadastradas() => provider.getQuestoesPreCadastradas();
 
+  getInfoAcompanhamento(int idAcompanhamento) =>
+      provider.getInfoAcompanhamento(idAcompanhamento);
+
   //=================================Opiniões=====================================
   getOpinioes(
           {int? pacienteId,

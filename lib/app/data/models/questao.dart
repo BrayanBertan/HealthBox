@@ -60,8 +60,8 @@ class Questao {
         if (questao['questao'] == null) {
           return Questao.fromJson(questao);
         } else {
-          if (questao['resposta'] != null) {
-            questao['questao']['resposta'] = questao['resposta'];
+          if (questao['respostas'].isNotEmpty) {
+            questao['questao']['resposta'] = questao['respostas'][0];
           }
           questao['questao']['intermediaria'] = questao['id'];
           return Questao.fromJson(questao['questao']);

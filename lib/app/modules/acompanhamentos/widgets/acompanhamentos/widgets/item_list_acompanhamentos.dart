@@ -21,9 +21,7 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
           height: 25,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: controller.getHistoricoLegenda(controller
-                          .acompanhamentos[index].dataInicio)['disponivel'] ==
-                      1
+              color: controller.acompanhamentos[index].respostaPendente ?? false
                   ? Colors.green
                   : Colors.blue),
         ),
@@ -47,10 +45,7 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                         'Editar',
                         style: TextStyle(color: Colors.black87),
                       ))
-                  : controller.getHistoricoLegenda(controller
-                              .acompanhamentos[index]
-                              .dataInicio)['disponivel'] ==
-                          1
+                  : controller.acompanhamentos[index].respostaPendente ?? false
                       ? TextButton.icon(
                           onPressed: () => Get.toNamed(
                                   Routes.QUESTIONARIO_ACOMPANHAMENTOS,

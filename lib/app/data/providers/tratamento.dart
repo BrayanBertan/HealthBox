@@ -52,15 +52,7 @@ class TratamentoProvider extends GetConnect {
   Future<List<Acompanhamento>> getAcompanhamentos(int id) async {
     Get.find<UsuarioProvider>().isSessionValid();
     print('${httpClient.baseUrl}acompanhamentos?usuario_id=$id&ativo=1');
-    var retornoApi = await get('acompanhamentos?usuario_id=$id&ativo=1',
-        headers: {'Authorization': 'Bearer  $token'},
-        decoder: (obj) => Acompanhamento.listFromJson(obj));
 
-    if (retornoApi.statusCode == 200) {
-      return retornoApi.body!;
-    } else {
-      return List<Acompanhamento>.empty();
-    }
     try {
       var retornoApi = await get('acompanhamentos?usuario_id=$id&ativo=1',
           headers: {'Authorization': 'Bearer  $token'},
@@ -272,6 +264,25 @@ class TratamentoProvider extends GetConnect {
     } catch (erro) {
       print('Erro getQuestionarios $erro');
       return List<Questionario>.empty();
+    }
+  }
+
+  getInfoAcompanhamento(int idAcompanhamento) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+
+    try {
+      var retornoApi = await get('acompanhamentos/$idAcompanhamento',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => Acompanhamento.fromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return false;
+      }
+    } catch (erro) {
+      print('Erro getInfoAcompanhamento $erro');
+      return false;
     }
   }
 

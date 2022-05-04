@@ -16,8 +16,15 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        leading: controller.questionariosSelecionados[index].usuarioVinculado
-                    ?.fotoPath ==
+        onTap: () => controller
+                .getInfoAcompanhamento(controller
+                    .questionariosSelecionados[index].acompanhamentoId)
+                .then((retorno) {
+              if (retorno != null) {
+                Get.toNamed(Routes.DETALHES_TRATAMENTO, arguments: retorno);
+              }
+            }),
+        leading: controller.questionariosSelecionados[index].usuarioVinculado?.fotoPath ==
                 null
             ? Container(
                 width: MediaQuery.of(context).size.width * 0.1,
@@ -83,12 +90,7 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                             2
                         ? null
                         : () => Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS,
-                                    arguments: {
-                                  'questionario': controller
-                                      .questionariosSelecionados[index],
-                                  'tipo': 1
-                                })!
-                                .then((val) => controller.getQuestionarios()),
+                            arguments: {'questionario': controller.questionariosSelecionados[index], 'tipo': 1}),
                     icon: Icon(
                       Icons.edit,
                       color: controller.getHistoricoLegenda(controller
