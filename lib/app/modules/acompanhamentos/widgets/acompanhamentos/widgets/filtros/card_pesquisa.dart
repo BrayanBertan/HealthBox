@@ -104,7 +104,7 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                 decoration: const BoxDecoration(
                     shape: BoxShape.circle, color: Colors.blue),
               ),
-              title: const AutoSizeText('Sem questionário disponível'),
+              title: const AutoSizeText('Questionário indisponível'),
             ),
           ],
         ),

@@ -21,7 +21,9 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
           height: 25,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: controller.acompanhamentos[index].respostaPendente!
+              color: controller.getHistoricoLegenda(controller
+                          .acompanhamentos[index].dataInicio)['disponivel'] ==
+                      1
                   ? Colors.green
                   : Colors.blue),
         ),
@@ -39,13 +41,16 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                           arguments: controller.acompanhamentos[index]),
                       icon: const Icon(
                         Icons.edit,
-                        color: Colors.black87,
+                        color: Colors.black,
                       ),
                       label: const Text(
                         'Editar',
                         style: TextStyle(color: Colors.black87),
                       ))
-                  : controller.acompanhamentos[index].respostaPendente!
+                  : controller.getHistoricoLegenda(controller
+                              .acompanhamentos[index]
+                              .dataInicio)['disponivel'] ==
+                          1
                       ? TextButton.icon(
                           onPressed: () => Get.toNamed(
                                   Routes.QUESTIONARIO_ACOMPANHAMENTOS,
@@ -69,8 +74,8 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                 controller.getQuestionarios(
                     idAcompanhamento: controller.acompanhamentos[index].id);
                 Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS, arguments: {
-                  'questionario': controller.acompanhamentos[index]
-                      .questionario,
+                  'questionario':
+                      controller.acompanhamentos[index].questionario,
                   'tipo': 2
                 });
               },

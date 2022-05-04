@@ -107,7 +107,7 @@ class Step3PacientePage extends GetView<DadosUsuarioController> {
             border: OutlineInputBorder(),
             focusedBorder:
                 OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-            labelText: "Alergias medicamentosas",
+            labelText: "Alergia à medicamentos",
             enabledBorder: OutlineInputBorder(),
             labelStyle: TextStyle(
               color: Colors.grey,

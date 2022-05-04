@@ -71,7 +71,7 @@ class Step4Page extends GetView<DadosUsuarioController> {
                           ? controller.comorbidades
                           : 'Nenhuma')),
                   Obx(() => CustomTextRich(
-                      titulo: 'Alergias medicamentosas: ',
+                      titulo: 'Alergia à medicamentos: ',
                       descricao: controller.alergiasMedicamentosas.isNotEmpty
                           ? controller.alergiasMedicamentosas
                           : 'Nenhuma')),

@@ -33,7 +33,7 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
                   child: TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "Pesquisar pacientes",
+                      labelText: "Pesquisar usuarios",
                       labelStyle: TextStyle(color: Colors.grey),
                     ),
                   ),

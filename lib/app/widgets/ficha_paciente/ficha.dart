@@ -93,7 +93,7 @@ class FichaPaciente extends StatelessWidget {
                           ? paciente!.comorbidades
                           : 'Nenhuma'),
                   CustomTextRich(
-                      titulo: 'Alergias medicamentosas: ',
+                      titulo: 'Alergia à medicamentos: ',
                       descricao: paciente!.alergiasMedicamentosas.isNotEmpty
                           ? paciente!.alergiasMedicamentosas
                           : 'Nenhuma'),

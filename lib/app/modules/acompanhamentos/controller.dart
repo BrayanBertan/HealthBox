@@ -188,6 +188,7 @@ class AcompanhamentosController extends GetxController {
             duration: const Duration(milliseconds: 500),
             toastPosition: EasyLoadingToastPosition.bottom);
       }
+      Get.back();
     });
   }
 }
