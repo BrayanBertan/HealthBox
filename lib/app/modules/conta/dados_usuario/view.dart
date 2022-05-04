@@ -66,7 +66,7 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                       onStepContinue: controller.activeStepIndexIncrease,
                       onStepTapped: (int step) {
                         FocusScope.of(context).unfocus();
-                        controller.setActiveStepIndex(step);
+                        controller.setActiveStepIndex(step, context: context);
                       },
                       controlsBuilder:
                           (BuildContext context, ControlsDetails details) {
@@ -89,7 +89,8 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
                                               controller.activeStepIndex)
                                       ? null
                                       : () {
-                                          FocusScope.of(context).unfocus();
+                                          controller
+                                              .requestFirstFieldFocus(context);
                                           if (controller.activeStepIndex == 4) {
                                             controller.salvarUsuario();
                                             return;

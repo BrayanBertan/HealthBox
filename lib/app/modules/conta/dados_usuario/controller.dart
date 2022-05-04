@@ -87,10 +87,16 @@ class DadosUsuarioController extends GetxController {
   String senhaTemp = '';
   //=====Getters e Setters=====
   get activeStepIndex => this._activeStepIndex.value;
-  setActiveStepIndex(value) => this._activeStepIndex.value =
-      isValidStep(activeStepIndex) || value < activeStepIndex
-          ? value
-          : activeStepIndex;
+  setActiveStepIndex(value, {BuildContext? context}) {
+    if (value > activeStepIndex && context != null) {
+      requestFirstFieldFocus(context);
+    }
+    this._activeStepIndex.value =
+        isValidStep(activeStepIndex) || value < activeStepIndex
+            ? value
+            : activeStepIndex;
+  }
+
   activeStepIndexIncrease() => this._activeStepIndex.value++;
   activeStepIndexDecrease() => this._activeStepIndex.value--;
   get validStep => this._validStep.value;
@@ -146,6 +152,49 @@ class DadosUsuarioController extends GetxController {
     if (step != activeStepIndex && isValidStep(step)) return StepState.complete;
     if (step != activeStepIndex && !isValidStep(step)) return StepState.indexed;
     return StepState.indexed;
+  }
+
+//===============Focus===================
+  FocusNode nomeFocus = FocusNode();
+  FocusNode telefoneFocus = FocusNode();
+  FocusNode emailFocus = FocusNode();
+  FocusNode senhaFocus = FocusNode();
+  FocusNode senhaConfirmacaoFocus = FocusNode();
+  FocusNode alturaFocus = FocusNode();
+  FocusNode pesoFocus = FocusNode();
+  FocusNode descricaoFocus = FocusNode();
+  FocusNode saudeComorbidadesFocus = FocusNode();
+  FocusNode saudeAlergiasFocus = FocusNode();
+  FocusNode saudePreDisposicoesFocus = FocusNode();
+
+  requestFirstFieldFocus(BuildContext context) {
+    int step = activeStepIndex;
+    if (usuario.tipo == TipoUsuario.MEDICO && step == 2) step = 3;
+    switch (step) {
+      case 0:
+        nomeFocus.requestFocus();
+        break;
+      case 1:
+        emailFocus.requestFocus();
+        break;
+      case 2:
+        alturaFocus.requestFocus();
+        break;
+      case 3:
+        descricaoFocus.requestFocus();
+        break;
+    }
+  }
+
+  Future<DateTime?> getCalendario(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+    dataNascimento = await showDatePicker(
+      context: context,
+      locale: const Locale("pt"),
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(const Duration(days: 36500)),
+      lastDate: DateTime.now(),
+    );
   }
 
   //==========STEP 0=======================

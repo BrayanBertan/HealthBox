@@ -14,6 +14,9 @@ class Step2Page extends GetView<DadosUsuarioController> {
         Obx(() => TextFormField(
               initialValue: controller.email,
               onChanged: controller.setEmail,
+              focusNode: controller.emailFocus,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) => controller.senhaFocus.requestFocus(),
               decoration: InputDecoration(
                   icon: const Icon(
                     Icons.email,
@@ -28,6 +31,10 @@ class Step2Page extends GetView<DadosUsuarioController> {
         Obx(() => TextFormField(
               initialValue: controller.senha,
               onChanged: controller.setSenha,
+              focusNode: controller.senhaFocus,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) =>
+                  controller.senhaConfirmacaoFocus.requestFocus(),
               obscureText: true,
               decoration: InputDecoration(
                   icon: const Icon(
@@ -43,6 +50,8 @@ class Step2Page extends GetView<DadosUsuarioController> {
         Obx(() => TextFormField(
               initialValue: controller.senhaRepeticao,
               onChanged: controller.setSenhaRepeticao,
+              focusNode: controller.senhaConfirmacaoFocus,
+              textInputAction: TextInputAction.done,
               obscureText: true,
               decoration: InputDecoration(
                   icon: const Icon(

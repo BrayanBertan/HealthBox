@@ -46,6 +46,7 @@ class Step3MedicoPage extends GetView<DadosUsuarioController> {
         Obx(() => TextFormField(
               controller: controller.descricaoController,
               onChanged: controller.setDescricao,
+              focusNode: controller.descricaoFocus,
               decoration: InputDecoration(
                   icon: const Icon(
                     Icons.list_alt_outlined,

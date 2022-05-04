@@ -16,7 +16,7 @@ class Step0Page extends GetView<DadosUsuarioController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
+        const Padding(
           padding: EdgeInsets.all(10),
           child: Text(
             'Você é?',
@@ -90,6 +90,8 @@ class Step0Page extends GetView<DadosUsuarioController> {
             ? Obx(() => TextFormField(
                   initialValue: controller.cpf,
                   onChanged: controller.setCpf,
+                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     CpfInputFormatter(),
@@ -115,6 +117,8 @@ class Step0Page extends GetView<DadosUsuarioController> {
                         child: TextFormField(
                           initialValue: controller.crm,
                           onChanged: controller.setCrm,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               icon: const Icon(
                                 Icons.document_scanner,

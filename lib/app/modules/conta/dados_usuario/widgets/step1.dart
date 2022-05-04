@@ -39,7 +39,10 @@ class Step1Page extends GetView<DadosUsuarioController> {
         ),
         Obx(() => TextFormField(
               controller: controller.nomeController,
+              focusNode: controller.nomeFocus,
               onChanged: controller.setNome,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) => controller.telefoneFocus.requestFocus(),
               decoration: InputDecoration(
                   icon: const Icon(
                     Icons.person,
@@ -54,6 +57,9 @@ class Step1Page extends GetView<DadosUsuarioController> {
         Obx(() => TextFormField(
               controller: controller.telefoneController,
               onChanged: controller.setTelefone,
+              focusNode: controller.telefoneFocus,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) => controller.getCalendario(context),
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 TelefoneInputFormatter(),
@@ -72,17 +78,7 @@ class Step1Page extends GetView<DadosUsuarioController> {
         Obx(() => Column(
               children: [
                 GestureDetector(
-                  onTap: () async {
-                    FocusScope.of(context).unfocus();
-                    controller.dataNascimento = await showDatePicker(
-                      context: context,
-                      locale: const Locale("pt"),
-                      initialDate: DateTime.now(),
-                      firstDate:
-                          DateTime.now().subtract(const Duration(days: 36500)),
-                      lastDate: DateTime.now(),
-                    );
-                  },
+                  onTap: () => controller.getCalendario(context),
                   child: Row(
                     children: [
                       Image.asset(

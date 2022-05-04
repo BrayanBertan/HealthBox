@@ -21,6 +21,10 @@ class Step3PacientePage extends GetView<DadosUsuarioController> {
                   child: TextFormField(
                     initialValue: controller.altura,
                     onChanged: controller.setAltura,
+                    focusNode: controller.alturaFocus,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) =>
+                        controller.pesoFocus.requestFocus(),
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       AlturaInputFormatter(),
@@ -42,6 +46,10 @@ class Step3PacientePage extends GetView<DadosUsuarioController> {
                   child: TextFormField(
                     initialValue: controller.peso,
                     onChanged: controller.setPeso,
+                    focusNode: controller.pesoFocus,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) =>
+                        controller.saudeComorbidadesFocus.requestFocus(),
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                       PesoInputFormatter(),
@@ -72,6 +80,9 @@ class Step3PacientePage extends GetView<DadosUsuarioController> {
         TextFormField(
           initialValue: controller.comorbidades,
           onChanged: controller.setComorbidades,
+          focusNode: controller.saudeComorbidadesFocus,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) => controller.saudeAlergiasFocus.requestFocus(),
           maxLines: 4,
           decoration: const InputDecoration(
             icon: Icon(
@@ -99,6 +110,10 @@ class Step3PacientePage extends GetView<DadosUsuarioController> {
         TextFormField(
           initialValue: controller.alergiasMedicamentosas,
           onChanged: controller.setAlergiasMedicamentosas,
+          focusNode: controller.saudeAlergiasFocus,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) =>
+              controller.saudePreDisposicoesFocus.requestFocus(),
           maxLines: 4,
           decoration: const InputDecoration(
             icon: Icon(
@@ -126,6 +141,8 @@ class Step3PacientePage extends GetView<DadosUsuarioController> {
         TextFormField(
           initialValue: controller.predisposicaoGenetica,
           onChanged: controller.setPredisposicaoGenetica,
+          focusNode: controller.saudePreDisposicoesFocus,
+          textInputAction: TextInputAction.done,
           maxLines: 4,
           decoration: const InputDecoration(
             icon: Icon(
