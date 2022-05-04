@@ -25,26 +25,26 @@ class TableCalendarBuilder extends GetView<AcompanhamentosController> {
                 DateTime(date.year, date.month, date.day) ==
                 controller.diaSelecionado,
             calendarBuilders: CalendarBuilders(
-              defaultBuilder: (_, data, data1) => TableCalendarBuilders(
+              defaultBuilder: (_, data, proximoDia) => TableCalendarBuilders(
                   textStyle: const TextStyle(color: Colors.black),
                   itemValue: data.day,
                   boxDecoration: const BoxDecoration(color: Colors.transparent),
                   width: 35.0,
                   height: 35.0),
-              outsideBuilder: (_, data, data1) => TableCalendarBuilders(
+              outsideBuilder: (_, data, proximoDia) => TableCalendarBuilders(
                   textStyle: const TextStyle(color: Colors.grey),
                   itemValue: data.day,
                   boxDecoration: const BoxDecoration(color: Colors.transparent),
                   width: 35.0,
                   height: 35.0),
-              selectedBuilder: (_, data, data1) => TableCalendarBuilders(
+              selectedBuilder: (_, data, proximoDia) => TableCalendarBuilders(
                   textStyle: const TextStyle(color: Colors.white),
                   itemValue: data.day,
                   boxDecoration: BoxDecoration(
                       shape: BoxShape.circle, color: corPrincipal),
                   width: 35.0,
                   height: 35.0),
-              todayBuilder: (_, data, data1) => TableCalendarBuilders(
+              todayBuilder: (_, data, proximoDia) => TableCalendarBuilders(
                   textStyle: TextStyle(
                       color: corPrincipal, fontWeight: FontWeight.bold),
                   itemValue: data.day,

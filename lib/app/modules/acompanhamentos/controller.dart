@@ -92,10 +92,12 @@ class AcompanhamentosController extends GetxController {
   set diaSelecionado(value) => this._diaSelecionado.value = value;
 
   setQuestionariosDia(DateTime diaSelecionadoParam) {
+    carregando = true;
     diaSelecionado = DateTime(diaSelecionadoParam.year,
         diaSelecionadoParam.month, diaSelecionadoParam.day);
     questionariosSelecionados
         .assignAll(questionarios[diaSelecionado] ?? <Questionario>[]);
+    carregando = false;
   }
 
   getQuestionarios({int? idAcompanhamento}) {
