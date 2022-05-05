@@ -169,7 +169,7 @@ class DadosUsuarioController extends GetxController {
 
   requestFirstFieldFocus(BuildContext context) {
     int step = activeStepIndex;
-    if (usuario.tipo == TipoUsuario.MEDICO && step == 2) step = 3;
+    if (tipo == TipoUsuario.MEDICO && step == 2) step = 3;
     switch (step) {
       case 0:
         nomeFocus.requestFocus();

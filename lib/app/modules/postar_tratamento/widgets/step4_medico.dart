@@ -10,131 +10,150 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 10,
-        ),
-        GestureDetector(
-          onTap: () async {
-            FocusScope.of(context).unfocus();
-            controller.dataInicial = await showDatePicker(
-              context: context,
-              locale: const Locale("pt"),
-              initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
-              lastDate: DateTime(
-                2500,
-                1,
-                1,
-              ),
-            );
-          },
-          child: Row(
-            children: [
-              Image.asset(
-                '${baseImagemUrl}calendario.png',
-                width: 30,
-                height: 30,
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              Obx(() => Text('Data inicial ${controller.formataDataInicial}'))
-            ],
+    return IgnorePointer(
+      ignoring: controller.checkDataInicial(),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 10,
           ),
-        ),
-        Obx(() => Text(
-              controller.dataInicialErroMensagem ?? '',
-              style: const TextStyle(color: Colors.red),
-            )),
-        const SizedBox(
-          height: 15,
-        ),
-        Wrap(
-          children: [
-            const Text(
-              ' Repetir o questionário por  ',
-              style: TextStyle(fontSize: 15),
+          GestureDetector(
+            onTap: () async {
+              FocusScope.of(context).unfocus();
+              controller.dataInicial = await showDatePicker(
+                context: context,
+                locale: const Locale("pt"),
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime(
+                  2500,
+                  1,
+                  1,
+                ),
+              );
+            },
+            child: Row(
+              children: [
+                Image.asset(
+                  '${baseImagemUrl}calendario.png',
+                  width: 30,
+                  height: 30,
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                Obx(() => Text('Data inicial ${controller.formataDataInicial}'))
+              ],
             ),
-            Obx(() => Container(
-                  width: 55,
-                  height: 25,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: (controller.diasDuracao != null &&
-                                  !controller.diasQuestionarioValida())
-                              ? Colors.red
-                              : Colors.grey),
-                      borderRadius: const BorderRadius.all(Radius.circular(5))),
-                  child: TextFormField(
-                    initialValue: '${controller.diasDuracao ?? ''}',
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade100)),
-                      isDense: false,
-                      border: const OutlineInputBorder(),
-                      labelStyle: const TextStyle(color: Colors.grey),
+          ),
+          Obx(() => Text(
+                controller.dataInicialErroMensagem ?? '',
+                style: const TextStyle(color: Colors.red),
+              )),
+          Container(
+            height: 30,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Text(
+                'O questionário irá durar',
+                style: TextStyle(fontSize: 15),
+              ),
+              title: Obx(() => Container(
+                    width: 55,
+                    height: 25,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: (controller.diasDuracao != null &&
+                                    !controller.diasQuestionarioValida())
+                                ? Colors.red
+                                : Colors.grey),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5))),
+                    child: TextFormField(
+                      initialValue: '${controller.diasDuracao ?? ''}',
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade100)),
+                        isDense: false,
+                        border: const OutlineInputBorder(),
+                        labelStyle: const TextStyle(color: Colors.grey),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(2),
+                      ],
+                      onChanged: controller.setDiasDuracao,
                     ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(3),
-                    ],
-                    onChanged: controller.setDiasDuracao,
-                  ),
-                )),
-            const Text(
-              ' dias, uma vez a cada  ',
-              style: TextStyle(fontSize: 15),
+                  )),
+              trailing: const Text(
+                'dias',
+                style: TextStyle(fontSize: 15),
+              ),
             ),
-            Obx(() => Container(
-                  width: 55,
-                  height: 25,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: (controller.quantidadePeriodicidade != null &&
-                                  !controller.periodicidadeQuestionarioValida())
-                              ? Colors.red
-                              : Colors.grey),
-                      borderRadius: const BorderRadius.all(Radius.circular(5))),
-                  child: TextFormField(
-                    initialValue: '${controller.quantidadePeriodicidade ?? ''}',
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade100)),
-                      isDense: false,
-                      border: const OutlineInputBorder(),
-                      labelStyle: const TextStyle(color: Colors.grey),
+          ),
+          Container(
+            height: 30,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Text(
+                'e se repetirá a cada',
+                style: TextStyle(fontSize: 15),
+              ),
+              title: Obx(() => Container(
+                    width: 55,
+                    height: 25,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color:
+                                (controller.quantidadePeriodicidade != null &&
+                                        !controller
+                                            .periodicidadeQuestionarioValida())
+                                    ? Colors.red
+                                    : Colors.grey),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5))),
+                    child: TextFormField(
+                      initialValue:
+                          '${controller.quantidadePeriodicidade ?? ''}',
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.grey.shade100)),
+                        isDense: false,
+                        border: const OutlineInputBorder(),
+                        labelStyle: const TextStyle(color: Colors.grey),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(2),
+                      ],
+                      onChanged: controller.setQuantidadePeriodicidade,
                     ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(2),
-                    ],
-                    onChanged: controller.setQuantidadePeriodicidade,
-                  ),
-                )),
-            const Text(
-              ' dias',
-              style: TextStyle(fontSize: 15),
+                  )),
+              trailing: const Text(
+                'dias',
+                style: TextStyle(fontSize: 15),
+              ),
             ),
-          ],
-        ),
-        Obx(() => Text(
-              controller.duracaoQuestionarioErroMensagem ?? '',
-              style: const TextStyle(color: Colors.red),
-            )),
-        const SizedBox(
-          height: 25,
-        ),
-        Text(
-          'Lembre-se depois de criado o acompanhamento só poderá ser editado antes da data de inicio!',
-          style: TextStyle(
-              fontSize: 17, fontWeight: FontWeight.bold, color: corPrincipal),
-          textAlign: TextAlign.center,
-        ),
-      ],
+          ),
+          Obx(() => Text(
+                controller.duracaoQuestionarioErroMensagem ?? '',
+                style: const TextStyle(color: Colors.red),
+              )),
+          const SizedBox(
+            height: 25,
+          ),
+          Text(
+            'Lembre-se depois de criado o acompanhamento só poderá ser editado antes da data de inicio!',
+            style: TextStyle(
+                fontSize: 17, fontWeight: FontWeight.bold, color: corPrincipal),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

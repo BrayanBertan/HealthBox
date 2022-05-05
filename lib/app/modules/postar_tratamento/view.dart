@@ -16,7 +16,6 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
   PagePostarTratamento({Key? key}) : super(key: key) {
     final tratamento = Get.arguments;
     if (tratamento != null)
-      // Get.previousRoute == Routes.INITIAL
       tratamento is Opiniao
           ? controller.setEdicaoOpiniao(tratamento)
           : controller.setEdicaoAcompanhamento(tratamento);
@@ -24,15 +23,13 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
 
   @override
   Widget build(BuildContext context) {
-    // var tratamento = Get.arguments;
-    // controller.vinculo = Vinculo(
-    //     usuarioId: tratamento.paciente!.id!,
-    //     nome: tratamento.paciente!.nome,
-    //     fotoPath: tratamento.paciente!.fotoPath,
-    //     paciente: tratamento.paciente);
     return Scaffold(
       backgroundColor: corPrincipal100,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(controller.usuario.tipo == TipoUsuario.PACIENTE
+            ? 'Opinião'
+            : 'Acompanhamento'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(

@@ -209,7 +209,7 @@ class DetalhesTratamentoPage extends StatelessWidget {
                   ? 'Descrição do tratamento'
                   : usuario.tipo == TipoUsuario.PACIENTE
                       ? ''
-                      : 'Descrição paciente',
+                      : 'Anotação sobre o paciente',
               style: subTitulo,
             ),
             acompanhamento == null

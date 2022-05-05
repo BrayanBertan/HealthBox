@@ -32,7 +32,7 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
                   borderSide: BorderSide(color: Colors.black)),
               labelText: controller.isPaciente
                   ? "Descrição do tratamento"
-                  : "Descrição do paciente",
+                  : "Anotação sobre o paciente",
               enabledBorder: const OutlineInputBorder(),
               labelStyle: const TextStyle(
                 color: Colors.grey,

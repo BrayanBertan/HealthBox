@@ -109,7 +109,9 @@ class PostarTratamentoController extends GetxController {
   bool checkDataInicial() {
     DateTime hoje = DateTime.now().toLocal();
     hoje = DateTime(hoje.year, hoje.month, hoje.day);
-    return dataInicial != null && dataInicial.difference(hoje).inDays <= 0;
+    return dataInicial != null &&
+        dataInicial.difference(hoje).inDays <= 0 &&
+        idPostagem != null;
   }
 
   //===============================STEP 0================================
@@ -388,6 +390,13 @@ class PostarTratamentoController extends GetxController {
     EasyLoadingConfig();
   }
 
+  sucessoAcompanhamento() {
+    EasyLoading.showSuccess('Acompanhamento salvo com sucesso');
+    EasyLoading.dismiss();
+    EasyLoadingConfig();
+    redirectListagemAcompanhamentos();
+  }
+
   salvarAcompanhamento() {
     EasyLoading.showInfo('Salvando...', duration: const Duration(seconds: 1));
 
@@ -417,6 +426,10 @@ class PostarTratamentoController extends GetxController {
 
         repository.salvarTratamento(tratamento).then((retornoTratamento) {
           if (retornoTratamento) {
+            if (checkDataInicial()) {
+              sucessoAcompanhamento();
+              return;
+            }
             Questionario questionario = Questionario(
                 titulo: tituloQuestionario,
                 descricao: descricaoQuestionario,
@@ -442,10 +455,7 @@ class PostarTratamentoController extends GetxController {
                     .salvarIntermediaria(vinculos)
                     .then((retornoIntermediaria) {
                   if (retornoIntermediaria) {
-                    EasyLoading.showSuccess('Acompanhamento salvo com sucesso');
-                    EasyLoading.dismiss();
-                    EasyLoadingConfig();
-                    redirectListagemAcompanhamentos();
+                    sucessoAcompanhamento();
                   } else {
                     rollBackAcompanhamento(retornoAcompanhamento);
                     erroAcompanhamento();

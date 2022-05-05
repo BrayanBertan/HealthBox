@@ -31,7 +31,10 @@ class BottomSheetOpcoesExclusaoQuestoes extends StatelessWidget {
                           'Deletar questão do pré-cadastro',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ))
-                    : Container(),
+                    : Container(
+                        width: 0,
+                        height: 0,
+                      ),
                 TextButton(
                     onPressed: remover,
                     child: const Text(
