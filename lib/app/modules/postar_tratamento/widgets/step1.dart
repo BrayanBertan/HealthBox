@@ -14,7 +14,10 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
       children: [
         TextFormField(
           initialValue: controller.titulo,
-          focusNode: controller.tituloFocus,
+          focusNode: controller.tituloTratamentoFocus,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) =>
+              controller.descricaoTratamentoFocus.requestFocus(),
           onChanged: controller.setTitulo,
           decoration: InputDecoration(
               icon: const Icon(
@@ -22,7 +25,7 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
               ),
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade100)),
-              labelText: "Título",
+              labelText: "Título do tratamento",
               enabledBorder: InputBorder.none,
               labelStyle: const TextStyle(
                 color: Colors.grey,

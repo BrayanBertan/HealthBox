@@ -13,7 +13,7 @@ class Step0MedicoTratamentoPage extends GetView<PostarTratamentoController> {
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      ignoring: controller.checkDataInicial(),
+      ignoring: controller.idPostagem != null,
       child: Column(
         children: [
           Obx(
@@ -21,36 +21,32 @@ class Step0MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                 ? const ShimmerSelects()
                 : controller.vinculos.isEmpty
                     ? const Text('Sem vínculos disponiveis')
-                    : IgnorePointer(
-                        ignoring: controller.idPostagem != null,
-                        child: DropdownSearch<Vinculo>(
-                          mode: Mode.DIALOG,
-                          dropdownSearchDecoration: const InputDecoration(
-                            labelText: 'Selecionar o paciente',
-                            isDense: true,
-                          ),
-                          onPopupDismissed: controller.setIsVinculoUntouched,
-                          dropDownButton: Container(),
-                          items: controller.vinculos,
-                          dropdownButtonBuilder: null,
-                          dropdownBuilder: (_, vinculo) =>
-                              controller.vinculo == null
-                                  ? const Text('')
-                                  : TileDropDownVinculo(
-                                      vinculo: controller.vinculo),
-                          popupItemBuilder: (_, vinculo, __) =>
-                              TileDropDownVinculo(vinculo: vinculo),
-                          showSearchBox: true,
-                          emptyBuilder: (_, __) => const Center(
-                            child: Text(
-                              'Nenhum vínculo foi encontrado.Use o campo de pesquisa acima.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          showClearButton: true,
-                          onChanged: (Vinculo? vinculo) =>
-                              controller.vinculo = vinculo,
+                    : DropdownSearch<Vinculo>(
+                        mode: Mode.DIALOG,
+                        dropdownSearchDecoration: const InputDecoration(
+                          labelText: 'Selecionar o paciente',
+                          isDense: true,
                         ),
+                        onPopupDismissed: controller.setIsVinculoUntouched,
+                        dropDownButton: Container(),
+                        items: controller.vinculos,
+                        dropdownButtonBuilder: null,
+                        dropdownBuilder: (_, vinculo) => controller.vinculo ==
+                                null
+                            ? const Text('')
+                            : TileDropDownVinculo(vinculo: controller.vinculo),
+                        popupItemBuilder: (_, vinculo, __) =>
+                            TileDropDownVinculo(vinculo: vinculo),
+                        showSearchBox: true,
+                        emptyBuilder: (_, __) => const Center(
+                          child: Text(
+                            'Nenhum vínculo foi encontrado.Use o campo de pesquisa acima.',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        showClearButton: true,
+                        onChanged: (Vinculo? vinculo) =>
+                            controller.vinculo = vinculo,
                       ),
           ),
           Obx(() => Text(

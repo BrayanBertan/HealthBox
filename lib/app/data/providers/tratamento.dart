@@ -126,6 +126,16 @@ class TratamentoProvider extends GetConnect {
 
   Future<bool> deletarAcompanhamento(int id) async {
     Get.find<UsuarioProvider>().isSessionValid();
+    dynamic retornoApi;
+
+    retornoApi = await delete(
+      'acompanhamentos/$id',
+      headers: {'Authorization': 'Bearer  $token'},
+    );
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
+    if (retornoApi.statusCode == 200) return true;
+    return false;
     try {
       dynamic retornoApi;
 
@@ -250,6 +260,7 @@ class TratamentoProvider extends GetConnect {
     if (idAcompanhamento != null) {
       filtro = '?acompanhamento_id=$idAcompanhamento';
     }
+
     try {
       var retornoApi = await get(
           'acompanhamentos/questionarios/responder$filtro',

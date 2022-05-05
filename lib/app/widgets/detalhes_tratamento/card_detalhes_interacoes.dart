@@ -9,6 +9,7 @@ import '../../../../../routes/app_pages.dart';
 
 class CardDetalhesInteracoes extends GetWidget<InteracaoController> {
   Opiniao opiniao;
+
   final controllerOpinioes = Get.find<OpinioesController>();
   CardDetalhesInteracoes({required this.opiniao, Key? key}) : super(key: key);
 

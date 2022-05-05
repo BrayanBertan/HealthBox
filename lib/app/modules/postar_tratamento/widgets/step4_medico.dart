@@ -13,6 +13,9 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
     return IgnorePointer(
       ignoring: controller.checkDataInicial(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(
             height: 10,
@@ -23,8 +26,8 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
               controller.dataInicial = await showDatePicker(
                 context: context,
                 locale: const Locale("pt"),
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
+                initialDate: controller.getDataInicialDisponivel(),
+                firstDate: controller.getDataInicialDisponivel(),
                 lastDate: DateTime(
                   2500,
                   1,
@@ -50,15 +53,13 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                 controller.dataInicialErroMensagem ?? '',
                 style: const TextStyle(color: Colors.red),
               )),
-          Container(
-            height: 30,
-            child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Text(
-                'O questionário irá durar',
+          Wrap(
+            children: [
+              const Text(
+                'O questionário irá durar ',
                 style: TextStyle(fontSize: 15),
               ),
-              title: Obx(() => Container(
+              Obx(() => Container(
                     width: 55,
                     height: 25,
                     decoration: BoxDecoration(
@@ -71,6 +72,11 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                             const BorderRadius.all(Radius.circular(5))),
                     child: TextFormField(
                       initialValue: '${controller.diasDuracao ?? ''}',
+                      onChanged: controller.setDiasDuracao,
+                      focusNode: controller.duracaoFocus,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) =>
+                          controller.intervaloFocus.requestFocus(),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
@@ -84,39 +90,33 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(2),
                       ],
-                      onChanged: controller.setDiasDuracao,
                     ),
                   )),
-              trailing: const Text(
-                'dias',
+              const Text(
+                ' dias',
                 style: TextStyle(fontSize: 15),
               ),
-            ),
-          ),
-          Container(
-            height: 30,
-            child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Text(
-                'e se repetirá a cada',
+              const Text(
+                ' e se repetirá a cada ',
                 style: TextStyle(fontSize: 15),
               ),
-              title: Obx(() => Container(
+              Obx(() => Container(
                     width: 55,
                     height: 25,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            color:
-                                (controller.quantidadePeriodicidade != null &&
-                                        !controller
-                                            .periodicidadeQuestionarioValida())
-                                    ? Colors.red
-                                    : Colors.grey),
+                            color: (controller.diasDuracao != null &&
+                                    !controller.diasQuestionarioValida())
+                                ? Colors.red
+                                : Colors.grey),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(5))),
                     child: TextFormField(
                       initialValue:
                           '${controller.quantidadePeriodicidade ?? ''}',
+                      onChanged: controller.setQuantidadePeriodicidade,
+                      focusNode: controller.intervaloFocus,
+                      textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
@@ -130,24 +130,20 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(2),
                       ],
-                      onChanged: controller.setQuantidadePeriodicidade,
                     ),
                   )),
-              trailing: const Text(
-                'dias',
+              const Text(
+                ' dias',
                 style: TextStyle(fontSize: 15),
               ),
-            ),
+            ],
           ),
           Obx(() => Text(
                 controller.duracaoQuestionarioErroMensagem ?? '',
                 style: const TextStyle(color: Colors.red),
               )),
-          const SizedBox(
-            height: 25,
-          ),
           Text(
-            'Lembre-se depois de criado o acompanhamento só poderá ser editado antes da data de inicio!',
+            'Lembre-se depois de criado alguns dados do acompanhamento só poderam ser editados até a data de inicio!',
             style: TextStyle(
                 fontSize: 17, fontWeight: FontWeight.bold, color: corPrincipal),
             textAlign: TextAlign.center,

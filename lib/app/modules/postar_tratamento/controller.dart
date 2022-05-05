@@ -114,6 +114,14 @@ class PostarTratamentoController extends GetxController {
         idPostagem != null;
   }
 
+  //===============Focus===================
+  FocusNode tituloTratamentoFocus = FocusNode();
+  FocusNode descricaoTratamentoFocus = FocusNode();
+  FocusNode tituloQuestionarioFocus = FocusNode();
+  FocusNode descricaoQuestionarioFocus = FocusNode();
+  FocusNode duracaoFocus = FocusNode();
+  FocusNode intervaloFocus = FocusNode();
+
   //===============================STEP 0================================
   final vinculos = <Vinculo>[].obs;
   final _vinculo = Rx<Vinculo?>(null);
@@ -156,7 +164,6 @@ class PostarTratamentoController extends GetxController {
   final _eficacia = 1.obs;
   QuillController controller_editor = QuillController.basic();
 
-  FocusNode tituloFocus = FocusNode();
   get idPostagem => this._idPostagem.value;
   set idPostagem(value) => this._idPostagem.value = value;
   get idTratamento => this._idTratamento.value;
@@ -192,7 +199,6 @@ class PostarTratamentoController extends GetxController {
     if (editorLength > 200) return 'Descrição muito longa';
     return 'Descrição muito curta';
   }
-
   //===============================STEP 2==================================
 
   final medicamentosSelecionadosInfo = <MedicamentoInfo>[].obs;
@@ -367,11 +373,16 @@ class PostarTratamentoController extends GetxController {
       return null;
     String retorno = 'Campos obrigátorios ';
     if (!diasQuestionarioValida()) retorno += '(duração em dias)';
-    if (!periodicidadeQuestionarioValida())
+    if (!periodicidadeQuestionarioValida()) {
       retorno += ' (intervalo entre questionários)';
+    }
 
     return retorno;
   }
+
+  DateTime getDataInicialDisponivel() => idPostagem == null
+      ? DateTime.now()
+      : DateTime.now().add(const Duration(days: 1));
 
   bool step4MedicoValido() =>
       dataInicialValida() &&
@@ -488,6 +499,7 @@ class PostarTratamentoController extends GetxController {
         if (!rollBack) {
           EasyLoading.showToast('Acompanhamento deletado com sucesso',
               toastPosition: EasyLoadingToastPosition.bottom);
+          redirectListagemAcompanhamentos();
         }
       } else {
         if (!rollBack) {
@@ -500,7 +512,14 @@ class PostarTratamentoController extends GetxController {
   }
 
   redirectListagemAcompanhamentos() {
-    Get.find<AcompanhamentosController>().getUsuariosAcompanhamentos();
+    final acompanhamentoController = Get.find<AcompanhamentosController>();
+    if (acompanhamentoController.tipoVisualizacao == 1) {
+      int index = acompanhamentoController.getIndexUsuarioSelecionado();
+      acompanhamentoController.getAcompanhamentos(index);
+    } else {
+      acompanhamentoController.getQuestionarios();
+    }
+
     Get.offNamed(Routes.ACOMPANHAMENTOS);
   }
 

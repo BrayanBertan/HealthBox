@@ -142,14 +142,10 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                 children: [
                   controller.idPostagem != null
                       ? TextButton.icon(
-                          onPressed: controller.usuario.tipo ==
-                                      TipoUsuario.MEDICO &&
-                                  controller.checkDataInicial()
-                              ? null
-                              : () =>
-                                  controller.usuario.tipo != TipoUsuario.MEDICO
-                                      ? controller.deletarOpiniao()
-                                      : controller.deletarAcompanhamento(),
+                          onPressed: () =>
+                              controller.usuario.tipo != TipoUsuario.MEDICO
+                                  ? controller.deletarOpiniao()
+                                  : controller.deletarAcompanhamento(),
                           icon: const Icon(
                             Icons.delete_forever,
                             color: Colors.red,

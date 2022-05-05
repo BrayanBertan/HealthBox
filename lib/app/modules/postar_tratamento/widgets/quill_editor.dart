@@ -59,13 +59,13 @@ class QuillEditorColumn extends GetView<PostarTratamentoController> {
               ? const Text('carregando...')
               : QuillEditor(
                   onTapDown: (_, __) {
-                    controller.tituloFocus.unfocus();
+                    controller.tituloTratamentoFocus.unfocus();
                     return false;
                   },
                   controller: controller.controller_editor,
                   scrollController: ScrollController(),
                   scrollable: true,
-                  focusNode: FocusNode(),
+                  focusNode: controller.descricaoTratamentoFocus,
                   autoFocus: false,
                   readOnly: false,
                   placeholder: controller.texto,

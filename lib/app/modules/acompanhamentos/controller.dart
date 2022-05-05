@@ -212,8 +212,7 @@ class AcompanhamentosController extends GetxController {
             duration: const Duration(milliseconds: 500),
             toastPosition: EasyLoadingToastPosition.bottom);
         if (Get.previousRoute == '/acompanhamentos/listagem') {
-          int index = usuariosAcompanhamentos
-              .indexWhere((usuario) => usuario.id == usuarioSelecionado?.id);
+          int index = getIndexUsuarioSelecionado();
           getAcompanhamentos(index);
         } else {
           getQuestionarios();
@@ -227,4 +226,7 @@ class AcompanhamentosController extends GetxController {
       Get.back();
     });
   }
+
+  getIndexUsuarioSelecionado() => usuariosAcompanhamentos
+      .indexWhere((usuario) => usuario.id == usuarioSelecionado?.id);
 }

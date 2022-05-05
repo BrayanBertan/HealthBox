@@ -29,6 +29,10 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
             child: TextFormField(
               initialValue: controller.tituloQuestionario,
               onChanged: controller.setTituloQuestionario,
+              focusNode: controller.tituloQuestionarioFocus,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) =>
+                  controller.descricaoQuestionarioFocus.requestFocus(),
               decoration: InputDecoration(
                   icon: const Icon(
                     Icons.title,
@@ -58,6 +62,8 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
           child: TextFormField(
             initialValue: controller.descricaoQuestionario,
             onChanged: controller.setDescricaoQuestionario,
+            focusNode: controller.descricaoQuestionarioFocus,
+            textInputAction: TextInputAction.done,
             maxLines: 5,
             decoration: const InputDecoration(
               icon: Icon(
