@@ -17,7 +17,7 @@ class UsuarioProvider extends GetConnect {
   void onInit() {
     //httpClient.defaultDecoder = Usuario.listFromJson;
     httpClient.baseUrl = baseUrl;
-    httpClient.timeout = const Duration(seconds: 15);
+    httpClient.timeout = const Duration(seconds: 30);
     super.onInit();
   }
 

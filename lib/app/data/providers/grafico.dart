@@ -10,6 +10,7 @@ class GraficoProvider extends GetConnect {
   void onInit() {
     //httpClient.defaultDecoder = Usuario.listFromJson;
     httpClient.baseUrl = baseUrl;
+    httpClient.timeout = const Duration(seconds: 30);
     token = UsuarioProvider.token;
 
     super.onInit();

@@ -40,6 +40,11 @@ class HeaderFiltro extends GetView<AcompanhamentosController> {
                 ),
               ),
             ),
+            IconButton(
+                onPressed: () => controller.orderByUsuario(),
+                icon: Obx(() => Icon(controller.orderByUsuarioVar == 1
+                    ? Icons.arrow_downward
+                    : Icons.arrow_upward)))
           ],
         ),
         const SizedBox(

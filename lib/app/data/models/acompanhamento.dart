@@ -87,6 +87,6 @@ class Acompanhamento {
 
   @override
   String toString() {
-    return "pacienteId: $pacienteId Descrição: $descricaoPaciente";
+    return "$diasDuracao";
   }
 }

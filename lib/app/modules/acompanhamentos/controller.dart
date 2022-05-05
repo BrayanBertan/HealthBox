@@ -68,6 +68,7 @@ class AcompanhamentosController extends GetxController {
     }
     func.then((retorno) {
       usuariosAcompanhamentos.assignAll(retorno);
+      orderByUsuario();
       carregando = false;
     });
   }
@@ -101,17 +102,51 @@ class AcompanhamentosController extends GetxController {
 
   //==========================Acompanhamentos===========================================
   final _usuarioSelecionado = Rx<Usuario?>(null);
+  final _orderByPendenteVar = 1.obs;
+  final _orderByUsuarioVar = 1.obs;
+
   List<Acompanhamento> acompanhamentos = <Acompanhamento>[].obs;
   get usuarioSelecionado => this._usuarioSelecionado.value;
   set usuarioSelecionado(value) => this._usuarioSelecionado.value = value;
+  get orderByPendenteVar => this._orderByPendenteVar.value;
+  set orderByPendenteVar(value) => this._orderByPendenteVar.value = value;
+  get orderByUsuarioVar => this._orderByUsuarioVar.value;
+  set orderByUsuarioVar(value) => this._orderByUsuarioVar.value = value;
 
   getAcompanhamentos(int index) {
     carregando = true;
     usuarioSelecionado = usuariosAcompanhamentos[index];
     repository.getAcompanhamentos(usuarioSelecionado.id).then((retorno) {
       acompanhamentos.assignAll(retorno);
+      orderByPendente();
       carregando = false;
     });
+  }
+
+  orderByPendente() {
+    acompanhamentos.sort((a, b) {
+      int aPendente = a.respostaPendente! ? 1 : 0;
+      int bPendente = b.respostaPendente! ? 1 : 0;
+      if (orderByPendenteVar == 1) return aPendente > bPendente ? 1 : 0;
+      return aPendente < bPendente ? 1 : 0;
+    });
+    if (orderByPendenteVar == 1) {
+      orderByPendenteVar = 2;
+    } else {
+      orderByPendenteVar = 1;
+    }
+  }
+
+  orderByUsuario() {
+    usuariosAcompanhamentos.sort((a, b) => orderByUsuarioVar == 1
+        ? a.nome.compareTo(b.nome)
+        : b.nome.compareTo(a.nome));
+
+    if (orderByUsuarioVar == 1) {
+      orderByUsuarioVar = 2;
+    } else {
+      orderByUsuarioVar = 1;
+    }
   }
 
 //==========================Questionários===========================================

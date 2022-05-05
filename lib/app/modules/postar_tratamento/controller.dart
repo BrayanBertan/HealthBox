@@ -368,10 +368,14 @@ class PostarTratamentoController extends GetxController {
       quantidadePeriodicidade != null && quantidadePeriodicidade != 0;
 
   String? get duracaoQuestionarioErroMensagem {
-    if ((diasDuracao == null || diasQuestionarioValida()) &&
-        (quantidadePeriodicidade == null || periodicidadeQuestionarioValida()))
-      return null;
-    String retorno = 'Campos obrigátorios ';
+    if (diasDuracao == null && quantidadePeriodicidade == null) return null;
+    if (diasQuestionarioValida() && periodicidadeQuestionarioValida()) {
+      return diasDuracao > quantidadePeriodicidade
+          ? null
+          : 'Duração precisa ser maior do que o intervalo';
+    }
+
+    String retorno = '';
     if (!diasQuestionarioValida()) retorno += '(duração em dias)';
     if (!periodicidadeQuestionarioValida()) {
       retorno += ' (intervalo entre questionários)';
@@ -409,7 +413,7 @@ class PostarTratamentoController extends GetxController {
   }
 
   salvarAcompanhamento() {
-    EasyLoading.showInfo('Salvando...', duration: const Duration(seconds: 1));
+    EasyLoading.showInfo('Salvando...', duration: const Duration(days: 1));
 
     texto = jsonEncode(controller_editor.document.toDelta().toJson());
     Acompanhamento acompanhamento = Acompanhamento(
