@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/custom_list_questionario.dart';
 import 'package:healthbox/app/widgets/shimmer_graficos.dart';
@@ -8,9 +7,7 @@ import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:intl/intl.dart';
 
 class CardListagemQuestionarios extends GetView<AcompanhamentosController> {
-  Questionario questionario;
-  CardListagemQuestionarios({required this.questionario, Key? key})
-      : super(key: key);
+  const CardListagemQuestionarios({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +17,7 @@ class CardListagemQuestionarios extends GetView<AcompanhamentosController> {
           : ListView.builder(
               shrinkWrap: true,
               physics: const ScrollPhysics(),
-              itemCount: controller.questionariosSelecionados.length,
+              itemCount: controller.questionariosVisualizacao.length,
               itemBuilder: (_, index) => Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -28,7 +25,7 @@ class CardListagemQuestionarios extends GetView<AcompanhamentosController> {
                     height: 10,
                   ),
                   Text(
-                    '${DateFormat('dd/MM/yyyy').format(controller.questionariosSelecionados[index].dataResposta!)} ${controller.getHistoricoLegenda(controller.questionariosSelecionados[index].dataResposta!)['legenda']}',
+                    '${DateFormat('dd/MM/yyyy').format(controller.questionariosVisualizacao[index].dataResposta!)} ${controller.getHistoricoLegenda(controller.questionariosVisualizacao[index].dataResposta!)['legenda']}',
                     style: subTitulo,
                   ),
                   Card(
@@ -38,7 +35,7 @@ class CardListagemQuestionarios extends GetView<AcompanhamentosController> {
                         ignoring: true,
                         child: CustomListQuestionario(
                             questionario:
-                                controller.questionariosSelecionados[index]),
+                                controller.questionariosVisualizacao[index]),
                       ),
                     ),
                   )

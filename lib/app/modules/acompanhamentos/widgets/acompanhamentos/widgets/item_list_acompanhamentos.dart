@@ -50,8 +50,8 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                           onPressed: () => Get.toNamed(
                                   Routes.QUESTIONARIO_ACOMPANHAMENTOS,
                                   arguments: {
-                                    'questionario': controller
-                                        .acompanhamentos[index].questionario,
+                                    'acompanhamento':
+                                        controller.acompanhamentos[index],
                                     'tipo': 1
                                   }),
                           icon: const Icon(
@@ -69,8 +69,7 @@ class ItemListAcompanhamentos extends GetView<AcompanhamentosController> {
                 controller.getQuestionarios(
                     idAcompanhamento: controller.acompanhamentos[index].id);
                 Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS, arguments: {
-                  'questionario':
-                      controller.acompanhamentos[index].questionario,
+                  'acompanhamento': controller.acompanhamentos[index],
                   'tipo': 2
                 });
               },

@@ -24,7 +24,8 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                 Get.toNamed(Routes.DETALHES_TRATAMENTO, arguments: retorno);
               }
             }),
-        leading: controller.questionariosSelecionados[index].usuarioVinculado?.fotoPath ==
+        leading: controller.questionariosSelecionados[index].usuarioVinculado
+                    ?.fotoPath ==
                 null
             ? Container(
                 width: MediaQuery.of(context).size.width * 0.1,
@@ -61,55 +62,91 @@ class ItemListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
         title: Text(controller.questionariosSelecionados[index].titulo),
-        trailing: controller.getHistoricoLegenda(controller.questionariosSelecionados[index].dataResposta!)['disponivel'] ==
-                0
-            ? TextButton.icon(
-                onPressed: () {
-                  controller.getQuestionarios(
-                      idAcompanhamento: controller
-                          .questionariosSelecionados[index].acompanhamentoId);
-                  Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS, arguments: {
-                    'questionario': controller.questionariosSelecionados[index],
-                    'tipo': 2
-                  })!
-                      .then((val) => controller.getQuestionarios());
-                },
-                icon: const Icon(
-                  Icons.list_alt_outlined,
-                  color: Colors.black,
-                ),
-                label: const Text(
-                  'Visualizar',
-                  style: TextStyle(color: Colors.black),
-                ))
-            : controller.usuario.tipo == TipoUsuario.PACIENTE
-                ? TextButton.icon(
-                    onPressed: controller.getHistoricoLegenda(controller
-                                .questionariosSelecionados[index]
-                                .dataResposta!)['disponivel'] ==
-                            2
-                        ? null
-                        : () => Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS,
-                            arguments: {'questionario': controller.questionariosSelecionados[index], 'tipo': 1}),
-                    icon: Icon(
-                      Icons.edit,
-                      color: controller.getHistoricoLegenda(controller
+        trailing: controller.getHistoricoLegenda(controller
+                        .questionariosSelecionados[index]
+                        .dataResposta!)['disponivel'] ==
+                    0 ||
+                controller.usuario.tipo == TipoUsuario.MEDICO
+            ? Obx(() => controller.carregandoInfoAcompanhamento
+                ? const CircularProgressIndicator()
+                : TextButton.icon(
+                    onPressed: () {
+                      controller.carregandoInfoAcompanhamento = true;
+                      controller
+                          .getInfoAcompanhamento(controller
+                              .questionariosSelecionados[index]
+                              .acompanhamentoId)
+                          .then((retorno) {
+                        controller.carregandoInfoAcompanhamento = false;
+                        if (retorno != null) {
+                          controller.getQuestionarios(
+                              idAcompanhamento: controller
                                   .questionariosSelecionados[index]
-                                  .dataResposta!)['disponivel'] ==
-                              2
-                          ? Colors.grey
-                          : Colors.black,
+                                  .acompanhamentoId);
+
+                          Get.toNamed(Routes.QUESTIONARIO_ACOMPANHAMENTOS,
+                              arguments: {
+                                'acompanhamento': retorno,
+                                'tipo': 2
+                              });
+                        }
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.list_alt_outlined,
+                      color: Colors.black,
                     ),
-                    label: Text(
-                      'Responder',
-                      style: TextStyle(
+                    label: const Text(
+                      'Visualizar',
+                      style: TextStyle(color: Colors.black),
+                    )))
+            : controller.usuario.tipo == TipoUsuario.PACIENTE
+                ? Obx(() => controller.carregandoInfoAcompanhamento
+                    ? const CircularProgressIndicator()
+                    : TextButton.icon(
+                        onPressed: controller.getHistoricoLegenda(controller
+                                    .questionariosSelecionados[index]
+                                    .dataResposta!)['disponivel'] ==
+                                2
+                            ? null
+                            : () {
+                                controller.carregandoInfoAcompanhamento = true;
+                                controller
+                                    .getInfoAcompanhamento(controller
+                                        .questionariosSelecionados[index]
+                                        .acompanhamentoId)
+                                    .then((retorno) {
+                                  controller.carregandoInfoAcompanhamento =
+                                      false;
+                                  if (retorno != null) {
+                                    Get.toNamed(
+                                        Routes.QUESTIONARIO_ACOMPANHAMENTOS,
+                                        arguments: {
+                                          'acompanhamento': retorno,
+                                          'tipo': 1
+                                        });
+                                  }
+                                });
+                              },
+                        icon: Icon(
+                          Icons.edit,
                           color: controller.getHistoricoLegenda(controller
                                       .questionariosSelecionados[index]
                                       .dataResposta!)['disponivel'] ==
                                   2
                               ? Colors.grey
-                              : Colors.black),
-                    ))
+                              : Colors.black,
+                        ),
+                        label: Text(
+                          'Responder',
+                          style: TextStyle(
+                              color: controller.getHistoricoLegenda(controller
+                                          .questionariosSelecionados[index]
+                                          .dataResposta!)['disponivel'] ==
+                                      2
+                                  ? Colors.grey
+                                  : Colors.black),
+                        )))
                 : Container(
                     width: 0,
                     height: 0,

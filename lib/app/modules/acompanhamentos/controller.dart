@@ -32,11 +32,15 @@ class AcompanhamentosController extends GetxController {
   //==========================Todos===========================================
   final _carregando = false.obs;
   final _tipoVisualizacao = 1.obs;
+  final _carregandoInfoAcompanhamento = false.obs;
 
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
   get tipoVisualizacao => this._tipoVisualizacao.value;
   set tipoVisualizacao(value) => this._tipoVisualizacao.value = value;
+  get carregandoInfoAcompanhamento => this._carregandoInfoAcompanhamento.value;
+  set carregandoInfoAcompanhamento(value) =>
+      this._carregandoInfoAcompanhamento.value = value;
   //==========================Usuarios Acompanhamentos===========================================
   final _usuario = Rx<dynamic>(null);
   bool delayVinculos = false;
@@ -97,6 +101,7 @@ class AcompanhamentosController extends GetxController {
   Map<DateTime, List<Questionario>> questionarios =
       <DateTime, List<Questionario>>{}.obs;
   List<Questionario> questionariosSelecionados = <Questionario>[].obs;
+  List<Questionario> questionariosVisualizacao = <Questionario>[].obs;
   final _calendarFormat = CalendarFormat.twoWeeks.obs;
   final _diaSelecionado = DateTime.now().obs;
 
@@ -120,7 +125,7 @@ class AcompanhamentosController extends GetxController {
         .getQuestionarios(idAcompanhamento: idAcompanhamento)
         .then((retorno) {
       if (idAcompanhamento != null) {
-        questionariosSelecionados.assignAll(retorno);
+        questionariosVisualizacao.assignAll(retorno);
         carregando = false;
         return;
       }
