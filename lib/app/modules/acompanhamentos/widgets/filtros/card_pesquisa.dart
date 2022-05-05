@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -18,37 +19,50 @@ class CardPesquisa extends GetView<AcompanhamentosController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Pesquise pelos seus pacientes',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              'Pesquise pelos seus ${controller.usuario.tipo == TipoUsuario.MEDICO ? 'pacientes' : 'médicos'}',
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 25,
             ),
-            Row(
-              children: [
-                Expanded(
-                    child: Container(
-                  height: 50,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Pesquisar usuarios",
-                      labelStyle: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                )),
-                const SizedBox(
-                  width: 5,
-                ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.white),
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.search,
-                      color: corPrincipal,
-                    ))
-              ],
+            Obx(
+              () => controller.tipoVisualizacao == 1
+                  ? Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          height: 50,
+                          child: TextFormField(
+                            onChanged: controller.setPesquisa,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText:
+                                  "Pesquisar ${controller.usuario.tipo == TipoUsuario.MEDICO ? 'pacientes' : 'médicos'}",
+                              labelStyle: const TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        )),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Obx(
+                          () => ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.white),
+                              onPressed: controller
+                                      .delaypesquisarUsuariosAcompanhmentos
+                                  ? null
+                                  : () => controller
+                                      .pesquisarUsuariosAcompanhmentos(),
+                              child: Icon(
+                                Icons.search,
+                                color: corPrincipal,
+                              )),
+                        )
+                      ],
+                    )
+                  : const SizedBox(),
             ),
             const SizedBox(
               height: 5,

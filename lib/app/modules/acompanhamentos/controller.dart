@@ -33,6 +33,8 @@ class AcompanhamentosController extends GetxController {
   final _carregando = false.obs;
   final _tipoVisualizacao = 1.obs;
   final _carregandoInfoAcompanhamento = false.obs;
+  final _pesquisa = ''.obs;
+  final _delaypesquisarUsuariosAcompanhmentos = false.obs;
 
   get carregando => this._carregando.value;
   set carregando(value) => this._carregando.value = value;
@@ -41,25 +43,42 @@ class AcompanhamentosController extends GetxController {
   get carregandoInfoAcompanhamento => this._carregandoInfoAcompanhamento.value;
   set carregandoInfoAcompanhamento(value) =>
       this._carregandoInfoAcompanhamento.value = value;
+  get pesquisa => this._pesquisa.value;
+  setPesquisa(value) => this._pesquisa.value = value;
   //==========================Usuarios Acompanhamentos===========================================
   final _usuario = Rx<dynamic>(null);
   bool delayVinculos = false;
   bool delayDatas = false;
+
   List<Usuario> usuariosAcompanhamentos = <Usuario>[].obs;
 
   get usuario => this._usuario.value;
   set usuario(value) => this._usuario.value = value;
 
+  get delaypesquisarUsuariosAcompanhmentos =>
+      this._delaypesquisarUsuariosAcompanhmentos.value;
+  set delaypesquisarUsuariosAcompanhmentos(value) =>
+      this._delaypesquisarUsuariosAcompanhmentos.value = value;
+
   getUsuariosAcompanhamentos() {
     carregando = true;
-    var func = repository.getUsuariosAcompanhamentos<Paciente>();
+    var func = repository.getUsuariosAcompanhamentos<Paciente>(pesquisa);
     if (usuario.tipo == TipoUsuario.PACIENTE) {
-      func = repository.getUsuariosAcompanhamentos<Medico>();
+      func = repository.getUsuariosAcompanhamentos<Medico>(pesquisa);
     }
     func.then((retorno) {
       usuariosAcompanhamentos.assignAll(retorno);
       carregando = false;
     });
+  }
+
+  pesquisarUsuariosAcompanhmentos() {
+    if (!delaypesquisarUsuariosAcompanhmentos) {
+      getUsuariosAcompanhamentos();
+      delaypesquisarUsuariosAcompanhmentos = true;
+      Timer(const Duration(seconds: 3),
+          () => delaypesquisarUsuariosAcompanhmentos = false);
+    }
   }
 
   changeVisualizacao(int tipoVisuazalicaoParam) {

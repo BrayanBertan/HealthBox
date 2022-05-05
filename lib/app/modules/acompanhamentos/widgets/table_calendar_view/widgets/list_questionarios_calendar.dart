@@ -10,8 +10,7 @@ class ListQuestionariosCalendar extends GetView<AcompanhamentosController> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -38,6 +37,6 @@ class ListQuestionariosCalendar extends GetView<AcompanhamentosController> {
                 ),
         ),
       ],
-    ));
+    );
   }
 }

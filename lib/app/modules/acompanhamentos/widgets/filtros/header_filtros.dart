@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
-import 'package:healthbox/app/modules/opinioes/widgets/filtros/dialog_filtros.dart';
 
 import '../../../../../core/values/keys.dart';
 import '../../../../../routes/app_pages.dart';
@@ -37,27 +36,6 @@ class HeaderFiltro extends GetView<AcompanhamentosController> {
                 ),
                 label: const Text(
                   'Gráficos',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Container(
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  showDialog(context: context, builder: (_) => DialogFiltros());
-                },
-                style: ElevatedButton.styleFrom(primary: Colors.white),
-                icon: Image.asset(
-                  '${baseImagemUrl}filtro.png',
-                  width: 20,
-                  fit: BoxFit.cover,
-                ),
-                label: const Text(
-                  'Filtros',
                   style: TextStyle(color: Colors.black),
                 ),
               ),

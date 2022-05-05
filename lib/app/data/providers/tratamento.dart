@@ -27,11 +27,12 @@ class TratamentoProvider extends GetConnect {
 
   //=================================Acompanhamentos=====================================
 
-  Future<List<Usuario>> getUsuariosAcompanhamentos<T>() async {
+  Future<List<Usuario>> getUsuariosAcompanhamentos<T>(String pesquisa) async {
     Get.find<UsuarioProvider>().isSessionValid();
     print('Bearer  $token');
+    String filtro = pesquisa.trim().isEmpty ? 'nome' : 'nome=$pesquisa';
     try {
-      var retornoApi = await get('acompanhamentos/vinculos/usuarios',
+      var retornoApi = await get('acompanhamentos/vinculos/usuarios?$filtro',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => T == Paciente
               ? Paciente.listFromJson(obj)

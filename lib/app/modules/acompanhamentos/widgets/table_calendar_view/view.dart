@@ -20,6 +20,9 @@ class TableCalendarPage extends GetView<AcompanhamentosController> {
               ? const ShimmerContainer()
               : TableCalendarBuilder(),
         ),
+        const SizedBox(
+          height: 15,
+        ),
         Obx(() => controller.carregando
             ? const ShimmerListagemSimples()
             : ListQuestionariosCalendar()),
