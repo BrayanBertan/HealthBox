@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_questao.dart';
@@ -116,7 +117,7 @@ class AcompanhamentosController extends GetxController {
   getAcompanhamentos(int index) {
     carregando = true;
     usuarioSelecionado = usuariosAcompanhamentos[index];
-    repository.getAcompanhamentos(usuarioSelecionado.id).then((retorno) {
+    repository.getAcompanhamentos(id: usuarioSelecionado.id).then((retorno) {
       acompanhamentos.assignAll(retorno);
       orderByPendente();
       carregando = false;
@@ -236,9 +237,24 @@ class AcompanhamentosController extends GetxController {
     DateTime hoje = DateTime.now();
     hoje = DateTime(hoje.year, hoje.month, hoje.day);
     int diferenca = date.difference(hoje).inDays;
-    if (diferenca > 0) return {'disponivel': 2, 'legenda': 'Futuro'};
-    if (diferenca < 0) return {'disponivel': 0, 'legenda': 'Finalizado'};
+    if (diferenca > 0) return {'disponivel': 2, 'legenda': ' Futuro'};
+    if (diferenca < 0) return {'disponivel': 0, 'legenda': ' Finalizado'};
     return {'disponivel': 1, 'legenda': 'Aberto'};
+  }
+
+  Map<String, dynamic> isQuestionarioRespondido(List<Questao>? questoesParam) {
+    if (questoesParam == null || questoesParam.isEmpty) {
+      return {'isRespondido': '', 'cor': Colors.black};
+    }
+    int count = 0;
+    questoesParam.forEach((questaoParam) {
+      if (questaoParam.resposta != null) count++;
+    });
+
+    if (questoesParam.length == count) {
+      return {'isRespondido': ' | Respondido', 'cor': Colors.green};
+    }
+    return {'isRespondido': ' | Não respondido', 'cor': Colors.red};
   }
 
   String? isCampoValido(index) {

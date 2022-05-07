@@ -19,8 +19,8 @@ class HeaderFiltro extends StatelessWidget {
             IconButton(
                 onPressed: () => controller.orderByPendente(),
                 icon: Obx(() => Icon(controller.orderByPendenteVar == 1
-                    ? Icons.arrow_downward
-                    : Icons.arrow_upward)))
+                    ? Icons.arrow_upward
+                    : Icons.arrow_downward)))
           ],
         ),
         const SizedBox(

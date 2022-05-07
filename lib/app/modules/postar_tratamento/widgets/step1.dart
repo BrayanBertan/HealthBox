@@ -13,7 +13,7 @@ class Step1TratamentoPage extends GetView<PostarTratamentoController> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         TextFormField(
-          initialValue: controller.titulo,
+          controller: controller.tituloController,
           focusNode: controller.tituloTratamentoFocus,
           textInputAction: TextInputAction.next,
           onFieldSubmitted: (_) =>

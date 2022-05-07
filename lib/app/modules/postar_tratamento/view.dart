@@ -4,6 +4,7 @@ import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/modules/postar_tratamento/controller.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step0_medico.dart';
+import 'package:healthbox/app/modules/postar_tratamento/widgets/step0_paciente.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step1.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
@@ -44,14 +45,19 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                       ? <Step>[
                           Step(
                               title: const Text(''),
-                              content: Step1TratamentoPage(),
+                              content: Step0PacienteTratamentoPage(),
                               isActive: controller.activeStepIndex == 0,
                               state: controller.getStepState(0)),
                           Step(
                               title: const Text(''),
-                              content: Step2TratamentoPage(),
+                              content: Step1TratamentoPage(),
                               isActive: controller.activeStepIndex == 1,
                               state: controller.getStepState(1)),
+                          Step(
+                              title: const Text(''),
+                              content: Step2TratamentoPage(),
+                              isActive: controller.activeStepIndex == 2,
+                              state: controller.getStepState(2)),
                         ]
                       : <Step>[
                           Step(
@@ -108,7 +114,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                   : () {
                                       FocusScope.of(context).unfocus();
                                       if (controller.isPaciente &&
-                                          controller.activeStepIndex == 1) {
+                                          controller.activeStepIndex == 2) {
                                         controller.salvarOpiniao();
                                         return;
                                       }
@@ -123,7 +129,7 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
                                   onSurface: corPrincipal300,
                                   fixedSize: const Size(150, 50)),
                               child: Text(controller.isPaciente
-                                  ? controller.activeStepIndex == 1
+                                  ? controller.activeStepIndex == 2
                                       ? 'Salvar'
                                       : 'Próximo'
                                   : controller.activeStepIndex == 4

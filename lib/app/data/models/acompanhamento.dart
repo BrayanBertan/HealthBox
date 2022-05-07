@@ -87,6 +87,6 @@ class Acompanhamento {
 
   @override
   String toString() {
-    return "$diasDuracao";
+    return "${medico?.nome ?? ''}-${tratamento?.titulo ?? ''}";
   }
 }

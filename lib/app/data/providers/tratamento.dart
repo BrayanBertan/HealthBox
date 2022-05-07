@@ -51,12 +51,14 @@ class TratamentoProvider extends GetConnect {
     }
   }
 
-  Future<List<Acompanhamento>> getAcompanhamentos(int id) async {
+  Future<List<Acompanhamento>> getAcompanhamentos({int? id}) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    print('${httpClient.baseUrl}acompanhamentos?usuario_id=$id&ativo=1');
 
     try {
-      var retornoApi = await get('acompanhamentos?usuario_id=$id&ativo=1',
+      String filtro = '?usuario_id=$id&';
+      if (id == null) filtro = '?';
+
+      var retornoApi = await get('acompanhamentos${filtro}ativo=1',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Acompanhamento.listFromJson(obj));
 

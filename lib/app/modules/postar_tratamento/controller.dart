@@ -35,6 +35,8 @@ class PostarTratamentoController extends GetxController {
     if (!isPaciente) {
       getVinculos();
       getQuestoesPreCadastradas();
+    } else {
+      getMeusAcompanhamentos();
     }
     doc = Document()..insert(0, ' ');
   }
@@ -47,7 +49,7 @@ class PostarTratamentoController extends GetxController {
   //======================TODOS==========================================
   final _activeStepIndex = 0.obs;
   final _isPaciente = false.obs;
-
+  final tituloController = TextEditingController();
   final _rollBack = false.obs;
   get rollBack => this._rollBack.value;
   set rollBack(value) => this._rollBack.value = value;
@@ -66,13 +68,14 @@ class PostarTratamentoController extends GetxController {
     if (isPaciente) {
       switch (step) {
         case 0:
-          retorno = step1Valido();
+          retorno = true;
           break;
         case 1:
+          retorno = step1Valido();
+          break;
+        case 2:
           retorno = step3PacienteValido();
           break;
-        default:
-          retorno = step3PacienteValido();
       }
     } else {
       switch (step) {
@@ -397,6 +400,17 @@ class PostarTratamentoController extends GetxController {
 
   //===========================================Acompanhamentos=============================================
 
+  final meusAcompanhamentos = <Acompanhamento>[].obs;
+  final _carregandoMeusAcompanhamentos = false.obs;
+  final _acompanhamento = Rx<Acompanhamento?>(null);
+
+  get carregandoMeusAcompanhamento => this._carregandoMeusAcompanhamentos.value;
+  set carregandoMeusAcompanhamento(value) =>
+      this._carregandoMeusAcompanhamentos.value = value;
+
+  get acompanhamento => this._acompanhamento.value;
+  set acompanhamento(value) => this._acompanhamento.value = value;
+
   erroAcompanhamento() async {
     EasyLoading.instance.backgroundColor = Colors.red;
     await EasyLoading.showError('Erro ao salvar acompanhamento',
@@ -410,6 +424,25 @@ class PostarTratamentoController extends GetxController {
     EasyLoading.dismiss();
     EasyLoadingConfig();
     redirectListagemAcompanhamentos();
+  }
+
+  setmeuAcompanhamento(Acompanhamento? acompanhamentoParam) {
+    acompanhamento = acompanhamentoParam;
+    if (acompanhamento == null) {
+      setTitulo(null);
+      tituloController.clear();
+      texto = null;
+      doc = Document()..insert(0, ' ');
+      medicamentosSelecionadosInfo.clear();
+    } else {
+      setTitulo(acompanhamento.tratamento.titulo);
+      tituloController.text = titulo;
+      texto = acompanhamento.tratamento!.descricao;
+      doc = Document.fromJson(jsonDecode(texto));
+      medicamentosSelecionadosInfo.assignAll(
+          acompanhamentoParam?.tratamento?.medicamentos ??
+              List<MedicamentoInfo>.empty());
+    }
   }
 
   salvarAcompanhamento() {
@@ -515,6 +548,14 @@ class PostarTratamentoController extends GetxController {
     });
   }
 
+  getMeusAcompanhamentos() {
+    carregandoMeusAcompanhamento = true;
+    repository.getAcompanhamentos().then((retorno) {
+      meusAcompanhamentos.assignAll(retorno);
+      carregandoMeusAcompanhamento = false;
+    });
+  }
+
   redirectListagemAcompanhamentos() {
     final acompanhamentoController = Get.find<AcompanhamentosController>();
     if (acompanhamentoController.tipoVisualizacao == 1) {
@@ -539,6 +580,7 @@ class PostarTratamentoController extends GetxController {
     texto = opiniao.descricao;
     doc = Document.fromJson(jsonDecode(texto));
     setTitulo(opiniao.tratamento?.titulo ?? '');
+    tituloController.text = titulo;
     medicamentosSelecionadosInfo.clear();
     medicamentosSelecionadosInfo.assignAll(
         opiniao.tratamento?.medicamentos ?? List<MedicamentoInfo>.empty());
@@ -558,6 +600,7 @@ class PostarTratamentoController extends GetxController {
     texto = acompanhamento.tratamento!.descricao;
     doc = Document.fromJson(jsonDecode(texto));
     setTitulo(acompanhamento.tratamento?.titulo ?? '');
+    tituloController.text = titulo;
     setTituloQuestionario(acompanhamento.questionario?.titulo ?? '');
     setDescricaoQuestionario(acompanhamento.questionario?.descricao ?? '');
     dataInicial = acompanhamento.dataInicio;
