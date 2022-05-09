@@ -558,9 +558,9 @@ class PostarTratamentoController extends GetxController {
 
   redirectListagemAcompanhamentos() {
     final acompanhamentoController = Get.find<AcompanhamentosController>();
+    //int index = acompanhamentoController.getIndexUsuarioSelecionado();
     if (acompanhamentoController.tipoVisualizacao == 1) {
-      int index = acompanhamentoController.getIndexUsuarioSelecionado();
-      acompanhamentoController.getAcompanhamentos(index);
+      acompanhamentoController.getUsuariosAcompanhamentos();
     } else {
       acompanhamentoController.getQuestionarios();
     }
