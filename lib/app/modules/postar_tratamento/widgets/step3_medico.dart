@@ -286,8 +286,13 @@ class Step3MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                                     children: controller.questoes[index].opcoes!
                                         .asMap()
                                         .entries
-                                        .map<Text>((entry) => Text(
-                                            '${alfabeto[entry.key]}. ${entry.value.descricao}'))
+                                        .map<Widget>((entry) => Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                '${alfabeto[entry.key]}. ${entry.value.descricao}',
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            ))
                                         .toList(),
                                   );
                           }),

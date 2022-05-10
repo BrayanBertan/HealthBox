@@ -20,7 +20,7 @@ class Step2TratamentoPage extends GetView<PostarTratamentoController> {
       children: [
         Obx(
           () => TextFormField(
-            initialValue: controller.descricao,
+            controller: controller.descricaoController,
             onChanged: controller.setDescricao,
             maxLines: 5,
             decoration: InputDecoration(

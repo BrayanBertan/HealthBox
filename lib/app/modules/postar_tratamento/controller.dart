@@ -50,6 +50,7 @@ class PostarTratamentoController extends GetxController {
   final _activeStepIndex = 0.obs;
   final _isPaciente = false.obs;
   final tituloController = TextEditingController();
+  final descricaoController = TextEditingController();
   final _rollBack = false.obs;
   get rollBack => this._rollBack.value;
   set rollBack(value) => this._rollBack.value = value;
@@ -431,14 +432,17 @@ class PostarTratamentoController extends GetxController {
     if (acompanhamento == null) {
       setTitulo(null);
       tituloController.clear();
-      texto = null;
-      doc = Document()..insert(0, ' ');
+      descricaoController.clear();
+
+      setDescricao(null);
       medicamentosSelecionadosInfo.clear();
     } else {
       setTitulo(acompanhamento.tratamento.titulo);
       tituloController.text = titulo;
-      texto = acompanhamento.tratamento!.descricao;
-      doc = Document.fromJson(jsonDecode(texto));
+      var textoTemp = acompanhamento.tratamento!.descricao;
+      var docTemp = Document.fromJson(jsonDecode(textoTemp));
+      setDescricao(docTemp.toPlainText());
+      descricaoController.text = descricao;
       medicamentosSelecionadosInfo.assignAll(
           acompanhamentoParam?.tratamento?.medicamentos ??
               List<MedicamentoInfo>.empty());
@@ -586,6 +590,7 @@ class PostarTratamentoController extends GetxController {
         opiniao.tratamento?.medicamentos ?? List<MedicamentoInfo>.empty());
     setEficacia(opiniao.eficaz);
     setDescricao(opiniao.tratamento?.descricao ?? '');
+    descricaoController.text = descricao;
   }
 
   setEdicaoAcompanhamento(Acompanhamento acompanhamento) {
