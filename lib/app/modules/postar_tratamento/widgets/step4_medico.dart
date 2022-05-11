@@ -56,7 +56,7 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
           Wrap(
             children: [
               const Text(
-                'O questionário irá durar ',
+                'O questionário irá ser repetido ',
                 style: TextStyle(fontSize: 15),
               ),
               Obx(() => Container(
@@ -93,11 +93,11 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                     ),
                   )),
               const Text(
-                ' dias',
+                ' vezes',
                 style: TextStyle(fontSize: 15),
               ),
               const Text(
-                ' e se repetirá a cada ',
+                ' em um intervalo de ',
                 style: TextStyle(fontSize: 15),
               ),
               Obx(() => Container(
@@ -133,7 +133,7 @@ class Step4MedicoTratamentoPage extends GetView<PostarTratamentoController> {
                     ),
                   )),
               const Text(
-                ' dias',
+                ' dias entre cada resposta',
                 style: TextStyle(fontSize: 15),
               ),
             ],
