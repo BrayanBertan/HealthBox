@@ -7,5 +7,8 @@ class GraficoRepository {
   getGraficos({required String endpoint}) =>
       provider.getGraficos(endpoint: endpoint);
 
+  getGraficosMedico(String remedios, int tipo) =>
+      provider.getGraficosMedico(remedios, tipo);
+
   getMedicamentosUsadosFiltro() => provider.getMedicamentosUsadosFiltro();
 }

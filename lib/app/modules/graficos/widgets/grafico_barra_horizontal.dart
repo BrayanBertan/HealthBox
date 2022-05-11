@@ -1,6 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts hide TextStyle;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
 import 'package:healthbox/app/modules/graficos/controller.dart';
 import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
@@ -65,7 +66,9 @@ class GraficoBarraHorizontalPage extends GetView<GraficosOpinioesController> {
                 barRendererDecorator: charts.BarLabelDecorator<String>(),
                 domainAxis: const charts.OrdinalAxisSpec(),
               )),
-              const Aviso()
+              controller.usuario.tipo == TipoUsuario.PACIENTE
+                  ? const Aviso()
+                  : Container()
             ],
           )),
     );

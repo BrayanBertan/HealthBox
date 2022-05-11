@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -17,7 +18,7 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
           padding: const EdgeInsets.only(top: 25),
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Selecione o tipo de gráfico',
                 style: titulo,
                 textAlign: TextAlign.center,
@@ -40,7 +41,9 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                       onTap: () {
                         controller.endpoint =
                             controller.tiposDeGraficos[index]['endpoint'];
-                        controller.getGraficos();
+                        controller.usuario.tipo == TipoUsuario.PACIENTE
+                            ? controller.getGraficos()
+                            : controller.getGraficosMedico();
                         controller.tituloAppBar =
                             controller.tiposDeGraficos[index]['titulo'];
                         Get.toNamed(controller.tiposDeGraficos[index]['page']);
@@ -48,7 +51,7 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                       child: Column(
                         children: [
                           Image.asset(
-                              '${baseImagemUrl}${controller.tiposDeGraficos[index]['imagem']}'),
+                              '$baseImagemUrl${controller.tiposDeGraficos[index]['imagem']}'),
                           const SizedBox(
                             height: 15,
                           ),
@@ -60,7 +63,9 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                       ),
                     );
                   }),
-              const Aviso()
+              controller.usuario.tipo == TipoUsuario.PACIENTE
+                  ? const Aviso()
+                  : Container()
             ],
           )),
     );

@@ -5,6 +5,7 @@ import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/vi
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/view.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_eficacia.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_horizontal.dart';
+import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_melhora.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_lines.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_pie.dart';
 import 'package:healthbox/app/widgets/detalhes_tratamento/page_detalhes_tratamento.dart';
@@ -72,6 +73,10 @@ class AppPages {
     GetPage(
       name: Routes.GRAFICO_LINES,
       page: () => GraficoLinesPage(),
+    ),
+    GetPage(
+      name: Routes.GRAFICO_MELHORA,
+      page: () => GraficoBarraMelhoraPage(),
     ),
     GetPage(
         name: Routes.ACOMPANHAMENTOS,

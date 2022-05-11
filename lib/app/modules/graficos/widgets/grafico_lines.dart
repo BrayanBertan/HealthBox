@@ -1,6 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts hide TextStyle;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/graficos/controller.dart';
 import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
 import 'package:healthbox/app/modules/graficos/widgets/card_filtro.dart';
@@ -65,7 +66,9 @@ class GraficoLinesPage extends GetView<GraficosOpinioesController> {
                                         day: charts.TimeFormatterSpec(
                                             format: 'dd/MM',
                                             transitionFormat: 'dd/MM'))))),
-                    const Aviso()
+                    controller.usuario.tipo == TipoUsuario.PACIENTE
+                        ? const Aviso()
+                        : Container()
                   ],
                 ))),
     );

@@ -23,28 +23,33 @@ class HeaderFiltro extends GetView<AcompanhamentosController> {
             const SizedBox(
               width: 10,
             ),
-            Container(
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () => Get.toNamed(Routes.GRAFICOS_OPINIOES)!
-                    .then((val) => controller.getUsuariosAcompanhamentos()),
-                style: ElevatedButton.styleFrom(primary: Colors.white),
-                icon: Image.asset(
-                  '${baseImagemUrl}graficos.png',
-                  width: 30,
-                  fit: BoxFit.cover,
-                ),
-                label: const Text(
-                  'Gráficos',
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ),
-            IconButton(
-                onPressed: () => controller.orderByUsuario(),
-                icon: Obx(() => Icon(controller.orderByUsuarioVar == 1
-                    ? Icons.arrow_downward
-                    : Icons.arrow_upward)))
+            controller.usuario.tipo == TipoUsuario.MEDICO
+                ? Container(
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: () => Get.toNamed(Routes.GRAFICOS_OPINIOES)!
+                          .then(
+                              (val) => controller.getUsuariosAcompanhamentos()),
+                      style: ElevatedButton.styleFrom(primary: Colors.white),
+                      icon: Image.asset(
+                        '${baseImagemUrl}graficos.png',
+                        width: 30,
+                        fit: BoxFit.cover,
+                      ),
+                      label: const Text(
+                        'Gráficos',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  )
+                : Container(),
+            controller.usuario.tipo == TipoUsuario.MEDICO
+                ? IconButton(
+                    onPressed: () => controller.orderByUsuario(),
+                    icon: Obx(() => Icon(controller.orderByUsuarioVar == 1
+                        ? Icons.arrow_downward
+                        : Icons.arrow_upward)))
+                : Container()
           ],
         ),
         const SizedBox(

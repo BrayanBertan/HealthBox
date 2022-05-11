@@ -1,9 +1,12 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
+import 'package:healthbox/app/data/models/grafico_medico.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/repositories/grafico.dart';
+import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
 
@@ -16,11 +19,22 @@ class GraficosOpinioesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+    usuario = Get.find<LoginController>().getLogin();
+    if (usuario.tipo == TipoUsuario.PACIENTE) {
+      tiposDeGraficos.assignAll(tiposDeGraficosPaciente);
+    } else {
+      tiposDeGraficos.assignAll(tiposDeGraficosMedico);
+    }
     interval(_medicamentosId, (val) async {
-      getGraficos();
-    }, time: const Duration(milliseconds: 100));
-
+      if (usuario.tipo == TipoUsuario.PACIENTE) {
+        getGraficos();
+      } else {
+        getGraficosMedico();
+      }
+    }, time: const Duration(milliseconds: 250));
+    interval(_isExercicioFisicoChecked, (val) async {
+      getGraficosMedico();
+    }, time: const Duration(milliseconds: 250));
     getMedicamentosUsadosFiltro();
   }
 
@@ -30,11 +44,14 @@ class GraficosOpinioesController extends GetxController {
   }
 
   final graficos = <Grafico>[].obs;
+  final graficosMedico = <GraficoMedico>[].obs;
+  dynamic usuario;
 
   final medicamentos = <Medicamento>[].obs;
   final medicamentosSelecionados = List<Medicamento>.empty().obs;
   final _carregando = false.obs;
   final _carregandoMedicamentos = false.obs;
+  final _isExercicioFisicoChecked = false.obs;
   String tituloAppBar = '';
   String endpoint = '';
 
@@ -46,6 +63,9 @@ class GraficosOpinioesController extends GetxController {
   get carregandoMedicamentos => this._carregandoMedicamentos.value;
   set carregandoMedicamentos(value) =>
       this._carregandoMedicamentos.value = value;
+  get isExercicioFisicoChecked => this._isExercicioFisicoChecked.value;
+  setIsExercicioFisicoChecked(value) =>
+      this._isExercicioFisicoChecked.value = value;
 
   setMedicamentos(items) {
     medicamentosSelecionados.clear();
@@ -69,6 +89,18 @@ class GraficosOpinioesController extends GetxController {
     repository.getGraficos(endpoint: endpoint).then((List<Grafico> retorno) {
       graficos.clear();
       graficos.assignAll(retorno);
+
+      carregando = false;
+    });
+  }
+
+  getGraficosMedico() {
+    carregando = true;
+    repository
+        .getGraficosMedico(medicamentosId, isExercicioFisicoChecked ? 1 : 0)
+        .then((List<GraficoMedico> retorno) {
+      graficosMedico.clear();
+      graficosMedico.assignAll(retorno);
 
       carregando = false;
     });
@@ -139,7 +171,8 @@ class GraficosOpinioesController extends GetxController {
     }
   }
 
-  final tiposDeGraficos = <Map<String, dynamic>>[
+  var tiposDeGraficos = <Map<String, dynamic>>[];
+  final tiposDeGraficosPaciente = <Map<String, dynamic>>[
     {
       'titulo': 'Remédio x Quantidade de pacientes usando',
       'imagem': 'bar-chart.png',
@@ -157,6 +190,21 @@ class GraficosOpinioesController extends GetxController {
       'imagem': 'double-bar-chart.png',
       'page': Routes.GRAFICO_BARRA_EFICACIA,
       'endpoint': 'remedio-eficacia?'
+    },
+  ];
+
+  final tiposDeGraficosMedico = <Map<String, dynamic>>[
+    {
+      'titulo': 'Remédio x Melhora',
+      'imagem': 'bar-chart.png',
+      'page': Routes.GRAFICO_MELHORA,
+      'endpoint': 'remedio-melhora?remedios&grafico_exercicio=0/1'
+    },
+    {
+      'titulo': 'Remédio x Melhora x Atividade física',
+      'imagem': 'pie-chart.png',
+      'page': Routes.GRAFICO_MELHORA,
+      'endpoint': 'remedio-melhora?remedios&grafico_exercicio=0/1'
     },
   ];
 

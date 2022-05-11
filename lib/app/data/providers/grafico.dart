@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
+import 'package:healthbox/app/data/models/grafico_medico.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -31,6 +32,28 @@ class GraficoProvider extends GetConnect {
     } catch (erro) {
       print('Erro getGraficos $erro');
       return List<Grafico>.empty();
+    }
+  }
+
+  Future<List<GraficoMedico>> getGraficosMedico(
+      String remedios, int tipo) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+    print(
+        'graficos/remedio-melhora?remedios=$remedios&grafico_exercicio=$tipo');
+    try {
+      var retornoApi = await get(
+          'graficos/remedio-melhora?remedios=$remedios&grafico_exercicio=$tipo',
+          headers: {'Authorization': 'Bearer  $token'},
+          decoder: (obj) => GraficoMedico.listFromJson(obj));
+
+      if (retornoApi.statusCode == 200) {
+        return retornoApi.body!;
+      } else {
+        return List<GraficoMedico>.empty();
+      }
+    } catch (erro) {
+      print('Erro getGraficosMedico $erro');
+      return List<GraficoMedico>.empty();
     }
   }
 

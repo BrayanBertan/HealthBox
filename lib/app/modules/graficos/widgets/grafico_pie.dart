@@ -2,6 +2,7 @@ import 'package:charts_flutter/flutter.dart' as charts hide TextStyle;
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
 import 'package:healthbox/app/modules/graficos/controller.dart';
 import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
@@ -60,7 +61,9 @@ class GraficoPiePage extends GetView<GraficosOpinioesController> {
                             charts.ArcLabelDecorator(
                                 labelPosition: charts.ArcLabelPosition.auto)
                           ]))),
-              const Aviso()
+              controller.usuario.tipo == TipoUsuario.PACIENTE
+                  ? const Aviso()
+                  : Container()
             ],
           )),
     );
