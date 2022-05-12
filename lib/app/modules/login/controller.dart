@@ -2,6 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/medico.dart';
+import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/routes/app_pages.dart';
@@ -104,4 +105,13 @@ class LoginController extends GetxController {
   }
 
   dynamic getLogin() => paciente != null ? paciente : medico;
+
+  enviarNotificacao(Notificacao notificacao) =>
+      repository.enviarNotificacao(notificacao).then((retorno) {
+        if (retorno) {
+          print('sucesso ao enviar notificação controller');
+        } else {
+          print('erro ao enviar notificação controller');
+        }
+      });
 }

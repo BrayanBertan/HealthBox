@@ -60,6 +60,7 @@ dependencies:
   shimmer: ^2.0.0
   auto_size_text: ^3.0.0
   table_calendar: ^3.0.5
+  firebase_messaging: ^11.3.0
 
 
 

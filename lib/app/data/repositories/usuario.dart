@@ -1,3 +1,4 @@
+import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/providers/usuario.dart';
 
 class UsuarioRepository {
@@ -27,4 +28,6 @@ class UsuarioRepository {
           email: email, cpf: cpf, crm: crm, uf: uf, tipoPesquisa: tipoPesquisa);
   getEspecializacoes() => provider.getEspecializacoes();
   logout() => provider.logout();
+  enviarNotificacao(Notificacao notificacao) =>
+      provider.enviarNotificacao(notificacao);
 }

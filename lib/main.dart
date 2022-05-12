@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:healthbox/app/widgets/card_notificacao_firebase.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -21,6 +24,23 @@ void main() async {
   await Firebase.initializeApp();
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
+
+  FirebaseMessaging.instance.getToken().then((token) {});
+
+  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+    print('fcmToken $fcmToken');
+  }).onError((erro) {
+    print('Erro FirebaseMessaging.instance.onTokenRefresh $erro');
+  });
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage evento) => Get.dialog(
+      CardNotificacaoFirebase(notificacao: Notificacao.fromJson(evento))));
+  FirebaseMessaging.onMessageOpenedApp.listen((mensagem) {});
+
+  FirebaseMessaging.onBackgroundMessage((evento) async {
+    Get.dialog(
+        CardNotificacaoFirebase(notificacao: Notificacao.fromJson(evento)));
+  });
 
   Get.lazyPut<UsuarioProvider>(() => UsuarioProvider());
   Get.put<LoginController>(

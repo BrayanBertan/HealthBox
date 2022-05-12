@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
+import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/models/vinculo.dart';
 import 'package:healthbox/app/data/repositories/conta.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/controller.dart';
@@ -28,6 +29,7 @@ class ContaController extends GetxController {
     getVinculos(0);
     getVinculos(1);
   }
+
   final especializacoes = <Especializacao>[].obs;
   final especializacoesCrm = <Especializacao>[].obs;
   final vinculosDisponiveis = <Vinculo>[].obs;
@@ -288,13 +290,18 @@ class ContaController extends GetxController {
   salvarVinculo(int index, List<Vinculo> list) {
     int medicoId;
     int pacienteId;
-
+    Notificacao notificacao =
+        Notificacao(titulo: 'Solicitação de vínculo', descricao: '');
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       pacienteId = usuario.id;
       medicoId = list[index].usuarioId;
+      notificacao.paciente = usuario;
+      notificacao.descricao = 'O paciente ${usuario.nome} ';
     } else {
       pacienteId = list[index].usuarioId;
       medicoId = usuario.id;
+      notificacao.medico = usuario;
+      notificacao.descricao = 'O médico ${usuario.nome} ';
     }
 
     repository
@@ -305,13 +312,18 @@ class ContaController extends GetxController {
             'Sucesso ao salvar vínculo com ${list[index].nome}',
             toastPosition: EasyLoadingToastPosition.bottom,
             duration: const Duration(milliseconds: 1500));
+        Get.back();
         if (list[index].id == null) {
           list.removeAt(index);
           getVinculos(0);
+          notificacao.descricao += 'enviou uma solicitação de vínculo';
         } else {
           getVinculos(0);
           getVinculos(1);
+          notificacao.descricao += 'aceitou a sua  solicitação de vínculo';
         }
+
+        loginController.enviarNotificacao(notificacao);
       } else {
         EasyLoading.showToast('Erro ao salvar  vínculo com ${list[index].nome}',
             toastPosition: EasyLoadingToastPosition.bottom,

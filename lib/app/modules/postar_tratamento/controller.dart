@@ -8,6 +8,7 @@ import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
+import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/models/opiniao.dart';
 import 'package:healthbox/app/data/models/questao.dart';
 import 'package:healthbox/app/data/models/questionario.dart';
@@ -425,6 +426,19 @@ class PostarTratamentoController extends GetxController {
     EasyLoading.dismiss();
     EasyLoadingConfig();
     redirectListagemAcompanhamentos();
+    Notificacao notificacao = Notificacao(titulo: '', descricao: '');
+    if (idPostagem == null) {
+      notificacao.titulo = 'Você tem um novo acompanhamento';
+      notificacao.descricao =
+          'O seu médico ${usuario.nome} criou um novo acompanhamento para você';
+    } else {
+      notificacao.titulo =
+          'Um dos seus acompanhamentos recebeu uma atualização';
+      notificacao.descricao =
+          'O seu médico ${usuario.nome} atualizou o seu acompanhamento $titulo';
+    }
+    notificacao.medico = usuario;
+    loginController.enviarNotificacao(notificacao);
   }
 
   setmeuAcompanhamento(Acompanhamento? acompanhamentoParam) {

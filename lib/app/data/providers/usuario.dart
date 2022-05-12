@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -173,6 +174,28 @@ class UsuarioProvider extends GetConnect {
     // };
     // retornoApi = await get(
     //     'https://portal.cfm.org.br/wp-content/themes/portalcfm/assets/php/foto_medico.php?crm=$crm&uf=$uf&hash=${dados['HASH']}');
+  }
+
+  Future<bool> enviarNotificacao(Notificacao notificacao) async {
+    try {
+      dynamic retornoApi;
+      httpClient.baseUrl = null;
+      print(notificacao.toJson());
+      retornoApi = await post(
+        'https://fcm.googleapis.com/fcm/send',
+        notificacao.toJson(),
+        headers: {
+          'Authorization':
+              'key=AAAA-RPvjhg:APA91bGGMi91RTa86haifBu4hXYysIWlP0V17EdtPHUj_hmD5Io5xCeCaxaRgviV6vW3bt4SGHSchN1a7m-2vXYNYoH4Ms4KHCIopWwHddG5wZMU_eoQPg2v2wnQGkBif0939xqM04tj'
+        },
+      );
+      httpClient.baseUrl = baseUrl;
+      if (retornoApi.statusCode == 200) return true;
+      return false;
+    } catch (erro) {
+      print('Erro enviarNotificacao $erro');
+      return false;
+    }
   }
 }
 // Future<Response>
