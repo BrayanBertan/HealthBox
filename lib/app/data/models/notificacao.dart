@@ -37,8 +37,12 @@ class Notificacao {
 
   Map<String, dynamic> toJson() => {
         "to":
-            'uERXJW_BoAF:APA91bH3XlCH4kSC0nqyo4Nbwd8DI2kUVeoNcKGoxq80svHhIFuuge_ZeCZ4gfgaRNZ65o4LWGykkRQb5qgNBoAeRszSi1pk21XjQMA0kKA3tmTL8Bz1wnr0ZgEZZ7Vlk7ht5AI11GAs',
-        "notification": {"title": titulo, "body": descricao},
+            'dG5Eov39T66R1CqTd9LYYy:APA91bEKjNF9Gaqqqtxahd2Vwi6aezukJq4_qIIT-hnVaa3s1MsAkiqa0QMtHEC7OvIFdxvk-SWe-noN11UiEvoitYi7vsUyohUZZ0quHZuZKiKeK0fciDSWhnhe5GQishrk9bJb7Wxe',
+        "notification": {
+          "title": titulo,
+          "body": descricao,
+          "priority": "high"
+        },
         "data": {
           "remetente": medico == null ? paciente!.toJson() : medico!.toJson()
         },

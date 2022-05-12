@@ -25,7 +25,9 @@ void main() async {
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
 
-  FirebaseMessaging.instance.getToken().then((token) {});
+  FirebaseMessaging.instance.getToken().then((token) {
+    print('key=$token');
+  });
 
   FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
     print('fcmToken $fcmToken');
@@ -37,10 +39,12 @@ void main() async {
       CardNotificacaoFirebase(notificacao: Notificacao.fromJson(evento))));
   FirebaseMessaging.onMessageOpenedApp.listen((mensagem) {});
 
-  FirebaseMessaging.onBackgroundMessage((evento) async {
+  Future<void> _messageHandler(RemoteMessage evento) async {
     Get.dialog(
         CardNotificacaoFirebase(notificacao: Notificacao.fromJson(evento)));
-  });
+  }
+
+  FirebaseMessaging.onBackgroundMessage(_messageHandler);
 
   Get.lazyPut<UsuarioProvider>(() => UsuarioProvider());
   Get.put<LoginController>(
