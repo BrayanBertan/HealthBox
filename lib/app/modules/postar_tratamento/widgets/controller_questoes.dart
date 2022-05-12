@@ -93,7 +93,7 @@ class ControllerQuestoes extends GetxController {
             element.descricao!.trim().toLowerCase() ==
             descricaoQuestao.trim().toLowerCase())
         .length;
-    if (count > 0) {
+    if (count > 0 && id == null) {
       EasyLoading.showToast('Já existe uma questão  com essa descrição',
           duration: const Duration(milliseconds: 500),
           toastPosition: EasyLoadingToastPosition.bottom);
