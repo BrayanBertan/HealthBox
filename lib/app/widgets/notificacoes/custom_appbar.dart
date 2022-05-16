@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:healthbox/app/widgets/notificacoes/dialog_notificacao_firebase.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 class CustomAppBar extends GetView<LoginController>
@@ -23,7 +24,9 @@ class CustomAppBar extends GetView<LoginController>
           padding: const EdgeInsets.all(10),
           child: Obx(
             () => InkWell(
-              onTap: () {},
+              onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => DialogNotificacaoFirebase()),
               child: Badge(
                 badgeContent: Text('${controller.notificacoes.length}',
                     style: const TextStyle(color: Colors.white)),

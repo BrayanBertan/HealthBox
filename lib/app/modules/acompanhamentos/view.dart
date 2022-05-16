@@ -12,9 +12,7 @@ class AcompanhamentoPage extends GetView<AcompanhamentosController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: CustomAppBar(title: 'Acompanhamentos'),
-      ),
+      appBar: CustomAppBar(title: 'Acompanhamentos'),
       drawer: SideMenu(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
