@@ -6,10 +6,10 @@ import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CardNotificacaoFirebase extends StatelessWidget {
+class DialogNotificacaoFirebase extends StatelessWidget {
   Notificacao notificacao;
   dynamic usuario;
-  CardNotificacaoFirebase({required this.notificacao, Key? key})
+  DialogNotificacaoFirebase({required this.notificacao, Key? key})
       : super(key: key) {
     if (notificacao.medico == null) {
       usuario = notificacao.paciente;

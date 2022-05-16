@@ -8,7 +8,6 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
-import 'package:healthbox/app/widgets/card_notificacao_firebase.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -35,24 +34,25 @@ void main() async {
     print('Erro FirebaseMessaging.instance.onTokenRefresh $erro');
   });
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage evento) => Get.dialog(
-      CardNotificacaoFirebase(notificacao: Notificacao.fromJson(evento))));
-  FirebaseMessaging.onMessageOpenedApp.listen((mensagem) {});
-
-  Future<void> _messageHandler(RemoteMessage evento) async {
-    Get.dialog(
-        CardNotificacaoFirebase(notificacao: Notificacao.fromJson(evento)));
-  }
-
-  FirebaseMessaging.onBackgroundMessage(_messageHandler);
-
   Get.lazyPut<UsuarioProvider>(() => UsuarioProvider());
   Get.put<LoginController>(
       LoginController(
           repository: UsuarioRepository(provider: Get.find<UsuarioProvider>())),
       permanent: true);
   final controller = Get.find<LoginController>();
+  Future<void> _messageHandler(RemoteMessage evento) async {
+    Notificacao notificacao = Notificacao.fromJson(evento);
+    controller.notificacoes.add(notificacao);
+    // Get.dialog(DialogNotificacaoFirebase(notificacao: notificacao));
+  }
+
   if (controller.verificaSessao()) {
+    FirebaseMessaging.onMessage.listen(_messageHandler);
+
+    FirebaseMessaging.onMessageOpenedApp.listen((mensagem) {});
+
+    FirebaseMessaging.onBackgroundMessage(_messageHandler);
+
     controller.getSessaoToken();
     UsuarioProvider.token = Get.find<LoginController>().token;
     Get.find<LoginController>().getUsuario().then((val) {

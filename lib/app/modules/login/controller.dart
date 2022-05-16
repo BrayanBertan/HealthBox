@@ -24,6 +24,7 @@ class LoginController extends GetxController {
   final _medico = Rx<Medico?>(null);
   final _token = ''.obs;
   final _isLoading = false.obs;
+  final notificacoes = <Notificacao>[].obs;
 
   get email => this._email.value;
   setEmail(value) => this._email.value = value;

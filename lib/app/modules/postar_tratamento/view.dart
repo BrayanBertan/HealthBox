@@ -10,6 +10,7 @@ import 'package:healthbox/app/modules/postar_tratamento/widgets/step2.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step3_medico.dart';
 import 'package:healthbox/app/modules/postar_tratamento/widgets/step4_medico.dart';
 import 'package:healthbox/app/widgets/ficha_paciente/dialog_ficha.dart';
+import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 
@@ -26,10 +27,10 @@ class PagePostarTratamento extends GetView<PostarTratamentoController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: corPrincipal100,
-      appBar: AppBar(
-        title: Text(controller.usuario.tipo == TipoUsuario.PACIENTE
+      appBar: CustomAppBar(
+        title: controller.usuario.tipo == TipoUsuario.PACIENTE
             ? 'Opinião'
-            : 'Acompanhamento'),
+            : 'Acompanhamento',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),

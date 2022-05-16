@@ -7,6 +7,7 @@ import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
 import 'package:healthbox/app/modules/graficos/widgets/card_filtro.dart';
 import 'package:healthbox/app/modules/graficos/widgets/card_grafico.dart';
 import 'package:healthbox/app/widgets/loading.dart';
+import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 class GraficoLinesPage extends GetView<GraficosOpinioesController> {
@@ -41,8 +42,8 @@ class GraficoLinesPage extends GetView<GraficosOpinioesController> {
     ];
     return Scaffold(
       backgroundColor: corPrincipal100,
-      appBar: AppBar(
-        title: Text(controller.tituloAppBar),
+      appBar: CustomAppBar(
+        title: controller.tituloAppBar,
       ),
       body: Obx(() => SingleChildScrollView(
           padding: const EdgeInsets.all(10),

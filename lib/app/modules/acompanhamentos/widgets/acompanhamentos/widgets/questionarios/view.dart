@@ -5,6 +5,7 @@ import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/card_info_questionario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/card_listagem_questionarios.dart';
 import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/card_postar_resposta.dart';
+import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 
 class QuestionarioPage extends GetView<AcompanhamentosController> {
   late Acompanhamento acompanhamento;
@@ -20,8 +21,8 @@ class QuestionarioPage extends GetView<AcompanhamentosController> {
       onWillPop: () =>
           Future.delayed(Duration.zero).then((value) => !controller.carregando),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(tipo == 1 ? 'Questionário' : 'Histórico'),
+        appBar: CustomAppBar(
+          title: tipo == 1 ? 'Questionário' : 'Histórico',
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),

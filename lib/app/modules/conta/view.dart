@@ -8,6 +8,7 @@ import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/tile_geren
 import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/tile_novo_vinculo.dart';
 import 'package:healthbox/app/modules/conta/widgets/gerencia_vinculos/tile_solicitacoes_vinculo.dart';
 import 'package:healthbox/app/modules/conta/widgets/tile_editar_cadastro.dart';
+import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
@@ -19,7 +20,7 @@ class ContaPage extends GetView<ContaController> {
     return Scaffold(
       backgroundColor: corPrincipal100,
       drawer: SideMenu(),
-      appBar: AppBar(title: const Text('Configurações')),
+      appBar: CustomAppBar(title: 'Configurações'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(

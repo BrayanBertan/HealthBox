@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
+import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
 
@@ -12,7 +13,7 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gráficos de opiniões'),
+        title: CustomAppBar(title: 'Gráficos de opiniões'),
       ),
       body: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 25),

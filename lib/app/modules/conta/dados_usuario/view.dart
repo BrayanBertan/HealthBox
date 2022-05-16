@@ -9,6 +9,7 @@ import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step2.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step3_medico.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step3_paciente.dart';
 import 'package:healthbox/app/modules/conta/dados_usuario/widgets/step4.dart';
+import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
@@ -18,8 +19,7 @@ class DadosUsuarioPage extends GetView<DadosUsuarioController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Obx(() => Text(controller.isEditing ? 'Editar' : 'Cadastro'))),
+      appBar: CustomAppBar(title: controller.isEditing ? 'Editar' : 'Cadastro'),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(5),
         child: Column(
