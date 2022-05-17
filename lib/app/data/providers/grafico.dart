@@ -57,10 +57,10 @@ class GraficoProvider extends GetConnect {
     }
   }
 
-  Future<List<Medicamento>> getMedicamentosUsadosFiltro() async {
+  Future<List<Medicamento>> getMedicamentosUsadosFiltro(String endpoint) async {
     Get.find<UsuarioProvider>().isSessionValid();
     try {
-      var retornoApi = await get('remedios/usados',
+      var retornoApi = await get('remedios/usados$endpoint',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Medicamento.listFromJson(obj));
 

@@ -486,6 +486,7 @@ class DadosUsuarioController extends GetxController {
           telefone: telefone,
           fotoPath: foto,
           ativo: 1,
+          fcmToken: '',
           genero: genero);
 
       if (_id.value != null) paciente.id = _id.value;
@@ -501,6 +502,7 @@ class DadosUsuarioController extends GetxController {
         nome: nome,
         email: email,
         senha: senha ?? '',
+        fcmToken: '',
         dataNascimento: dataNascimento,
         telefone: telefone,
         fotoPath: foto,

@@ -17,7 +17,7 @@ class DialogAddVinculo extends GetView<ContaController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Novo vínculo',
               style: titulo,
             ),

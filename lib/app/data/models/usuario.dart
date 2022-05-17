@@ -13,6 +13,7 @@ abstract class Usuario {
   int ativo;
   Genero genero;
   bool? respostaPendente;
+  String fcmToken;
   Usuario(
       {this.id,
       required this.tipo,
@@ -24,6 +25,7 @@ abstract class Usuario {
       this.fotoPath,
       required this.ativo,
       required this.genero,
+      required this.fcmToken,
       this.respostaPendente});
 
   @override

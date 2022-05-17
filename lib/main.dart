@@ -25,16 +25,6 @@ void main() async {
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
 
-  FirebaseMessaging.instance.getToken().then((token) {
-    print('key=$token');
-  });
-
-  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-    print('fcmToken $fcmToken');
-  }).onError((erro) {
-    print('Erro FirebaseMessaging.instance.onTokenRefresh $erro');
-  });
-
   Get.lazyPut<UsuarioProvider>(() => UsuarioProvider());
   Get.put<LoginController>(
       LoginController(
@@ -43,7 +33,7 @@ void main() async {
   final controller = Get.find<LoginController>();
   Future<void> _messageHandler(RemoteMessage evento) async {
     Notificacao notificacao = Notificacao.fromJson(evento);
-    if (notificacao.idDestinario != controller.getLogin().id) return;
+    //if (notificacao.idDestinario != controller.getLogin().id) return;
     controller.notificacoes.add(notificacao);
   }
 
@@ -52,7 +42,7 @@ void main() async {
 
     FirebaseMessaging.onMessageOpenedApp.listen((evento) {
       Notificacao notificacao = Notificacao.fromJson(evento);
-      if (notificacao.idDestinario != controller.getLogin().id) return;
+      //if (notificacao.idDestinario != controller.getLogin().id) return;
       controller.notificacoes.add(notificacao);
       Get.dialog(DialogNotificacaoFirebase());
     });

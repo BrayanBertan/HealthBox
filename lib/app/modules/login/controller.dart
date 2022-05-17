@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
@@ -90,6 +91,18 @@ class LoginController extends GetxController {
 
   verificaSessao() => repository.verificaSessao();
 
+  salvarFcmToken(String token) {
+    var usuario = getLogin();
+    usuario.fcmToken = token;
+    if (usuario.tipo == TipoUsuario.PACIENTE) {
+      paciente.fcmToken = token;
+      repository.salvarUsuario<Paciente>(usuario);
+    } else {
+      medico.fcmToken = token;
+      repository.salvarUsuario<Medico>(usuario);
+    }
+  }
+
   getUsuario() => repository.getUsuario().then((retorno) {
         if (retorno is bool) {
           logout();
@@ -99,6 +112,15 @@ class LoginController extends GetxController {
           } else {
             medico = retorno;
           }
+          FirebaseMessaging.instance.getToken().then((token) {
+            salvarFcmToken(token ?? '');
+          });
+
+          FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+            salvarFcmToken(token ?? '');
+          }).onError((erro) {
+            print('Erro FirebaseMessaging.instance.onTokenRefresh $erro');
+          });
         }
       });
 

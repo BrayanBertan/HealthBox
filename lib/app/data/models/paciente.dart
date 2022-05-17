@@ -29,6 +29,7 @@ class Paciente extends Usuario {
       String? fotoPath,
       required int ativo,
       required Genero genero,
+      required String fcmToken,
       bool? respostaPendente})
       : super(
             id: id,
@@ -41,6 +42,7 @@ class Paciente extends Usuario {
             fotoPath: fotoPath,
             ativo: ativo,
             genero: genero,
+            fcmToken: fcmToken,
             respostaPendente: respostaPendente);
 
   factory Paciente.fromJson(Map<String, dynamic> json) => Paciente(
@@ -56,6 +58,7 @@ class Paciente extends Usuario {
       nome: json['name'] ?? '',
       email: json['email'],
       senha: '',
+      fcmToken: json['notificacao_token'] ?? '',
       dataNascimento: DateTime.parse(json['data_nascimento']),
       telefone: json['telefone'],
       fotoPath: json['foto_path'],
@@ -81,6 +84,7 @@ class Paciente extends Usuario {
       'telefone': telefone,
       'foto_path': fotoPath,
       'ativo': ativo,
+      'notificacao_token': fcmToken,
       'sexo': genero.name[0]
     };
 

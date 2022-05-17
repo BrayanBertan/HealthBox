@@ -108,8 +108,12 @@ class GraficosOpinioesController extends GetxController {
 
   getMedicamentosUsadosFiltro() {
     carregandoMedicamentos = true;
+    String endpoint = '';
+    if (usuario.tipo == TipoUsuario.MEDICO) endpoint = '/acompanhamentos';
 
-    repository.getMedicamentosUsadosFiltro().then((List<Medicamento> retorno) {
+    repository
+        .getMedicamentosUsadosFiltro(endpoint)
+        .then((List<Medicamento> retorno) {
       medicamentos.clear();
       medicamentos.assignAll(retorno);
 
@@ -195,14 +199,8 @@ class GraficosOpinioesController extends GetxController {
 
   final tiposDeGraficosMedico = <Map<String, dynamic>>[
     {
-      'titulo': 'Remédio x Melhora',
-      'imagem': 'bar-chart.png',
-      'page': Routes.GRAFICO_MELHORA,
-      'endpoint': 'remedio-melhora?remedios&grafico_exercicio=0/1'
-    },
-    {
       'titulo': 'Remédio x Melhora x Atividade física',
-      'imagem': 'pie-chart.png',
+      'imagem': 'bar-chart.png',
       'page': Routes.GRAFICO_MELHORA,
       'endpoint': 'remedio-melhora?remedios&grafico_exercicio=0/1'
     },
