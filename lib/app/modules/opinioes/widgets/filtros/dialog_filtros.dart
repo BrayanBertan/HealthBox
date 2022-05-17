@@ -25,11 +25,11 @@ class DialogFiltros extends GetView<OpinioesController> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              const Text(
                 'Filtros',
                 style: titulo,
               ),
-              Text(
+              const Text(
                 'Ordenar por',
                 style: subTitulo,
               ),
@@ -56,7 +56,7 @@ class DialogFiltros extends GetView<OpinioesController> {
               const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 'Eficácia',
                 style: subTitulo,
               ),
@@ -93,7 +93,7 @@ class DialogFiltros extends GetView<OpinioesController> {
               const SizedBox(
                 height: 5,
               ),
-              Text(
+              const Text(
                 'Medicamento',
                 style: subTitulo,
               ),
@@ -126,7 +126,7 @@ class DialogFiltros extends GetView<OpinioesController> {
                   onChanged: controllerFiltro.setMedicamento,
                 ),
               ),
-              Text('Medicamentos selecionados', style: titulo),
+              const Text('Medicamentos selecionados', style: titulo),
               Container(
                 height: MediaQuery.of(context).size.height * 0.1,
                 child: Obx(

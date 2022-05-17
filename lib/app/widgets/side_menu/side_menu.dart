@@ -78,7 +78,7 @@ class SideMenu extends StatelessWidget {
                           ),
                     TextButton(
                         onPressed: () {
-                          Get.toNamed('/conta');
+                          Get.toNamed(Routes.CONTA);
                         },
                         child: const Text(
                           'Minha conta',

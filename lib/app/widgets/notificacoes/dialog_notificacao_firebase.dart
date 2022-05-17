@@ -19,8 +19,11 @@ class DialogNotificacaoFirebase extends GetView<LoginController> {
           children: const [
             Text(
               'Notificações não lidas',
-              style: subTitulo,
+              style: titulo,
               textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 15,
             ),
             ListNotificacoes()
           ],

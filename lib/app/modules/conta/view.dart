@@ -13,7 +13,9 @@ import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 import 'package:healthbox/core/theme/app_colors.dart';
 
 class ContaPage extends GetView<ContaController> {
-  const ContaPage({Key? key}) : super(key: key);
+   ContaPage({Key? key}) : super(key: key){
+    controller.isSolicitacoesVinculosTilesOpened = Get.arguments??false;
+  }
 
   @override
   Widget build(BuildContext context) {

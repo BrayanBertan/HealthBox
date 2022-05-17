@@ -5,6 +5,7 @@ import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
+import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
 import 'package:healthbox/routes/app_pages.dart';
 
 import '../../data/providers/usuario.dart';
@@ -25,6 +26,8 @@ class LoginController extends GetxController {
   final _token = ''.obs;
   final _isLoading = false.obs;
   final notificacoes = <Notificacao>[].obs;
+  final _redictToAcompanhamentos = false.obs;
+  final _idRemetente = 0.obs;
 
   get email => this._email.value;
   setEmail(value) => this._email.value = value;
@@ -48,6 +51,13 @@ class LoginController extends GetxController {
 
   get isLoading => this._isLoading.value;
   set isLoading(value) => this._isLoading.value = value;
+
+  get redictToAcompanhamentos => this._redictToAcompanhamentos.value;
+  set redictToAcompanhamentos(value) =>
+      this._redictToAcompanhamentos.value = value;
+
+  get idRemetente => this._idRemetente.value;
+  set idRemetente(value) => this._idRemetente.value = value;
 
   verificaLogin() {
     isLoading = true;
@@ -115,4 +125,42 @@ class LoginController extends GetxController {
           print('erro ao enviar notificação controller');
         }
       });
+
+  redirectNotificacao(Notificacao notificacao) async {
+    switch (notificacao.tipo) {
+      case 1:
+        {
+          if (Get.currentRoute != Routes.CONTA) {
+            Get.toNamed(Routes.CONTA, arguments: true);
+          } else {
+            Get.back();
+          }
+        }
+
+        break;
+      case 2:
+        {
+          if (Get.currentRoute == Routes.ACOMPANHAMENTOS) {
+            final controlerAcompanhamentos =
+                Get.find<AcompanhamentosController>();
+            int indexUsuario = controlerAcompanhamentos.usuariosAcompanhamentos
+                .indexWhere((element) => element.id == 41);
+            redictToAcompanhamentos = true;
+            controlerAcompanhamentos.getAcompanhamentos(indexUsuario);
+          } else if (Get.currentRoute != Routes.LISTAGEM_ACOMPANHAMENTOS) {
+            redictToAcompanhamentos = true;
+            idRemetente = notificacao.medico?.id ?? notificacao.paciente!.id;
+            Get.toNamed(Routes.ACOMPANHAMENTOS);
+          } else {
+            Get.back();
+          }
+        }
+
+        break;
+      case 3:
+        {}
+        ;
+        break;
+    }
+  }
 }

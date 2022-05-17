@@ -10,6 +10,7 @@ class TileSolicitacoesVinculo extends GetView<ContaController> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      initiallyExpanded: controller.isSolicitacoesVinculosTilesOpened,
       leading: const Icon(Icons.notifications_on),
       title: const Text('Solicitações de vínculo'),
       children: [

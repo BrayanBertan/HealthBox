@@ -9,9 +9,13 @@ class Notificacao {
   String descricao;
   Medico? medico;
   Paciente? paciente;
+  int tipo;
+  int idDestinario;
   Notificacao({
     required this.titulo,
     required this.descricao,
+    required this.tipo,
+    required this.idDestinario,
     this.medico,
     this.paciente,
   });
@@ -27,6 +31,8 @@ class Notificacao {
     return Notificacao(
         titulo: evento.notification?.title ?? '',
         descricao: evento.notification?.body ?? '',
+        tipo: jsonDecode(evento.data['tipo_tela']) ?? 0,
+        idDestinario: jsonDecode(evento.data['id_destinario']) ?? 0,
         medico: remetenteMap == null || remetenteMap['tipo'] != 'M'
             ? null
             : Medico.fromJson(remetenteMap),
@@ -44,7 +50,9 @@ class Notificacao {
           "priority": "high"
         },
         "data": {
-          "remetente": medico == null ? paciente!.toJson() : medico!.toJson()
+          "remetente": medico == null ? paciente!.toJson() : medico!.toJson(),
+          "tipo_tela": tipo,
+          "id_destinario": idDestinario
         },
       };
 

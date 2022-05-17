@@ -50,6 +50,7 @@ class ContaController extends GetxController {
   final _crmDescricao = ''.obs;
   final _carregandoVinculos = false.obs;
   final _especializacaoSelecionada = Rx<Especializacao?>(null);
+  final _isSolicitacoesVinculosTilesOpened = false.obs;
 
   get buttonPressed => this._buttonPressed.value;
   set buttonPressed(value) => this._buttonPressed.value = value;
@@ -87,6 +88,11 @@ class ContaController extends GetxController {
   get especializacaoSelecionada => this._especializacaoSelecionada.value;
   set especializacaoSelecionada(value) =>
       this._especializacaoSelecionada.value = value;
+
+  get isSolicitacoesVinculosTilesOpened =>
+      this._isSolicitacoesVinculosTilesOpened.value;
+  set isSolicitacoesVinculosTilesOpened(value) =>
+      this._isSolicitacoesVinculosTilesOpened.value = value;
 
   bool pesquisaNomeValido() =>
       pesquisaNome != null &&
@@ -290,8 +296,11 @@ class ContaController extends GetxController {
   salvarVinculo(int index, List<Vinculo> list) {
     int medicoId;
     int pacienteId;
-    Notificacao notificacao =
-        Notificacao(titulo: 'Solicitação de vínculo', descricao: '');
+    Notificacao notificacao = Notificacao(
+        titulo: 'Solicitação de vínculo',
+        descricao: '',
+        tipo: 1,
+        idDestinario: list[index].usuarioId);
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       pacienteId = usuario.id;
       medicoId = list[index].usuarioId;

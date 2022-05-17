@@ -11,9 +11,7 @@ class ListagemAcompanhamentoPage extends GetView<AcompanhamentosController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: CustomAppBar(title: 'Acompanhamentos'),
-      ),
+      appBar: CustomAppBar(title: 'Acompanhamentos'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(

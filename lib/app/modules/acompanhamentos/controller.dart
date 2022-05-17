@@ -13,6 +13,7 @@ import 'package:healthbox/app/data/models/questionario.dart';
 import 'package:healthbox/app/data/models/usuario.dart';
 import 'package:healthbox/app/data/repositories/tratamento.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
+import 'package:healthbox/routes/app_pages.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class AcompanhamentosController extends GetxController {
@@ -71,6 +72,10 @@ class AcompanhamentosController extends GetxController {
       usuariosAcompanhamentos.assignAll(retorno);
       orderByUsuario();
       carregando = false;
+      if (loginController.redictToAcompanhamentos) {
+        getAcompanhamentos(
+            usuariosAcompanhamentos.indexWhere((element) => element.id == 41));
+      }
     });
   }
 
@@ -121,6 +126,10 @@ class AcompanhamentosController extends GetxController {
       acompanhamentos.assignAll(retorno);
       orderByPendente();
       carregando = false;
+      if (loginController.redictToAcompanhamentos) {
+        loginController.redictToAcompanhamentos = false;
+        Get.toNamed(Routes.LISTAGEM_ACOMPANHAMENTOS);
+      }
     });
   }
 

@@ -15,8 +15,12 @@ class ListNotificacoes extends GetView<LoginController> {
               'sem notificações',
               textAlign: TextAlign.center,
             )
-          : ListView.builder(
+          : ListView.separated(
               shrinkWrap: true,
+              separatorBuilder: (_, __) => const Divider(
+                    color: Colors.black,
+                    thickness: 0.5,
+                  ),
               itemCount: controller.notificacoes.length,
               itemBuilder: (_, index) => ItemListNotificacoes(
                     notificacao: controller.notificacoes[index],
