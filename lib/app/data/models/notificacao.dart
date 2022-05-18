@@ -11,11 +11,13 @@ class Notificacao {
   Paciente? paciente;
   int tipo;
   int idDestinario;
+  String fcmToken;
   Notificacao({
     required this.titulo,
     required this.descricao,
     required this.tipo,
     required this.idDestinario,
+    required this.fcmToken,
     this.medico,
     this.paciente,
   });
@@ -33,6 +35,9 @@ class Notificacao {
         descricao: evento.notification?.body ?? '',
         tipo: jsonDecode(evento.data['tipo_tela']) ?? 0,
         idDestinario: jsonDecode(evento.data['id_destinario']) ?? 0,
+        fcmToken: evento.data['token_destionario'] == null
+            ? ''
+            : jsonDecode(evento.data['token_destionario']) ?? '',
         medico: remetenteMap == null || remetenteMap['tipo'] != 'M'
             ? null
             : Medico.fromJson(remetenteMap),
@@ -42,8 +47,7 @@ class Notificacao {
   }
 
   Map<String, dynamic> toJson() => {
-        "to":
-            'dG5Eov39T66R1CqTd9LYYy:APA91bEKjNF9Gaqqqtxahd2Vwi6aezukJq4_qIIT-hnVaa3s1MsAkiqa0QMtHEC7OvIFdxvk-SWe-noN11UiEvoitYi7vsUyohUZZ0quHZuZKiKeK0fciDSWhnhe5GQishrk9bJb7Wxe',
+        "to": fcmToken,
         "notification": {
           "title": titulo,
           "body": descricao,
@@ -52,7 +56,8 @@ class Notificacao {
         "data": {
           "remetente": medico == null ? paciente!.toJson() : medico!.toJson(),
           "tipo_tela": tipo,
-          "id_destinario": idDestinario
+          "id_destinario": idDestinario,
+          "token_destionario": fcmToken,
         },
       };
 

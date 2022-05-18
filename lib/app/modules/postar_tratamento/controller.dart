@@ -427,7 +427,11 @@ class PostarTratamentoController extends GetxController {
     EasyLoadingConfig();
     redirectListagemAcompanhamentos();
     Notificacao notificacao = Notificacao(
-        titulo: '', descricao: '', tipo: 2, idDestinario: vinculo.usuarioId);
+        titulo: '',
+        descricao: '',
+        tipo: 2,
+        idDestinario: vinculo.usuarioId,
+        fcmToken: vinculo.paciente?.fcmToken ?? '');
     if (idPostagem == null) {
       notificacao.titulo = 'Você tem um novo acompanhamento';
       notificacao.descricao =

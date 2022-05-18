@@ -300,7 +300,8 @@ class ContaController extends GetxController {
         titulo: 'Solicitação de vínculo',
         descricao: '',
         tipo: 1,
-        idDestinario: list[index].usuarioId);
+        idDestinario: list[index].usuarioId,
+        fcmToken: '');
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       pacienteId = usuario.id;
       medicoId = list[index].usuarioId;

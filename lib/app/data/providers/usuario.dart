@@ -130,7 +130,8 @@ class UsuarioProvider extends GetConnect {
         usuarioObj.toJson(),
       );
     }
-
+    print('atualizando ${retornoApi.statusCode}');
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }

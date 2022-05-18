@@ -93,6 +93,7 @@ class LoginController extends GetxController {
 
   salvarFcmToken(String token) {
     var usuario = getLogin();
+
     usuario.fcmToken = token;
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       paciente.fcmToken = token;
