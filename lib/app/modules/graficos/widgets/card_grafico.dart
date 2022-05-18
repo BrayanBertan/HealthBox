@@ -20,7 +20,8 @@ class CardGrafico extends GetView<GraficosOpinioesController> {
                       ? MediaQuery.of(context).size.height *
                           (controller.graficosMedico.length * 0.15)
                       : 50
-                  : Get.currentRoute == Routes.GRAFICO_PIE
+                  : Get.currentRoute == Routes.GRAFICO_PIE ||
+                          Get.currentRoute == Routes.GRAFICO_RESPOSTA
                       ? MediaQuery.of(context).size.height * 0.7
                       : controller.graficos.isNotEmpty
                           ? MediaQuery.of(context).size.height *

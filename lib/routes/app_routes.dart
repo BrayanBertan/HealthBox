@@ -13,6 +13,7 @@ abstract class Routes {
   static const GRAFICO_BARRA_EFICACIA = '/graficos-opinioes/barra-eficacia';
   static const GRAFICO_LINES = '/graficos-opinioes/lines';
   static const GRAFICO_MELHORA = '/graficos-acompanhamento/melhora';
+  static const GRAFICO_RESPOSTA = '/graficos-acompanhamento/resposta';
   static const ACOMPANHAMENTOS = '/acompanhamentos';
   static const LISTAGEM_ACOMPANHAMENTOS = '/acompanhamentos/listagem';
   static const QUESTIONARIO_ACOMPANHAMENTOS = '/acompanhamentos/questionario';

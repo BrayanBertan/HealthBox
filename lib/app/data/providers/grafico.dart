@@ -57,6 +57,44 @@ class GraficoProvider extends GetConnect {
     }
   }
 
+  Future<List<Grafico>> getGraficosResposta(int idPaciente) async {
+    Get.find<UsuarioProvider>().isSessionValid();
+
+    try {
+      var retornoApi = await get(
+        'graficos/paciente-resposta?paciente_id=$idPaciente',
+        headers: {'Authorization': 'Bearer  $token'},
+      );
+      List<Grafico> graficos = [];
+      print(
+          '${httpClient.baseUrl}graficos/paciente-resposta?paciente_id=$idPaciente');
+      if (retornoApi.body is String || retornoApi.body.isEmpty)
+        return List<Grafico>.empty();
+      List grafico = retornoApi.body;
+      graficos.assignAll([
+        Grafico(
+            id: 1,
+            eixoX: 'Pendentes',
+            eixoY: grafico[0]['pendentes'].toDouble(),
+            label: ''),
+        Grafico(
+            id: 0,
+            eixoX: 'Respondidos',
+            eixoY: grafico[0]['respondidos'].toDouble(),
+            label: '')
+      ]);
+
+      if (retornoApi.statusCode == 200) {
+        return graficos;
+      } else {
+        return List<Grafico>.empty();
+      }
+    } catch (erro) {
+      print('Erro getGraficosResposta $erro');
+      return List<Grafico>.empty();
+    }
+  }
+
   Future<List<Medicamento>> getMedicamentosUsadosFiltro(String endpoint) async {
     Get.find<UsuarioProvider>().isSessionValid();
     try {

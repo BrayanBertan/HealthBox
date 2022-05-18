@@ -5,6 +5,9 @@ import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
 import 'package:healthbox/app/data/models/grafico_medico.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
+import 'package:healthbox/app/data/models/vinculo.dart';
+import 'package:healthbox/app/data/providers/conta.dart';
+import 'package:healthbox/app/data/repositories/conta.dart';
 import 'package:healthbox/app/data/repositories/grafico.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/core/theme/easy_loading_config.dart';
@@ -23,7 +26,11 @@ class GraficosOpinioesController extends GetxController {
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       tiposDeGraficos.assignAll(tiposDeGraficosPaciente);
     } else {
+      getVinculos();
       tiposDeGraficos.assignAll(tiposDeGraficosMedico);
+      interval(_vinculo, (val) async {
+        getGraficosResposta();
+      }, time: const Duration(milliseconds: 250));
     }
     interval(_medicamentosId, (val) async {
       if (usuario.tipo == TipoUsuario.PACIENTE) {
@@ -46,12 +53,13 @@ class GraficosOpinioesController extends GetxController {
   final graficos = <Grafico>[].obs;
   final graficosMedico = <GraficoMedico>[].obs;
   dynamic usuario;
-
+  final vinculos = <Vinculo>[].obs;
   final medicamentos = <Medicamento>[].obs;
   final medicamentosSelecionados = List<Medicamento>.empty().obs;
   final _carregando = false.obs;
   final _carregandoMedicamentos = false.obs;
   final _isExercicioFisicoChecked = false.obs;
+  final _vinculo = Rx<Vinculo?>(null);
   String tituloAppBar = '';
   String endpoint = '';
 
@@ -66,6 +74,9 @@ class GraficosOpinioesController extends GetxController {
   get isExercicioFisicoChecked => this._isExercicioFisicoChecked.value;
   setIsExercicioFisicoChecked(value) =>
       this._isExercicioFisicoChecked.value = value;
+
+  get vinculo => this._vinculo.value;
+  set vinculo(value) => this._vinculo.value = value;
 
   setMedicamentos(items) {
     medicamentosSelecionados.clear();
@@ -106,6 +117,18 @@ class GraficosOpinioesController extends GetxController {
     });
   }
 
+  getGraficosResposta() {
+    if (vinculo == null) return;
+    carregando = true;
+    repository
+        .getGraficosResposta(vinculo.usuarioId)
+        .then((List<Grafico> retorno) {
+      graficos.assignAll(retorno);
+
+      carregando = false;
+    });
+  }
+
   getMedicamentosUsadosFiltro() {
     carregandoMedicamentos = true;
     String endpoint = '';
@@ -117,6 +140,15 @@ class GraficosOpinioesController extends GetxController {
       medicamentos.clear();
       medicamentos.assignAll(retorno);
 
+      carregandoMedicamentos = false;
+    });
+  }
+
+  getVinculos() {
+    carregandoMedicamentos = true;
+    ContaRepository(provider: ContaProvider()).getVinculos(1).then((retorno) {
+      vinculos.clear();
+      vinculos.assignAll(retorno);
       carregandoMedicamentos = false;
     });
   }
@@ -203,6 +235,12 @@ class GraficosOpinioesController extends GetxController {
       'imagem': 'bar-chart.png',
       'page': Routes.GRAFICO_MELHORA,
       'endpoint': 'remedio-melhora?remedios&grafico_exercicio=0/1'
+    },
+    {
+      'titulo': 'Paciente x Respostas',
+      'imagem': 'pie-chart.png',
+      'page': Routes.GRAFICO_RESPOSTA,
+      'endpoint': 'graficos/paciente-resposta?paciente_id='
     },
   ];
 

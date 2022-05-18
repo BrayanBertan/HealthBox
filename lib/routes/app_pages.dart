@@ -8,6 +8,7 @@ import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_horizontal.
 import 'package:healthbox/app/modules/graficos/widgets/grafico_barra_melhora.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_lines.dart';
 import 'package:healthbox/app/modules/graficos/widgets/grafico_pie.dart';
+import 'package:healthbox/app/modules/graficos/widgets/grafico_pie_resposta_paciente.dart';
 import 'package:healthbox/app/widgets/detalhes_tratamento/page_detalhes_tratamento.dart';
 
 import '../app/modules/conta/binding.dart';
@@ -77,6 +78,10 @@ class AppPages {
     GetPage(
       name: Routes.GRAFICO_MELHORA,
       page: () => GraficoBarraMelhoraPage(),
+    ),
+    GetPage(
+      name: Routes.GRAFICO_RESPOSTA,
+      page: () => GraficoPieRespostaPage(),
     ),
     GetPage(
         name: Routes.ACOMPANHAMENTOS,

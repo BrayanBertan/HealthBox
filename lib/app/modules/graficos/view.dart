@@ -5,6 +5,7 @@ import 'package:healthbox/app/modules/graficos/widgets/aviso.dart';
 import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
+import 'package:healthbox/routes/app_pages.dart';
 
 import 'controller.dart';
 
@@ -42,7 +43,10 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
                             controller.tiposDeGraficos[index]['endpoint'];
                         controller.usuario.tipo == TipoUsuario.PACIENTE
                             ? controller.getGraficos()
-                            : controller.getGraficosMedico();
+                            : controller.tiposDeGraficos[index]['page'] ==
+                                    Routes.GRAFICO_RESPOSTA
+                                ? controller.getGraficosResposta()
+                                : controller.getGraficosMedico();
                         controller.tituloAppBar =
                             controller.tiposDeGraficos[index]['titulo'];
                         Get.toNamed(controller.tiposDeGraficos[index]['page']);
