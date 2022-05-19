@@ -30,7 +30,7 @@ class UsuarioProvider extends GetConnect {
       'auth/login?password=$senha&email=$email',
       {},
     );
-    print('${httpClient.baseUrl}auth/login?password=$senha&email=$email');
+
     if (retornoApi.statusCode == 200) return retornoApi;
     return false;
   }
@@ -138,7 +138,7 @@ class UsuarioProvider extends GetConnect {
         usuarioObj.toJson(),
       );
     }
-    print('aquiiiii ${retornoApi.body}');
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -187,7 +187,7 @@ class UsuarioProvider extends GetConnect {
     try {
       dynamic retornoApi;
       httpClient.baseUrl = null;
-      print(notificacao.toJson());
+
       retornoApi = await post(
         'https://fcm.googleapis.com/fcm/send',
         notificacao.toJson(),

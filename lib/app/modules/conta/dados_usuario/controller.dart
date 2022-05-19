@@ -462,7 +462,7 @@ class DadosUsuarioController extends GetxController {
         foto = await ref.getDownloadURL();
       } catch (e) {
         foto = null;
-        print('Erro');
+        print('Erro FirebaseStorage imagem');
       }
     }
     var func;

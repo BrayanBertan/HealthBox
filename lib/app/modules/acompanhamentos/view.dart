@@ -7,9 +7,7 @@ import 'package:healthbox/app/widgets/notificacoes/custom_appbar.dart';
 import 'package:healthbox/app/widgets/side_menu/side_menu.dart';
 
 class AcompanhamentoPage extends GetView<AcompanhamentosController> {
-  AcompanhamentoPage({Key? key}) : super(key: key) {
-    print('ddidd ${controller.usuariosAcompanhamentos.length}');
-  }
+  AcompanhamentoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

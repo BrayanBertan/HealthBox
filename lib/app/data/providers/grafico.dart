@@ -23,7 +23,7 @@ class GraficoProvider extends GetConnect {
       var retornoApi = await get('graficos/$endpoint',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Grafico.listFromJson(obj));
-      print('${httpClient.baseUrl}graficos/$endpoint');
+
       if (retornoApi.statusCode == 200) {
         return retornoApi.body!;
       } else {
@@ -38,8 +38,7 @@ class GraficoProvider extends GetConnect {
   Future<List<GraficoMedico>> getGraficosMedico(
       String remedios, int tipo) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    print(
-        'graficos/remedio-melhora?remedios=$remedios&grafico_exercicio=$tipo');
+
     try {
       var retornoApi = await get(
           'graficos/remedio-melhora?remedios=$remedios&grafico_exercicio=$tipo',
@@ -66,8 +65,7 @@ class GraficoProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
       );
       List<Grafico> graficos = [];
-      print(
-          '${httpClient.baseUrl}graficos/paciente-resposta?paciente_id=$idPaciente');
+
       if (retornoApi.body is String || retornoApi.body.isEmpty)
         return List<Grafico>.empty();
       List grafico = retornoApi.body;

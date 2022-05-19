@@ -115,7 +115,6 @@ class LoginController extends GetxController {
             medico = retorno;
           }
           FirebaseMessaging.instance.getToken().then((token) {
-            print('token $token');
             salvarFcmToken(token ?? '');
           });
 

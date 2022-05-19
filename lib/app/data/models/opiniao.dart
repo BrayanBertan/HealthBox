@@ -67,11 +67,8 @@ class Opiniao {
     return map;
   }
 
-  static List<Opiniao> listFromJson(list) {
-    print(list['data']);
-    return List<Opiniao>.from(
-        list['data'].map((opiniao) => Opiniao.fromJson(opiniao)));
-  }
+  static List<Opiniao> listFromJson(list) => List<Opiniao>.from(
+      list['data'].map((opiniao) => Opiniao.fromJson(opiniao)));
 
   static List<Opiniao> listToJson(list) {
     return List<Opiniao>.from(list.map((opiniao) => opiniao.toJson()));

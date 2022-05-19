@@ -130,7 +130,6 @@ class OpinioesController extends GetxController {
               toastPosition: EasyLoadingToastPosition.bottom);
           listaLikesAtualizada.clear();
         } else {
-          print('deu bom 1');
           int indexLike =
               likes.indexWhere((element) => element.idUsuario == usuario.id);
           if (likes.isEmpty || indexLike < 0) {
@@ -157,7 +156,6 @@ class OpinioesController extends GetxController {
 
     repository.deleteLike(id).then((retorno) {
       if (retorno) {
-        print('deu bom 2');
       } else {
         EasyLoading.showToast('Erro ao deletar  like',
             toastPosition: EasyLoadingToastPosition.bottom);

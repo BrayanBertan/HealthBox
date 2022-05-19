@@ -38,8 +38,7 @@ class TratamentoProvider extends GetConnect {
           decoder: (obj) => T == Paciente
               ? Paciente.listFromJson(obj)
               : Medico.listFromJson(obj));
-      print(retornoApi.statusCode);
-      print(retornoApi.body);
+
       if (retornoApi.statusCode == 200) {
         return retornoApi.body!;
       } else {
@@ -93,9 +92,7 @@ class TratamentoProvider extends GetConnect {
       );
       id = acompanhamento.id!;
     }
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
-    print('id acompanhamento =====  $id}');
+
     if (retornoApi.statusCode == 200) return id;
     return false;
   }
@@ -111,7 +108,7 @@ class TratamentoProvider extends GetConnect {
         questionario.toJson(),
         headers: {'Authorization': 'Bearer  $token'},
       );
-      print(retornoApi.body);
+
       id = retornoApi.body['questionario']['id'];
     } else {
       retornoApi = await put(
@@ -121,25 +118,14 @@ class TratamentoProvider extends GetConnect {
       );
       id = questionario.id!;
     }
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
-    print('id questionario =====  $id}');
+
     if (retornoApi.statusCode == 200) return id;
     return false;
   }
 
   Future<bool> deletarAcompanhamento(int id) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    dynamic retornoApi;
 
-    retornoApi = await delete(
-      'acompanhamentos/$id',
-      headers: {'Authorization': 'Bearer  $token'},
-    );
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
-    if (retornoApi.statusCode == 200) return true;
-    return false;
     try {
       dynamic retornoApi;
 
@@ -210,15 +196,14 @@ class TratamentoProvider extends GetConnect {
 
   salvarIntermediaria(Map<String, List<Map<String, dynamic>>> vinculos) async {
     Get.find<UsuarioProvider>().isSessionValid();
-    print(vinculos);
+
     dynamic retornoApi;
     retornoApi = await post(
       'questoes/vinculos',
       vinculos,
       headers: {'Authorization': 'Bearer  $token'},
     );
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -252,8 +237,7 @@ class TratamentoProvider extends GetConnect {
       respostas,
       headers: {'Authorization': 'Bearer  $token'},
     );
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -329,7 +313,7 @@ class TratamentoProvider extends GetConnect {
   Future<bool> salvarTratamento(Tratamento tratamento) async {
     Get.find<UsuarioProvider>().isSessionValid();
     dynamic retornoApi;
-    print(tratamento.toJson());
+
     if (tratamento.id == null) {
       retornoApi = await post(
         'tratamentos',
@@ -343,8 +327,7 @@ class TratamentoProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
       );
     }
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
+
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -369,8 +352,6 @@ class TratamentoProvider extends GetConnect {
       required String search}) async {
     Get.find<UsuarioProvider>().isSessionValid();
     try {
-      print(filtros.medicamentosId);
-      print('Bearer  $token');
       String filtrosParam = '';
       if (filtros.medicamentosSelecionados.first.id == 0) {
         filtrosParam = '${filtros.eficaz}${filtros.orderBy}$search';
@@ -383,11 +364,11 @@ class TratamentoProvider extends GetConnect {
       if (pacienteId != null)
         endpoint =
             'opinioes?page=$page&ativo=1&paciente_id=$pacienteId$filtrosParam';
-      print('${httpClient.baseUrl}$endpoint');
+
       var retornoApi = await get(endpoint,
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Opiniao.listFromJson(obj));
-      print('${httpClient.baseUrl}$endpoint');
+
       if (retornoApi.statusCode == 200) {
         return retornoApi.body!;
       } else {
@@ -423,8 +404,6 @@ class TratamentoProvider extends GetConnect {
       headers: {'Authorization': 'Bearer  $token'},
     );
 
-    print(retornoApi.statusCode);
-    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
