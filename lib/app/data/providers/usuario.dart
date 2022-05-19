@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/services/storage.dart';
 import 'package:healthbox/core/values/keys.dart';
@@ -115,9 +116,10 @@ class UsuarioProvider extends GetConnect {
       usuarioObj = usuario as Paciente;
     } else {
       usuarioObj = usuario as Medico;
+      usuarioObj.crms = List<Crm>.empty();
     }
 
-    if (usuario.id != null) {
+    if (usuarioObj.id != null) {
       isSessionValid();
       retornoApi = await put(
         'usuarios/${usuarioObj.id}',
@@ -130,8 +132,7 @@ class UsuarioProvider extends GetConnect {
         usuarioObj.toJson(),
       );
     }
-    print('atualizando ${retornoApi.statusCode}');
-    print(retornoApi.body);
+    print('aquiiiii ${retornoApi.body}');
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -152,7 +153,6 @@ class UsuarioProvider extends GetConnect {
   }
 
   validaCRM(String crm, String uf) async {
-    print('crm $crm');
     httpClient.baseUrl = '';
     var retornoApi = await get(
         'https://portal.cfm.org.br/api_rest_php/api/v1/medicos/buscar_foto/$crm/$uf');

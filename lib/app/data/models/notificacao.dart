@@ -35,9 +35,7 @@ class Notificacao {
         descricao: evento.notification?.body ?? '',
         tipo: jsonDecode(evento.data['tipo_tela']) ?? 0,
         idDestinario: jsonDecode(evento.data['id_destinario']) ?? 0,
-        fcmToken: evento.data['token_destionario'] == null
-            ? ''
-            : jsonDecode(evento.data['token_destionario']) ?? '',
+        fcmToken: '',
         medico: remetenteMap == null || remetenteMap['tipo'] != 'M'
             ? null
             : Medico.fromJson(remetenteMap),

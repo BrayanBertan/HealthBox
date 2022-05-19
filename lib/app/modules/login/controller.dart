@@ -95,12 +95,14 @@ class LoginController extends GetxController {
     var usuario = getLogin();
 
     usuario.fcmToken = token;
+
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       paciente.fcmToken = token;
-      repository.salvarUsuario<Paciente>(usuario);
+
+      repository.salvarUsuario<Paciente>(paciente);
     } else {
       medico.fcmToken = token;
-      repository.salvarUsuario<Medico>(usuario);
+      repository.salvarUsuario<Medico>(medico);
     }
   }
 
