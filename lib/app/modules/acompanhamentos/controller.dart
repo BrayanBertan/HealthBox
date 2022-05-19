@@ -73,8 +73,8 @@ class AcompanhamentosController extends GetxController {
       orderByUsuario();
       carregando = false;
       if (loginController.redictToAcompanhamentos) {
-        getAcompanhamentos(
-            usuariosAcompanhamentos.indexWhere((element) => element.id == 41));
+        getAcompanhamentos(usuariosAcompanhamentos.indexWhere(
+            (element) => element.id == loginController.idRemetente));
       }
     });
   }

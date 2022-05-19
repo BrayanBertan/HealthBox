@@ -98,7 +98,6 @@ class LoginController extends GetxController {
 
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       paciente.fcmToken = token;
-
       repository.salvarUsuario<Paciente>(paciente);
     } else {
       medico.fcmToken = token;
@@ -116,6 +115,7 @@ class LoginController extends GetxController {
             medico = retorno;
           }
           FirebaseMessaging.instance.getToken().then((token) {
+            print('token $token');
             salvarFcmToken(token ?? '');
           });
 
@@ -165,26 +165,23 @@ class LoginController extends GetxController {
         break;
       case 2:
         {
+          idRemetente = notificacao.medico?.id ?? notificacao.paciente!.id;
           if (Get.currentRoute == Routes.ACOMPANHAMENTOS) {
             final controlerAcompanhamentos =
                 Get.find<AcompanhamentosController>();
             int indexUsuario = controlerAcompanhamentos.usuariosAcompanhamentos
-                .indexWhere((element) => element.id == 41);
+                .indexWhere((element) => element.id == idRemetente);
+            if (indexUsuario < 0) return;
             redictToAcompanhamentos = true;
             controlerAcompanhamentos.getAcompanhamentos(indexUsuario);
           } else if (Get.currentRoute != Routes.LISTAGEM_ACOMPANHAMENTOS) {
             redictToAcompanhamentos = true;
-            idRemetente = notificacao.medico?.id ?? notificacao.paciente!.id;
             Get.toNamed(Routes.ACOMPANHAMENTOS);
           } else {
             Get.back();
           }
         }
 
-        break;
-      case 3:
-        {}
-        ;
         break;
     }
   }

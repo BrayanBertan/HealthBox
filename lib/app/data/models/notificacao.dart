@@ -33,9 +33,9 @@ class Notificacao {
     return Notificacao(
         titulo: evento.notification?.title ?? '',
         descricao: evento.notification?.body ?? '',
-        tipo: jsonDecode(evento.data['tipo_tela']) ?? 0,
-        idDestinario: jsonDecode(evento.data['id_destinario']) ?? 0,
-        fcmToken: '',
+        tipo: int.parse(evento.data['tipo_tela'] ?? '0'),
+        idDestinario: int.parse(evento.data['id_destinario'] ?? '0'),
+        fcmToken: evento.data['token_destionario'],
         medico: remetenteMap == null || remetenteMap['tipo'] != 'M'
             ? null
             : Medico.fromJson(remetenteMap),

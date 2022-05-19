@@ -113,9 +113,15 @@ class UsuarioProvider extends GetConnect {
     var usuarioObj;
 
     if (T == Paciente) {
-      usuarioObj = usuario as Paciente;
+      Paciente paciente = usuario as Paciente;
+      var json = paciente.toJson();
+      json['caracteristica'] = json['caracteristicas'];
+      usuarioObj = Paciente.fromJson(json);
     } else {
-      usuarioObj = usuario as Medico;
+      Medico medico = usuario as Medico;
+      var json = medico.toJson();
+      json['caracteristica'] = json['caracteristicas'];
+      usuarioObj = Medico.fromJson(json);
       usuarioObj.crms = List<Crm>.empty();
     }
 
