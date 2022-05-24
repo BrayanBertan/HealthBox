@@ -58,7 +58,7 @@ class GraficoProvider extends GetConnect {
 
   Future<List<Grafico>> getGraficosResposta(int idPaciente) async {
     Get.find<UsuarioProvider>().isSessionValid();
-
+    print('graficos/paciente-resposta?paciente_id=$idPaciente');
     try {
       var retornoApi = await get(
         'graficos/paciente-resposta?paciente_id=$idPaciente',
@@ -79,6 +79,11 @@ class GraficoProvider extends GetConnect {
             id: 0,
             eixoX: 'Respondidos',
             eixoY: grafico[0]['respondidos'].toDouble(),
+            label: ''),
+        Grafico(
+            id: 2,
+            eixoX: 'Não respondidos',
+            eixoY: grafico[0]['nao_respondidos'].toDouble(),
             label: '')
       ]);
 

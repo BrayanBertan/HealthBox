@@ -1,6 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts hide TextStyle;
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/grafico.dart';
@@ -76,10 +77,28 @@ class GraficoPieRespostaPage extends GetView<GraficosOpinioesController> {
               CardGrafico(
                   grafico: charts.PieChart(seriesgrafico,
                       animate: true,
+                      selectionModels: [
+                        charts.SelectionModelConfig<String>(
+                          type: charts.SelectionModelType.info,
+                          changedListener: (model) {
+                            if (model.selectedDatum.isEmpty) return;
+                            int index = model.selectedDatum.first.index!;
+                            EasyLoading.instance.backgroundColor = controller
+                                .getGraficosColor(controller.graficos[index].id,
+                                    tipo: 1);
+                            EasyLoading.showToast(
+                                '${controller.graficos[index].eixoY}% ${controller.graficos[index].eixoX} ',
+                                toastPosition: EasyLoadingToastPosition.bottom,
+                                duration: const Duration(milliseconds: 2000),
+                                dismissOnTap: true);
+                          },
+                          updatedListener: (model) {},
+                        ),
+                      ],
                       defaultRenderer: charts.ArcRendererConfig<String>(
                           arcRendererDecorators: [
                             charts.ArcLabelDecorator(
-                                labelPosition: charts.ArcLabelPosition.outside)
+                                labelPosition: charts.ArcLabelPosition.auto)
                           ]))),
               controller.usuario.tipo == TipoUsuario.PACIENTE
                   ? const Aviso()
