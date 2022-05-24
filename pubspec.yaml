@@ -62,7 +62,7 @@ dependencies:
   table_calendar: ^3.0.5
   firebase_messaging: ^11.3.0
   badges: ^2.0.2
-  flutter_local_notifications: ^9.5.3+1
+
 
 
 
