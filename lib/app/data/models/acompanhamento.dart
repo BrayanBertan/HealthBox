@@ -18,6 +18,7 @@ class Acompanhamento {
   Medico? medico;
   DateTime dataInicio;
   bool? respostaPendente;
+  double? porcentagemConclusaoQuestionarios;
   Acompanhamento(
       {this.id,
       required this.descricaoPaciente,
@@ -30,6 +31,7 @@ class Acompanhamento {
       required this.diasDuracao,
       this.paciente,
       this.medico,
+      this.porcentagemConclusaoQuestionarios,
       required this.dataInicio,
       this.respostaPendente});
 
@@ -39,6 +41,8 @@ class Acompanhamento {
       pacienteId: json['paciente_id'],
       medicoId: json['medico_id'],
       ativo: json['ativo'],
+      porcentagemConclusaoQuestionarios:
+          double.parse('${json['porcentagem_progresso'] ?? 0}'),
       tratamento: json['tratamento'] != null
           ? Tratamento.fromJson(json['tratamento'])
           : null,

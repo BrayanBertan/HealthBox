@@ -12,6 +12,7 @@ import 'package:healthbox/core/theme/app_text_theme.dart';
 import 'package:healthbox/core/values/keys.dart';
 import 'package:healthbox/routes/app_pages.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class CardInfoQuesitonario extends GetView<AcompanhamentosController> {
   Acompanhamento acompanhamento;
@@ -27,6 +28,15 @@ class CardInfoQuesitonario extends GetView<AcompanhamentosController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            StepProgressIndicator(
+                totalSteps: controller.questionariosVisualizacao.length,
+                currentStep: 4,
+                size: 30,
+                selectedColor: corPrincipal,
+                unselectedColor: Colors.grey[200]!,
+                customStep: (index, color, _) => controller.getStepContainer(
+                    acompanhamento,
+                    controller.questionariosVisualizacao[index])),
             ListTile(
               leading: acompanhamento.medico?.fotoPath == null
                   ? Container(

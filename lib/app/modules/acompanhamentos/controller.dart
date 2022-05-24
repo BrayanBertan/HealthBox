@@ -266,6 +266,26 @@ class AcompanhamentosController extends GetxController {
     return {'isRespondido': ' | Não respondido', 'cor': Colors.red};
   }
 
+  Widget getStepContainer(
+      Acompanhamento acompanhamento, Questionario questionario) {
+    int disponivel =
+        getHistoricoLegenda(acompanhamento.dataInicio)['disponivel'];
+    String isRespondido =
+        isQuestionarioRespondido(questionario.questoes)['isRespondido'];
+    Color cor = Colors.red;
+
+    if (disponivel == 1 ||
+        questionario.dataResposta!.difference(DateTime.now()).inDays > 0) {
+      cor = Colors.yellow;
+    } else if (isRespondido == ' | Respondido') {
+      cor = Colors.green;
+    }
+
+    return Container(
+      color: cor,
+    );
+  }
+
   String? isCampoValido(index) {
     dynamic valor = camposRespostas[index].value;
     if (valor == null || valor.length > 2) return null;

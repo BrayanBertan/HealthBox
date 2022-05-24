@@ -56,7 +56,7 @@ class TratamentoProvider extends GetConnect {
     try {
       String filtro = '?usuario_id=$id&';
       if (id == null) filtro = '?';
-
+      print('aquiiii acompanhamentos${filtro}ativo=1');
       var retornoApi = await get('acompanhamentos${filtro}ativo=1',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Acompanhamento.listFromJson(obj));
@@ -92,7 +92,7 @@ class TratamentoProvider extends GetConnect {
       );
       id = acompanhamento.id!;
     }
-
+    print('aquiiii22222222 acompanhamentos/${acompanhamento.id}');
     if (retornoApi.statusCode == 200) return id;
     return false;
   }

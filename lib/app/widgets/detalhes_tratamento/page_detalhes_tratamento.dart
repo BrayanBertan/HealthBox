@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/medicamento_info.dart';
+import 'package:healthbox/app/modules/acompanhamentos/widgets/acompanhamentos/widgets/questionarios/widgets/custom_step_progress_indicator_tratamento.dart';
 import 'package:healthbox/app/modules/login/controller.dart';
 import 'package:healthbox/app/modules/opinioes/controller.dart';
 import 'package:healthbox/app/widgets/detalhes_tratamento/card_detalhes_interacoes.dart';
@@ -77,6 +78,10 @@ class DetalhesTratamentoPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            acompanhamento != null
+                ? CustomStepProgressIndicatorTratamento(
+                    acompanhamento: acompanhamento!)
+                : Container(),
             if (foto == null)
               Center(
                 child: Container(

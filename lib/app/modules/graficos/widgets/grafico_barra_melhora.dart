@@ -46,7 +46,7 @@ class GraficoBarraMelhoraPage extends GetView<GraficosOpinioesController> {
         domainFn: (GraficoMedico series, _) => series.eixoX,
         measureFn: (GraficoMedico series, _) => series.eixoYMelhorou,
         data: controller.graficosMedico,
-        labelAccessorFn: (GraficoMedico row, _) => 'Melhororaram',
+        labelAccessorFn: (GraficoMedico row, _) => 'Melhor',
       ),
       charts.Series<GraficoMedico, String>(
         id: 'graficoIgual',
@@ -112,7 +112,7 @@ class GraficoBarraMelhoraPage extends GetView<GraficosOpinioesController> {
         domainFn: (GraficoMedico series, _) => series.eixoX,
         measureFn: (GraficoMedico series, _) => series.eixoYPiorou,
         data: controller.graficosMedico,
-        labelAccessorFn: (GraficoMedico row, _) => 'Pioraram',
+        labelAccessorFn: (GraficoMedico row, _) => 'Pior',
       )
     ];
     return Scaffold(
