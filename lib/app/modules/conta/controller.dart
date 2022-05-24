@@ -301,7 +301,7 @@ class ContaController extends GetxController {
         descricao: '',
         tipo: 1,
         idDestinario: list[index].usuarioId,
-        fcmToken: '');
+        fcmToken: list[index].fcmToken ?? '');
     if (usuario.tipo == TipoUsuario.PACIENTE) {
       pacienteId = usuario.id;
       medicoId = list[index].usuarioId;

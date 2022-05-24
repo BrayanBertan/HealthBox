@@ -8,12 +8,14 @@ class Vinculo {
   String nome;
   String? fotoPath;
   Paciente? paciente;
+  String? fcmToken;
   static int usuarioAtivoId = 0;
   Vinculo(
       {this.id,
       required this.usuarioId,
       this.fotoPath,
       required this.nome,
+      this.fcmToken,
       this.paciente});
 
   factory Vinculo.fromJson(Map<String, dynamic> json) {
@@ -38,7 +40,8 @@ class Vinculo {
       return Vinculo(
           usuarioId: json['id'],
           fotoPath: json['foto_path'],
-          nome: json['name']);
+          nome: json['name'],
+          fcmToken: json['notificacao_token']);
     }
   }
 

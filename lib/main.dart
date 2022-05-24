@@ -33,6 +33,7 @@ void main() async {
   final controller = Get.find<LoginController>();
   Future<void> _messageHandler(RemoteMessage evento) async {
     Notificacao notificacao = Notificacao.fromJson(evento);
+    print('notificacao ${notificacao}');
     if (notificacao.idDestinario != controller.getLogin().id) return;
     controller.notificacoes.add(notificacao);
   }

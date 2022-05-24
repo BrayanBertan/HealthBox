@@ -115,14 +115,24 @@ class UsuarioProvider extends GetConnect {
     if (T == Paciente) {
       Paciente paciente = usuario as Paciente;
       var json = paciente.toJson();
+      String password = paciente.senha;
       json['caracteristica'] = json['caracteristicas'];
+
       usuarioObj = Paciente.fromJson(json);
+      usuarioObj.senha = password;
     } else {
       Medico medico = usuario as Medico;
       var json = medico.toJson();
+      String password = medico.senha;
+
       json['caracteristica'] = json['caracteristicas'];
+
       usuarioObj = Medico.fromJson(json);
-      usuarioObj.crms = List<Crm>.empty();
+      usuarioObj.senha = password;
+      Crm crmTemp = usuarioObj.crms[0];
+
+      usuarioObj.crms.clear();
+      usuarioObj.crms.add(crmTemp);
     }
 
     if (usuarioObj.id != null) {
@@ -138,7 +148,9 @@ class UsuarioProvider extends GetConnect {
         usuarioObj.toJson(),
       );
     }
-
+    print(usuarioObj.toJson());
+    print(retornoApi.statusCode);
+    print(retornoApi.body);
     if (retornoApi.statusCode == 200) return true;
     return false;
   }
@@ -185,6 +197,7 @@ class UsuarioProvider extends GetConnect {
 
   Future<bool> enviarNotificacao(Notificacao notificacao) async {
     try {
+      if (notificacao.fcmToken.isEmpty) return false;
       dynamic retornoApi;
       httpClient.baseUrl = null;
 
