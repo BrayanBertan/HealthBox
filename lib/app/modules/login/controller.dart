@@ -145,6 +145,7 @@ class LoginController extends GetxController {
 
   enviarNotificacao(Notificacao notificacao) =>
       repository.enviarNotificacao(notificacao).then((retorno) {
+        print(notificacao.fcmToken);
         if (retorno) {
           print('sucesso ao enviar notificação controller');
         } else {
