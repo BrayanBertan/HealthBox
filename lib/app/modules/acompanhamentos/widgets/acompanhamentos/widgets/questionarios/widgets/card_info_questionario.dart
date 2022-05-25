@@ -28,15 +28,17 @@ class CardInfoQuesitonario extends GetView<AcompanhamentosController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            StepProgressIndicator(
-                totalSteps: controller.questionariosVisualizacao.length,
-                currentStep: 4,
-                size: 30,
-                selectedColor: corPrincipal,
-                unselectedColor: Colors.grey[200]!,
-                customStep: (index, color, _) => controller.getStepContainer(
-                    acompanhamento,
-                    controller.questionariosVisualizacao[index])),
+            Obx(() => controller.questionariosVisualizacao.isEmpty
+                ? Container()
+                : StepProgressIndicator(
+                    totalSteps: controller.questionariosVisualizacao.length,
+                    currentStep: 4,
+                    size: 30,
+                    selectedColor: corPrincipal,
+                    unselectedColor: Colors.grey[200]!,
+                    customStep: (index, color, _) =>
+                        controller.getStepContainer(
+                            controller.questionariosVisualizacao[index]))),
             ListTile(
               leading: acompanhamento.medico?.fotoPath == null
                   ? Container(

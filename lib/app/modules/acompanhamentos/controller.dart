@@ -248,7 +248,7 @@ class AcompanhamentosController extends GetxController {
     int diferenca = date.difference(hoje).inDays;
     if (diferenca > 0) return {'disponivel': 2, 'legenda': ' Futuro'};
     if (diferenca < 0) return {'disponivel': 0, 'legenda': ' Finalizado'};
-    return {'disponivel': 1, 'legenda': 'Aberto'};
+    return {'disponivel': 1, 'legenda': ' Aberto'};
   }
 
   Map<String, dynamic> isQuestionarioRespondido(List<Questao>? questoesParam) {
@@ -266,19 +266,19 @@ class AcompanhamentosController extends GetxController {
     return {'isRespondido': ' | Não respondido', 'cor': Colors.red};
   }
 
-  Widget getStepContainer(
-      Acompanhamento acompanhamento, Questionario questionario) {
+  Widget getStepContainer(Questionario questionario) {
     int disponivel =
-        getHistoricoLegenda(acompanhamento.dataInicio)['disponivel'];
+        getHistoricoLegenda(questionario.dataResposta!)['disponivel'];
     String isRespondido =
         isQuestionarioRespondido(questionario.questoes)['isRespondido'];
     Color cor = Colors.red;
-
-    if (disponivel == 1 ||
-        questionario.dataResposta!.difference(DateTime.now()).inDays > 0) {
+    if (disponivel == 1) {
       cor = Colors.yellow;
     } else if (isRespondido == ' | Respondido') {
       cor = Colors.green;
+    } else if (questionario.dataResposta!.difference(DateTime.now()).inDays >
+        0) {
+      cor = Colors.grey;
     }
 
     return Container(
@@ -289,7 +289,7 @@ class AcompanhamentosController extends GetxController {
   String? isCampoValido(index) {
     dynamic valor = camposRespostas[index].value;
     if (valor == null || valor.length > 2) return null;
-    return 'Respota muito curta';
+    return 'Resposta muito curta';
   }
 
   bool isFormValido() =>

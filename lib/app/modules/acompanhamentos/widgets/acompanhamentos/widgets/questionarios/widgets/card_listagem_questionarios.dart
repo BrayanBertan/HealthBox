@@ -40,14 +40,22 @@ class CardListagemQuestionarios extends GetView<AcompanhamentosController> {
                                   .questionariosVisualizacao[index]
                                   .dataResposta!)['legenda']),
                           TextSpan(
-                              text: controller.isQuestionarioRespondido(
-                                  controller.questionariosVisualizacao[index]
-                                      .questoes)['isRespondido'],
+                              text: controller.isQuestionarioRespondido(controller
+                                  .questionariosVisualizacao[index]
+                                  .questoes)['isRespondido'],
                               style: TextStyle(
-                                  color: controller.isQuestionarioRespondido(
-                                      controller
-                                          .questionariosVisualizacao[index]
-                                          .questoes)['cor'])),
+                                  color: controller.getHistoricoLegenda(controller
+                                              .questionariosVisualizacao[index]
+                                              .dataResposta!)['legenda'] ==
+                                          ' Futuro'
+                                      ? Colors.grey
+                                      : controller.getHistoricoLegenda(controller.questionariosVisualizacao[index].dataResposta!)[
+                                                  'legenda'] ==
+                                              ' Aberto'
+                                          ? Colors.yellow
+                                          : controller.isQuestionarioRespondido(controller
+                                              .questionariosVisualizacao[index]
+                                              .questoes)['cor'])),
                         ]),
                     textAlign: TextAlign.start,
                   ),
