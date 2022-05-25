@@ -23,7 +23,8 @@ class ItemListaVinculos extends GetView<ContaController> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => controller.usuario.tipo == TipoUsuario.PACIENTE
+      onTap: () => controller.usuario.tipo == TipoUsuario.PACIENTE ||
+              lista[index].paciente == null
           ? null
           : showDialog(
               context: context,

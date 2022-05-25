@@ -33,9 +33,9 @@ void main() async {
   final controller = Get.find<LoginController>();
   Future<void> _messageHandler(RemoteMessage evento) async {
     Notificacao notificacao = Notificacao.fromJson(evento);
-    print('notificacao ${notificacao}');
+
     if (notificacao.idDestinario != controller.getLogin().id) return;
-    controller.notificacoes.add(notificacao);
+    controller.notificacoes.insert(0, notificacao);
   }
 
   if (controller.verificaSessao()) {
@@ -44,7 +44,7 @@ void main() async {
     FirebaseMessaging.onMessageOpenedApp.listen((evento) {
       Notificacao notificacao = Notificacao.fromJson(evento);
       if (notificacao.idDestinario != controller.getLogin().id) return;
-      controller.notificacoes.add(notificacao);
+      controller.notificacoes.insert(0, notificacao);
       Get.dialog(DialogNotificacaoFirebase());
     });
 

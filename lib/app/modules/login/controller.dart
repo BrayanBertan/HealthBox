@@ -7,6 +7,7 @@ import 'package:healthbox/app/data/models/notificacao.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
 import 'package:healthbox/app/data/repositories/usuario.dart';
 import 'package:healthbox/app/modules/acompanhamentos/controller.dart';
+import 'package:healthbox/app/modules/conta/controller.dart';
 import 'package:healthbox/routes/app_pages.dart';
 
 import '../../data/providers/usuario.dart';
@@ -154,18 +155,21 @@ class LoginController extends GetxController {
     switch (notificacao.tipo) {
       case 1:
         {
+          Get.back();
           if (Get.currentRoute != Routes.CONTA) {
             Get.toNamed(Routes.CONTA, arguments: true);
           } else {
-            Get.back();
+            Get.find<ContaController>().getVinculos(0);
           }
         }
 
         break;
       case 2:
         {
+          Get.back();
           idRemetente = notificacao.medico?.id ?? notificacao.paciente!.id;
-          if (Get.currentRoute == Routes.ACOMPANHAMENTOS) {
+          if (Get.currentRoute == Routes.ACOMPANHAMENTOS ||
+              Get.currentRoute == Routes.LISTAGEM_ACOMPANHAMENTOS) {
             final controlerAcompanhamentos =
                 Get.find<AcompanhamentosController>();
             int indexUsuario = controlerAcompanhamentos.usuariosAcompanhamentos
@@ -173,11 +177,9 @@ class LoginController extends GetxController {
             if (indexUsuario < 0) return;
             redictToAcompanhamentos = true;
             controlerAcompanhamentos.getAcompanhamentos(indexUsuario);
-          } else if (Get.currentRoute != Routes.LISTAGEM_ACOMPANHAMENTOS) {
+          } else {
             redictToAcompanhamentos = true;
             Get.toNamed(Routes.ACOMPANHAMENTOS);
-          } else {
-            Get.back();
           }
         }
 

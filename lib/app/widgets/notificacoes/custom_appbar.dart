@@ -25,8 +25,9 @@ class CustomAppBar extends GetView<LoginController>
           child: Obx(
             () => InkWell(
               onTap: () => showDialog(
-                  context: context,
-                  builder: (context) => DialogNotificacaoFirebase()),
+                      context: context,
+                      builder: (context) => DialogNotificacaoFirebase())
+                  .then((value) => controller.notificacoes.clear()),
               child: Badge(
                 badgeContent: Text('${controller.notificacoes.length}',
                     style: const TextStyle(color: Colors.white)),
