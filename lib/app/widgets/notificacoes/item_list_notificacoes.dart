@@ -65,6 +65,7 @@ class ItemListNotificacoes extends GetView<LoginController> {
           notificacao.descricao,
           style: const TextStyle(fontWeight: FontWeight.bold),
           maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

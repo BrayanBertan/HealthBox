@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_notificacao.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/crm.dart';
 import 'package:healthbox/app/data/models/medico.dart';
@@ -299,7 +300,7 @@ class ContaController extends GetxController {
     Notificacao notificacao = Notificacao(
         titulo: 'Solicitação de vínculo',
         descricao: '',
-        tipo: 1,
+        tipo: TipoNotificacao.VINCULO,
         idDestinario: list[index].usuarioId,
         fcmToken: list[index].paciente == null
             ? list[index].fcmToken ?? ''

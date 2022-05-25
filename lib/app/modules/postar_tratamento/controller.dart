@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_notificacao.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/acompanhamento.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
@@ -429,13 +430,13 @@ class PostarTratamentoController extends GetxController {
     Notificacao notificacao = Notificacao(
         titulo: '',
         descricao: '',
-        tipo: 2,
+        tipo: TipoNotificacao.ACOMPANHAMENTO,
         idDestinario: vinculo.usuarioId,
         fcmToken: vinculo.paciente?.fcmToken ?? '');
     if (idPostagem == null) {
       notificacao.titulo = 'Você tem um novo acompanhamento';
       notificacao.descricao =
-          'O seu médico ${usuario.nome} criou um novo acompanhamento para você';
+          "O seu médico ${usuario.nome} criou um novo acompanhamento para você, chamado '$titulo'";
     } else {
       notificacao.titulo =
           'Um dos seus acompanhamentos recebeu uma atualização';

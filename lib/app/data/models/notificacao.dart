@@ -1,15 +1,18 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:healthbox/app/data/enums/tipo_notificacao.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/paciente.dart';
+import 'package:healthbox/core/extensions/enums.dart';
 
-class Notificacao {
+class Notificacao extends Equatable {
   String titulo;
   String descricao;
   Medico? medico;
   Paciente? paciente;
-  int tipo;
+  TipoNotificacao tipo;
   int idDestinario;
   String fcmToken;
   Notificacao({
@@ -33,7 +36,7 @@ class Notificacao {
     return Notificacao(
         titulo: evento.notification?.title ?? '',
         descricao: evento.notification?.body ?? '',
-        tipo: int.parse(evento.data['tipo_tela'] ?? '0'),
+        tipo: evento.data['tipo_tela'].toString().tipoNotificacao(),
         idDestinario: int.parse(evento.data['id_destinario'] ?? '0'),
         fcmToken: evento.data['token_destionario'],
         medico: remetenteMap == null || remetenteMap['tipo'] != 'M'
@@ -53,14 +56,16 @@ class Notificacao {
         },
         "data": {
           "remetente": medico == null ? paciente!.toJson() : medico!.toJson(),
-          "tipo_tela": tipo,
+          "tipo_tela": tipo.name[0],
           "id_destinario": idDestinario,
           "token_destionario": fcmToken,
         },
       };
+  @override
+  List<Object?> get props => [titulo, descricao, tipo];
 
   @override
   String toString() {
-    return "a";
+    return titulo;
   }
 }

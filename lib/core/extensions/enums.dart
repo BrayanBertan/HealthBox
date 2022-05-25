@@ -1,5 +1,6 @@
 import 'package:healthbox/app/data/enums/genero.dart';
 import 'package:healthbox/app/data/enums/periodicidade_medicamento.dart';
+import 'package:healthbox/app/data/enums/tipo_notificacao.dart';
 import 'package:healthbox/app/data/enums/tipo_questao.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/enums/unidade_medida.dart';
@@ -69,6 +70,17 @@ extension StringExtension on String? {
         return TipoQuestao.D;
       default:
         return TipoQuestao.O;
+    }
+  }
+
+  TipoNotificacao tipoNotificacao() {
+    switch (this) {
+      case 'V':
+        return TipoNotificacao.VINCULO;
+      case 'A':
+        return TipoNotificacao.ACOMPANHAMENTO;
+      default:
+        return TipoNotificacao.VINCULO;
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_notificacao.dart';
 import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/medico.dart';
 import 'package:healthbox/app/data/models/notificacao.dart';
@@ -152,10 +153,11 @@ class LoginController extends GetxController {
       });
 
   redirectNotificacao(Notificacao notificacao) async {
+    notificacoes.removeWhere((element) => element == notificacao);
+    Get.back();
     switch (notificacao.tipo) {
-      case 1:
+      case TipoNotificacao.VINCULO:
         {
-          Get.back();
           if (Get.currentRoute != Routes.CONTA) {
             Get.toNamed(Routes.CONTA, arguments: true);
           } else {
@@ -164,9 +166,8 @@ class LoginController extends GetxController {
         }
 
         break;
-      case 2:
+      case TipoNotificacao.ACOMPANHAMENTO:
         {
-          Get.back();
           idRemetente = notificacao.medico?.id ?? notificacao.paciente!.id;
           if (Get.currentRoute == Routes.ACOMPANHAMENTOS ||
               Get.currentRoute == Routes.LISTAGEM_ACOMPANHAMENTOS) {
