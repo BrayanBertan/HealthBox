@@ -325,7 +325,7 @@ class ContaController extends GetxController {
             'Sucesso ao salvar vínculo com ${list[index].nome}',
             toastPosition: EasyLoadingToastPosition.bottom,
             duration: const Duration(milliseconds: 1500));
-        Get.back();
+        //Get.back();
         if (list[index].id == null) {
           list.removeAt(index);
           getVinculos(0);
