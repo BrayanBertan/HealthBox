@@ -59,6 +59,7 @@ class Step1Page extends GetView<DadosUsuarioController> {
               onChanged: controller.setTelefone,
               focusNode: controller.telefoneFocus,
               textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
               onFieldSubmitted: (_) => controller.getCalendario(context),
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,

@@ -49,7 +49,8 @@ class ContaProvider extends GetConnect {
         headers: {'Authorization': 'Bearer  $token'},
       );
     }
-
+    print("body ${retornoApi.body}");
+    print("status ${retornoApi.statusCode}");
     if (retornoApi.statusCode == 200) return true;
     return false;
   }

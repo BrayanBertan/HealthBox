@@ -132,7 +132,9 @@ class UsuarioProvider extends GetConnect {
       Crm crmTemp = usuarioObj.crms[0];
 
       usuarioObj.crms.clear();
-      usuarioObj.crms.add(crmTemp);
+      if (usuarioObj.id == null) {
+        usuarioObj.crms.add(crmTemp);
+      }
     }
 
     if (usuarioObj.id != null) {
@@ -157,16 +159,22 @@ class UsuarioProvider extends GetConnect {
 
   Future<bool> verificaDadosRepetidos(
       {String email = '',
-      crm = '',
-      cpf = '',
-      uf = '',
-      tipoPesquisa = ''}) async {
+      String crm = '',
+      String cpf = '',
+      String uf = '',
+      String tipoPesquisa = ''}) async {
     httpClient.baseUrl = baseUrl;
 
     var retornoApi = await get(
       'usuarios/validate?crm=$crm&email=$email&cpf=$cpf&estado_sigla=$uf',
     );
 
+    if (tipoPesquisa == 'cpf' && (cpf == null || cpf.trim().isEmpty)) {
+      return false;
+    }
+    if (tipoPesquisa == 'crm' && (crm == null || crm.trim().isEmpty)) {
+      return false;
+    }
     return retornoApi.body[tipoPesquisa]['validate'];
   }
 

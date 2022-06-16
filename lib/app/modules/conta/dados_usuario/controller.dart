@@ -64,11 +64,11 @@ class DadosUsuarioController extends GetxController {
     getEspecializacoes();
     interval(_crm, (val) async {
       await verificaCrm();
-      validaCRM();
+      //validaCRM();
     }, time: const Duration(milliseconds: 1000));
     interval(_crmUf, (val) async {
       await verificaCrm();
-      validaCRM();
+      //validaCRM();
     }, time: const Duration(milliseconds: 1000));
 
     interval(_email, (val) => verificaEmail(),
@@ -112,7 +112,8 @@ class DadosUsuarioController extends GetxController {
 
   bool step1Valido() =>
       nomeValido() && telefoneValido() && dataNascimentoValida();
-  bool step2Valido() => emailValido() && senhaValida();
+  bool step2Valido() =>
+      emailValido() && senhaValida() && senhaRepeticaoValida();
   bool step3PacienteValido() => alturaValida() && pesoValido();
   bool step3MedicoValido() => espealizacoesValida() && descricaoValido();
   bool step4Valido() {
@@ -227,8 +228,7 @@ class DadosUsuarioController extends GetxController {
   //=====Validações=====
 
   bool crmValido() =>
-      isEditing ||
-      crm != null && crm.trim().isNotEmpty && isCrmValid && crmVerifica;
+      isEditing || crm != null && crm.trim().isNotEmpty && crmVerifica;
 
   String? get crmErroMensagem {
     if (crm == null || crmValido()) return null;
@@ -346,8 +346,9 @@ class DadosUsuarioController extends GetxController {
 
   String? get emailErroMensagem {
     if (email == null || emailValido()) return null;
-    if (email != null && !email.toString().isEmailValid())
+    if (email != null && !email.toString().isEmailValid()) {
       return 'E-mail inválido';
+    }
     if (!emailVerifica) return 'E-mail em uso';
     return 'Campo obrigatório ';
   }
@@ -357,7 +358,6 @@ class DadosUsuarioController extends GetxController {
       senha != null &&
           senha.trim().isNotEmpty &&
           senha.trim().length >= 8 &&
-          //senha.trim() == senhaRepeticao?.trim() &&
           senha.trim().length <= 50;
 
   String? get senhaErroMensagem {
@@ -365,6 +365,10 @@ class DadosUsuarioController extends GetxController {
     if (senha.trim().length < 8) return 'mínimo de 8 caracteres';
     return 'Campo obrigatório ';
   }
+
+  bool senhaRepeticaoValida() =>
+      (senha == null && isEditing) ||
+      senhaRepeticao != null && senha.trim() == senhaRepeticao.trim();
 
   String? get senhaRepeticaoErroMensagem {
     if (senha != null &&
@@ -557,6 +561,7 @@ class DadosUsuarioController extends GetxController {
   }
 
   validaCRM() {
+    return;
     if (crm == null) return;
     repository.validaCRM(crm, crmUf).then((retorno) {
       if (retorno is bool) {
