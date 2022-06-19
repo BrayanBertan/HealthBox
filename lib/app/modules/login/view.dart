@@ -106,18 +106,18 @@ class LoginPage extends GetView<LoginController> {
                   ],
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text('ESQUECEU A SENHA?',
-                            style: TextStyle(
-                                fontSize: 11,
-                                color: corPrincipal,
-                                fontWeight: FontWeight.w700)),
-                      ))),
+              // Align(
+              //     alignment: Alignment.centerRight,
+              //     child: Container(
+              //         margin: const EdgeInsets.fromLTRB(0, 0, 20, 10),
+              //         child: TextButton(
+              //           onPressed: () {},
+              //           child: Text('ESQUECEU A SENHA?',
+              //               style: TextStyle(
+              //                   fontSize: 11,
+              //                   color: corPrincipal,
+              //                   fontWeight: FontWeight.w700)),
+              //         ))),
               Align(
                   alignment: Alignment.center,
                   child: Obx(() => ElevatedButton(

@@ -274,9 +274,9 @@ class AcompanhamentosController extends GetxController {
     Color cor = Colors.red;
     if (disponivel == 1) {
       cor = Colors.yellow;
-    } else if (isRespondido == ' | Respondido') {
+    } else if (isRespondido == ' | Respondido' && disponivel == 0) {
       cor = Colors.green;
-    } else if (questionario.dataResposta!.difference(DateTime.now()).inDays >
+    } else if (questionario.dataResposta!.difference(DateTime.now()).inHours >
         0) {
       cor = Colors.grey;
     }

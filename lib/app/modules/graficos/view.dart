@@ -13,7 +13,10 @@ class GraficosOpinioesPage extends GetView<GraficosOpinioesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Gráficos de opiniões'),
+      appBar: CustomAppBar(
+          title: controller.usuario.tipo == TipoUsuario.PACIENTE
+              ? 'Gráficos de opiniões'
+              : 'Gráficos de acompanhamentos'),
       body: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 25),
           child: Column(

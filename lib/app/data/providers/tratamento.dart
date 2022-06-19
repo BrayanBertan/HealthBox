@@ -217,6 +217,8 @@ class TratamentoProvider extends GetConnect {
           decoder: (obj) => Questao.listFromJson(obj));
 
       if (retornoApi.statusCode == 200) {
+        print('Bearer  $token');
+        print('${httpClient.baseUrl}questoes');
         return retornoApi.body!;
       } else {
         return List<Questao>.empty();

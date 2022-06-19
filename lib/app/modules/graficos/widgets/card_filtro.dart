@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:healthbox/app/data/enums/tipo_usuario.dart';
 import 'package:healthbox/app/data/models/medicamento.dart';
 import 'package:healthbox/app/modules/graficos/controller.dart';
 import 'package:healthbox/app/modules/graficos/widgets/shimmer_graficos_filtro.dart';
@@ -45,16 +46,18 @@ class CardFiltro extends GetView<GraficosOpinioesController> {
                             medicamento,
                             '${medicamento.nome} (${medicamento.fabricante})'))
                         .toList()),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: controller.isExercicioFisicoChecked,
-                      onChanged: controller.setIsExercicioFisicoChecked,
-                    ),
-                    const Text(
-                        'Filtrar por pacientes que fizeram exercício físico?')
-                  ],
-                )
+                controller.usuario.tipo == TipoUsuario.MEDICO
+                    ? Row(
+                        children: [
+                          Checkbox(
+                            value: controller.isExercicioFisicoChecked,
+                            onChanged: controller.setIsExercicioFisicoChecked,
+                          ),
+                          const Text(
+                              'Filtrar por pacientes que fizeram exercício físico?')
+                        ],
+                      )
+                    : Container()
               ],
             )),
     );

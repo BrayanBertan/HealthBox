@@ -374,14 +374,16 @@ class PostarTratamentoController extends GetxController {
       quantidadePeriodicidade != null && quantidadePeriodicidade != 0;
 
   String? get duracaoQuestionarioErroMensagem {
-    if (diasDuracao == null && quantidadePeriodicidade == null) return null;
-    if (diasQuestionarioValida() && periodicidadeQuestionarioValida()) {
-      return diasDuracao > quantidadePeriodicidade
-          ? null
-          : 'Duração precisa ser maior do que o intervalo';
-    }
+    if ((diasDuracao == null && quantidadePeriodicidade == null) ||
+        (diasQuestionarioValida() && periodicidadeQuestionarioValida()))
+      return null;
+    // if (diasQuestionarioValida() && periodicidadeQuestionarioValida()) {
+    //   return diasDuracao > quantidadePeriodicidade
+    //       ? null
+    //       : 'Duração precisa ser maior do que o intervalo';
+    // }
 
-    String retorno = '';
+    String retorno = 'Campo(s) obrigatórios';
     if (!diasQuestionarioValida()) retorno += '(duração em dias)';
     if (!periodicidadeQuestionarioValida()) {
       retorno += ' (intervalo entre questionários)';
