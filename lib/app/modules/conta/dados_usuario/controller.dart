@@ -454,7 +454,7 @@ class DadosUsuarioController extends GetxController {
 //==========STEP 4=======================
 
   salvarUsuario() async {
-    EasyLoading.showInfo('Salvando...');
+    EasyLoading.showInfo('Salvando...', duration: const Duration(days: 1));
     if (_tmpFile != null) {
       final fileName = basename(_tmpFile!.path);
       final pasta = 'files/$fileName';
@@ -529,6 +529,7 @@ class DadosUsuarioController extends GetxController {
     }
 
     func.then((retorno) {
+      EasyLoading.dismiss();
       if (!retorno) {
         EasyLoading.instance.backgroundColor = Colors.red;
         EasyLoading.showError('Erro ao salvar');
