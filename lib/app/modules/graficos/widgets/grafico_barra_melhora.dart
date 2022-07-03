@@ -20,6 +20,39 @@ class GraficoBarraMelhoraPage extends GetView<GraficosOpinioesController> {
         colorFn: (GraficoMedico segment, __) {
           switch (segment.id) {
             case 0:
+              return charts.MaterialPalette.green.shadeDefault.darker;
+            case 1:
+              return charts.MaterialPalette.yellow.shadeDefault.darker;
+            case 2:
+              return charts.MaterialPalette.red.shadeDefault.darker;
+            case 3:
+              return charts.MaterialPalette.blue.shadeDefault.darker;
+            case 4:
+              return charts.MaterialPalette.purple.shadeDefault.darker;
+            case 5:
+              return charts.MaterialPalette.pink.shadeDefault.darker;
+            case 6:
+              return charts.MaterialPalette.gray.shadeDefault.darker;
+            case 7:
+              return charts.MaterialPalette.cyan.shadeDefault.darker;
+            case 8:
+              return charts.MaterialPalette.deepOrange.shadeDefault.darker;
+            case 9:
+              return charts.MaterialPalette.lime.shadeDefault.darker;
+            default:
+              return charts.MaterialPalette.indigo.shadeDefault.darker;
+          }
+        },
+        domainFn: (GraficoMedico series, _) => series.eixoX,
+        measureFn: (GraficoMedico series, _) => series.eixoYMelhorou,
+        data: controller.graficosMedico,
+        labelAccessorFn: (GraficoMedico row, _) => 'Melhor',
+      ),
+      charts.Series<GraficoMedico, String>(
+        id: 'graficoIgual',
+        colorFn: (GraficoMedico segment, __) {
+          switch (segment.id) {
+            case 0:
               return charts.MaterialPalette.green.shadeDefault;
             case 1:
               return charts.MaterialPalette.yellow.shadeDefault;
@@ -37,39 +70,6 @@ class GraficoBarraMelhoraPage extends GetView<GraficosOpinioesController> {
               return charts.MaterialPalette.cyan.shadeDefault;
             case 8:
               return charts.MaterialPalette.deepOrange.shadeDefault;
-            case 9:
-              return charts.MaterialPalette.lime.shadeDefault;
-            default:
-              return charts.MaterialPalette.indigo.shadeDefault;
-          }
-        },
-        domainFn: (GraficoMedico series, _) => series.eixoX,
-        measureFn: (GraficoMedico series, _) => series.eixoYMelhorou,
-        data: controller.graficosMedico,
-        labelAccessorFn: (GraficoMedico row, _) => 'Melhor',
-      ),
-      charts.Series<GraficoMedico, String>(
-        id: 'graficoIgual',
-        colorFn: (GraficoMedico segment, __) {
-          switch (segment.id) {
-            case 0:
-              return charts.MaterialPalette.green.shadeDefault.lighter;
-            case 1:
-              return charts.MaterialPalette.yellow.shadeDefault.lighter;
-            case 2:
-              return charts.MaterialPalette.red.shadeDefault.lighter;
-            case 3:
-              return charts.MaterialPalette.blue.shadeDefault.lighter;
-            case 4:
-              return charts.MaterialPalette.purple.shadeDefault.lighter;
-            case 5:
-              return charts.MaterialPalette.pink.shadeDefault.lighter;
-            case 6:
-              return charts.MaterialPalette.gray.shadeDefault.lighter;
-            case 7:
-              return charts.MaterialPalette.cyan.shadeDefault.lighter;
-            case 8:
-              return charts.MaterialPalette.deepOrange.shadeDefault.lighter;
             case 9:
               return charts.MaterialPalette.lime.shadeDefault;
             default:
@@ -104,9 +104,9 @@ class GraficoBarraMelhoraPage extends GetView<GraficosOpinioesController> {
             case 8:
               return charts.MaterialPalette.deepOrange.shadeDefault.lighter;
             case 9:
-              return charts.MaterialPalette.lime.shadeDefault;
+              return charts.MaterialPalette.lime.shadeDefault.lighter;
             default:
-              return charts.MaterialPalette.indigo.shadeDefault;
+              return charts.MaterialPalette.indigo.shadeDefault.lighter;
           }
         },
         domainFn: (GraficoMedico series, _) => series.eixoX,
@@ -142,7 +142,7 @@ class GraficoBarraMelhoraPage extends GetView<GraficosOpinioesController> {
                           .getGraficosColor(controller.graficosMedico[index].id,
                               tipo: 1);
                       EasyLoading.showToast(
-                          '${controller.graficosMedico[index].eixoX} é fabricado por ${controller.graficosMedico[index].eixoX}',
+                          '${controller.graficosMedico[index].eixoX}',
                           toastPosition: EasyLoadingToastPosition.bottom,
                           duration: const Duration(milliseconds: 2000),
                           dismissOnTap: true);

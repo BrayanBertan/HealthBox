@@ -44,7 +44,9 @@ class GraficoProvider extends GetConnect {
           'graficos/remedio-melhora?remedios=$remedios&grafico_exercicio=$tipo',
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => GraficoMedico.listFromJson(obj));
-
+      print(
+          '${httpClient.baseUrl}graficos/remedio-melhora?remedios=$remedios&grafico_exercicio=$tipo');
+      print('Bearer  $token');
       if (retornoApi.statusCode == 200) {
         return retornoApi.body!;
       } else {
