@@ -367,6 +367,8 @@ class TratamentoProvider extends GetConnect {
         endpoint =
             'opinioes?page=$page&ativo=1&paciente_id=$pacienteId$filtrosParam';
 
+      print('${httpClient.baseUrl}$endpoint');
+      print('Bearer  $token');
       var retornoApi = await get(endpoint,
           headers: {'Authorization': 'Bearer  $token'},
           decoder: (obj) => Opiniao.listFromJson(obj));

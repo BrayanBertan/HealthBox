@@ -11,13 +11,13 @@ class FireBaseMessagingManager extends GetxService {
     Future<void> _messageHandler(RemoteMessage evento) async {
       Notificacao notificacao = Notificacao.fromJson(evento);
 
-      if (notificacao.idDestinario != _controller.getLogin().id) return;
+      //if (notificacao.idDestinario != _controller.getLogin().id) return;
       _controller.notificacoes.insert(0, notificacao);
     }
 
     FirebaseMessaging.onMessageOpenedApp.listen((evento) {
       Notificacao notificacao = Notificacao.fromJson(evento);
-      if (notificacao.idDestinario != _controller.getLogin().id) return;
+      //if (notificacao.idDestinario != _controller.getLogin().id) return;
       _controller.notificacoes.insert(0, notificacao);
       Get.dialog(DialogNotificacaoFirebase());
     });

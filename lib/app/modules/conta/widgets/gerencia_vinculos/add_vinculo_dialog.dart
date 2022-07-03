@@ -14,65 +14,69 @@ class DialogAddVinculo extends GetView<ContaController> {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.3,
         padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text(
-              'Novo vínculo',
-              style: titulo,
-            ),
-            Row(
-              children: [
-                Expanded(
-                    child: Obx(
-                  () => TextFormField(
-                    initialValue: controller.pesquisaNome,
-                    onChanged: controller.setPesquisaNome,
-                    decoration: InputDecoration(
-                        icon: const Icon(
-                          Icons.search,
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey.shade100)),
-                        labelText: "Digite o nome",
-                        enabledBorder: InputBorder.none,
-                        labelStyle: const TextStyle(color: Colors.grey),
-                        errorText: controller.pesquisaNomeErroMensagem),
-                  ),
-                )),
-                Obx(
-                  () => ElevatedButton(
-                      onPressed: controller.pesquisaNomeValido()
-                          ? () => controller.getUsuariosDisponiveis()
-                          : null,
-                      child: const Text('Buscar')),
-                )
-              ],
-            ),
-            Obx(
-              () => controller.carregandoVinculos
-                  ? const ShimmerVinculos()
-                  : controller.vinculosDisponiveis.isEmpty
-                      ? const Center(
-                          child: Text('Nenhum resultado para essa pesquisa '),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller.vinculosDisponiveis.length,
-                          itemBuilder: (_, index) => ItemListaVinculos(
-                                lista: controller.vinculosDisponiveis,
-                                index: index,
-                                trailing: <IconButton>[
-                                  IconButton(
-                                    icon: const Icon(Icons.person_add),
-                                    onPressed: () => controller.salvarVinculo(
-                                        index, controller.vinculosDisponiveis),
-                                  ),
-                                ],
-                              )),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Novo vínculo',
+                style: titulo,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: Obx(
+                    () => TextFormField(
+                      initialValue: controller.pesquisaNome,
+                      onChanged: controller.setPesquisaNome,
+                      decoration: InputDecoration(
+                          icon: const Icon(
+                            Icons.search,
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade100)),
+                          labelText: "Digite o nome",
+                          enabledBorder: InputBorder.none,
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          errorText: controller.pesquisaNomeErroMensagem),
+                    ),
+                  )),
+                  Obx(
+                    () => ElevatedButton(
+                        onPressed: controller.pesquisaNomeValido()
+                            ? () => controller.getUsuariosDisponiveis()
+                            : null,
+                        child: const Text('Buscar')),
+                  )
+                ],
+              ),
+              Obx(
+                () => controller.carregandoVinculos
+                    ? const ShimmerVinculos()
+                    : controller.vinculosDisponiveis.isEmpty
+                        ? const Center(
+                            child: Text('Nenhum resultado para essa pesquisa '),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount: controller.vinculosDisponiveis.length,
+                            itemBuilder: (_, index) => ItemListaVinculos(
+                                  lista: controller.vinculosDisponiveis,
+                                  index: index,
+                                  trailing: <IconButton>[
+                                    IconButton(
+                                      icon: const Icon(Icons.person_add),
+                                      onPressed: () => controller.salvarVinculo(
+                                          index,
+                                          controller.vinculosDisponiveis),
+                                    ),
+                                  ],
+                                )),
+              ),
+            ],
+          ),
         ),
       ),
     );
